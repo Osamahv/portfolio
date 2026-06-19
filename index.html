@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+<style>
+:root{
+  --bg:#000; --surf:#0A0A0A; --surf2:#141414;
+  --line:#1F1F1F; --line2:#2A2A2A;
+  --txt:#FFFFFF; --muted:#7A7A7A; --muted2:#525252;
+  --accent:#5FE9B0; --accent-d:#1E5C44; --accent-bg:#0B2A20;
+  --loss:#F26B6E; --loss-d:#5C1F22; --loss-bg:#2A0E10;
+  --blue:#5BA5FF; --gold:#E8B96A;
+  --r:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum","ss01"}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:"Inter",system-ui,sans-serif;line-height:1.5}
+body{min-height:100vh;padding-bottom:48px}
+body[dir="rtl"]{font-family:"IBM Plex Sans Arabic","Inter",system-ui,sans-serif}
+.mono{font-variant-numeric:tabular-nums}
+.up{color:var(--accent)} .down{color:var(--loss)}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit;background:none;font-size:inherit}
+input,select,textarea{font-family:inherit;color:inherit}
+.wrap{max-width:680px;margin:0 auto;padding:14px 18px 0}
+
+/* top bar */
+.top{display:flex;align-items:center;justify-content:space-between;padding:6px 0 22px;gap:8px}
+.pf-pill{display:inline-flex;align-items:center;gap:8px;background:var(--surf);border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--txt);max-width:55%;transition:.15s}
+.pf-pill:hover{border-color:var(--line2);background:var(--surf2)}
+.pf-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(95,233,176,.14);flex-shrink:0}
+.pf-pill .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-pill .ar{color:var(--muted);font-size:10px}
+.top-actions{display:flex;gap:6px;align-items:center}
+.lang{font-size:11px;font-weight:700;color:var(--muted);background:var(--surf);border:1px solid var(--line);padding:6px 10px;border-radius:999px;letter-spacing:.04em;transition:.15s}
+.lang:hover{color:var(--txt);border-color:var(--line2)}
+.ico{width:34px;height:34px;border-radius:10px;background:var(--surf);border:1px solid var(--line);color:var(--muted);display:grid;place-items:center;font-size:15px;transition:.15s}
+.ico:hover{color:var(--txt);border-color:var(--line2)}
+.ico.on{color:var(--accent);border-color:var(--accent-d);background:var(--accent-bg)}
+
+/* hero */
+.hero-eyebrow{text-align:center;color:var(--blue);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
+.hero-eyebrow .dot{display:inline-block;margin:0 8px;color:#3a3a3a}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px;text-align:center}
+.hero-cell .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
+.hero-cell .val{font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1.1}
+.hero-cell .val.up{color:var(--accent)} .hero-cell .val.down{color:var(--loss)}
+.hero-sub{text-align:center;color:var(--accent);font-size:13.5px;font-weight:500;margin-top:6px}
+.hero-sub.down{color:var(--loss)}
+.hero-sub .sep{color:#2a2a2a;margin:0 6px}
+.hero-sar{text-align:center;color:var(--muted2);font-size:11.5px;margin-top:6px}
+.hero-live{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 18px}
+.live-pill{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;font-weight:500}
+.live-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.live-pill.on::before{background:var(--accent);box-shadow:0 0 0 3px rgba(95,233,176,.18);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.refresh-btn{display:inline-flex;align-items:center;gap:6px;background:transparent;border:1px solid var(--line2);border-radius:999px;padding:6px 14px;font-size:12px;color:var(--muted);font-weight:500;transition:.15s}
+.refresh-btn:hover{color:var(--txt);border-color:#3a3a3a}
+.refresh-btn:disabled{opacity:.5}
+
+/* tabs */
+.tabs{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
+.tab{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);background:transparent;transition:.15s}
+.tab:hover{color:var(--txt)} .tab.on{background:var(--surf2);color:var(--txt)}
+
+/* horizon filter strip */
+.horizon{display:flex;justify-content:center;gap:5px;margin-bottom:14px}
+.h-chip{padding:6px 14px;border-radius:999px;font-size:11.5px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);letter-spacing:.05em;transition:.18s;min-width:48px;text-align:center}
+.h-chip:hover{color:var(--txt);border-color:var(--line2)}
+.h-chip.on{background:#fff;color:#000;border-color:#fff}
+.h-chip .cnt{font-size:9.5px;opacity:.6;margin-inline-start:4px;font-weight:600}
+
+/* bubbles */
+.bub-wrap{position:relative;width:100%}
+#bub-svg{display:block;width:100%}
+.bub{cursor:pointer}
+.bub circle{transition:filter .2s,r .25s ease-out}
+.bub:hover circle{filter:brightness(1.18)}
+.bub text{pointer-events:none;font-family:inherit}
+
+/* fab */
+.fab{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--accent);color:#000;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;box-shadow:0 6px 24px rgba(95,233,176,.25),0 0 0 1px rgba(95,233,176,.4);z-index:20;display:flex;align-items:center;gap:7px;transition:.15s}
+.fab:hover{transform:translateX(-50%) scale(1.04)}
+.fab .plus{font-size:17px;line-height:1}
+
+/* holdings list */
+.list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line);margin-top:6px}
+.row{background:var(--bg);padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s}
+.row:hover{background:var(--surf)}
+.row .tic-bx{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:11.5px;flex-shrink:0;letter-spacing:-.2px}
+.row .info{flex:1;min-width:0}
+.row .info .t-line{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.row .info .t{font-weight:700;font-size:14.5px;letter-spacing:-.2px}
+.row .info .h-tag{font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:.05em;color:var(--muted);background:#1A1A1A;border:1px solid #222}
+.row .info .h-tag.st{background:#2A1F18;color:#FB923C;border-color:#5A3818}
+.row .info .h-tag.mt{background:#1F2A3E;color:#5BA5FF;border-color:#1F3A6E}
+.row .info .h-tag.lt{background:#1F2E25;color:#5FE9B0;border-color:#1E5C44}
+.row .info .s{color:var(--muted);font-size:11.5px;margin-top:2px}
+.row .rt{text-align:right;flex-shrink:0}
+body[dir="rtl"] .row .rt{text-align:left}
+.row .rt .mv{font-weight:700;font-size:14px}
+.row .rt .pl{font-size:11.5px;font-weight:600;margin-top:2px}
+
+/* empty / onboard */
+.empty{text-align:center;padding:50px 22px;color:var(--muted)}
+.empty .ic{font-size:42px;color:var(--accent);opacity:.45;margin-bottom:10px;line-height:1}
+.empty h3{margin:0 0 6px;color:var(--txt);font-size:17px;font-weight:700}
+.empty p{margin:0 0 18px;font-size:13.5px;line-height:1.6;max-width:300px;margin-inline:auto;color:var(--muted)}
+
+.onboard{min-height:90vh;display:grid;place-items:center;padding:20px}
+.onboard-card{max-width:380px;width:100%;text-align:center}
+.onboard-card .logo{font-size:54px;color:var(--accent);margin-bottom:6px;font-weight:300;letter-spacing:-2px;line-height:1}
+.onboard-card h1{margin:0 0 8px;font-size:24px;font-weight:700;letter-spacing:-.6px}
+.onboard-card p{color:var(--muted);font-size:14px;margin:0 0 22px;line-height:1.7}
+.onboard-card .inp{text-align:center;font-size:15px}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:grid;place-items:flex-end;padding:0;z-index:60;animation:fade .18s}
+@media(min-width:520px){.scrim{place-items:center;padding:20px}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{width:100%;max-width:440px;background:#0A0A0A;border:1px solid var(--line);border-radius:20px 20px 0 0;padding:24px 22px;max-height:92vh;overflow:auto;animation:slide .22s}
+@media(min-width:520px){.modal{border-radius:20px}}
+@keyframes slide{from{transform:translateY(20px);opacity:.5}to{transform:none;opacity:1}}
+.modal h2{margin:0 0 6px;font-size:19px;font-weight:700;letter-spacing:-.3px}
+.modal .sub{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.6}
+.modal h4{margin:14px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:6px;letter-spacing:.02em}
+.inp{width:100%;background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 13px;color:var(--txt);font-size:14.5px;outline:none;transition:.15s;font-variant-numeric:tabular-nums}
+.inp:focus{border-color:var(--accent-d);box-shadow:0 0 0 3px rgba(95,233,176,.08)}
+.inp::placeholder{color:#3a3a3a}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.m-actions{display:flex;gap:8px;margin-top:18px}
+.m-actions .btn{flex:1}
+.btn{background:var(--surf2);border:1px solid var(--line);border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:600;color:var(--txt);display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:.15s}
+.btn:hover{background:#1c1c1c;border-color:var(--line2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#000}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{background:transparent;color:var(--loss);border-color:var(--loss-d)}
+.btn.danger:hover{background:var(--loss-bg)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--loss);font-size:12px;margin-top:6px;font-weight:500;min-height:0}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:rot .7s linear infinite;vertical-align:-2px}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ticker search */
+.search-wrap{position:relative}
+.search-btn{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;background:var(--surf2);display:grid;place-items:center;color:var(--muted);font-size:13px;transition:.15s}
+body[dir="rtl"] .search-btn{right:auto;left:8px}
+.search-btn:hover{color:var(--accent);background:var(--accent-bg)}
+.suggest{margin-top:6px;background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;max-height:180px;overflow-y:auto}
+.sg-item{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;align-items:center;gap:10px;transition:.12s}
+.sg-item:last-child{border-bottom:none}
+.sg-item:hover{background:var(--surf2)}
+.sg-item .tic{font-weight:700;font-size:13px;color:var(--accent);min-width:60px}
+.sg-item .nm{color:var(--txt);font-size:12.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sg-loading{padding:11px;text-align:center;color:var(--muted);font-size:12px}
+
+/* horizon segment in edit */
+.seg{display:flex;background:#000;border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px}
+.seg button{flex:1;padding:9px 6px;border-radius:7px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em;transition:.15s}
+.seg button.on{background:var(--surf2);color:var(--txt)}
+.seg button.on.st{color:#FB923C}
+.seg button.on.mt{color:#5BA5FF}
+.seg button.on.lt{color:#5FE9B0}
+.seg button .lbl{display:block;font-size:9.5px;font-weight:600;opacity:.7;margin-top:1px;letter-spacing:0}
+
+/* tags select */
+.tags-grid{display:flex;flex-wrap:wrap;gap:6px}
+.tag-chip{padding:6px 11px;border-radius:999px;font-size:12px;font-weight:600;background:#000;border:1px solid var(--line);color:var(--muted);cursor:pointer;transition:.15s;user-select:none}
+.tag-chip:hover{border-color:var(--line2);color:var(--txt)}
+.tag-chip.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+
+/* detail */
+.d-head{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.d-head .tic-bx{width:48px;height:48px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:13px}
+.d-head .nm{font-size:19px;font-weight:700;letter-spacing:-.3px}
+.d-head .sb{color:var(--muted);font-size:12.5px;margin-top:1px}
+.d-rows{background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.d-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}
+.d-row:last-child{border-bottom:none}
+.d-row span{color:var(--muted);font-size:12.5px;font-weight:500}
+.d-row .v{font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.d-row .v small{display:block;color:var(--muted2);font-size:10.5px;font-weight:400;margin-top:1px}
+.d-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.d-tags .tg{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600;background:var(--accent-bg);color:var(--accent)}
+
+/* chart */
+.chart-card{background:#000;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.chart-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.chart-head .title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.chart-head .meta{font-size:11.5px;color:var(--muted);font-weight:500}
+.chart-head .meta b{color:var(--txt);font-weight:700;font-variant-numeric:tabular-nums}
+#stock-chart{display:block;width:100%;height:140px}
+.chart-empty{padding:34px 14px;text-align:center;color:var(--muted2);font-size:12px}
+
+/* buy/sell action buttons */
+.trade-row{display:flex;gap:8px;margin-bottom:14px}
+.trade-row .tbtn{flex:1;padding:14px;border-radius:12px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid;transition:.15s;letter-spacing:.02em}
+.trade-row .tbtn.buy{background:rgba(95,233,176,.08);color:var(--accent);border-color:var(--accent-d)}
+.trade-row .tbtn.buy:hover{background:rgba(95,233,176,.16);border-color:var(--accent)}
+.trade-row .tbtn.sell{background:rgba(242,107,110,.08);color:var(--loss);border-color:var(--loss-d)}
+.trade-row .tbtn.sell:hover{background:rgba(242,107,110,.16);border-color:var(--loss)}
+.trade-row .tbtn .sign{font-size:18px;font-weight:700;line-height:1}
+
+/* realized P&L display in detail */
+.realized-box{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:#000;border:1px solid var(--line);border-radius:11px;margin-bottom:12px;font-size:12.5px}
+.realized-box .lbl{color:var(--muted);font-weight:500}
+.realized-box .val{font-weight:700;font-variant-numeric:tabular-nums}
+
+/* news */
+.news-item{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:14px 15px;margin-bottom:10px;cursor:pointer;transition:.15s}
+.news-item:hover{background:#101010;border-color:var(--line2)}
+.news-meta{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:11px;flex-wrap:wrap}
+.news-tic{font-weight:700;color:var(--accent);background:var(--accent-bg);padding:2px 8px;border-radius:5px;letter-spacing:.02em}
+.news-src{color:var(--muted);font-weight:500}
+.news-time{color:var(--muted2)}
+.news-title{font-size:14px;font-weight:600;line-height:1.5;color:var(--txt)}
+
+/* zakat */
+.zk-summary{text-align:center;padding:24px 14px;border:1px solid var(--line);border-radius:16px;margin-bottom:18px;background:linear-gradient(180deg,#0C0C0C,#070707)}
+.zk-summary .lbl{font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.zk-summary .v{font-size:38px;font-weight:700;letter-spacing:-1.2px;line-height:1}
+.zk-summary .v.zero{color:var(--muted2)}
+.zk-summary .s{color:var(--muted);font-size:12.5px;margin-top:10px;line-height:1.6;max-width:280px;margin-inline:auto}
+.zk-item{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:14px 15px;margin-bottom:10px}
+.zk-item .head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.zk-item .tic{font-weight:700;font-size:14.5px}
+.zk-item .badge{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:5px;letter-spacing:.03em}
+.zk-item .badge.due{background:var(--loss-bg);color:var(--loss)}
+.zk-item .badge.soon{background:#2A2410;color:#E8B96A}
+.zk-item .badge.ok{background:var(--accent-bg);color:var(--accent)}
+.zk-item .amt{margin-left:auto;font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+body[dir="rtl"] .zk-item .amt{margin-left:0;margin-right:auto}
+.zk-item .bar{position:relative;height:5px;background:#1A1A1A;border-radius:3px;margin:9px 0 8px;overflow:hidden}
+.zk-item .bar .fill{position:absolute;top:0;left:0;height:100%;border-radius:3px;transition:width .3s}
+body[dir="rtl"] .zk-item .bar .fill{left:auto;right:0}
+.zk-item .dates{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);gap:8px;flex-wrap:wrap}
+.zk-item .dates .mid{font-weight:600}
+
+/* portfolio switcher list */
+.pf-row{display:flex;align-items:center;gap:11px;padding:13px 14px;background:#000;border:1px solid var(--line);border-radius:12px;margin-bottom:7px;cursor:pointer;transition:.15s}
+.pf-row:hover{border-color:var(--line2)}
+.pf-row.active{border-color:var(--accent-d);background:var(--accent-bg)}
+.pf-row .sw{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;color:#000;flex-shrink:0}
+.pf-row .pn{flex:1;font-weight:600;font-size:14px}
+.pf-row .pv{color:var(--muted);font-size:12px;font-weight:500;font-variant-numeric:tabular-nums}
+.pf-row .del{color:var(--muted2);width:28px;height:28px;border-radius:7px;display:grid;place-items:center;font-size:13px}
+.pf-row .del:hover{color:var(--loss);background:var(--loss-bg)}
+
+/* toast */
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#1A1A1A;border:1px solid var(--line2);color:var(--txt);padding:11px 18px;border-radius:11px;font-size:13px;font-weight:600;z-index:80;box-shadow:0 12px 36px rgba(0,0,0,.6);max-width:90vw;text-align:center}
+
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:#222;border-radius:9px}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ════ Storage shim — works in plain browser via localStorage,
+        falls back to Claude artifact's window.storage when present ════ */
+if (!window.storage) {
+  window.storage = {
+    async get(key) {
+      const v = localStorage.getItem(key);
+      return v != null ? { key, value: v } : null;
+    },
+    async set(key, value) {
+      localStorage.setItem(key, value);
+      return { key, value };
+    },
+    async delete(key) {
+      localStorage.removeItem(key);
+      return { key, deleted: true };
+    }
+  };
+}
+
+/* ════ i18n ════ */
+const T = {
+  ar: {
+    dir:"rtl",
+    portfolio:"المحفظة", news:"الأخبار", zakat:"الزكاة",
+    marketValue:"القيمة السوقية", totalPL:"إجمالي الربح",
+    today:"اليوم", live:"محدّث", offline:"غير محدّث",
+    refresh:"تحديث", refreshing:"جاري التحديث…",
+    addStock:"إضافة سهم", editStock:"تعديل السهم",
+    welcome:"محفظتك", welcomeSub:"تتبّع أسهمك ببساطة. ابدأ بكتابة اسمك أو اسم محفظتك.",
+    enterName:"اسم المحفظة", start:"ابدأ",
+    settings:"الإعدادات", profileName:"الاسم", clearAll:"مسح كل البيانات",
+    save:"حفظ", cancel:"إلغاء", delete:"حذف",
+    ticker:"الرمز أو اسم الشركة", shares:"عدد الأسهم", avgCost:"متوسط الشراء",
+    currentPrice:"السعر الحالي", purchaseDate:"تاريخ الشراء", optional:"اختياري",
+    horizonLabel:"أفق الاستثمار",
+    horizon_st:"قصير", horizon_mt:"متوسط", horizon_lt:"طويل",
+    horizon_st_full:"قصير المدى", horizon_mt_full:"متوسط المدى", horizon_lt_full:"طويل المدى",
+    horizon_all:"الكل",
+    tagsLabel:"العلامات",
+    detail_avg:"متوسط الشراء", detail_price:"السعر الآن",
+    detail_mv:"القيمة السوقية", detail_shares:"عدد الأسهم",
+    detail_pl:"الربح/الخسارة", detail_today:"تغيّر اليوم",
+    detail_purchased:"تاريخ الشراء", detail_share:"نسبة من المحفظة",
+    empty_title:"محفظة فارغة", empty_sub:"أضف أول سهم لك واتركنا نتابعه معك.",
+    invalid:"تأكّد من الرمز والأسهم والمتوسط",
+    confirmDelete:"حذف السهم؟", confirmDeleteSub:"بينحذف من محفظتك نهائياً.",
+    confirmReset:"مسح كل شي؟", confirmResetSub:"جميع بياناتك ستُحذف ولن يمكن استرجاعها.",
+    news_empty_title:"لا توجد أخبار بعد", news_empty_sub:"اضغط تحديث الأخبار لجلب آخر المستجدّات.",
+    news_refresh:"تحديث الأخبار", news_refreshing:"يجلب الأخبار…", news_failed:"تعذّر جلب الأخبار",
+    news_empty_for_holdings:"أضف أسهماً لتظهر أخبارها هنا.",
+    zakat_due_now:"الزكاة المستحقة الآن",
+    zakat_sub:"كل سهم له حول هجري من تاريخ شرائه. الزكاة 2.5% من قيمته السوقية عند حلول الحول.",
+    zk_due:"حلّ الحول", zk_soon:"قريب", zk_ok:"لم يحلّ بعد",
+    zk_days:"يوم", zk_purchased:"اشتُري", zk_hawl:"موعد الزكاة",
+    zk_empty_title:"لا توجد أسهم", zk_empty_sub:"أضف أسهماً لتظهر مواعيد الزكاة هنا.",
+    zk_no_date:"بدون تاريخ شراء — أضف التاريخ من تعديل السهم",
+    refresh_failed:"تعذّر جلب الأسعار", refresh_ok:n=>`حُدّث ${n} سهم`,
+    last_update:"آخر تحديث", add_first:"أضف أسهماً أولاً",
+    pfTitle:"المحافظ", pfNew:"محفظة جديدة", pfCreate:"إنشاء",
+    pfNamePlace:"مضاربة، طويل المدى، ادخار...",
+    pfDelete:"حذف المحفظة؟", pfDeleteSub:"بتنحذف مع كل أسهمها.",
+    chart30:"آخر 30 يوم", chartLoading:"يحمّل الشارت…", chartFail:"تعذّر جلب الشارت",
+    privacy_on:"الأرقام مخفية", search_loading:"يبحث…",
+    no_match:"ما لقي تطابق",
+    none:"لا شيء",
+  },
+  en: {
+    dir:"ltr",
+    portfolio:"Portfolio", news:"News", zakat:"Zakat",
+    marketValue:"Market Value", totalPL:"Total P&L",
+    today:"today", live:"Live", offline:"Not updated",
+    refresh:"Refresh", refreshing:"Refreshing…",
+    addStock:"Add Stock", editStock:"Edit Stock",
+    welcome:"Your Portfolio", welcomeSub:"Track your stocks, simply. Start by entering your name or portfolio name.",
+    enterName:"Portfolio name", start:"Start",
+    settings:"Settings", profileName:"Name", clearAll:"Clear all data",
+    save:"Save", cancel:"Cancel", delete:"Delete",
+    ticker:"Ticker or company name", shares:"Shares", avgCost:"Avg cost",
+    currentPrice:"Current price", purchaseDate:"Purchase date", optional:"optional",
+    horizonLabel:"Investment horizon",
+    horizon_st:"Short", horizon_mt:"Medium", horizon_lt:"Long",
+    horizon_st_full:"Short term", horizon_mt_full:"Medium term", horizon_lt_full:"Long term",
+    horizon_all:"All",
+    tagsLabel:"Tags",
+    detail_avg:"Avg cost", detail_price:"Current price",
+    detail_mv:"Market value", detail_shares:"Shares",
+    detail_pl:"P&L", detail_today:"Today",
+    detail_purchased:"Purchased", detail_share:"% of portfolio",
+    empty_title:"Empty portfolio", empty_sub:"Add your first stock and we'll start tracking.",
+    invalid:"Check ticker, shares, and avg cost",
+    confirmDelete:"Delete stock?", confirmDeleteSub:"This will be removed permanently.",
+    confirmReset:"Reset everything?", confirmResetSub:"All your data will be erased.",
+    news_empty_title:"No news yet", news_empty_sub:"Tap refresh to fetch latest news.",
+    news_refresh:"Refresh news", news_refreshing:"Fetching…", news_failed:"Couldn't fetch news",
+    news_empty_for_holdings:"Add stocks to see news here.",
+    zakat_due_now:"Zakat due now",
+    zakat_sub:"Each stock has its own lunar year from its purchase date. Zakat is 2.5% of market value when the year completes.",
+    zk_due:"Due", zk_soon:"Soon", zk_ok:"Pending",
+    zk_days:"d", zk_purchased:"Bought", zk_hawl:"Zakat due",
+    zk_empty_title:"No stocks", zk_empty_sub:"Add stocks to see zakat schedule.",
+    zk_no_date:"No purchase date — add one to track zakat",
+    refresh_failed:"Couldn't fetch prices", refresh_ok:n=>`Updated ${n} stock(s)`,
+    last_update:"Updated", add_first:"Add stocks first",
+    pfTitle:"Portfolios", pfNew:"New portfolio", pfCreate:"Create",
+    pfNamePlace:"Trading, long-term, savings...",
+    pfDelete:"Delete portfolio?", pfDeleteSub:"All its stocks will be deleted.",
+    chart30:"Last 30 days", chartLoading:"Loading chart…", chartFail:"Couldn't load chart",
+    privacy_on:"Numbers hidden", search_loading:"Searching…",
+    no_match:"No match",
+    none:"None",
+  }
+};
+let lang = "ar";
+const t = () => T[lang];
+
+/* ════ static lists ════ */
+const TAGS_LIST = [
+  { id:"fav",        ar:"⭐ مفضل",       en:"⭐ Favorite" },
+  { id:"tech",       ar:"تقني",         en:"Tech" },
+  { id:"health",     ar:"صحة",          en:"Healthcare" },
+  { id:"energy",     ar:"طاقة",         en:"Energy" },
+  { id:"finance",    ar:"مالي",         en:"Financial" },
+  { id:"consumer",   ar:"استهلاكي",     en:"Consumer" },
+  { id:"realestate", ar:"عقار",         en:"Real Estate" },
+  { id:"industrial", ar:"صناعي",        en:"Industrial" },
+  { id:"dividend",   ar:"توزيعات أرباح", en:"Dividend" },
+  { id:"growth",     ar:"نمو",          en:"Growth" },
+  { id:"value",      ar:"قيمة",         en:"Value" },
+  { id:"speculation",ar:"مضاربة",       en:"Speculation" },
+];
+const PF_COLORS = ["#5FE9B0","#5BA5FF","#E8B96A","#A78BFA","#FB7185","#FB923C","#A3E635"];
+
+/* ════ state ════ */
+let profile = { name: "", lang: "ar" };
+let settings = { lastRefresh: null, lastNewsRefresh: null, privacy: false, activePf: null, horizonFilter: "all" };
+let portfolios = [];
+let holdings = [];
+let news = [];
+let activeTab = "portfolio";
+let booted = false;
+let chartCache = {}; // ticker -> {data, fetched}
+let searchDebounce = null;
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const uid = () => Math.random().toString(36).slice(2,9);
+const today = () => new Date().toISOString().slice(0,10);
+const fmt = (n,d=2) => (n==null||isNaN(n)) ? "—" : Number(n).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmt0 = n => (n==null||isNaN(n)) ? "—" : Math.round(n).toLocaleString("en-US");
+const pct = n => (n>=0?"+":"") + fmt(n,2) + "%";
+const sgn = n => n>=0 ? "up" : "down";
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mask = (s) => settings.privacy ? "••••" : s;
+const maskMoney = (formatted) => settings.privacy ? "••••" : formatted;
+
+/* ════ storage ════ */
+async function load(){
+  const get = async (k, def) => {
+    try { const r = await window.storage.get(k); return r ? JSON.parse(r.value) : def; }
+    catch(e){ return def; }
+  };
+  profile    = await get("v4:profile", profile);
+  settings   = { ...settings, ...(await get("v4:settings", {})) };
+  portfolios = await get("v4:portfolios", []);
+  holdings   = await get("v4:holdings", []);
+  news       = await get("v4:news", []);
+  lang = profile.lang || "ar";
+  if (!portfolios.length){
+    portfolios = [{ id: uid(), name: lang==='ar'?"المحفظة الرئيسية":"Main Portfolio", color: PF_COLORS[0] }];
+    settings.activePf = portfolios[0].id;
+  }
+  if (!settings.activePf || !portfolios.find(p=>p.id===settings.activePf)){
+    settings.activePf = portfolios[0].id;
+  }
+  // ensure holdings have pfId
+  holdings.forEach(h => { if (!h.pfId) h.pfId = portfolios[0].id; });
+  applyLang();
+}
+async function save(){
+  try {
+    await window.storage.set("v4:profile", JSON.stringify(profile));
+    await window.storage.set("v4:settings", JSON.stringify(settings));
+    await window.storage.set("v4:portfolios", JSON.stringify(portfolios));
+    await window.storage.set("v4:holdings", JSON.stringify(holdings));
+    await window.storage.set("v4:news", JSON.stringify(news));
+  } catch(e){}
+}
+function applyLang(){ document.body.setAttribute("dir", t().dir); }
+
+/* ════ filters ════ */
+function activeHoldings(){
+  let hs = holdings.filter(h => h.pfId === settings.activePf);
+  if (settings.horizonFilter !== "all"){
+    hs = hs.filter(h => h.horizon === settings.horizonFilter);
+  }
+  return hs;
+}
+function allHoldingsInPf(){ return holdings.filter(h => h.pfId === settings.activePf); }
+function horizonCount(hz){
+  const all = allHoldingsInPf();
+  if (hz === "all") return all.length;
+  return all.filter(h => h.horizon === hz).length;
+}
+
+/* ════ compute ════ */
+function statsFor(h){
+  const price = h.price != null ? h.price : h.avg;
+  const mv = h.shares * price;
+  const cost = h.shares * h.avg;
+  const pl = mv - cost;
+  const plPct = cost > 0 ? pl/cost*100 : 0;
+  const todayD = h.prev != null ? h.shares*(price - h.prev) : null;
+  const todayPct = h.dayChangePct != null ? h.dayChangePct : (h.prev ? (price-h.prev)/h.prev*100 : null);
+  return { price, mv, cost, pl, plPct, today: todayD, todayPct };
+}
+function totals(){
+  let mv = 0, cost = 0, today = 0, hasToday = false;
+  activeHoldings().forEach(h => {
+    const s = statsFor(h);
+    mv += s.mv; cost += s.cost;
+    if (s.today != null) { today += s.today; hasToday = true; }
+  });
+  const pl = mv - cost;
+  return {
+    mv, cost, pl,
+    plPct: cost > 0 ? pl/cost*100 : 0,
+    today: hasToday ? today : null,
+    todayPct: hasToday && (mv-today) > 0 ? today/(mv-today)*100 : null,
+  };
+}
+
+/* ════ zakat ════ */
+const HIJRI = 354.367;
+function zakatFor(h){
+  if (!h.purchaseDate) return null;
+  const purchase = new Date(h.purchaseDate);
+  if (isNaN(purchase)) return null;
+  const now = new Date();
+  const days = (now - purchase) / 86400000;
+  const yearsPassed = Math.floor(days / HIJRI);
+  const lastHawl = new Date(purchase.getTime() + yearsPassed * HIJRI * 86400000);
+  const nextHawl = new Date(purchase.getTime() + (yearsPassed + 1) * HIJRI * 86400000);
+  const daysToNext = Math.ceil((nextHawl - now) / 86400000);
+  const daysSinceLast = Math.floor((now - lastHawl) / 86400000);
+  const due = yearsPassed >= 1;
+  const amount = statsFor(h).mv * 0.025;
+  const progress = Math.max(0, Math.min(100, daysSinceLast / HIJRI * 100));
+  return {
+    purchaseDate: h.purchaseDate, nextHawlDate: nextHawl.toISOString().slice(0,10),
+    daysToNext, daysSinceLast, due, amount, progress,
+    status: due ? "due" : (daysToNext < 30 ? "soon" : "ok"),
+  };
+}
+
+/* ════ render ════ */
+function render(){
+  if (!booted) return;
+  if (!profile.name) { renderOnboard(); return; }
+  applyLang();
+  const pf = portfolios.find(p => p.id === settings.activePf);
+  const tt = totals();
+  const dateStr = new Date().toLocaleDateString(lang==='ar'?'ar-SA-u-ca-gregory':'en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+  $("#app").innerHTML = `
+    <div class="top">
+      <button class="pf-pill" onclick="openPfSwitch()">
+        <span class="dot"></span>
+        <span class="nm">${esc(pf.name)}</span>
+        <span class="ar">▾</span>
+      </button>
+      <div class="top-actions">
+        <button class="ico ${settings.privacy?'on':''}" onclick="togglePrivacy()" title="${t().privacy_on}">${settings.privacy?'⊘':'👁'}</button>
+        <button class="lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
+        <button class="ico" onclick="openSettings()" title="${t().settings}">⚙</button>
+      </div>
+    </div>
+
+    <div class="hero-eyebrow">
+      ${t().portfolio} <span class="dot">·</span> ${dateStr}
+    </div>
+
+    <div class="hero-grid">
+      <div class="hero-cell">
+        <div class="lbl">${t().marketValue}</div>
+        <div class="val">${maskMoney((tt.mv>=0?'$':'-$')+fmt(Math.abs(tt.mv)))}</div>
+      </div>
+      <div class="hero-cell">
+        <div class="lbl">${t().totalPL}</div>
+        <div class="val ${sgn(tt.pl)}">${settings.privacy?'••••':((tt.pl>=0?'+':'')+(tt.pl<0?'-$':'$')+fmt(Math.abs(tt.pl)))}</div>
+      </div>
+    </div>
+    <div class="hero-sub ${sgn(tt.pl)}">
+      ${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmt(tt.plPct,2)+'%')}
+      ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+'$'+fmt0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
+    </div>
+    <div class="hero-sar">${maskMoney(fmt0(tt.mv*3.75)+' SAR')}</div>
+
+    <div class="hero-live">
+      <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshPrices()">↻ ${t().refresh}</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')">${t().portfolio}</button>
+      <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')">${t().news}</button>
+      <button class="tab ${activeTab==='zakat'?'on':''}" onclick="setTab('zakat')">${t().zakat}</button>
+    </div>
+
+    <div id="tab-content"></div>
+  `;
+  renderTab();
+}
+
+function setTab(name){ activeTab = name; render(); }
+function setHorizonFilter(h){ settings.horizonFilter = h; save(); render(); }
+function togglePrivacy(){ settings.privacy = !settings.privacy; save(); render(); }
+
+function renderTab(){
+  const c = $("#tab-content"); if (!c) return;
+  if (activeTab === "portfolio") {
+    const all = allHoldingsInPf();
+    if (!all.length){
+      c.innerHTML = `
+        <div class="empty">
+          <div class="ic">◎</div>
+          <h3>${t().empty_title}</h3>
+          <p>${t().empty_sub}</p>
+        </div>
+        <button class="fab" onclick="openAdd()"><span class="plus">＋</span> ${t().addStock}</button>
+      `;
+      return;
+    }
+    // horizon filter chips
+    const horizonStrip = `
+      <div class="horizon">
+        <button class="h-chip ${settings.horizonFilter==='all'?'on':''}" onclick="setHorizonFilter('all')">${t().horizon_all}<span class="cnt">${horizonCount('all')}</span></button>
+        <button class="h-chip ${settings.horizonFilter==='st'?'on':''}" onclick="setHorizonFilter('st')">ST<span class="cnt">${horizonCount('st')}</span></button>
+        <button class="h-chip ${settings.horizonFilter==='mt'?'on':''}" onclick="setHorizonFilter('mt')">MT<span class="cnt">${horizonCount('mt')}</span></button>
+        <button class="h-chip ${settings.horizonFilter==='lt'?'on':''}" onclick="setHorizonFilter('lt')">LT<span class="cnt">${horizonCount('lt')}</span></button>
+      </div>
+    `;
+    const hs = activeHoldings();
+    c.innerHTML = `
+      ${horizonStrip}
+      ${hs.length ? `
+        <div class="bub-wrap" id="bub-wrap"></div>
+        <div class="list">${hs.map(rowHtml).join("")}</div>
+      ` : `<div class="empty"><div class="ic">⊘</div><h3>${t().no_match}</h3><p>—</p></div>`}
+      <button class="fab" onclick="openAdd()"><span class="plus">＋</span> ${t().addStock}</button>
+    `;
+    if (hs.length) renderBubbles();
+  }
+  else if (activeTab === "news") renderNews();
+  else if (activeTab === "zakat") renderZakat();
+}
+
+function rowHtml(h){
+  const s = statsFor(h);
+  const tt = totals();
+  const share = tt.mv > 0 ? s.mv/tt.mv*100 : 0;
+  const col = s.pl>=0 ? "var(--accent)" : "var(--loss)";
+  const bg = s.pl>=0 ? "var(--accent-bg)" : "var(--loss-bg)";
+  const hzTag = h.horizon ? `<span class="h-tag ${h.horizon}">${h.horizon.toUpperCase()}</span>` : '';
+  return `<div class="row" onclick="openDetail('${h.id}')">
+    <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
+    <div class="info">
+      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${hzTag}</div>
+      <div class="s mono">${fmt(h.shares,h.shares%1?4:0)} × $${fmt(h.avg)} · ${share.toFixed(1)}%</div>
+    </div>
+    <div class="rt">
+      <div class="mv mono">${maskMoney('$'+fmt0(s.mv))}</div>
+      <div class="pl mono ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+'$'+fmt0(Math.abs(s.pl))+' · '+pct(s.plPct))}</div>
+    </div>
+  </div>`;
+}
+
+/* ════ bubbles ════ */
+function renderBubbles(){
+  const wrap = $("#bub-wrap"); if (!wrap) return;
+  const W = wrap.clientWidth || 640;
+  const H = Math.min(Math.max(W * 0.95, 360), 520);
+  const hs = activeHoldings();
+  const data = hs.map(h => { const s = statsFor(h); return { ...h, mv: s.mv, pl: s.pl, plPct: s.plPct, hasP: h.price != null }; }).filter(d => d.mv > 0);
+  if (!data.length) { wrap.innerHTML = ""; return; }
+  const root = d3.hierarchy({ children: data }).sum(d => d.mv);
+  d3.pack().size([W, H]).padding(8)(root);
+  const total = root.value || 1;
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("id", "bub-svg");
+
+  const palettes = [
+    { fill:"#0F4A36", ring:"#5FE9B0" }, // green
+    { fill:"#4A1F22", ring:"#F26B6E" }, // red
+    { fill:"#1F3A6E", ring:"#5BA5FF" }, // blue
+    { fill:"#4A3D1F", ring:"#E8B96A" }, // gold
+    { fill:"#3D1F4A", ring:"#A78BFA" }, // purple
+    { fill:"#1F4A4A", ring:"#5FE9E9" }, // teal
+    { fill:"#4A1F3D", ring:"#FB7185" }, // pink
+    { fill:"#3D4A1F", ring:"#A3E635" }, // lime
+    { fill:"#4A2D1F", ring:"#FB923C" }, // orange
+    { fill:"#1F2D4A", ring:"#818CF8" }, // indigo
+    { fill:"#3A1F4A", ring:"#D946EF" }, // fuchsia
+    { fill:"#1F4A2D", ring:"#34D399" }, // emerald
+  ];
+  const pickPalette = (h) => {
+    // every ticker gets a stable distinct color from its name — no gray, no sentiment override
+    let sum = 0;
+    for (let i = 0; i < h.ticker.length; i++) sum += h.ticker.charCodeAt(i) * (i+1) * 31 + 17;
+    return palettes[Math.abs(sum) % palettes.length];
+  };
+
+  root.leaves().forEach(d => {
+    const r = d.r, x = d.x, y = d.y, h = d.data;
+    const share = h.mv/total*100;
+    const p = pickPalette(h);
+    const g = document.createElementNS(ns, "g");
+    g.setAttribute("class", "bub");
+    g.setAttribute("transform", `translate(${x},${y})`);
+    g.addEventListener("click", () => openDetail(h.id));
+    const c = document.createElementNS(ns, "circle");
+    c.setAttribute("r", r);
+    c.setAttribute("fill", p.fill);
+    c.setAttribute("stroke", p.ring);
+    c.setAttribute("stroke-width", Math.max(1.5, r * 0.022));
+    c.setAttribute("stroke-opacity", "0.85");
+    g.appendChild(c);
+    if (r > 30){
+      const fz = Math.min(r * 0.32, 24);
+      mkText(g, ns, h.ticker, { y: -r*0.20, "text-anchor":"middle", "font-size": fz, fill:"#fff", "font-weight":"700" });
+      mkText(g, ns, share.toFixed(1)+"%", { y: r*0.02, "text-anchor":"middle", "font-size": fz*0.55, fill:"rgba(255,255,255,.75)", "font-weight":"500" });
+      if (r > 42 && h.hasP && !settings.privacy){
+        const plCol = h.pl >= 0 ? "#5FE9B0" : "#F26B6E";
+        mkText(g, ns, (h.pl>=0?"+$":"-$")+fmt0(Math.abs(h.pl)), { y: r*0.28, "text-anchor":"middle", "font-size": fz*0.55, fill: plCol, "font-weight":"700" });
+        mkText(g, ns, pct(h.plPct), { y: r*0.48, "text-anchor":"middle", "font-size": fz*0.48, fill: plCol, "font-weight":"600" });
+      }
+    } else if (r > 14){
+      mkText(g, ns, h.ticker, { y: r*0.12, "text-anchor":"middle", "font-size": Math.min(r*0.42, 13), fill:"#fff", "font-weight":"700" });
+    }
+    svg.appendChild(g);
+  });
+  wrap.innerHTML = "";
+  wrap.appendChild(svg);
+}
+function mkText(parent, ns, text, attrs){
+  const e = document.createElementNS(ns, "text");
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  e.textContent = text;
+  parent.appendChild(e);
+}
+
+/* ════ add / edit ════ */
+let editTags = []; // current edit's tags
+let editHorizon = null;
+
+function openAdd(){ editTags = []; editHorizon = null; openEdit(); }
+
+function openEdit(id){
+  const h = id ? holdings.find(x => x.id === id) : null;
+  if (h){
+    editTags = [...(h.tags||[])];
+    editHorizon = h.horizon || null;
+  } else {
+    editTags = []; editHorizon = null;
+  }
+  modal(renderEditModal(h));
+  setTimeout(()=>$("#f_tic")?.focus(), 60);
+}
+
+function renderEditModal(h){
+  return `
+    <h2>${h ? t().editStock : t().addStock}</h2>
+    <div class="field"><label>${t().ticker}</label>
+      <div class="search-wrap">
+        <input class="inp" id="f_tic" placeholder="AAPL / Apple" value="${h?esc(h.ticker):''}" oninput="liveSearch()" autocomplete="off">
+        <button class="search-btn" onclick="searchTicker()" title="Search">🔍</button>
+      </div>
+      <div id="sg-box"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${t().shares}</label>
+        <input class="inp" id="f_sh" type="number" step="any" inputmode="decimal" placeholder="10" value="${h?h.shares:''}"></div>
+      <div class="field"><label>${t().avgCost} <small style="color:#444">$</small></label>
+        <input class="inp" id="f_avg" type="number" step="any" inputmode="decimal" placeholder="150" value="${h?h.avg:''}"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${t().currentPrice} <small style="color:#444">$ · ${t().optional}</small></label>
+        <input class="inp" id="f_pr" type="number" step="any" inputmode="decimal" placeholder="—" value="${h&&h.price!=null?h.price:''}"></div>
+      <div class="field"><label>${t().purchaseDate}</label>
+        <input class="inp" id="f_dt" type="date" value="${h?(h.purchaseDate||today()):today()}"></div>
+    </div>
+
+    <h4>${t().horizonLabel}</h4>
+    <div class="seg" id="seg-hz">
+      <button class="${editHorizon==='st'?'on st':''}" onclick="setEditHorizon('st')">ST<span class="lbl">${t().horizon_st}</span></button>
+      <button class="${editHorizon==='mt'?'on mt':''}" onclick="setEditHorizon('mt')">MT<span class="lbl">${t().horizon_mt}</span></button>
+      <button class="${editHorizon==='lt'?'on lt':''}" onclick="setEditHorizon('lt')">LT<span class="lbl">${t().horizon_lt}</span></button>
+    </div>
+
+    <h4>${t().tagsLabel}</h4>
+    <div class="tags-grid" id="tg-grid">
+      ${TAGS_LIST.map(tg => `<button class="tag-chip ${editTags.includes(tg.id)?'on':''}" onclick="toggleEditTag('${tg.id}')">${esc(tg[lang])}</button>`).join("")}
+    </div>
+
+    <div class="err" id="f_err"></div>
+    <div class="m-actions">
+      ${h?`<button class="btn danger" onclick="askDel('${h.id}')">${t().delete}</button>`:''}
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="saveHold('${h?h.id:''}')">${t().save}</button>
+    </div>
+  `;
+}
+
+function setEditHorizon(h){ editHorizon = editHorizon === h ? null : h; refreshHorizonSeg(); }
+function refreshHorizonSeg(){
+  const seg = $("#seg-hz"); if (!seg) return;
+  $$("button", seg).forEach((b,i) => {
+    const id = ["st","mt","lt"][i];
+    b.className = editHorizon === id ? `on ${id}` : "";
+  });
+}
+function toggleEditTag(id){
+  if (editTags.includes(id)) editTags = editTags.filter(x => x !== id);
+  else editTags.push(id);
+  const grid = $("#tg-grid"); if (!grid) return;
+  $$(".tag-chip", grid).forEach((b,i) => {
+    b.classList.toggle("on", editTags.includes(TAGS_LIST[i].id));
+  });
+}
+
+async function searchTicker(){
+  const q = $("#f_tic").value.trim();
+  if (!q) return;
+  const box = $("#sg-box");
+  box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
+  try {
+    const results = await finnhubSearch(q);
+    if (!results.length){ box.innerHTML = `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`; return; }
+    box.innerHTML = `<div class="suggest">${results.map(r => {
+      const nm = (r.d || '').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+      return `<div class="sg-item" onclick="pickTicker('${esc(r.s)}','${esc(nm)}')">
+        <span class="tic">${esc(r.s)}</span>
+        <span class="nm">${esc(r.d || '')}</span>
+      </div>`;
+    }).join("")}</div>`;
+  } catch(e){
+    box.innerHTML = `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+  }
+}
+function pickTicker(tic, name){
+  $("#f_tic").value = tic;
+  $("#sg-box").innerHTML = "";
+  $("#f_tic").dataset.name = name;
+}
+
+function saveHold(id){
+  const tic = $("#f_tic").value.trim().toUpperCase();
+  const sh = parseFloat($("#f_sh").value);
+  const avg = parseFloat($("#f_avg").value);
+  const prRaw = $("#f_pr").value.trim();
+  const pr = prRaw === "" ? null : parseFloat(prRaw);
+  const dt = $("#f_dt").value || today();
+  const presetName = $("#f_tic").dataset.name || tic;
+  if (!tic || isNaN(sh) || isNaN(avg) || sh <= 0 || avg < 0){
+    $("#f_err").textContent = t().invalid; return;
+  }
+  if (id){
+    const h = holdings.find(x => x.id === id);
+    Object.assign(h, { ticker: tic, shares: sh, avg, price: pr!=null?pr:h.price, purchaseDate: dt, horizon: editHorizon, tags: editTags, name: h.name||presetName });
+  } else {
+    holdings.push({
+      id: uid(), pfId: settings.activePf,
+      ticker: tic, name: presetName, shares: sh, avg,
+      price: pr, prev: null, dayChangePct: null,
+      purchaseDate: dt, horizon: editHorizon, tags: editTags
+    });
+  }
+  save(); closeModal(); render();
+}
+
+function askDel(id){
+  modal(`<h2>${t().confirmDelete}</h2><p class="sub">${t().confirmDeleteSub}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="openEdit('${id}')">${t().cancel}</button>
+      <button class="btn danger" onclick="doDel('${id}')">${t().delete}</button>
+    </div>`);
+}
+function doDel(id){ holdings = holdings.filter(x => x.id !== id); save(); closeModal(); render(); }
+
+/* ════ detail with chart ════ */
+function openDetail(id){
+  const h = holdings.find(x => x.id === id); if (!h) return;
+  const s = statsFor(h);
+  const tt = totals();
+  const col = s.pl>=0 ? "var(--accent)" : "var(--loss)";
+  const bg = s.pl>=0 ? "var(--accent-bg)" : "var(--loss-bg)";
+  const tagChips = (h.tags||[]).map(tid => {
+    const tg = TAGS_LIST.find(x => x.id === tid);
+    return tg ? `<span class="tg">${esc(tg[lang])}</span>` : '';
+  }).join("");
+  modal(`
+    <div class="d-head">
+      <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
+      <div>
+        <div class="nm">${esc(h.ticker)}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
+        <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}</div>
+      </div>
+    </div>
+
+    ${tagChips ? `<div class="d-tags">${tagChips}</div>` : ''}
+
+    <div class="trade-row">
+      <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
+      <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
+    </div>
+
+    ${h.realized ? `<div class="realized-box">
+      <span class="lbl">${lang==='ar'?'الربح المحقّق (من البيع)':'Realized P&L (from sales)'}</span>
+      <span class="val ${h.realized>=0?'up':'down'}">${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}</span>
+    </div>` : ''}
+
+    <div class="chart-card">
+      <div class="chart-head">
+        <span class="title">${t().chart30}</span>
+        <span class="meta" id="chart-meta"></span>
+      </div>
+      <div id="chart-box"><div class="chart-empty"><span class="spin"></span> ${t().chartLoading}</div></div>
+    </div>
+
+    <div class="d-rows">
+      <div class="d-row"><span>${t().detail_mv}</span><div class="v">${maskMoney('$'+fmt(s.mv))}<small>${maskMoney(fmt0(s.mv*3.75)+' SAR')}</small></div></div>
+      <div class="d-row"><span>${t().detail_price}</span><div class="v">${h.price!=null?'$'+fmt(s.price):'—'}<small>${h.price!=null?fmt0(s.price*3.75)+' SAR':''}</small></div></div>
+      <div class="d-row"><span>${t().detail_avg}</span><div class="v">$${fmt(h.avg)}<small>${fmt0(h.avg*3.75)} SAR</small></div></div>
+      <div class="d-row"><span>${t().detail_shares}</span><div class="v">${fmt(h.shares, h.shares%1?4:0)}</div></div>
+      <div class="d-row"><span>${t().detail_pl}</span><div class="v ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+'$'+fmt(Math.abs(s.pl)))}<small>${settings.privacy?'':pct(s.plPct)}</small></div></div>
+      ${s.today!=null?`<div class="d-row"><span>${t().detail_today}</span><div class="v ${sgn(s.today)}">${settings.privacy?'••••':((s.today>=0?'+':'')+'$'+fmt(Math.abs(s.today)))}<small>${settings.privacy?'':pct(s.todayPct)}</small></div></div>`:''}
+      <div class="d-row"><span>${t().detail_share}</span><div class="v">${tt.mv>0?(s.mv/tt.mv*100).toFixed(1)+'%':'—'}</div></div>
+      ${h.purchaseDate?`<div class="d-row"><span>${t().detail_purchased}</span><div class="v" style="font-weight:500">${esc(h.purchaseDate)}</div></div>`:''}
+    </div>
+
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="openEdit('${h.id}')">${t().editStock}</button>
+    </div>
+  `);
+  loadChart(h.ticker);
+}
+
+async function loadChart(ticker){
+  const box = $("#chart-box");
+  if (!box) return;
+  const cached = chartCache[ticker];
+  if (cached && Date.now() - cached.fetched < 3600000){
+    renderChart(cached.data, ticker); return;
+  }
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=1mo`;
+    const data = await tryFetch(url);
+    const result = data?.chart?.result?.[0];
+    const closes = result?.indicators?.quote?.[0]?.close || [];
+    const prices = closes.filter(n => n != null && !isNaN(n));
+    if (prices.length < 2) throw new Error("insufficient data");
+    chartCache[ticker] = { data: prices, fetched: Date.now() };
+    renderChart(prices, ticker);
+  } catch(e){
+    // silently hide the whole chart card — chart data sources don't allow CORS reliably
+    const card = box.closest('.chart-card');
+    if (card) card.style.display = 'none';
+  }
+}
+
+function renderChart(prices, ticker){
+  const box = $("#chart-box"); const meta = $("#chart-meta");
+  if (!box) return;
+  const min = Math.min(...prices), max = Math.max(...prices), range = max-min || 1;
+  const W = 600, H = 140, PAD = 8;
+  const pts = prices.map((v,i) => `${PAD + (i/(prices.length-1))*(W-2*PAD)},${PAD + (1-(v-min)/range)*(H-2*PAD)}`).join(" ");
+  const up = prices[prices.length-1] >= prices[0];
+  const chg = prices[prices.length-1] - prices[0];
+  const chgPct = prices[0] > 0 ? chg/prices[0]*100 : 0;
+  const col = up ? "#5FE9B0" : "#F26B6E";
+  box.innerHTML = `<svg id="stock-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${col}" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="${col}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <polygon points="${PAD},${H-PAD} ${pts} ${W-PAD},${H-PAD}" fill="url(#cg)"/>
+    <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.8"/>
+  </svg>`;
+  if (meta) meta.innerHTML = `<b style="color:${col}">${chg>=0?'+':''}${pct(chgPct)}</b> · $${fmt(prices[0])} → <b>$${fmt(prices[prices.length-1])}</b>`;
+}
+
+/* ════ portfolio switcher ════ */
+function openPfSwitch(){
+  modal(`
+    <h2>${t().pfTitle}</h2>
+    <div style="margin-bottom:12px">${portfolios.map(p => {
+      const ph = holdings.filter(h => h.pfId === p.id);
+      let mv = 0; ph.forEach(h => { mv += statsFor(h).mv; });
+      const active = p.id === settings.activePf;
+      return `<div class="pf-row ${active?'active':''}" onclick="switchPf('${p.id}')">
+        <div class="sw" style="background:${p.color}">${esc(p.name[0])}</div>
+        <div class="pn">${esc(p.name)}<div class="pv">${ph.length} · ${maskMoney('$'+fmt0(mv))}</div></div>
+        ${portfolios.length>1?`<button class="del" onclick="event.stopPropagation();askDelPf('${p.id}')">✕</button>`:''}
+      </div>`;
+    }).join("")}</div>
+    <button class="btn primary" style="width:100%" onclick="newPf()">＋ ${t().pfNew}</button>
+  `);
+}
+function switchPf(id){ settings.activePf = id; settings.horizonFilter = "all"; save(); closeModal(); render(); }
+function newPf(){
+  modal(`
+    <h2>${t().pfNew}</h2>
+    <div class="field"><label>${t().enterName}</label>
+      <input class="inp" id="pf_n" placeholder="${t().pfNamePlace}"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openPfSwitch()">${t().cancel}</button>
+      <button class="btn primary" onclick="doNewPf()">${t().pfCreate}</button>
+    </div>`);
+  setTimeout(()=>$("#pf_n")?.focus(),60);
+}
+function doNewPf(){
+  const n = $("#pf_n").value.trim(); if (!n) return;
+  const p = { id: uid(), name: n, color: PF_COLORS[portfolios.length % PF_COLORS.length] };
+  portfolios.push(p); settings.activePf = p.id; settings.horizonFilter = "all";
+  save(); closeModal(); render();
+}
+function askDelPf(id){
+  if (portfolios.length <= 1) return;
+  modal(`<h2>${t().pfDelete}</h2><p class="sub">${t().pfDeleteSub}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="openPfSwitch()">${t().cancel}</button>
+      <button class="btn danger" onclick="doDelPf('${id}')">${t().delete}</button>
+    </div>`);
+}
+function doDelPf(id){
+  portfolios = portfolios.filter(p => p.id !== id);
+  holdings = holdings.filter(h => h.pfId !== id);
+  if (settings.activePf === id) settings.activePf = portfolios[0].id;
+  save(); closeModal(); render();
+}
+
+/* ════ news ════ */
+function renderNews(){
+  const c = $("#tab-content"); if (!c) return;
+  if (!allHoldingsInPf().length){
+    c.innerHTML = `<div class="empty"><div class="ic">▭</div><h3>${t().news_empty_title}</h3><p>${t().news_empty_for_holdings}</p></div>`;
+    return;
+  }
+  c.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:11px;color:var(--muted);font-weight:500">${settings.lastNewsRefresh?t().last_update+' · '+settings.lastNewsRefresh:''}</div>
+      <button class="refresh-btn" id="news-btn" onclick="refreshNews()">↻ ${t().news_refresh}</button>
+    </div>
+    ${news.length ? news.map(n=>`
+      <div class="news-item" ${n.url?`onclick="window.open('${esc(n.url)}','_blank')"`:''}>
+        <div class="news-meta">
+          <span class="news-tic">${esc(n.ticker)}</span>
+          ${n.source?`<span class="news-src">${esc(n.source)}</span>`:''}
+          ${n.time?`<span class="news-time">· ${esc(n.time)}</span>`:''}
+        </div>
+        <div class="news-title">${esc(n.title)}</div>
+      </div>
+    `).join("") : `<div class="empty"><div class="ic">▭</div><h3>${t().news_empty_title}</h3><p>${t().news_empty_sub}</p></div>`}
+  `;
+}
+
+async function refreshNews(){
+  if (!allHoldingsInPf().length) return;
+  const btn = $("#news-btn");
+  if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spin"></span> ${t().news_refreshing}`; }
+  const tickers = [...new Set(allHoldingsInPf().map(h => h.ticker))];
+  const today = new Date().toISOString().slice(0,10);
+  const from = new Date(Date.now() - 14*86400000).toISOString().slice(0,10);
+  const all = [];
+  let lastErr = null;
+  await Promise.all(tickers.map(async tic => {
+    try {
+      const url = `${FINNHUB}/company-news?symbol=${encodeURIComponent(tic)}&from=${from}&to=${today}&token=${FINNHUB_KEY}`;
+      const r = await fetch(url);
+      if (!r.ok) { lastErr = new Error("HTTP "+r.status); return; }
+      const items = await r.json();
+      if (!Array.isArray(items)) return;
+      items.sort((a,b) => (b.datetime||0) - (a.datetime||0));
+      items.slice(0, 4).forEach(n => {
+        if (!n.headline) return;
+        all.push({
+          id: uid(),
+          ticker: tic,
+          title: n.headline,
+          source: n.source || "",
+          url: n.url || "",
+          ts: n.datetime || 0,
+          time: n.datetime ? timeAgo(n.datetime * 1000) : ""
+        });
+      });
+    } catch(e) { lastErr = e; }
+  }));
+  if (!all.length){
+    toast((lang==='ar'?"خطأ: ":"Error: ") + (lastErr?.message || t().news_failed));
+    if (btn) { btn.disabled = false; btn.innerHTML = `↻ ${t().news_refresh}`; }
+    return;
+  }
+  const seen = new Set();
+  const dedup = all.filter(n => { const k = n.title.toLowerCase(); if (seen.has(k)) return false; seen.add(k); return true; });
+  dedup.sort((a,b) => (b.ts||0) - (a.ts||0));
+  news = dedup.slice(0, 40);
+  settings.lastNewsRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
+  save();
+  render();
+}
+
+/* ════ zakat ════ */
+function renderZakat(){
+  const c = $("#tab-content"); if (!c) return;
+  const all = allHoldingsInPf();
+  if (!all.length){
+    c.innerHTML = `<div class="empty"><div class="ic">◐</div><h3>${t().zk_empty_title}</h3><p>${t().zk_empty_sub}</p></div>`;
+    return;
+  }
+  const items = all.map(h => ({ h, z: zakatFor(h) }));
+  const dueTotal = items.filter(x => x.z && x.z.due).reduce((s,x) => s + x.z.amount, 0);
+  c.innerHTML = `
+    <div class="zk-summary">
+      <div class="lbl">${t().zakat_due_now}</div>
+      <div class="v ${dueTotal>0?'':'zero'}">${maskMoney(dueTotal>0?'$'+fmt(dueTotal,2):'$0.00')}</div>
+      <div class="s">${t().zakat_sub}</div>
+    </div>
+    ${items.map(({h,z})=>{
+      if (!z) return `<div class="zk-item">
+        <div class="head"><span class="tic">${esc(h.ticker)}</span></div>
+        <div style="font-size:12px;color:var(--muted)">${t().zk_no_date}</div>
+      </div>`;
+      const badgeText = z.status==="due" ? t().zk_due : (z.status==="soon" ? t().zk_soon : t().zk_ok);
+      const barCol = z.status==="due" ? "var(--loss)" : (z.status==="soon" ? "#E8B96A" : "var(--accent)");
+      return `<div class="zk-item">
+        <div class="head">
+          <span class="tic">${esc(h.ticker)}</span>
+          <span class="badge ${z.status}">${badgeText}${z.status!=="due" && z.daysToNext>0?` · ${z.daysToNext}${t().zk_days}`:''}</span>
+          <span class="amt mono">${maskMoney('$'+fmt(z.amount,2))}</span>
+        </div>
+        <div class="bar"><div class="fill" style="width:${z.progress}%;background:${barCol}"></div></div>
+        <div class="dates mono">
+          <span>${t().zk_purchased} ${z.purchaseDate}</span>
+          <span class="mid">2.5% × ${maskMoney('$'+fmt0(statsFor(h).mv))}</span>
+          <span>${t().zk_hawl} ${z.nextHawlDate}</span>
+        </div>
+      </div>`;
+    }).join("")}
+  `;
+}
+
+/* ════ Finnhub (prices, search, news) + Yahoo (chart) — direct browser fetches ════ */
+const FINNHUB_KEY = "d8qgp71r01qr03nirq8gd8qgp71r01qr03nirq90";
+const FINNHUB = "https://finnhub.io/api/v1";
+
+let symbolList = null;
+let searchTimer = null;
+
+async function ensureSymbols(){ return []; /* deprecated — using /search per query instead */ }
+
+async function finnhubSearch(q){
+  if (!q) return [];
+  try {
+    const r = await fetch(`${FINNHUB}/search?q=${encodeURIComponent(q)}&token=${FINNHUB_KEY}`);
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    const data = await r.json();
+    return (data?.result || [])
+      .filter(x => x.symbol && (!x.type || x.type === "Common Stock" || x.type === "ETP" || x.type === "ETF" || x.type === "ADR"))
+      .filter(x => !x.symbol.includes(".") && !x.symbol.includes(":")) // US tickers only, skip foreign suffixes
+      .slice(0, 8)
+      .map(x => ({ s: x.displaySymbol || x.symbol, d: x.description || "" }));
+  } catch(e) { throw e; }
+}
+
+function liveSearch(){
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    const q = $("#f_tic")?.value.trim();
+    const box = $("#sg-box");
+    if (!box) return;
+    if (!q) { box.innerHTML = ""; return; }
+    box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
+    try {
+      const results = await finnhubSearch(q);
+      if ($("#f_tic")?.value.trim() !== q) return; // user typed more
+      if (!results.length) { box.innerHTML = `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`; return; }
+      box.innerHTML = `<div class="suggest">${results.map(r => {
+        const nm = (r.d || '').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+        return `<div class="sg-item" onclick="pickTicker('${esc(r.s)}','${esc(nm)}')">
+          <span class="tic">${esc(r.s)}</span>
+          <span class="nm">${esc(r.d || '')}</span>
+        </div>`;
+      }).join("")}</div>`;
+    } catch(e) {
+      if ($("#f_tic")?.value.trim() === q) {
+        box.innerHTML = `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+      }
+    }
+  }, 380);
+}
+
+/* try direct fetch, then two CORS proxies */
+async function tryFetch(url){
+  const attempts = [
+    url,
+    "https://corsproxy.io/?url=" + encodeURIComponent(url),
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
+  ];
+  let lastErr;
+  for (const u of attempts) {
+    try {
+      const r = await fetch(u);
+      if (!r.ok) { lastErr = new Error("HTTP " + r.status); continue; }
+      return await r.json();
+    } catch(e) { lastErr = e; }
+  }
+  throw lastErr || new Error("network failed");
+}
+
+function timeAgo(ms){
+  const sec = (Date.now() - ms) / 1000;
+  if (sec < 60) return lang==='ar' ? "الآن" : "now";
+  const min = sec / 60;
+  if (min < 60) return Math.floor(min) + (lang==='ar' ? " د" : "m");
+  const hr = min / 60;
+  if (hr < 24) return Math.floor(hr) + (lang==='ar' ? " س" : "h");
+  const day = hr / 24;
+  if (day < 30) return Math.floor(day) + (lang==='ar' ? " ي" : "d");
+  return new Date(ms).toLocaleDateString(lang==='ar'?'ar-SA':'en-US',{month:'short',day:'numeric'});
+}
+
+/* ════ Buy / Sell — record transactions on existing holdings ════ */
+function openTrade(holdId, type){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const isBuy = type === 'buy';
+  const title = isBuy ? (lang==='ar'?'شراء '+h.ticker:'Buy '+h.ticker)
+                       : (lang==='ar'?'بيع '+h.ticker:'Sell '+h.ticker);
+  const accent = isBuy ? 'var(--accent)' : 'var(--loss)';
+  const accentBg = isBuy ? 'var(--accent-bg)' : 'var(--loss-bg)';
+  modal(`
+    <h2 style="color:${accent}">${esc(title)}</h2>
+    <p class="sub">${isBuy
+      ? (lang==='ar'?`عندك ${fmt(h.shares,h.shares%1?4:0)} سهم · متوسط $${fmt(h.avg)}. أضف شراء جديد بيُعاد حساب المتوسط تلقائياً.`
+                    :`You hold ${fmt(h.shares,h.shares%1?4:0)} shares @ $${fmt(h.avg)} avg. Adding a buy will recompute the average.`)
+      : (lang==='ar'?`عندك ${fmt(h.shares,h.shares%1?4:0)} سهم · متوسط $${fmt(h.avg)}. سعر البيع - المتوسط = الربح المحقّق.`
+                    :`You hold ${fmt(h.shares,h.shares%1?4:0)} shares @ $${fmt(h.avg)} avg. Sale - avg = realized P&L.`)
+    }</p>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'الكمية':'Quantity'}</label>
+        <input class="inp" id="tr_q" type="number" step="any" inputmode="decimal" placeholder="${isBuy?'10':fmt(h.shares,h.shares%1?4:0)}"></div>
+      <div class="field"><label>${lang==='ar'?'السعر':'Price'} <small style="color:#444">$</small></label>
+        <input class="inp" id="tr_p" type="number" step="any" inputmode="decimal" placeholder="${h.price?h.price:h.avg}"></div>
+    </div>
+    <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+      <input class="inp" id="tr_d" type="date" value="${today()}"></div>
+    <div class="err" id="tr_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openDetail('${h.id}')">${t().cancel}</button>
+      <button class="btn" style="background:${accentBg};border-color:${accent};color:${accent};font-weight:700" onclick="saveTrade('${h.id}','${type}')">${isBuy?(lang==='ar'?'تأكيد الشراء':'Confirm Buy'):(lang==='ar'?'تأكيد البيع':'Confirm Sell')}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#tr_q")?.focus(),60);
+}
+
+function saveTrade(holdId, type){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const qty = parseFloat($("#tr_q").value);
+  const price = parseFloat($("#tr_p").value);
+  const date = $("#tr_d").value || today();
+  if (isNaN(qty) || qty <= 0 || isNaN(price) || price < 0){
+    $("#tr_err").textContent = lang==='ar'?'تأكّد من الكمية والسعر':'Check quantity and price';
+    return;
+  }
+  if (type === 'buy'){
+    // weighted average
+    const newShares = h.shares + qty;
+    h.avg = (h.shares * h.avg + qty * price) / newShares;
+    h.shares = newShares;
+  } else {
+    // sell
+    if (qty > h.shares){
+      $("#tr_err").textContent = lang==='ar'?`الكمية أكبر من عندك (${fmt(h.shares,h.shares%1?4:0)})`:`Quantity exceeds holdings (${fmt(h.shares,h.shares%1?4:0)})`;
+      return;
+    }
+    const realized = qty * (price - h.avg);
+    h.realized = (h.realized || 0) + realized;
+    h.shares -= qty;
+    // if sold everything, ask whether to remove the holding entirely
+    if (h.shares <= 0.0000001){
+      h.shares = 0;
+      save();
+      modal(`<h2>${lang==='ar'?'بعت كل أسهمك':'You sold all your shares'}</h2>
+        <p class="sub">${lang==='ar'?`الربح المحقّق: ${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}. هل تبي تشيل ${esc(h.ticker)} من المحفظة؟`:`Realized: ${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}. Remove ${esc(h.ticker)} from portfolio?`}</p>
+        <div class="m-actions">
+          <button class="btn" onclick="closeModal();render();">${lang==='ar'?'احتفظ به':'Keep it'}</button>
+          <button class="btn danger" onclick="doDel('${h.id}')">${lang==='ar'?'احذفه':'Remove'}</button>
+        </div>`);
+      return;
+    }
+  }
+  save();
+  closeModal();
+  openDetail(h.id);
+}
+async function runDiagnostic(){
+  modal(`
+    <h2>${lang==='ar'?'تشخيص الاتصال':'Connection Diagnostic'}</h2>
+    <p class="sub">${lang==='ar'?'نختبر كل المصادر ونعرف وش يشتغل ووش لا.':'Testing each data source to find what works.'}</p>
+    <div id="diag" style="font-family:var(--mono);font-size:11.5px;background:#000;border:1px solid var(--line);border-radius:10px;padding:12px;line-height:1.9;max-height:50vh;overflow-y:auto;direction:ltr;text-align:left"></div>
+    <div class="m-actions">
+      <button class="btn primary" style="width:100%" onclick="closeModal()">${t().cancel}</button>
+    </div>
+  `);
+  const diag = $("#diag");
+  const log = (msg, status) => {
+    const c = status==='ok'?'#5FE9B0':status==='err'?'#F26B6E':status==='warn'?'#E8B96A':'#7A7A7A';
+    diag.innerHTML += `<div style="color:${c}">${esc(msg)}</div>`;
+    diag.scrollTop = diag.scrollHeight;
+  };
+
+  log('► Origin: ' + location.origin, 'info');
+  log('', 'info');
+
+  // Test 1: Finnhub /quote
+  log('[1] Finnhub /quote AAPL', 'info');
+  try {
+    const r = await fetch(`${FINNHUB}/quote?symbol=AAPL&token=${FINNHUB_KEY}`);
+    if (r.ok) {
+      const d = await r.json();
+      if (d.c) log(`    ✓ OK — price $${d.c} (${d.dp?.toFixed(2)}%)`, 'ok');
+      else log(`    ✗ Empty response (key invalid?)`, 'err');
+    } else {
+      const txt = await r.text().catch(()=>''); 
+      log(`    ✗ HTTP ${r.status} — ${txt.slice(0,80)}`, 'err');
+    }
+  } catch(e) {
+    log(`    ✗ ${e.name}: ${e.message}`, 'err');
+  }
+
+  // Test 2: Finnhub /stock/symbol
+  log('', 'info');
+  log('[2] Finnhub /stock/symbol US', 'info');
+  try {
+    const r = await fetch(`${FINNHUB}/stock/symbol?exchange=US&token=${FINNHUB_KEY}`);
+    if (r.ok) {
+      const d = await r.json();
+      log(`    ✓ OK — ${Array.isArray(d)?d.length:0} symbols`, 'ok');
+    } else {
+      log(`    ✗ HTTP ${r.status}`, 'err');
+    }
+  } catch(e) {
+    log(`    ✗ ${e.name}: ${e.message}`, 'err');
+  }
+
+  // Test 3: Finnhub /company-news
+  log('', 'info');
+  log('[3] Finnhub /company-news AAPL', 'info');
+  try {
+    const from = new Date(Date.now() - 7*86400000).toISOString().slice(0,10);
+    const to = new Date().toISOString().slice(0,10);
+    const r = await fetch(`${FINNHUB}/company-news?symbol=AAPL&from=${from}&to=${to}&token=${FINNHUB_KEY}`);
+    if (r.ok) {
+      const d = await r.json();
+      log(`    ✓ OK — ${Array.isArray(d)?d.length:0} news items`, 'ok');
+    } else {
+      log(`    ✗ HTTP ${r.status}`, 'err');
+    }
+  } catch(e) {
+    log(`    ✗ ${e.name}: ${e.message}`, 'err');
+  }
+
+  // Test 4: Yahoo direct
+  log('', 'info');
+  log('[4] Yahoo Finance direct (chart)', 'info');
+  let yahooDirectOk = false;
+  try {
+    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/AAPL?interval=1d&range=1mo`);
+    if (r.ok) {
+      const d = await r.json();
+      const cnt = d?.chart?.result?.[0]?.indicators?.quote?.[0]?.close?.length || 0;
+      log(`    ✓ Direct OK — ${cnt} data points`, 'ok');
+      yahooDirectOk = true;
+    } else {
+      log(`    ✗ HTTP ${r.status}`, 'warn');
+    }
+  } catch(e) {
+    log(`    ✗ ${e.name}: ${e.message}`, 'warn');
+  }
+
+  // Test 5: corsproxy
+  if (!yahooDirectOk) {
+    log('', 'info');
+    log('[5] corsproxy.io (Yahoo fallback)', 'info');
+    try {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/AAPL?interval=1d&range=1mo`;
+      const r = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(url)}`);
+      if (r.ok) {
+        const d = await r.json();
+        const cnt = d?.chart?.result?.[0]?.indicators?.quote?.[0]?.close?.length || 0;
+        log(`    ✓ OK — ${cnt} data points`, 'ok');
+      } else {
+        log(`    ✗ HTTP ${r.status}`, 'err');
+      }
+    } catch(e) {
+      log(`    ✗ ${e.name}: ${e.message}`, 'err');
+    }
+
+    log('', 'info');
+    log('[6] allorigins.win (Yahoo fallback 2)', 'info');
+    try {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/AAPL?interval=1d&range=1mo`;
+      const r = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`);
+      if (r.ok) {
+        log(`    ✓ OK`, 'ok');
+      } else {
+        log(`    ✗ HTTP ${r.status}`, 'err');
+      }
+    } catch(e) {
+      log(`    ✗ ${e.name}: ${e.message}`, 'err');
+    }
+  }
+
+  log('', 'info');
+  log(lang==='ar' ? '— انتهى —' : '— Done —', 'info');
+}
+
+/* ════ refresh prices via Finnhub ════ */
+async function refreshPrices(){
+  if (!allHoldingsInPf().length){ toast(t().add_first); return; }
+  const btn = $("#refresh-btn");
+  if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spin"></span> ${t().refreshing}`; }
+  ensureSymbols();
+  const tickers = [...new Set(allHoldingsInPf().map(h => h.ticker))];
+  let n = 0, lastErr = null;
+  const results = await Promise.all(tickers.map(async tic => {
+    try {
+      const url = `${FINNHUB}/quote?symbol=${encodeURIComponent(tic)}&token=${FINNHUB_KEY}`;
+      const r = await fetch(url);
+      if (!r.ok) { lastErr = new Error("HTTP "+r.status); return null; }
+      const q = await r.json();
+      if (q.c == null || q.c === 0) { lastErr = new Error((lang==='ar'?`الرمز ${tic} غير صالح`:`invalid: ${tic}`)); return null; }
+      return { tic, price: q.c, prev: q.pc, changePct: q.dp };
+    } catch(e) { lastErr = e; return null; }
+  }));
+  results.forEach(r => {
+    if (!r) return;
+    holdings.forEach(h => {
+      if (h.pfId === settings.activePf && h.ticker === r.tic) {
+        h.price = r.price;
+        if (r.prev != null) h.prev = r.prev;
+        if (r.changePct != null) h.dayChangePct = r.changePct;
+        n++;
+      }
+    });
+  });
+  // backfill names from cached symbol list
+  if (symbolList?.length) {
+    holdings.forEach(h => {
+      if (h.pfId === settings.activePf && (!h.name || h.name === h.ticker)) {
+        const found = symbolList.find(s => s.s === h.ticker);
+        if (found?.d) h.name = found.d;
+      }
+    });
+  }
+  if (n === 0) {
+    toast((lang==='ar'?"خطأ: ":"Error: ") + (lastErr?.message || t().refresh_failed));
+    if (btn) { btn.disabled = false; btn.innerHTML = `↻ ${t().refresh}`; }
+    return;
+  }
+  settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
+  save();
+  toast(t().refresh_ok(n));
+  render();
+}
+
+/* ════ settings / lang / onboard ════ */
+function toggleLang(){
+  lang = lang === "ar" ? "en" : "ar";
+  profile.lang = lang;
+  save();
+  render();
+}
+
+function openSettings(){
+  modal(`
+    <h2>${t().settings}</h2>
+    <div class="field"><label>${t().profileName}</label>
+      <input class="inp" id="set_name" value="${esc(profile.name)}"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="saveSettings()">${t().save}</button>
+    </div>
+    <button class="btn" style="width:100%;margin-top:10px" onclick="runDiagnostic()">${lang==='ar'?'🔧 تشخيص الاتصال':'🔧 Run diagnostic'}</button>
+    <button class="btn danger" style="width:100%;margin-top:10px" onclick="askReset()">${t().clearAll}</button>
+  `);
+}
+function saveSettings(){
+  const n = $("#set_name").value.trim();
+  if (n) profile.name = n;
+  save(); closeModal(); render();
+}
+function askReset(){
+  modal(`<h2>${t().confirmReset}</h2><p class="sub">${t().confirmResetSub}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="openSettings()">${t().cancel}</button>
+      <button class="btn danger" onclick="doReset()">${t().delete}</button>
+    </div>`);
+}
+async function doReset(){
+  profile = { name:"", lang };
+  settings = { lastRefresh:null, lastNewsRefresh:null, privacy:false, activePf:null, horizonFilter:"all" };
+  portfolios = []; holdings = []; news = [];
+  for (const k of ["v4:profile","v4:settings","v4:portfolios","v4:holdings","v4:news"]){
+    try { await window.storage.delete(k); } catch(e){}
+  }
+  await load();
+  closeModal(); render();
+}
+
+function renderOnboard(){
+  applyLang();
+  $("#app").innerHTML = `
+    <div class="onboard">
+      <div class="onboard-card">
+        <div class="logo">◎</div>
+        <h1>${t().welcome}</h1>
+        <p>${t().welcomeSub}</p>
+        <input class="inp" id="nameIn" placeholder="${t().enterName}">
+        <button class="btn primary" style="width:100%;margin-top:14px;padding:13px" onclick="saveName()">${t().start} →</button>
+        <button class="lang" style="margin-top:14px" onclick="toggleLang()">${lang==='ar'?'English':'العربية'}</button>
+      </div>
+    </div>`;
+  setTimeout(()=>{ const n=$("#nameIn"); if(n){ n.focus(); n.onkeydown=e=>{if(e.key==="Enter")saveName();}; } },60);
+}
+function saveName(){
+  const v = $("#nameIn").value.trim();
+  if (!v){ $("#nameIn").style.borderColor = "var(--loss)"; return; }
+  profile.name = v;
+  profile.lang = lang;
+  save();
+  render();
+}
+
+/* modal / toast */
+function modal(html){
+  closeModal();
+  const s = document.createElement("div"); s.className="scrim"; s.id="scrim";
+  s.innerHTML = `<div class="modal">${html}</div>`;
+  s.addEventListener("click", e => { if (e.target === s) closeModal(); });
+  document.body.appendChild(s);
+}
+function closeModal(){ const s=$("#scrim"); if(s) s.remove(); }
+function toast(msg){
+  $$(".toast").forEach(t => t.remove());
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.textContent = msg;
+  el.title = "Tap to dismiss";
+  el.style.cursor = "pointer";
+  el.onclick = () => el.remove();
+  document.body.appendChild(el);
+  setTimeout(()=>{ if (el.parentElement) { el.style.transition="opacity .3s"; el.style.opacity="0"; setTimeout(()=>el.remove(),300); } }, 7000);
+}
+
+window.addEventListener("resize", () => { if (booted && profile.name && activeTab === "portfolio") renderBubbles(); });
+
+/* boot */
+(async function(){
+  await load();
+  booted = true;
+  render();
+  ensureSymbols(); // background prefetch for instant autocomplete
+})();
+</script>
