@@ -211,6 +211,348 @@ body[dir="rtl"] .search-btn{right:auto;left:8px}
 .realized-box .lbl{color:var(--muted);font-weight:500}
 .realized-box .val{font-weight:700;font-variant-numeric:tabular-nums}
 
+/* ───── landing page (account list) ───── */
+.landing{min-height:100vh;display:flex;flex-direction:column;padding:20px 18px 40px;max-width:560px;margin:0 auto}
+.landing-head{text-align:center;padding:30px 0 24px;position:relative}
+.landing-head .logo{font-size:48px;color:var(--accent);font-weight:300;letter-spacing:-2px;line-height:1;margin-bottom:6px}
+.landing-head h1{margin:0 0 4px;font-size:23px;font-weight:700;letter-spacing:-.5px}
+.landing-head .sub{color:var(--muted);font-size:13px;margin:0}
+.landing-lang{position:absolute;top:30px;left:0}
+body[dir="rtl"] .landing-lang{left:auto;right:0}
+.accounts-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.acct-card{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.15s}
+.acct-card:hover{background:var(--surf2);border-color:var(--line2);transform:translateY(-1px)}
+.acct-card .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:17px;color:#000;flex-shrink:0}
+.acct-card .acn{flex:1;min-width:0}
+.acct-card .acn .name{font-weight:600;font-size:15px;letter-spacing:-.2px}
+.acct-card .acn .meta{color:var(--muted);font-size:11.5px;margin-top:2px;font-variant-numeric:tabular-nums}
+.acct-card .lock{color:var(--muted);font-size:14px;opacity:.7}
+.acct-card.locked .lock{color:var(--gold)}
+.acct-empty{text-align:center;padding:30px 14px;color:var(--muted);font-size:13.5px}
+.acct-new{display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:1.5px dashed var(--line2);color:var(--accent);padding:14px;border-radius:14px;font-weight:600;font-size:14px;cursor:pointer;transition:.15s}
+.acct-new:hover{border-color:var(--accent);background:rgba(95,233,176,.04)}
+
+/* ───── logout button in topbar ───── */
+.ico.logout{color:var(--loss)}
+.ico.logout:hover{background:var(--loss-bg);border-color:var(--loss-d)}
+
+/* ───── deposited stat (added to hero) ───── */
+.deposited-line{text-align:center;color:var(--muted);font-size:11.5px;margin-top:8px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.deposited-line .lbl{color:var(--muted2);font-weight:500}
+.deposited-line .v{color:var(--txt2);font-weight:600}
+.deposited-line .sep{color:#2a2a2a;margin:0 8px}
+
+/* ───── performance chart ───── */
+.perf-card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;margin-top:14px}
+.perf-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.perf-head .ttl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.perf-head .ch{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.perf-tabs{display:flex;gap:3px;background:#000;border:1px solid var(--line);border-radius:8px;padding:3px}
+.perf-tabs button{padding:4px 9px;border-radius:5px;font-size:10.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.perf-tabs button.on{background:var(--surf2);color:var(--txt)}
+#perf-svg{display:block;width:100%;height:120px}
+.perf-empty{padding:24px 0;text-align:center;color:var(--muted2);font-size:11.5px}
+
+/* ───── chart type switcher ───── */
+.chart-type-switch{display:flex;justify-content:center;gap:4px;background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:3px;margin-bottom:8px;max-width:160px;margin-inline:auto}
+.chart-type-switch button{padding:6px 14px;border-radius:7px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em;flex:1;transition:.15s;display:flex;align-items:center;justify-content:center;gap:5px}
+.chart-type-switch button.on{background:var(--surf2);color:var(--txt)}
+.chart-type-switch button .ic{font-size:13px;opacity:.8}
+
+/* ───── bar chart ───── */
+.bar-wrap{padding:8px 10px}
+.bar-row{display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer}
+.bar-row .lbl{width:56px;flex-shrink:0;font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.bar-row .bar-bg{flex:1;height:22px;background:#0E0E0E;border-radius:5px;position:relative;overflow:hidden}
+.bar-row .bar-fill{position:absolute;top:0;height:100%;border-radius:5px;transition:width .3s ease-out}
+body[dir="ltr"] .bar-row .bar-fill{left:0}
+body[dir="rtl"] .bar-row .bar-fill{right:0}
+.bar-row .bar-pct{position:absolute;top:50%;transform:translateY(-50%);font-size:10.5px;font-weight:700;color:#fff;padding:0 8px;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+body[dir="ltr"] .bar-row .bar-pct{left:0}
+body[dir="rtl"] .bar-row .bar-pct{right:0}
+.bar-row .rt{flex-shrink:0;text-align:right;min-width:90px}
+body[dir="rtl"] .bar-row .rt{text-align:left}
+.bar-row .rt .mv{font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
+.bar-row .rt .pl{font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ───── transactions list in detail ───── */
+.tx-head{margin:14px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.tx-list{background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:8px}
+.tx-row{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums}
+.tx-row:last-child{border-bottom:none}
+.tx-row .tpe{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.04em}
+.tx-row .tpe.buy{background:var(--accent-bg);color:var(--accent)}
+.tx-row .tpe.sell{background:var(--loss-bg);color:var(--loss)}
+.tx-row .dt{color:var(--muted);min-width:78px;font-size:11px}
+.tx-row .qp{flex:1;color:var(--txt2)}
+.tx-row .tot{font-weight:700;color:var(--txt)}
+.tx-row .del{color:var(--muted2);width:24px;height:24px;border-radius:5px;display:grid;place-items:center;font-size:11px;flex-shrink:0}
+.tx-row .del:hover{color:var(--loss);background:var(--loss-bg)}
+
+/* ───── options fields in modal ───── */
+.opt-type-seg{display:flex;background:#000;border:1px solid var(--line);border-radius:10px;padding:3px;gap:3px;margin-bottom:10px}
+
+/* expiry banner */
+.expiry-banner{padding:11px 14px;border-radius:11px;font-size:12.5px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;line-height:1.45}
+.expiry-banner.warn{background:#2A2410;color:#E8B96A;border:1px solid #5A4818}
+.expiry-banner.over{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+.expiry-banner .msg{flex:1;min-width:140px;font-weight:600}
+.expiry-banner .acts{display:flex;gap:5px;flex-wrap:wrap}
+.expiry-banner button{padding:5px 11px;border-radius:7px;font-size:11px;font-weight:700;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);transition:.15s}
+.expiry-banner button:hover{background:rgba(255,255,255,.16)}
+
+/* tx editable hint */
+.tx-row.editable{cursor:pointer;transition:.15s}
+.tx-row.editable:hover{background:#080808}
+.tx-hint{font-size:10.5px;color:var(--muted2);margin-top:-4px;margin-bottom:8px;text-align:center;font-weight:500;letter-spacing:.02em}
+
+/* cash line in hero */
+.cash-line{text-align:center;color:var(--muted);font-size:11.5px;margin-top:4px;font-variant-numeric:tabular-nums}
+.cash-line .ic{margin-inline-end:4px;opacity:.7}
+.cash-line .v{color:var(--blue);font-weight:600}
+
+/* weekly summary banner */
+.week-banner{background:linear-gradient(135deg,#0c1e1a,#0a1a2a);border:1px solid #1a3a3a;border-radius:14px;padding:13px 15px;margin-bottom:14px;display:flex;align-items:center;gap:11px;font-size:12.5px;position:relative}
+.week-banner .ic{font-size:20px;flex-shrink:0}
+.week-banner .body{flex:1;line-height:1.55}
+.week-banner .body .ttl{font-weight:700;color:var(--accent);margin-bottom:2px;font-size:12px;letter-spacing:.03em;text-transform:uppercase}
+.week-banner .body .txt{color:var(--txt2)}
+.week-banner .close{position:absolute;top:8px;right:10px;color:var(--muted2);font-size:13px;width:22px;height:22px;border-radius:5px;display:grid;place-items:center}
+body[dir="rtl"] .week-banner .close{right:auto;left:10px}
+.week-banner .close:hover{color:var(--txt)}
+
+/* watchlist */
+.watch-empty{text-align:center;padding:50px 22px;color:var(--muted)}
+.watch-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.watch-row{background:var(--bg);padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s}
+.watch-row:hover{background:var(--surf)}
+.watch-row .tic-bx{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:11.5px;flex-shrink:0;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33}
+.watch-row .info{flex:1;min-width:0}
+.watch-row .info .t{font-weight:700;font-size:14.5px}
+.watch-row .info .s{color:var(--muted);font-size:11.5px;margin-top:2px}
+.watch-row .rt{text-align:right;flex-shrink:0}
+body[dir="rtl"] .watch-row .rt{text-align:left}
+.watch-row .rt .pr{font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums}
+.watch-row .rt .ch{font-size:11.5px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.tgt-pill{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:4px;margin-inline-start:6px;letter-spacing:.04em}
+.tgt-pill.hit{background:var(--accent-bg);color:var(--accent)}
+.tgt-pill.stop{background:var(--loss-bg);color:var(--loss)}
+
+/* targets / stop / notes inputs in detail */
+.tgt-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tgt-cell{background:#000;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.tgt-cell .lbl{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.tgt-cell.target .lbl{color:var(--accent)}
+.tgt-cell.stop .lbl{color:var(--loss)}
+.tgt-cell input{background:transparent;border:none;color:var(--txt);font-size:14px;font-weight:700;width:100%;outline:none;font-variant-numeric:tabular-nums;padding:0}
+.tgt-cell input::placeholder{color:var(--muted2);font-weight:400}
+.notes-textarea{width:100%;background:#000;border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--txt);font-size:13px;font-family:inherit;resize:vertical;min-height:60px;outline:none;line-height:1.55;margin-bottom:12px}
+.notes-textarea:focus{border-color:var(--accent-d)}
+
+/* dividend row */
+.div-list{background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:8px}
+.div-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12px;font-variant-numeric:tabular-nums}
+.div-row:last-child{border-bottom:none}
+.div-row .ic{color:var(--gold);font-size:13px;flex-shrink:0}
+.div-row .dt{color:var(--muted);min-width:78px;font-size:11px}
+.div-row .nt{flex:1;color:var(--muted)}
+.div-row .am{font-weight:700;color:var(--accent)}
+.div-row .del{color:var(--muted2);width:24px;height:24px;border-radius:5px;display:grid;place-items:center;font-size:11px}
+.div-row .del:hover{color:var(--loss);background:var(--loss-bg)}
+.add-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:10px;background:transparent;border:1px dashed var(--line2);color:var(--muted);font-size:12.5px;font-weight:600;width:100%;cursor:pointer;transition:.15s}
+.add-btn:hover{border-color:var(--accent-d);color:var(--accent)}
+
+/* earnings card */
+.earn-card{background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-bottom:10px;font-size:12px}
+.earn-card .head{font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.earn-card .when{font-weight:700;font-size:13.5px;color:var(--gold)}
+.earn-card .est{color:var(--muted2);font-size:11px;margin-top:3px}
+
+/* insider rows */
+.ins-list{background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:8px;max-height:200px;overflow-y:auto}
+.ins-row{padding:8px 12px;border-bottom:1px solid var(--line);font-size:11.5px;display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.ins-row:last-child{border-bottom:none}
+.ins-row .nm{flex:1;font-weight:600;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--txt2)}
+.ins-row .act{font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:3px;letter-spacing:.04em}
+.ins-row .act.buy{background:var(--accent-bg);color:var(--accent)}
+.ins-row .act.sell{background:var(--loss-bg);color:var(--loss)}
+.ins-row .qty{font-size:11px;color:var(--muted);min-width:70px;text-align:right}
+.ins-row .dt{font-size:10.5px;color:var(--muted2);min-width:64px}
+
+/* collapsible section */
+.coll{margin-bottom:12px}
+.coll-head{display:flex;align-items:center;justify-content:space-between;padding:9px 0;cursor:pointer;user-select:none}
+.coll-head .ttl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.coll-head .ar{color:var(--muted2);font-size:11px;transition:transform .2s}
+.coll.open .coll-head .ar{transform:rotate(180deg)}
+.coll-body{display:none}
+.coll.open .coll-body{display:block}
+
+/* challenge bar */
+.ch-bar-card{background:linear-gradient(135deg,#16140a,#0f1810);border:1px solid #3a3015;border-radius:14px;padding:13px 15px;margin-bottom:14px;display:flex;align-items:center;gap:11px;font-size:12.5px;cursor:pointer;transition:.15s}
+.ch-bar-card:hover{background:linear-gradient(135deg,#1a1808,#13200f);border-color:#5a4815}
+.ch-bar-card .ic{font-size:22px;flex-shrink:0}
+.ch-bar-card .body{flex:1;min-width:0}
+.ch-bar-card .body .nm{font-weight:700;font-size:13px;color:var(--gold);margin-bottom:3px}
+.ch-bar-card .body .pg{height:6px;background:#1A1A1A;border-radius:3px;overflow:hidden;margin-bottom:4px}
+.ch-bar-card .body .pg-fill{height:100%;background:linear-gradient(90deg,#E8B96A,#5FE9B0);border-radius:3px;transition:width .3s}
+.ch-bar-card .body .meta{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ch-bar-card .body .meta b{color:var(--txt);font-weight:700}
+.ch-bar-card .ar{color:var(--muted);font-size:14px}
+
+/* challenge page */
+.ch-empty{text-align:center;padding:60px 22px;color:var(--muted)}
+.ch-empty .ic{font-size:54px;margin-bottom:10px;opacity:.5}
+.ch-card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px}
+.ch-card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px}
+.ch-card .top .nm{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.ch-card .top .dates{color:var(--muted);font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
+.ch-card .top .badge{padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.ch-card .top .badge.active{background:var(--accent-bg);color:var(--accent)}
+.ch-card .top .badge.done{background:#1F3A6E33;color:#5BA5FF}
+.ch-card .top .badge.failed{background:var(--loss-bg);color:var(--loss)}
+.ch-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.ch-stat{text-align:center;padding:9px 6px;background:#000;border-radius:9px;border:1px solid var(--line)}
+.ch-stat .lbl{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.ch-stat .v{font-size:14.5px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.ch-pg{height:7px;background:#0E0E0E;border-radius:4px;overflow:hidden;margin-bottom:9px}
+.ch-pg .fill{height:100%;border-radius:4px;transition:width .3s}
+.ch-pg .fill.gain{background:linear-gradient(90deg,#5FE9B0,#34D399)}
+.ch-pg .fill.loss{background:linear-gradient(90deg,#F26B6E,#EF4444)}
+.ch-trades{margin-top:10px}
+.ch-trade{display:flex;align-items:center;gap:9px;padding:8px 10px;background:#000;border:1px solid var(--line);border-radius:9px;margin-bottom:5px;font-size:11.5px;font-variant-numeric:tabular-nums}
+.ch-trade .nm{flex:1;font-weight:700}
+.ch-trade .nm .tic{color:var(--accent)}
+.ch-trade .am{color:var(--muted);font-size:10.5px}
+.ch-trade .ret{font-weight:700}
+.ch-trade .open{font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--gold);color:#000}
+
+/* achievements grid */
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ach{background:#000;border:1px solid var(--line);border-radius:11px;padding:13px 6px;text-align:center;opacity:.35;transition:.2s;position:relative}
+.ach.earned{opacity:1;background:linear-gradient(135deg,#0e1f17,#0a1a15);border-color:#1e5c44}
+.ach .ic{font-size:28px;line-height:1;margin-bottom:6px}
+.ach .nm{font-size:10.5px;font-weight:700;color:var(--txt);letter-spacing:-.1px;line-height:1.3;min-height:26px;display:flex;align-items:center;justify-content:center;padding:0 2px}
+.ach .ds{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.4}
+
+/* achievement popup */
+.ach-pop{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-10px);background:linear-gradient(135deg,#0e3a28,#0a2018);border:1px solid #34D399;border-radius:14px;padding:14px 18px 14px 14px;z-index:90;display:flex;align-items:center;gap:12px;box-shadow:0 14px 40px rgba(0,0,0,.7);max-width:90vw;animation:ach-in .3s ease-out forwards}
+@keyframes ach-in{to{transform:translateX(-50%) translateY(0);opacity:1}}
+.ach-pop .ic{font-size:34px;line-height:1;flex-shrink:0}
+.ach-pop .nm{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.ach-pop .ds{font-size:13.5px;font-weight:700;color:var(--txt);margin-top:2px}
+
+/* settings sections */
+.set-section{margin-bottom:14px}
+.set-section h4{margin:6px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.set-section .info{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55}
+
+/* ── splash (minimal entry page) ── */
+.splash{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,#0A0A0A,#000);
+  padding:30px 20px;
+}
+.splash::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%,rgba(232,185,106,.12),transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 80%,rgba(95,233,176,.06),transparent 70%);
+  pointer-events:none;
+}
+.splash::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;opacity:.6;
+}
+.splash-inner{position:relative;z-index:1;text-align:center;max-width:380px;width:100%}
+.splash-lang{
+  position:absolute;top:-160px;inset-inline-end:0;
+  background:transparent;border:1px solid #222;color:#D4D4D4;
+  padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;
+  letter-spacing:.05em;cursor:pointer;font-family:inherit;transition:.15s;
+}
+.splash-lang:hover{border-color:#444;background:#101010}
+.splash-gem{
+  width:78px;height:78px;border-radius:20px;
+  background:linear-gradient(135deg,#E8B96A,#9B7F3F);
+  display:grid;place-items:center;
+  color:#000;font-weight:900;font-size:38px;
+  margin:0 auto 26px;
+  box-shadow:0 18px 60px rgba(232,185,106,.4),inset 0 1px 0 rgba(255,255,255,.3);
+}
+.splash-title{
+  font-size:44px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:14px;
+  background:linear-gradient(180deg,#fff 30%,#888);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.splash-tag{
+  color:#787878;font-size:15px;margin-bottom:42px;line-height:1.55;letter-spacing:-.1px;
+}
+.splash-cta{
+  background:#FAFAFA;color:#000;
+  padding:15px 36px;border-radius:12px;
+  font-size:16px;font-weight:800;border:none;cursor:pointer;
+  font-family:inherit;display:inline-flex;align-items:center;gap:10px;
+  box-shadow:0 10px 32px rgba(250,250,250,.16);transition:.2s;
+}
+.splash-cta:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(250,250,250,.28)}
+.splash-cta .arr{font-size:14px;transition:transform .2s;display:inline-block}
+body[dir="rtl"] .splash-cta .arr{transform:scaleX(-1)}
+.splash-cta:hover .arr{transform:translateX(3px)}
+body[dir="rtl"] .splash-cta:hover .arr{transform:scaleX(-1) translateX(3px)}
+.splash-mail{
+  display:block;margin-top:36px;color:#555;
+  font-size:11.5px;text-decoration:none;letter-spacing:.04em;transition:.15s;
+}
+.splash-mail:hover{color:#999}
+
+/* ── admin mode ── */
+.admin-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#1F1A0E;border:1px solid #5A4818;color:#E8B96A;
+  padding:9px 13px;border-radius:10px;font-size:12.5px;font-weight:700;margin-bottom:14px;
+}
+.admin-off{
+  background:transparent;border:1px solid #5A4818;color:#E8B96A;
+  padding:4px 11px;border-radius:6px;font-size:11px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+}
+.admin-off:hover{background:#2A2410}
+.acct-del{
+  background:#2A0E10;border:1px solid #5C1F22;color:#F26B6E;
+  width:32px;height:32px;border-radius:8px;
+  font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;
+  transition:.15s;font-family:inherit;display:grid;place-items:center;
+}
+.acct-del:hover{background:#3A1518;transform:scale(1.05)}
+.admin-link{
+  display:block;margin:34px auto 0;
+  background:transparent;border:none;color:#333;
+  font-size:10px;font-family:inherit;cursor:pointer;
+  letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;transition:.15s;
+}
+.admin-link:hover{color:#666}
+
+/* news */
+.opt-type-seg button{flex:1;padding:9px 4px;border-radius:7px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em;transition:.15s}
+.opt-type-seg button.on{background:var(--surf2);color:var(--txt)}
+.opt-type-seg button.on.call{color:var(--accent)}
+.opt-type-seg button.on.put{color:var(--loss)}
+
+/* ───── greeks display ───── */
+.greeks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.greek-cell{background:#000;border:1px solid var(--line);border-radius:9px;padding:8px 6px;text-align:center}
+.greek-cell .lbl{font-size:9.5px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.greek-cell .v{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px;letter-spacing:-.3px}
+.greek-cell .v.up{color:var(--accent)} .greek-cell .v.down{color:var(--loss)}
+
+/* news translation */
+.news-sum{color:var(--muted);font-size:12px;line-height:1.55;margin-top:7px;font-weight:400}
+
 /* news */
 .news-item{background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:14px 15px;margin-bottom:10px;cursor:pointer;transition:.15s}
 .news-item:hover{background:#101010;border-color:var(--line2)}
@@ -398,6 +740,12 @@ let settings = { lastRefresh: null, lastNewsRefresh: null, privacy: false, activ
 let portfolios = [];
 let holdings = [];
 let news = [];
+let history = [];
+let watchlist = [];
+let challenges = [];
+let dismissedWeeklySummary = '';
+let splashShown = false;
+let isAdmin = false;
 let activeTab = "portfolio";
 let booted = false;
 let chartCache = {}; // ticker -> {data, fetched}
@@ -426,16 +774,29 @@ async function load(){
   portfolios = await get("v4:portfolios", []);
   holdings   = await get("v4:holdings", []);
   news       = await get("v4:news", []);
+  history    = await get("v4:history", []);
+  watchlist  = await get("v4:watchlist", []);
+  challenges = await get("v4:challenges", []);
+  splashShown = await get("v4:splashShown", false);
+  if (!settings.achievements) settings.achievements = [];
+  if (settings.cash == null) settings.cash = 0;
+  if (!settings.cashHistory) settings.cashHistory = [];
   lang = profile.lang || "ar";
-  if (!portfolios.length){
-    portfolios = [{ id: uid(), name: lang==='ar'?"المحفظة الرئيسية":"Main Portfolio", color: PF_COLORS[0] }];
-    settings.activePf = portfolios[0].id;
-  }
-  if (!settings.activePf || !portfolios.find(p=>p.id===settings.activePf)){
-    settings.activePf = portfolios[0].id;
-  }
-  // ensure holdings have pfId
-  holdings.forEach(h => { if (!h.pfId) h.pfId = portfolios[0].id; });
+  // schema upgrades — passHash on portfolios, transactions on holdings, type field
+  portfolios.forEach(p => { if (!('passHash' in p)) p.passHash = null; });
+  holdings.forEach(h => {
+    if (!h.pfId && portfolios[0]) h.pfId = portfolios[0].id;
+    if (!h.type) h.type = 'stock';
+    if (!Array.isArray(h.transactions)) h.transactions = [];
+    // if old data with shares/avg but no transactions, synthesize initial buy
+    if (h.transactions.length === 0 && h.shares > 0 && h.avg != null) {
+      h.transactions.push({ id: uid(), type:'buy', qty: h.shares, price: h.avg, date: h.purchaseDate || today(), ts: new Date(h.purchaseDate || today()).getTime() });
+    }
+  });
+  // settings defaults
+  if (settings.chartType == null) settings.chartType = 'bubble';
+  if (settings.curveRange == null) settings.curveRange = '30';
+  if (settings.unlocked == null) settings.unlocked = false;
   applyLang();
 }
 async function save(){
@@ -445,9 +806,33 @@ async function save(){
     await window.storage.set("v4:portfolios", JSON.stringify(portfolios));
     await window.storage.set("v4:holdings", JSON.stringify(holdings));
     await window.storage.set("v4:news", JSON.stringify(news));
+    await window.storage.set("v4:history", JSON.stringify(history));
+    await window.storage.set("v4:watchlist", JSON.stringify(watchlist));
+    await window.storage.set("v4:challenges", JSON.stringify(challenges));
   } catch(e){}
 }
 function applyLang(){ document.body.setAttribute("dir", t().dir); }
+
+/* SHA-256 hash for passwords (browser native crypto) */
+async function hashPin(pin){
+  if (!pin) return null;
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pin));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+/* snapshot today's portfolio value to history */
+function snapshotHistory(){
+  if (!settings.activePf) return;
+  const t = totals();
+  if (!t.mv) return;
+  const d = today();
+  const key = settings.activePf + ':' + d;
+  const i = history.findIndex(x => x.key === key);
+  const entry = { key, pfId: settings.activePf, date: d, value: t.mv, deposited: t.deposited, realized: t.realized };
+  if (i >= 0) history[i] = entry;
+  else history.push(entry);
+  history = history.slice(-1000);
+}
 
 /* ════ filters ════ */
 function activeHoldings(){
@@ -465,29 +850,63 @@ function horizonCount(hz){
 }
 
 /* ════ compute ════ */
+/* compute holding stats from transactions */
 function statsFor(h){
-  const price = h.price != null ? h.price : h.avg;
-  const mv = h.shares * price;
-  const cost = h.shares * h.avg;
-  const pl = mv - cost;
-  const plPct = cost > 0 ? pl/cost*100 : 0;
-  const todayD = h.prev != null ? h.shares*(price - h.prev) : null;
+  const mul = (h.type && h.type !== 'stock') ? 100 : 1;
+  const txs = (h.transactions || []).slice().sort((a,b) => (a.ts||0) - (b.ts||0));
+  let shares = 0, totalCost = 0, realized = 0;
+  for (const tx of txs) {
+    const qty = Number(tx.qty) || 0;
+    const px = Number(tx.price) || 0;
+    if (tx.type === 'buy') {
+      shares += qty;
+      totalCost += qty * px;
+    } else {
+      const avgAtTime = shares > 0 ? totalCost / shares : px;
+      realized += qty * (px - avgAtTime);
+      totalCost -= qty * avgAtTime;
+      shares -= qty;
+    }
+  }
+  // also include any legacy quickShares/quickAvg if no transactions
+  if (txs.length === 0 && h.shares != null) {
+    shares = h.shares;
+    totalCost = h.shares * (h.avg || 0);
+  }
+  const avg = shares > 0 ? totalCost / shares : 0;
+  const price = h.price != null ? h.price : avg;
+  const mv = shares * price * mul;
+  const cost = shares * avg * mul;
+  const unrealized = mv - cost;
+  const plPct = cost > 0 ? unrealized/cost*100 : 0;
+  const todayD = (h.prev != null) ? shares*(price - h.prev)*mul : null;
   const todayPct = h.dayChangePct != null ? h.dayChangePct : (h.prev ? (price-h.prev)/h.prev*100 : null);
-  return { price, mv, cost, pl, plPct, today: todayD, todayPct };
+  // total deposited for this holding = sum of buys
+  let deposited = 0;
+  for (const tx of txs) {
+    if (tx.type === 'buy') deposited += (Number(tx.qty)||0) * (Number(tx.price)||0) * mul;
+  }
+  return { shares, avg, price, mv, cost, pl: unrealized, plPct, today: todayD, todayPct, realized: realized*mul, deposited, mul };
 }
+
 function totals(){
-  let mv = 0, cost = 0, today = 0, hasToday = false;
+  let mv = 0, cost = 0, today = 0, hasToday = false, deposited = 0, realized = 0;
   activeHoldings().forEach(h => {
     const s = statsFor(h);
     mv += s.mv; cost += s.cost;
+    deposited += s.deposited;
+    realized += s.realized;
     if (s.today != null) { today += s.today; hasToday = true; }
   });
   const pl = mv - cost;
+  const totalReturn = (mv + realized) - deposited;
+  const totalReturnPct = deposited > 0 ? totalReturn/deposited*100 : 0;
   return {
-    mv, cost, pl,
+    mv, cost, pl, deposited, realized,
     plPct: cost > 0 ? pl/cost*100 : 0,
     today: hasToday ? today : null,
     todayPct: hasToday && (mv-today) > 0 ? today/(mv-today)*100 : null,
+    totalReturn, totalReturnPct,
   };
 }
 
@@ -517,21 +936,28 @@ function zakatFor(h){
 /* ════ render ════ */
 function render(){
   if (!booted) return;
-  if (!profile.name) { renderOnboard(); return; }
+  if (!splashShown) { renderSplash(); return; }
+  // No portfolios at all → show landing in create-first mode
+  if (!portfolios.length || !settings.activePf || !settings.unlocked) {
+    renderLanding();
+    return;
+  }
   applyLang();
+  snapshotHistory();
   const pf = portfolios.find(p => p.id === settings.activePf);
+  if (!pf) { settings.activePf = null; settings.unlocked = false; renderLanding(); return; }
   const tt = totals();
   const dateStr = new Date().toLocaleDateString(lang==='ar'?'ar-SA-u-ca-gregory':'en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
   $("#app").innerHTML = `
     <div class="top">
-      <button class="pf-pill" onclick="openPfSwitch()">
+      <button class="pf-pill" onclick="logout()">
         <span class="dot"></span>
         <span class="nm">${esc(pf.name)}</span>
         <span class="ar">▾</span>
       </button>
       <div class="top-actions">
         <button class="ico ${settings.privacy?'on':''}" onclick="togglePrivacy()" title="${t().privacy_on}">${settings.privacy?'⊘':'👁'}</button>
-        <button class="lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
+        <button class="ico" onclick="openChallengePage()" title="${lang==='ar'?'التحدّيات':'Challenges'}" style="${activeChallenge()?'color:#E8B96A;border-color:#5A4818':''}">🏆</button>
         <button class="ico" onclick="openSettings()" title="${t().settings}">⚙</button>
       </div>
     </div>
@@ -555,6 +981,14 @@ function render(){
       ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+'$'+fmt0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
     </div>
     <div class="hero-sar">${maskMoney(fmt0(tt.mv*3.75)+' SAR')}</div>
+    ${tt.deposited > 0 ? `<div class="deposited-line">
+      <span class="lbl">${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span>
+      <span class="v">${maskMoney('$'+fmt0(tt.deposited))}</span>
+      <span class="sep">·</span>
+      <span class="lbl">${lang==='ar'?'العائد الكلي':'Total return'}</span>
+      <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+'$'+fmt0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
+    </div>` : ''}
+    ${settings.cash > 0 ? `<div class="cash-line"><span class="ic">💵</span><span class="lbl">${lang==='ar'?'كاش':'Cash'}</span> <span class="v">${maskMoney('$'+fmt0(settings.cash))}</span></div>` : ''}
 
     <div class="hero-live">
       <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
@@ -563,6 +997,7 @@ function render(){
 
     <div class="tabs">
       <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')">${t().portfolio}</button>
+      <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')">⭐ ${lang==='ar'?'متابعة':'Watch'}</button>
       <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')">${t().news}</button>
       <button class="tab ${activeTab==='zakat'?'on':''}" onclick="setTab('zakat')">${t().zakat}</button>
     </div>
@@ -578,6 +1013,7 @@ function togglePrivacy(){ settings.privacy = !settings.privacy; save(); render()
 
 function renderTab(){
   const c = $("#tab-content"); if (!c) return;
+  if (activeTab === "watch") { renderWatchlist(); refreshWatchlistPrices(); return; }
   if (activeTab === "portfolio") {
     const all = allHoldingsInPf();
     if (!all.length){
@@ -601,15 +1037,55 @@ function renderTab(){
       </div>
     `;
     const hs = activeHoldings();
+    const hasHistory = history.filter(h => h.pfId === settings.activePf).length >= 2;
+    const ws = weeklySummary();
+    const wsKey = (new Date()).toISOString().slice(0,7); // monthly dismissal scope
+    const showWs = ws && dismissedWeeklySummary !== wsKey;
+    const ch = activeChallenge();
+    let chBar = '';
+    if (ch){
+      const curRet = ch.currentBalance - ch.startCapital;
+      const curPct = ch.startCapital > 0 ? curRet/ch.startCapital*100 : 0;
+      const prog = Math.min(100, ch.targetPct > 0 ? curPct/ch.targetPct*100 : 0);
+      const daysLeft = Math.ceil((new Date(ch.endDate) - new Date()) / 86400000);
+      chBar = `<div class="ch-bar-card" onclick="openChallengePage()">
+        <div class="ic">🏆</div>
+        <div class="body">
+          <div class="nm">${esc(ch.name)}</div>
+          <div class="pg"><div class="pg-fill" style="width:${Math.max(0,prog)}%"></div></div>
+          <div class="meta"><b class="${curRet>=0?'up':'down'}">${curRet>=0?'+':''}${fmt(curPct,1)}%</b> / ${fmt(ch.targetPct,0)}% · ${daysLeft>=0?`${daysLeft} ${lang==='ar'?'يوم متبقي':'days left'}`:`${lang==='ar'?'انتهى':'ended'}`}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>`;
+    }
+    const wsBanner = showWs ? `<div class="week-banner">
+      <div class="ic">📊</div>
+      <div class="body">
+        <div class="ttl">${lang==='ar'?'هذا الأسبوع':'This week'}</div>
+        <div class="txt">${ws.pct>=0?'+':''}${fmt(ws.pct,2)}% · ${ws.change>=0?'+':''}$${fmt0(Math.abs(ws.change))}${ws.best?` · ${lang==='ar'?'أفضل':'Best'} <b style="color:var(--accent)">${esc(ws.best)}</b>`:''}${ws.worst&&ws.worst!==ws.best?` · ${lang==='ar'?'أسوأ':'Worst'} <b style="color:var(--loss)">${esc(ws.worst)}</b>`:''}</div>
+      </div>
+      <button class="close" onclick="dismissedWeeklySummary='${wsKey}';renderTab()">✕</button>
+    </div>` : '';
     c.innerHTML = `
+      ${chBar}
+      ${wsBanner}
       ${horizonStrip}
       ${hs.length ? `
-        <div class="bub-wrap" id="bub-wrap"></div>
+        <div class="chart-type-switch">
+          <button class="${settings.chartType==='bubble'?'on':''}" onclick="setChartType('bubble')"><span class="ic">◉</span> ${lang==='ar'?'فقاعات':'Bubbles'}</button>
+          <button class="${settings.chartType==='bar'?'on':''}" onclick="setChartType('bar')"><span class="ic">▤</span> ${lang==='ar'?'أعمدة':'Bars'}</button>
+        </div>
+        <div id="viz-wrap"></div>
         <div class="list">${hs.map(rowHtml).join("")}</div>
+        ${hasHistory ? `<div class="perf-card" id="perf-card"></div>` : ''}
       ` : `<div class="empty"><div class="ic">⊘</div><h3>${t().no_match}</h3><p>—</p></div>`}
       <button class="fab" onclick="openAdd()"><span class="plus">＋</span> ${t().addStock}</button>
     `;
-    if (hs.length) renderBubbles();
+    if (hs.length) {
+      if (settings.chartType === 'bar') renderBars();
+      else renderBubbles();
+      if (hasHistory) renderPerformance();
+    }
   }
   else if (activeTab === "news") renderNews();
   else if (activeTab === "zakat") renderZakat();
@@ -622,11 +1098,14 @@ function rowHtml(h){
   const col = s.pl>=0 ? "var(--accent)" : "var(--loss)";
   const bg = s.pl>=0 ? "var(--accent-bg)" : "var(--loss-bg)";
   const hzTag = h.horizon ? `<span class="h-tag ${h.horizon}">${h.horizon.toUpperCase()}</span>` : '';
+  const optTag = (h.type === 'call') ? `<span class="h-tag" style="background:#1F2E25;color:#5FE9B0;border-color:#1E5C44">CALL</span>`
+               : (h.type === 'put')  ? `<span class="h-tag" style="background:#2A0E10;color:#F26B6E;border-color:#5C1F22">PUT</span>` : '';
+  const qtyLabel = h.type === 'stock' ? '' : ` ${lang==='ar'?'عقد':'×100'}`;
   return `<div class="row" onclick="openDetail('${h.id}')">
     <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
     <div class="info">
-      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${hzTag}</div>
-      <div class="s mono">${fmt(h.shares,h.shares%1?4:0)} × $${fmt(h.avg)} · ${share.toFixed(1)}%</div>
+      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${optTag}${hzTag}</div>
+      <div class="s mono">${fmt(s.shares,s.shares%1?4:0)}${qtyLabel} × $${fmt(s.avg)} · ${share.toFixed(1)}%</div>
     </div>
     <div class="rt">
       <div class="mv mono">${maskMoney('$'+fmt0(s.mv))}</div>
@@ -636,8 +1115,11 @@ function rowHtml(h){
 }
 
 /* ════ bubbles ════ */
+function setChartType(type){ settings.chartType = type; save(); renderTab(); }
+
 function renderBubbles(){
-  const wrap = $("#bub-wrap"); if (!wrap) return;
+  const wrap = $("#viz-wrap"); if (!wrap) return;
+  wrap.className = 'bub-wrap';
   const W = wrap.clientWidth || 640;
   const H = Math.min(Math.max(W * 0.95, 360), 520);
   const hs = activeHoldings();
@@ -711,27 +1193,150 @@ function mkText(parent, ns, text, attrs){
   parent.appendChild(e);
 }
 
+/* ════ bar chart ════ */
+function renderBars(){
+  const wrap = $("#viz-wrap"); if (!wrap) return;
+  wrap.className = '';
+  const hs = activeHoldings();
+  const data = hs.map(h => { const s = statsFor(h); return { h, s }; }).filter(d => d.s.mv > 0);
+  if (!data.length) { wrap.innerHTML = ''; return; }
+  data.sort((a,b) => b.s.mv - a.s.mv);
+  const tt = totals();
+  const maxMV = Math.max(...data.map(d => d.s.mv));
+  const palettes = [
+    "#5FE9B0","#5BA5FF","#E8B96A","#A78BFA","#5FE9E9","#FB7185","#A3E635","#FB923C","#818CF8","#D946EF","#34D399","#F26B6E"
+  ];
+  const colorOf = (tic) => {
+    let sum = 0; for (let i=0;i<tic.length;i++) sum += tic.charCodeAt(i)*(i+1);
+    return palettes[Math.abs(sum) % palettes.length];
+  };
+  wrap.innerHTML = `<div class="bar-wrap">${data.map(({h, s}) => {
+    const pct = (s.mv / maxMV) * 100;
+    const sharePct = (s.mv / tt.mv) * 100;
+    const col = colorOf(h.ticker);
+    return `<div class="bar-row" onclick="openDetail('${h.id}')">
+      <span class="lbl">${esc(h.ticker.slice(0,5))}</span>
+      <div class="bar-bg">
+        <div class="bar-fill" style="width:${pct}%;background:linear-gradient(90deg,${col}aa,${col})"></div>
+        <span class="bar-pct">${sharePct.toFixed(1)}%</span>
+      </div>
+      <div class="rt">
+        <div class="mv">${maskMoney('$'+fmt0(s.mv))}</div>
+        <div class="pl ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+fmt(s.plPct,1)+'%')}</div>
+      </div>
+    </div>`;
+  }).join("")}</div>`;
+}
+
+/* ════ performance line chart over time ════ */
+function renderPerformance(){
+  const card = $("#perf-card"); if (!card) return;
+  const days = parseInt(settings.curveRange || '30');
+  const data = history.filter(h => h.pfId === settings.activePf).slice(-days);
+  if (data.length < 2) { card.style.display = 'none'; return; }
+  const vals = data.map(d => d.value);
+  const min = Math.min(...vals), max = Math.max(...vals), range = max-min || 1;
+  const W = 700, H = 120, PAD = 8;
+  const pts = vals.map((v,i) => `${PAD + (i/(vals.length-1))*(W-2*PAD)},${PAD + (1-(v-min)/range)*(H-2*PAD)}`).join(" ");
+  const first = vals[0], last = vals[vals.length-1];
+  const chg = last - first, chgPct = first > 0 ? chg/first*100 : 0;
+  const up = chg >= 0;
+  const col = up ? '#5FE9B0' : '#F26B6E';
+  card.innerHTML = `
+    <div class="perf-head">
+      <div>
+        <div class="ttl">${lang==='ar'?'أداء المحفظة':'Performance'}</div>
+        <div class="ch ${up?'up':'down'}">${chg>=0?'+':''}${maskMoney('$'+fmt0(Math.abs(chg)))} · ${chgPct>=0?'+':''}${fmt(chgPct,2)}%</div>
+      </div>
+      <div class="perf-tabs">
+        ${['7','30','90','365'].map(d => `<button class="${settings.curveRange===d?'on':''}" onclick="setCurveRange('${d}')">${d==='365'?(lang==='ar'?'سنة':'1Y'):d+(lang==='ar'?'ي':'D')}</button>`).join('')}
+      </div>
+    </div>
+    <svg id="perf-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="${col}" stop-opacity="0.25"/>
+        <stop offset="1" stop-color="${col}" stop-opacity="0"/>
+      </linearGradient></defs>
+      <polygon points="${PAD},${H-PAD} ${pts} ${W-PAD},${H-PAD}" fill="url(#pg)"/>
+      <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.8"/>
+    </svg>
+  `;
+}
+function setCurveRange(d){ settings.curveRange = d; save(); renderPerformance(); }
+
+/* ════ Black-Scholes (Greeks for options) ════ */
+function bsNormCDF(x){
+  const t = 1/(1 + 0.2316419*Math.abs(x));
+  const d = 0.3989423*Math.exp(-x*x/2);
+  let p = d*t*(0.3193815 + t*(-0.3565638 + t*(1.781478 + t*(-1.821256 + t*1.330274))));
+  return x > 0 ? 1-p : p;
+}
+function bsNormPDF(x){ return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI); }
+function computeGreeks(h, spotPrice){
+  if (!h.strike || !h.expiry || !h.iv) return null;
+  const S = Number(spotPrice);
+  const K = Number(h.strike);
+  const sigma = Number(h.iv)/100;
+  const r = 0.045; // assume risk-free rate ~4.5%
+  const expDate = new Date(h.expiry);
+  const T = (expDate - new Date()) / (365 * 86400000);
+  if (T <= 0 || !S || !K || !sigma) return null;
+  const sqrtT = Math.sqrt(T);
+  const d1 = (Math.log(S/K) + (r + sigma*sigma/2)*T) / (sigma*sqrtT);
+  const d2 = d1 - sigma*sqrtT;
+  const Nd1 = bsNormCDF(d1), Nd2 = bsNormCDF(d2);
+  const phi = bsNormPDF(d1);
+  const isCall = h.type === 'call';
+  const theoPrice = isCall
+    ? S*Nd1 - K*Math.exp(-r*T)*Nd2
+    : K*Math.exp(-r*T)*bsNormCDF(-d2) - S*bsNormCDF(-d1);
+  const delta = isCall ? Nd1 : Nd1 - 1;
+  const gamma = phi / (S*sigma*sqrtT);
+  const thetaPerYear = isCall
+    ? -S*phi*sigma/(2*sqrtT) - r*K*Math.exp(-r*T)*Nd2
+    : -S*phi*sigma/(2*sqrtT) + r*K*Math.exp(-r*T)*bsNormCDF(-d2);
+  const theta = thetaPerYear / 365;
+  const vega = S*phi*sqrtT / 100;
+  return { theoPrice, delta, gamma, theta, vega, daysToExpiry: Math.ceil(T*365) };
+}
+
 /* ════ add / edit ════ */
 let editTags = []; // current edit's tags
 let editHorizon = null;
+let editType = 'stock'; // 'stock' | 'call' | 'put'
 
-function openAdd(){ editTags = []; editHorizon = null; openEdit(); }
+function openAdd(){ editTags = []; editHorizon = null; editType = 'stock'; openEdit(); }
 
 function openEdit(id){
   const h = id ? holdings.find(x => x.id === id) : null;
   if (h){
     editTags = [...(h.tags||[])];
     editHorizon = h.horizon || null;
+    editType = h.type || 'stock';
   } else {
-    editTags = []; editHorizon = null;
+    editTags = []; editHorizon = null; editType = 'stock';
   }
   modal(renderEditModal(h));
   setTimeout(()=>$("#f_tic")?.focus(), 60);
 }
 
 function renderEditModal(h){
+  const isOpt = editType !== 'stock';
+  const s = h ? statsFor(h) : null;
+  // For edit: show stats summary instead of shares/avg input
+  // For new: allow initial entry
+  const qtyLabel = isOpt ? (lang==='ar'?'عدد العقود':'Contracts') : t().shares;
+  const priceLabel = isOpt ? (lang==='ar'?'سعر العقد (Premium)':'Premium / share') : t().avgCost;
   return `
     <h2>${h ? t().editStock : t().addStock}</h2>
+
+    <h4>${lang==='ar'?'النوع':'Type'}</h4>
+    <div class="opt-type-seg" id="seg-type">
+      <button class="${editType==='stock'?'on':''}" onclick="setEditType('stock')">${lang==='ar'?'سهم':'Stock'}</button>
+      <button class="${editType==='call'?'on call':''}" onclick="setEditType('call')">${lang==='ar'?'Call (شراء)':'Call'}</button>
+      <button class="${editType==='put'?'on put':''}" onclick="setEditType('put')">${lang==='ar'?'Put (بيع)':'Put'}</button>
+    </div>
+
     <div class="field"><label>${t().ticker}</label>
       <div class="search-wrap">
         <input class="inp" id="f_tic" placeholder="AAPL / Apple" value="${h?esc(h.ticker):''}" oninput="liveSearch()" autocomplete="off">
@@ -739,18 +1344,35 @@ function renderEditModal(h){
       </div>
       <div id="sg-box"></div>
     </div>
-    <div class="grid2">
-      <div class="field"><label>${t().shares}</label>
-        <input class="inp" id="f_sh" type="number" step="any" inputmode="decimal" placeholder="10" value="${h?h.shares:''}"></div>
-      <div class="field"><label>${t().avgCost} <small style="color:#444">$</small></label>
-        <input class="inp" id="f_avg" type="number" step="any" inputmode="decimal" placeholder="150" value="${h?h.avg:''}"></div>
+
+    ${!h ? `<div class="grid2">
+      <div class="field"><label>${qtyLabel}</label>
+        <input class="inp" id="f_sh" type="number" step="any" inputmode="decimal" placeholder="${isOpt?'1':'10'}"></div>
+      <div class="field"><label>${priceLabel} <small style="color:#444">$</small></label>
+        <input class="inp" id="f_avg" type="number" step="any" inputmode="decimal" placeholder="${isOpt?'2.50':'150'}"></div>
     </div>
-    <div class="grid2">
-      <div class="field"><label>${t().currentPrice} <small style="color:#444">$ · ${t().optional}</small></label>
-        <input class="inp" id="f_pr" type="number" step="any" inputmode="decimal" placeholder="—" value="${h&&h.price!=null?h.price:''}"></div>
-      <div class="field"><label>${t().purchaseDate}</label>
-        <input class="inp" id="f_dt" type="date" value="${h?(h.purchaseDate||today()):today()}"></div>
-    </div>
+    <div class="field"><label>${t().purchaseDate}</label>
+      <input class="inp" id="f_dt" type="date" value="${today()}"></div>` : `
+    <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--muted)">
+      ${lang==='ar'?'استخدم زر <b style="color:var(--accent)">+ شراء</b> أو <b style="color:var(--loss)">− بيع</b> في تفاصيل السهم لتعديل المراكز':'Use <b style="color:var(--accent)">+ Buy</b> / <b style="color:var(--loss)">− Sell</b> buttons in stock detail to manage positions'}
+    </div>`}
+
+    <div class="field"><label>${t().currentPrice} <small style="color:#444">$ · ${t().optional}</small></label>
+      <input class="inp" id="f_pr" type="number" step="any" inputmode="decimal" placeholder="—" value="${h&&h.price!=null?h.price:''}"></div>
+
+    ${isOpt ? `
+      <h4>${lang==='ar'?'تفاصيل العقد':'Contract Details'}</h4>
+      <div class="grid2">
+        <div class="field"><label>${lang==='ar'?'سعر التنفيذ (Strike)':'Strike'} <small style="color:#444">$</small></label>
+          <input class="inp" id="f_strike" type="number" step="any" inputmode="decimal" placeholder="200" value="${h?.strike||''}"></div>
+        <div class="field"><label>${lang==='ar'?'تاريخ الانتهاء':'Expiry'}</label>
+          <input class="inp" id="f_exp" type="date" value="${h?.expiry||''}"></div>
+      </div>
+      <div class="field"><label>${lang==='ar'?'التقلّب الضمني IV (sigma %)':'Implied Volatility (%)'} <small style="color:#444">${t().optional}</small></label>
+        <input class="inp" id="f_iv" type="number" step="any" inputmode="decimal" placeholder="35" value="${h?.iv||''}">
+        <div style="color:var(--muted2);font-size:10.5px;margin-top:4px">${lang==='ar'?'مع IV نحسب لك Delta و Theta و Gamma و Vega':'With IV we compute Delta, Theta, Gamma, Vega'}</div>
+      </div>
+    ` : ''}
 
     <h4>${t().horizonLabel}</h4>
     <div class="seg" id="seg-hz">
@@ -771,6 +1393,34 @@ function renderEditModal(h){
       <button class="btn primary" onclick="saveHold('${h?h.id:''}')">${t().save}</button>
     </div>
   `;
+}
+
+function setEditType(type){
+  editType = type;
+  // re-render modal preserving current values
+  const cur = {
+    tic: $("#f_tic")?.value || '',
+    sh: $("#f_sh")?.value || '',
+    avg: $("#f_avg")?.value || '',
+    pr: $("#f_pr")?.value || '',
+    dt: $("#f_dt")?.value || today(),
+    strike: $("#f_strike")?.value || '',
+    exp: $("#f_exp")?.value || '',
+    iv: $("#f_iv")?.value || '',
+  };
+  const id = $(".btn.danger")?.getAttribute("onclick")?.match(/'([^']+)'/)?.[1];
+  const h = id ? holdings.find(x => x.id === id) : null;
+  closeModal();
+  modal(renderEditModal(h));
+  // restore values
+  if (cur.tic) $("#f_tic").value = cur.tic;
+  if (cur.sh && $("#f_sh")) $("#f_sh").value = cur.sh;
+  if (cur.avg && $("#f_avg")) $("#f_avg").value = cur.avg;
+  if (cur.pr) $("#f_pr").value = cur.pr;
+  if (cur.dt && $("#f_dt")) $("#f_dt").value = cur.dt;
+  if (cur.strike && $("#f_strike")) $("#f_strike").value = cur.strike;
+  if (cur.exp && $("#f_exp")) $("#f_exp").value = cur.exp;
+  if (cur.iv && $("#f_iv")) $("#f_iv").value = cur.iv;
 }
 
 function setEditHorizon(h){ editHorizon = editHorizon === h ? null : h; refreshHorizonSeg(); }
@@ -817,24 +1467,37 @@ function pickTicker(tic, name){
 
 function saveHold(id){
   const tic = $("#f_tic").value.trim().toUpperCase();
-  const sh = parseFloat($("#f_sh").value);
-  const avg = parseFloat($("#f_avg").value);
-  const prRaw = $("#f_pr").value.trim();
+  const prRaw = $("#f_pr")?.value.trim() || "";
   const pr = prRaw === "" ? null : parseFloat(prRaw);
-  const dt = $("#f_dt").value || today();
   const presetName = $("#f_tic").dataset.name || tic;
-  if (!tic || isNaN(sh) || isNaN(avg) || sh <= 0 || avg < 0){
-    $("#f_err").textContent = t().invalid; return;
-  }
+  if (!tic){ $("#f_err").textContent = t().invalid; return; }
+  const strike = $("#f_strike")?.value ? parseFloat($("#f_strike").value) : null;
+  const expiry = $("#f_exp")?.value || null;
+  const iv = $("#f_iv")?.value ? parseFloat($("#f_iv").value) : null;
   if (id){
     const h = holdings.find(x => x.id === id);
-    Object.assign(h, { ticker: tic, shares: sh, avg, price: pr!=null?pr:h.price, purchaseDate: dt, horizon: editHorizon, tags: editTags, name: h.name||presetName });
+    Object.assign(h, {
+      ticker: tic, type: editType,
+      price: pr != null ? pr : h.price,
+      horizon: editHorizon, tags: editTags,
+      name: h.name || presetName,
+      strike, expiry, iv,
+    });
   } else {
+    const sh = parseFloat($("#f_sh").value);
+    const avg = parseFloat($("#f_avg").value);
+    const dt = $("#f_dt").value || today();
+    if (isNaN(sh) || isNaN(avg) || sh <= 0 || avg < 0){
+      $("#f_err").textContent = t().invalid; return;
+    }
     holdings.push({
       id: uid(), pfId: settings.activePf,
-      ticker: tic, name: presetName, shares: sh, avg,
+      ticker: tic, name: presetName, type: editType,
+      transactions: [{ id: uid(), type:'buy', qty: sh, price: avg, date: dt, ts: new Date(dt).getTime() }],
       price: pr, prev: null, dayChangePct: null,
-      purchaseDate: dt, horizon: editHorizon, tags: editTags
+      purchaseDate: dt,
+      horizon: editHorizon, tags: editTags,
+      strike, expiry, iv,
     });
   }
   save(); closeModal(); render();
@@ -860,26 +1523,91 @@ function openDetail(id){
     const tg = TAGS_LIST.find(x => x.id === tid);
     return tg ? `<span class="tg">${esc(tg[lang])}</span>` : '';
   }).join("");
+  const isOpt = h.type && h.type !== 'stock';
+  const optBadge = h.type === 'call' ? `<span class="h-tag" style="background:#1F2E25;color:#5FE9B0;border-color:#1E5C44;margin-inline-start:8px;font-size:10px;padding:2px 7px">CALL</span>`
+                 : h.type === 'put'  ? `<span class="h-tag" style="background:#2A0E10;color:#F26B6E;border-color:#5C1F22;margin-inline-start:8px;font-size:10px;padding:2px 7px">PUT</span>` : '';
+  const greeks = isOpt && h.price != null ? computeGreeks(h, h.price) : null;
+  const txs = (h.transactions || []).slice().sort((a,b) => (b.ts||0) - (a.ts||0));
+  const qtyLabel = isOpt ? (lang==='ar'?'عقد':'contracts') : (lang==='ar'?'سهم':'shares');
+  const expStatus = optionExpiryStatus(h);
+  const divs = (h.dividends||[]).slice().sort((a,b) => (b.ts||0) - (a.ts||0));
+  const divTotal = divs.reduce((s,d) => s + d.amount, 0);
+
+  // target/stop alerts
+  let alertBox = '';
+  if (h.price != null) {
+    if (h.target && h.price >= h.target) {
+      alertBox = `<div class="expiry-banner" style="background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)">
+        <div class="msg">🎯 ${lang==='ar'?`السعر وصل هدفك $${fmt(h.target)}`:`Price hit your target $${fmt(h.target)}`}</div>
+      </div>`;
+    } else if (h.stopLoss && h.price <= h.stopLoss) {
+      alertBox = `<div class="expiry-banner over">
+        <div class="msg">⚠️ ${lang==='ar'?`السعر كسر وقف الخسارة $${fmt(h.stopLoss)}`:`Price hit stop loss $${fmt(h.stopLoss)}`}</div>
+      </div>`;
+    }
+  }
+
+  // expiry banner for options
+  let expBox = '';
+  if (expStatus) {
+    if (expStatus.kind === 'over') {
+      expBox = `<div class="expiry-banner over">
+        <div class="msg">⏰ ${lang==='ar'?`انتهى تاريخ العقد (${esc(h.expiry)}). كيف انتهى؟`:`Option expired on ${esc(h.expiry)}. How did it end?`}</div>
+        <div class="acts">
+          <button onclick="expireWorthless('${h.id}')">${lang==='ar'?'انتهى بصفر':'Expired worthless'}</button>
+          <button onclick="openTrade('${h.id}','sell')">${lang==='ar'?'بعته قبل':'I sold it'}</button>
+        </div>
+      </div>`;
+    } else {
+      expBox = `<div class="expiry-banner warn">
+        <div class="msg">⏳ ${lang==='ar'?`ينتهي بعد ${expStatus.days} أيام (${esc(h.expiry)})`:`Expires in ${expStatus.days} days (${esc(h.expiry)})`}</div>
+      </div>`;
+    }
+  }
+
   modal(`
     <div class="d-head">
       <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
       <div>
-        <div class="nm">${esc(h.ticker)}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
-        <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}</div>
+        <div class="nm">${esc(h.ticker)}${optBadge}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
+        <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}${isOpt && h.strike?` · Strike $${fmt(h.strike,0)}`:''}${isOpt && h.expiry?` · ${esc(h.expiry)}`:''}</div>
       </div>
     </div>
 
     ${tagChips ? `<div class="d-tags">${tagChips}</div>` : ''}
+    ${alertBox}
+    ${expBox}
 
     <div class="trade-row">
       <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
       <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
     </div>
 
-    ${h.realized ? `<div class="realized-box">
-      <span class="lbl">${lang==='ar'?'الربح المحقّق (من البيع)':'Realized P&L (from sales)'}</span>
-      <span class="val ${h.realized>=0?'up':'down'}">${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}</span>
+    ${s.realized ? `<div class="realized-box">
+      <span class="lbl">${lang==='ar'?'الربح المحقّق':'Realized P&L'}</span>
+      <span class="val ${s.realized>=0?'up':'down'}">${s.realized>=0?'+':''}$${fmt(Math.abs(s.realized),2)}</span>
     </div>` : ''}
+
+    ${greeks ? `
+      <h4 style="margin:14px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'الإغريقيات':'Greeks'} · ${greeks.daysToExpiry}${lang==='ar'?' يوم':'d'}</h4>
+      <div class="greeks">
+        <div class="greek-cell"><div class="lbl">Δ Delta</div><div class="v ${greeks.delta>=0?'up':'down'}">${greeks.delta.toFixed(3)}</div></div>
+        <div class="greek-cell"><div class="lbl">Γ Gamma</div><div class="v">${greeks.gamma.toFixed(4)}</div></div>
+        <div class="greek-cell"><div class="lbl">Θ Theta/d</div><div class="v down">${greeks.theta.toFixed(3)}</div></div>
+        <div class="greek-cell"><div class="lbl">ν Vega</div><div class="v">${greeks.vega.toFixed(3)}</div></div>
+      </div>
+    ` : ''}
+
+    <h4 style="margin:14px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'الأهداف':'Targets'}</h4>
+    <div class="tgt-row">
+      <div class="tgt-cell target"><div class="lbl">🎯 ${lang==='ar'?'هدف':'Target'}</div>
+        <input id="dt_t" type="number" step="any" inputmode="decimal" value="${h.target||''}" placeholder="—" onblur="saveHoldTargets('${h.id}')"></div>
+      <div class="tgt-cell stop"><div class="lbl">⚠️ ${lang==='ar'?'وقف':'Stop'}</div>
+        <input id="dt_s" type="number" step="any" inputmode="decimal" value="${h.stopLoss||''}" placeholder="—" onblur="saveHoldTargets('${h.id}')"></div>
+    </div>
+
+    <h4 style="margin:6px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'ملاحظات':'Notes'}</h4>
+    <textarea class="notes-textarea" id="dt_n" placeholder="${lang==='ar'?'سبب الشراء، خطة الخروج، تحليلك...':'Why you bought, exit plan, your thesis...'}" onblur="saveHoldTargets('${h.id}')">${esc(h.notes||'')}</textarea>
 
     <div class="chart-card">
       <div class="chart-head">
@@ -892,12 +1620,53 @@ function openDetail(id){
     <div class="d-rows">
       <div class="d-row"><span>${t().detail_mv}</span><div class="v">${maskMoney('$'+fmt(s.mv))}<small>${maskMoney(fmt0(s.mv*3.75)+' SAR')}</small></div></div>
       <div class="d-row"><span>${t().detail_price}</span><div class="v">${h.price!=null?'$'+fmt(s.price):'—'}<small>${h.price!=null?fmt0(s.price*3.75)+' SAR':''}</small></div></div>
-      <div class="d-row"><span>${t().detail_avg}</span><div class="v">$${fmt(h.avg)}<small>${fmt0(h.avg*3.75)} SAR</small></div></div>
-      <div class="d-row"><span>${t().detail_shares}</span><div class="v">${fmt(h.shares, h.shares%1?4:0)}</div></div>
+      <div class="d-row"><span>${t().detail_avg}</span><div class="v">$${fmt(s.avg)}<small>${fmt0(s.avg*3.75)} SAR</small></div></div>
+      <div class="d-row"><span>${isOpt?(lang==='ar'?'عدد العقود':'Contracts'):t().detail_shares}</span><div class="v">${fmt(s.shares, s.shares%1?4:0)}${isOpt?` (×100=${fmt(s.shares*100,0)})`:''}</div></div>
+      <div class="d-row"><span>${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span><div class="v">${maskMoney('$'+fmt(s.deposited))}</div></div>
+      ${divTotal>0?`<div class="d-row"><span>${lang==='ar'?'توزيعات مستلمة':'Dividends received'}</span><div class="v" style="color:var(--accent)">+$${fmt(divTotal,2)}</div></div>`:''}
       <div class="d-row"><span>${t().detail_pl}</span><div class="v ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+'$'+fmt(Math.abs(s.pl)))}<small>${settings.privacy?'':pct(s.plPct)}</small></div></div>
       ${s.today!=null?`<div class="d-row"><span>${t().detail_today}</span><div class="v ${sgn(s.today)}">${settings.privacy?'••••':((s.today>=0?'+':'')+'$'+fmt(Math.abs(s.today)))}<small>${settings.privacy?'':pct(s.todayPct)}</small></div></div>`:''}
       <div class="d-row"><span>${t().detail_share}</span><div class="v">${tt.mv>0?(s.mv/tt.mv*100).toFixed(1)+'%':'—'}</div></div>
-      ${h.purchaseDate?`<div class="d-row"><span>${t().detail_purchased}</span><div class="v" style="font-weight:500">${esc(h.purchaseDate)}</div></div>`:''}
+    </div>
+
+    <div class="earn-card" id="earn-box-${h.id}" style="display:none"></div>
+
+    ${txs.length ? `
+      <div class="tx-head">${lang==='ar'?'سجل الأوامر':'Order History'} (${txs.length})</div>
+      <div class="tx-hint">${lang==='ar'?'اضغط على أي عملية للتعديل':'Click any transaction to edit'}</div>
+      <div class="tx-list">${txs.map(tx => `
+        <div class="tx-row editable" onclick="openEditTx('${h.id}','${tx.id}')">
+          <span class="tpe ${tx.type}">${tx.type==='buy'?(lang==='ar'?'شراء':'BUY'):(lang==='ar'?'بيع':'SELL')}</span>
+          <span class="dt">${esc(tx.date||'—')}</span>
+          <span class="qp">${fmt(tx.qty,tx.qty%1?4:0)} ${qtyLabel} × $${fmt(tx.price)}</span>
+          <span class="tot">${maskMoney('$'+fmt0(tx.qty*tx.price*(isOpt?100:1)))}</span>
+        </div>
+      `).join("")}</div>
+    ` : ''}
+
+    <div class="tx-head" style="display:flex;align-items:center;justify-content:space-between">
+      <span>💰 ${lang==='ar'?'التوزيعات':'Dividends'}</span>
+      ${divs.length?`<span style="color:var(--accent);font-size:11px;font-weight:600;text-transform:none;letter-spacing:0">${maskMoney('+$'+fmt(divTotal,2))}</span>`:''}
+    </div>
+    ${divs.length ? `<div class="div-list">${divs.map(d => `
+      <div class="div-row">
+        <span class="ic">💰</span>
+        <span class="dt">${esc(d.date)}</span>
+        <span class="nt">${esc(d.note||'')}</span>
+        <span class="am">+$${fmt(d.amount,2)}</span>
+        <button class="del" onclick="delDividend('${h.id}','${d.id}')">✕</button>
+      </div>
+    `).join('')}</div>` : ''}
+    <button class="add-btn" onclick="addDividend('${h.id}')">＋ ${lang==='ar'?'إضافة توزيع':'Add dividend'}</button>
+
+    <div class="coll" id="ins-coll" style="margin-top:14px">
+      <div class="coll-head" onclick="document.getElementById('ins-coll').classList.toggle('open');loadInsiderTrades('${h.id}','${esc(h.ticker)}')">
+        <span class="ttl">📋 ${lang==='ar'?'صفقات المطّلعين':'Insider Activity'}</span>
+        <span class="ar">▾</span>
+      </div>
+      <div class="coll-body">
+        <div id="ins-box-${h.id}"><div style="padding:11px;text-align:center;color:var(--muted2);font-size:12px"><span class="spin"></span></div></div>
+      </div>
     </div>
 
     <div class="m-actions">
@@ -906,6 +1675,24 @@ function openDetail(id){
     </div>
   `);
   loadChart(h.ticker);
+  loadStockEarnings(h.id, h.ticker);
+}
+
+function delTransaction(holdId, txId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  modal(`<h2>${lang==='ar'?'حذف العملية؟':'Delete transaction?'}</h2>
+    <p class="sub">${lang==='ar'?'بيُعاد حساب المتوسط والربح المحقّق.':'Average and realized P&L will be recomputed.'}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="openDetail('${holdId}')">${t().cancel}</button>
+      <button class="btn danger" onclick="doDelTx('${holdId}','${txId}')">${t().delete}</button>
+    </div>`);
+}
+function doDelTx(holdId, txId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  h.transactions = (h.transactions||[]).filter(t => t.id !== txId);
+  save(); closeModal(); openDetail(holdId);
 }
 
 async function loadChart(ticker){
@@ -916,16 +1703,16 @@ async function loadChart(ticker){
     renderChart(cached.data, ticker); return;
   }
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=1mo`;
-    const data = await tryFetch(url);
-    const result = data?.chart?.result?.[0];
-    const closes = result?.indicators?.quote?.[0]?.close || [];
-    const prices = closes.filter(n => n != null && !isNaN(n));
+    const r = await fetch(`${TD}/time_series?symbol=${encodeURIComponent(ticker)}&interval=1day&outputsize=30&apikey=${TD_KEY}`);
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    const data = await r.json();
+    if (data.status === 'error') throw new Error(data.message || 'API error');
+    const values = data?.values || [];
+    const prices = values.map(v => parseFloat(v.close)).filter(n => isFinite(n) && n > 0).reverse();
     if (prices.length < 2) throw new Error("insufficient data");
     chartCache[ticker] = { data: prices, fetched: Date.now() };
     renderChart(prices, ticker);
   } catch(e){
-    // silently hide the whole chart card — chart data sources don't allow CORS reliably
     const card = box.closest('.chart-card');
     if (card) card.style.display = 'none';
   }
@@ -1014,16 +1801,19 @@ function renderNews(){
       <div style="font-size:11px;color:var(--muted);font-weight:500">${settings.lastNewsRefresh?t().last_update+' · '+settings.lastNewsRefresh:''}</div>
       <button class="refresh-btn" id="news-btn" onclick="refreshNews()">↻ ${t().news_refresh}</button>
     </div>
-    ${news.length ? news.map(n=>`
-      <div class="news-item" ${n.url?`onclick="window.open('${esc(n.url)}','_blank')"`:''}>
+    ${news.length ? news.map(n=>{
+      const ttl = (lang==='ar' && n.titleAr) ? n.titleAr : n.title;
+      const sum = (lang==='ar' && n.summaryAr) ? n.summaryAr : n.summary;
+      return `<div class="news-item" ${n.url?`onclick="window.open('${esc(n.url)}','_blank')"`:''}>
         <div class="news-meta">
           <span class="news-tic">${esc(n.ticker)}</span>
           ${n.source?`<span class="news-src">${esc(n.source)}</span>`:''}
           ${n.time?`<span class="news-time">· ${esc(n.time)}</span>`:''}
         </div>
-        <div class="news-title">${esc(n.title)}</div>
-      </div>
-    `).join("") : `<div class="empty"><div class="ic">▭</div><h3>${t().news_empty_title}</h3><p>${t().news_empty_sub}</p></div>`}
+        <div class="news-title">${esc(ttl)}</div>
+        ${sum ? `<div class="news-sum">${esc(sum.slice(0,260))}${sum.length>260?'…':''}</div>` : ''}
+      </div>`;
+    }).join("") : `<div class="empty"><div class="ic">▭</div><h3>${t().news_empty_title}</h3><p>${t().news_empty_sub}</p></div>`}
   `;
 }
 
@@ -1032,13 +1822,13 @@ async function refreshNews(){
   const btn = $("#news-btn");
   if (btn) { btn.disabled = true; btn.innerHTML = `<span class="spin"></span> ${t().news_refreshing}`; }
   const tickers = [...new Set(allHoldingsInPf().map(h => h.ticker))];
-  const today = new Date().toISOString().slice(0,10);
+  const today_d = new Date().toISOString().slice(0,10);
   const from = new Date(Date.now() - 14*86400000).toISOString().slice(0,10);
   const all = [];
   let lastErr = null;
   await Promise.all(tickers.map(async tic => {
     try {
-      const url = `${FINNHUB}/company-news?symbol=${encodeURIComponent(tic)}&from=${from}&to=${today}&token=${FINNHUB_KEY}`;
+      const url = `${FINNHUB}/company-news?symbol=${encodeURIComponent(tic)}&from=${from}&to=${today_d}&token=${FINNHUB_KEY}`;
       const r = await fetch(url);
       if (!r.ok) { lastErr = new Error("HTTP "+r.status); return; }
       const items = await r.json();
@@ -1050,6 +1840,7 @@ async function refreshNews(){
           id: uid(),
           ticker: tic,
           title: n.headline,
+          summary: n.summary || "",
           source: n.source || "",
           url: n.url || "",
           ts: n.datetime || 0,
@@ -1070,6 +1861,35 @@ async function refreshNews(){
   settings.lastNewsRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
   save();
   render();
+  if (lang === 'ar') translateNewsToArabic();
+}
+
+/* translate news to Arabic via MyMemory (free, CORS-enabled) */
+async function translateNewsToArabic(){
+  for (const n of news) {
+    if (n.titleAr && (n.summaryAr || !n.summary)) continue;
+    try {
+      if (!n.titleAr && n.title) {
+        const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(n.title)}&langpair=en|ar`);
+        if (r.ok) {
+          const d = await r.json();
+          const out = d?.responseData?.translatedText;
+          if (out && !out.includes("MYMEMORY")) n.titleAr = out;
+        }
+      }
+      if (!n.summaryAr && n.summary) {
+        const short = n.summary.slice(0, 400);
+        const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(short)}&langpair=en|ar`);
+        if (r.ok) {
+          const d = await r.json();
+          const out = d?.responseData?.translatedText;
+          if (out && !out.includes("MYMEMORY")) n.summaryAr = out;
+        }
+      }
+    } catch(e){}
+  }
+  save();
+  if (activeTab === 'news') renderTab();
 }
 
 /* ════ zakat ════ */
@@ -1112,9 +1932,11 @@ function renderZakat(){
   `;
 }
 
-/* ════ Finnhub (prices, search, news) + Yahoo (chart) — direct browser fetches ════ */
+/* ════ Finnhub (prices, search, news) + TwelveData (chart, earnings) — direct browser fetches ════ */
 const FINNHUB_KEY = "d8qgp71r01qr03nirq8gd8qgp71r01qr03nirq90";
 const FINNHUB = "https://finnhub.io/api/v1";
+const TD_KEY = "e5cdd6087f4b432abe74e66b0e55a215";
+const TD = "https://api.twelvedata.com";
 
 let symbolList = null;
 let searchTimer = null;
@@ -1236,37 +2058,839 @@ function saveTrade(holdId, type){
     $("#tr_err").textContent = lang==='ar'?'تأكّد من الكمية والسعر':'Check quantity and price';
     return;
   }
-  if (type === 'buy'){
-    // weighted average
-    const newShares = h.shares + qty;
-    h.avg = (h.shares * h.avg + qty * price) / newShares;
-    h.shares = newShares;
-  } else {
-    // sell
-    if (qty > h.shares){
-      $("#tr_err").textContent = lang==='ar'?`الكمية أكبر من عندك (${fmt(h.shares,h.shares%1?4:0)})`:`Quantity exceeds holdings (${fmt(h.shares,h.shares%1?4:0)})`;
-      return;
-    }
-    const realized = qty * (price - h.avg);
-    h.realized = (h.realized || 0) + realized;
-    h.shares -= qty;
-    // if sold everything, ask whether to remove the holding entirely
-    if (h.shares <= 0.0000001){
-      h.shares = 0;
-      save();
-      modal(`<h2>${lang==='ar'?'بعت كل أسهمك':'You sold all your shares'}</h2>
-        <p class="sub">${lang==='ar'?`الربح المحقّق: ${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}. هل تبي تشيل ${esc(h.ticker)} من المحفظة؟`:`Realized: ${h.realized>=0?'+':''}$${fmt(Math.abs(h.realized),2)}. Remove ${esc(h.ticker)} from portfolio?`}</p>
-        <div class="m-actions">
-          <button class="btn" onclick="closeModal();render();">${lang==='ar'?'احتفظ به':'Keep it'}</button>
-          <button class="btn danger" onclick="doDel('${h.id}')">${lang==='ar'?'احذفه':'Remove'}</button>
-        </div>`);
-      return;
-    }
+  const curShares = statsFor(h).shares;
+  if (type === 'sell' && qty > curShares){
+    $("#tr_err").textContent = lang==='ar'?`الكمية أكبر من عندك (${fmt(curShares,curShares%1?4:0)})`:`Quantity exceeds holdings (${fmt(curShares,curShares%1?4:0)})`;
+    return;
+  }
+  if (!Array.isArray(h.transactions)) h.transactions = [];
+  h.transactions.push({ id: uid(), type, qty, price, date, ts: new Date(date).getTime() });
+  // check if sold everything
+  const after = statsFor(h);
+  if (type === 'sell' && after.shares <= 0.0000001){
+    save();
+    modal(`<h2>${lang==='ar'?'بعت كل الكمية':'Sold all shares'}</h2>
+      <p class="sub">${lang==='ar'?`الربح المحقّق التراكمي: ${after.realized>=0?'+':''}$${fmt(Math.abs(after.realized),2)}. تبي تشيل ${esc(h.ticker)} من المحفظة؟ (السجل ينحفظ لو تشيله)`:`Realized total: ${after.realized>=0?'+':''}$${fmt(Math.abs(after.realized),2)}. Remove ${esc(h.ticker)} from portfolio?`}</p>
+      <div class="m-actions">
+        <button class="btn" onclick="closeModal();render();">${lang==='ar'?'احتفظ به':'Keep it'}</button>
+        <button class="btn danger" onclick="doDel('${h.id}')">${lang==='ar'?'احذفه':'Remove'}</button>
+      </div>`);
+    return;
   }
   save();
   closeModal();
   openDetail(h.id);
 }
+/* ════════════════════════════════════════════════════════════════
+   v6 FEATURE BLOCK — edit tx, expiry, cash, watchlist, dividends,
+   targets/notes, challenges, earnings, insider, achievements
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Edit transaction (tap a row in order log) ── */
+function openEditTx(holdId, txId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const tx = (h.transactions || []).find(t => t.id === txId);
+  if (!tx) return;
+  const isOpt = h.type && h.type !== 'stock';
+  const qtyLabel = isOpt ? (lang==='ar'?'عدد العقود':'Contracts') : (lang==='ar'?'الكمية':'Quantity');
+  modal(`
+    <h2>${lang==='ar'?'تعديل العملية':'Edit transaction'}</h2>
+    <p class="sub">${lang==='ar'?`في ${esc(h.ticker)}. أي تعديل بيعيد حساب المتوسط والأرباح.`:`For ${esc(h.ticker)}. Edits will recompute avg and realized.`}</p>
+    <div class="opt-type-seg" id="et_type">
+      <button class="${tx.type==='buy'?'on call':''}" onclick="window._etxType='buy';document.querySelectorAll('#et_type button').forEach((b,i)=>b.className=i===0?'on call':'')">${lang==='ar'?'شراء':'Buy'}</button>
+      <button class="${tx.type==='sell'?'on put':''}" onclick="window._etxType='sell';document.querySelectorAll('#et_type button').forEach((b,i)=>b.className=i===1?'on put':'')">${lang==='ar'?'بيع':'Sell'}</button>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${qtyLabel}</label>
+        <input class="inp" id="et_q" type="number" step="any" inputmode="decimal" value="${tx.qty}"></div>
+      <div class="field"><label>${lang==='ar'?'السعر':'Price'} <small style="color:#444">$</small></label>
+        <input class="inp" id="et_p" type="number" step="any" inputmode="decimal" value="${tx.price}"></div>
+    </div>
+    <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+      <input class="inp" id="et_d" type="date" value="${tx.date||today()}"></div>
+    <div class="err" id="et_err"></div>
+    <div class="m-actions">
+      <button class="btn danger" onclick="delTransaction('${holdId}','${txId}')">${t().delete}</button>
+      <button class="btn" onclick="openDetail('${holdId}')">${t().cancel}</button>
+      <button class="btn primary" onclick="saveEditTx('${holdId}','${txId}')">${t().save}</button>
+    </div>
+  `);
+  window._etxType = tx.type;
+}
+function saveEditTx(holdId, txId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const tx = h.transactions.find(t => t.id === txId);
+  if (!tx) return;
+  const qty = parseFloat($("#et_q").value);
+  const price = parseFloat($("#et_p").value);
+  const date = $("#et_d").value || tx.date || today();
+  if (isNaN(qty) || qty <= 0 || isNaN(price) || price < 0){
+    $("#et_err").textContent = lang==='ar'?'تأكّد من الكمية والسعر':'Check quantity and price';
+    return;
+  }
+  tx.type = window._etxType || tx.type;
+  tx.qty = qty;
+  tx.price = price;
+  tx.date = date;
+  tx.ts = new Date(date).getTime();
+  save(); closeModal(); openDetail(holdId);
+}
+
+/* ── Option expiry status + close handlers ── */
+function optionExpiryStatus(h){
+  if (!h.type || h.type === 'stock' || !h.expiry) return null;
+  const s = statsFor(h);
+  if (s.shares <= 0) return null;
+  const exp = new Date(h.expiry);
+  const now = new Date();
+  const days = Math.ceil((exp - now) / 86400000);
+  if (days < 0) return { kind:'over', days };
+  if (days <= 7) return { kind:'warn', days };
+  return null;
+}
+function expireWorthless(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const s = statsFor(h);
+  if (s.shares <= 0) return;
+  h.transactions.push({
+    id: uid(), type:'sell', qty: s.shares, price: 0,
+    date: h.expiry || today(), ts: new Date(h.expiry || today()).getTime(),
+    note: 'expired'
+  });
+  save();
+  toast(lang==='ar'?'تم التسجيل: انتهى بصفر':'Marked as expired worthless');
+  openDetail(holdId);
+}
+
+/* ── Cash management ── */
+function addCashTx(type){
+  modal(`
+    <h2>${type==='deposit'?(lang==='ar'?'إيداع كاش':'Deposit cash'):(lang==='ar'?'سحب كاش':'Withdraw cash')}</h2>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'المبلغ':'Amount'} <small style="color:#444">$</small></label>
+        <input class="inp" id="ch_a" type="number" step="any" inputmode="decimal" placeholder="1000"></div>
+      <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+        <input class="inp" id="ch_d" type="date" value="${today()}"></div>
+    </div>
+    <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
+      <input class="inp" id="ch_n" placeholder="${lang==='ar'?'مصدر الإيداع/سبب السحب':'source / reason'}"></div>
+    <div class="err" id="ch_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openSettings()">${t().cancel}</button>
+      <button class="btn primary" onclick="doCashTx('${type}')">${t().save}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#ch_a")?.focus(),60);
+}
+function doCashTx(type){
+  const amount = parseFloat($("#ch_a").value);
+  if (!isFinite(amount) || amount <= 0){ $("#ch_err").textContent = lang==='ar'?'مبلغ غير صحيح':'invalid'; return; }
+  const date = $("#ch_d").value || today();
+  const note = $("#ch_n").value.trim();
+  if (type === 'withdraw' && amount > settings.cash){
+    $("#ch_err").textContent = lang==='ar'?`الرصيد $${fmt(settings.cash)} فقط`:`Balance is only $${fmt(settings.cash)}`;
+    return;
+  }
+  settings.cashHistory.push({ id: uid(), type, amount, date, note, ts: Date.now() });
+  settings.cash += (type === 'deposit' ? amount : -amount);
+  save();
+  closeModal();
+  openSettings();
+}
+function delCashTx(id){
+  const tx = settings.cashHistory.find(x => x.id === id);
+  if (!tx) return;
+  settings.cash -= (tx.type === 'deposit' ? tx.amount : -tx.amount);
+  settings.cashHistory = settings.cashHistory.filter(x => x.id !== id);
+  save();
+  openSettings();
+}
+
+/* ── Watchlist ── */
+function addToWatchlist(){
+  modal(`
+    <h2>${lang==='ar'?'إضافة لقائمة المتابعة':'Add to Watchlist'}</h2>
+    <div class="field"><label>${t().ticker}</label>
+      <div class="search-wrap">
+        <input class="inp" id="wl_tic" placeholder="AAPL / Apple" oninput="liveSearch('wl_tic','wl_sg')" autocomplete="off">
+      </div>
+      <div id="wl_sg"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'السعر المستهدف':'Target price'} <small style="color:#444">$</small></label>
+        <input class="inp" id="wl_t" type="number" step="any" inputmode="decimal" placeholder="—"></div>
+      <div class="field"><label>${lang==='ar'?'وقف الخسارة':'Stop loss'} <small style="color:#444">$</small></label>
+        <input class="inp" id="wl_s" type="number" step="any" inputmode="decimal" placeholder="—"></div>
+    </div>
+    <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
+      <input class="inp" id="wl_n" placeholder="${lang==='ar'?'سبب الاهتمام':'why this stock'}"></div>
+    <div class="err" id="wl_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="saveWatch()">${t().save}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#wl_tic")?.focus(),60);
+}
+function saveWatch(){
+  const tic = $("#wl_tic").value.trim().toUpperCase();
+  if (!tic){ $("#wl_err").textContent = lang==='ar'?'اكتب الرمز':'Enter ticker'; return; }
+  const name = $("#wl_tic").dataset.name || tic;
+  const target = $("#wl_t").value ? parseFloat($("#wl_t").value) : null;
+  const stop = $("#wl_s").value ? parseFloat($("#wl_s").value) : null;
+  const note = $("#wl_n").value.trim();
+  if (watchlist.find(w => w.ticker === tic && w.pfId === settings.activePf)){
+    $("#wl_err").textContent = lang==='ar'?'موجود مسبقاً':'Already on watchlist'; return;
+  }
+  watchlist.push({ id: uid(), pfId: settings.activePf, ticker: tic, name, target, stop, note, price: null, dayChangePct: null, addedAt: Date.now() });
+  save();
+  closeModal();
+  refreshWatchlistPrices();
+  render();
+}
+function delWatch(id){
+  watchlist = watchlist.filter(w => w.id !== id);
+  save();
+  render();
+}
+function moveWatchToPortfolio(id){
+  const w = watchlist.find(x => x.id === id);
+  if (!w) return;
+  watchlist = watchlist.filter(x => x.id !== id);
+  save();
+  editType = 'stock';
+  editTags = [];
+  editHorizon = null;
+  modal(renderEditModal(null));
+  setTimeout(()=>{
+    if ($("#f_tic")) $("#f_tic").value = w.ticker;
+    if ($("#f_tic")) $("#f_tic").dataset.name = w.name;
+  }, 80);
+}
+async function refreshWatchlistPrices(){
+  const items = watchlist.filter(w => w.pfId === settings.activePf);
+  if (!items.length) return;
+  await Promise.all(items.map(async w => {
+    try {
+      const r = await fetch(`${FINNHUB}/quote?symbol=${encodeURIComponent(w.ticker)}&token=${FINNHUB_KEY}`);
+      if (!r.ok) return;
+      const q = await r.json();
+      if (q.c != null && q.c !== 0){
+        w.price = q.c;
+        w.dayChangePct = q.dp;
+      }
+    } catch(e){}
+  }));
+  save();
+  if (activeTab === 'watch') renderTab();
+}
+function renderWatchlist(){
+  const c = $("#tab-content"); if (!c) return;
+  const items = watchlist.filter(w => w.pfId === settings.activePf);
+  if (!items.length){
+    c.innerHTML = `
+      <div class="watch-empty">
+        <div style="font-size:42px;opacity:.45;color:var(--blue);margin-bottom:10px">⭐</div>
+        <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${lang==='ar'?'قائمة المتابعة فاضية':'Watchlist is empty'}</h3>
+        <p style="margin:0 auto 18px;font-size:13px;line-height:1.6;max-width:280px">${lang==='ar'?'أضف أسهماً تتابعها بدون شراء. تشوف أسعارها وتنبيهات لما توصل لهدفك':'Add stocks to track without owning. See prices and get alerts when they hit your target.'}</p>
+      </div>
+      <button class="fab" onclick="addToWatchlist()"><span class="plus">＋</span> ${lang==='ar'?'إضافة':'Add'}</button>
+    `;
+    return;
+  }
+  c.innerHTML = `
+    <div class="watch-list">${items.map(w => {
+      const up = w.dayChangePct != null && w.dayChangePct >= 0;
+      let tgtPill = '';
+      if (w.target && w.price && w.price >= w.target) tgtPill = `<span class="tgt-pill hit">🎯 ${lang==='ar'?'وصل الهدف':'TARGET HIT'}</span>`;
+      else if (w.stop && w.price && w.price <= w.stop) tgtPill = `<span class="tgt-pill stop">⚠️ ${lang==='ar'?'كسر الوقف':'STOP HIT'}</span>`;
+      return `<div class="watch-row" onclick="openWatchDetail('${w.id}')">
+        <div class="tic-bx">${esc(w.ticker.slice(0,4))}</div>
+        <div class="info">
+          <div class="t">${esc(w.ticker)}${tgtPill}</div>
+          <div class="s">${esc(w.name || '')}${w.target?` · 🎯 $${fmt(w.target)}`:''}${w.stop?` · ⚠️ $${fmt(w.stop)}`:''}</div>
+        </div>
+        <div class="rt">
+          <div class="pr">${w.price!=null?'$'+fmt(w.price):'—'}</div>
+          ${w.dayChangePct!=null?`<div class="ch ${up?'up':'down'}">${up?'+':''}${fmt(w.dayChangePct,2)}%</div>`:''}
+        </div>
+      </div>`;
+    }).join("")}</div>
+    <button class="fab" onclick="addToWatchlist()"><span class="plus">＋</span> ${lang==='ar'?'إضافة':'Add'}</button>
+  `;
+}
+function openWatchDetail(id){
+  const w = watchlist.find(x => x.id === id);
+  if (!w) return;
+  modal(`
+    <h2>${esc(w.ticker)}${w.price?` <span style="color:var(--muted);font-size:14px;font-weight:500"> · $${fmt(w.price)}</span>`:''}</h2>
+    <p class="sub">${esc(w.name || w.ticker)}</p>
+    <div class="tgt-row">
+      <div class="tgt-cell target">
+        <div class="lbl">🎯 ${lang==='ar'?'السعر المستهدف':'Target'}</div>
+        <input id="wd_t" type="number" step="any" inputmode="decimal" value="${w.target||''}" placeholder="—">
+      </div>
+      <div class="tgt-cell stop">
+        <div class="lbl">⚠️ ${lang==='ar'?'وقف الخسارة':'Stop loss'}</div>
+        <input id="wd_s" type="number" step="any" inputmode="decimal" value="${w.stop||''}" placeholder="—">
+      </div>
+    </div>
+    <textarea class="notes-textarea" id="wd_n" placeholder="${lang==='ar'?'ملاحظات...':'Notes...'}">${esc(w.note||'')}</textarea>
+    <div class="m-actions">
+      <button class="btn danger" onclick="delWatch('${w.id}');closeModal()">${t().delete}</button>
+      <button class="btn" onclick="moveWatchToPortfolio('${w.id}')">${lang==='ar'?'انقل للمحفظة':'Move to portfolio'}</button>
+      <button class="btn primary" onclick="saveWatchDetail('${w.id}')">${t().save}</button>
+    </div>
+  `);
+}
+function saveWatchDetail(id){
+  const w = watchlist.find(x => x.id === id);
+  if (!w) return;
+  w.target = $("#wd_t").value ? parseFloat($("#wd_t").value) : null;
+  w.stop = $("#wd_s").value ? parseFloat($("#wd_s").value) : null;
+  w.note = $("#wd_n").value.trim();
+  save(); closeModal(); render();
+}
+
+/* ── Dividends per holding ── */
+function addDividend(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  modal(`
+    <h2>${lang==='ar'?'إضافة توزيع':'Add Dividend'}</h2>
+    <p class="sub">${esc(h.ticker)}</p>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'المبلغ الإجمالي':'Total amount'} <small style="color:#444">$</small></label>
+        <input class="inp" id="dv_a" type="number" step="any" inputmode="decimal" placeholder="50.00"></div>
+      <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+        <input class="inp" id="dv_d" type="date" value="${today()}"></div>
+    </div>
+    <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
+      <input class="inp" id="dv_n" placeholder="${lang==='ar'?'Q3 توزيعات':'Q3 distribution'}"></div>
+    <div class="err" id="dv_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openDetail('${holdId}')">${t().cancel}</button>
+      <button class="btn primary" onclick="saveDividend('${holdId}')">${t().save}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#dv_a")?.focus(),60);
+}
+function saveDividend(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const amount = parseFloat($("#dv_a").value);
+  const date = $("#dv_d").value || today();
+  const note = $("#dv_n").value.trim();
+  if (!isFinite(amount) || amount <= 0){
+    $("#dv_err").textContent = lang==='ar'?'مبلغ غير صحيح':'invalid amount';
+    return;
+  }
+  if (!Array.isArray(h.dividends)) h.dividends = [];
+  h.dividends.push({ id: uid(), amount, date, note, ts: new Date(date).getTime() });
+  save();
+  closeModal();
+  openDetail(holdId);
+}
+function delDividend(holdId, dvId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  h.dividends = (h.dividends||[]).filter(d => d.id !== dvId);
+  save();
+  openDetail(holdId);
+}
+function totalDividends(){
+  let total = 0;
+  holdings.filter(h => h.pfId === settings.activePf).forEach(h => {
+    (h.dividends||[]).forEach(d => total += d.amount);
+  });
+  return total;
+}
+
+/* ── Targets & Stop-loss & Notes (per holding) ── */
+function saveHoldTargets(id){
+  const h = holdings.find(x => x.id === id);
+  if (!h) return;
+  h.target = $("#dt_t")?.value ? parseFloat($("#dt_t").value) : null;
+  h.stopLoss = $("#dt_s")?.value ? parseFloat($("#dt_s").value) : null;
+  h.notes = $("#dt_n")?.value.trim() || "";
+  save();
+  toast(lang==='ar'?'تم الحفظ':'Saved');
+}
+
+/* ── Watchlist + portfolio: target/stop alerts ── */
+function targetAlertsCount(){
+  let n = 0;
+  holdings.filter(h => h.pfId === settings.activePf).forEach(h => {
+    if (h.price == null) return;
+    if (h.target && h.price >= h.target) n++;
+    if (h.stopLoss && h.price <= h.stopLoss) n++;
+  });
+  watchlist.filter(w => w.pfId === settings.activePf).forEach(w => {
+    if (w.price == null) return;
+    if (w.target && w.price >= w.target) n++;
+    if (w.stop && w.price <= w.stop) n++;
+  });
+  return n;
+}
+
+/* ── Insider trades via Finnhub ── */
+async function loadInsiderTrades(holdId, ticker){
+  const box = $("#ins-box-"+holdId);
+  if (!box) return;
+  try {
+    const r = await fetch(`${FINNHUB}/stock/insider-transactions?symbol=${encodeURIComponent(ticker)}&token=${FINNHUB_KEY}`);
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    const data = await r.json();
+    const items = (data?.data || []).slice(0, 10);
+    if (!items.length){ box.innerHTML = `<div style="padding:11px;text-align:center;color:var(--muted2);font-size:12px">${lang==='ar'?'لا توجد صفقات مطّلعين حديثة':'No recent insider activity'}</div>`; return; }
+    box.innerHTML = `<div class="ins-list">${items.map(it => {
+      const isBuy = (it.change || 0) > 0;
+      return `<div class="ins-row">
+        <span class="act ${isBuy?'buy':'sell'}">${isBuy?'BUY':'SELL'}</span>
+        <span class="nm">${esc((it.name||'').slice(0,30))}</span>
+        <span class="qty">${Math.abs(it.change||0).toLocaleString()}</span>
+        <span class="dt">${esc((it.transactionDate||'').slice(0,10))}</span>
+      </div>`;
+    }).join("")}</div>`;
+  } catch(e){
+    box.innerHTML = `<div style="padding:11px;text-align:center;color:var(--muted2);font-size:12px">—</div>`;
+  }
+}
+
+/* ── Earnings calendar via Finnhub ── */
+async function loadStockEarnings(holdId, ticker){
+  const box = $("#earn-box-"+holdId);
+  if (!box) return;
+  try {
+    const to = new Date(Date.now() + 90*86400000).toISOString().slice(0,10);
+    const from = new Date().toISOString().slice(0,10);
+    const r = await fetch(`${FINNHUB}/calendar/earnings?from=${from}&to=${to}&symbol=${encodeURIComponent(ticker)}&token=${FINNHUB_KEY}`);
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    const data = await r.json();
+    const items = (data?.earningsCalendar || []);
+    if (!items.length){ box.style.display = 'none'; return; }
+    const next = items[0];
+    const days = Math.ceil((new Date(next.date) - new Date()) / 86400000);
+    box.innerHTML = `<div class="head">${lang==='ar'?'الأرباح القادمة':'Upcoming Earnings'}</div>
+      <div class="when">${esc(next.date)} ${days>0?`<span style="color:var(--muted);font-size:11px;font-weight:500">· ${lang==='ar'?'بعد':'in'} ${days} ${lang==='ar'?'يوم':'days'}</span>`:''}</div>
+      ${next.epsEstimate!=null?`<div class="est">${lang==='ar'?'EPS متوقع':'EPS estimate'}: $${fmt(next.epsEstimate,2)}</div>`:''}`;
+  } catch(e){
+    box.style.display = 'none';
+  }
+}
+
+/* ── Challenge mode ── */
+function activeChallenge(){
+  return challenges.find(c => c.pfId === settings.activePf && c.status === 'active');
+}
+function openChallengePage(){
+  const ch = activeChallenge();
+  const pfChs = challenges.filter(c => c.pfId === settings.activePf).sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  modal(`
+    <h2 style="display:flex;align-items:center;gap:8px"><span style="color:var(--gold)">🏆</span> ${lang==='ar'?'التحدّيات':'Challenges'}</h2>
+    ${ch ? renderChallengeDetail(ch) : `
+      <div class="ch-empty">
+        <div class="ic">🏆</div>
+        <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${lang==='ar'?'لا يوجد تحدّي نشط':'No active challenge'}</h3>
+        <p style="margin:0 auto 16px;font-size:13px;color:var(--muted);line-height:1.6;max-width:280px">${lang==='ar'?'حدد مبلغ بداية وهدف، وتحدّى نفسك بصفقات متتالية للوصول':'Set a starting amount, a goal, and chain trades to hit it.'}</p>
+        <button class="btn primary" onclick="openCreateChallenge()">${lang==='ar'?'بدء تحدّي جديد':'Start a Challenge'}</button>
+      </div>
+    `}
+    ${pfChs.length > (ch?1:0) ? `
+      <h4 style="margin:18px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'سابقة':'Previous'}</h4>
+      ${pfChs.filter(c => c.status !== 'active').map(c => renderChallengeCardSmall(c)).join('')}
+    ` : ''}
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
+    </div>
+  `);
+}
+function renderChallengeDetail(c){
+  const currentReturn = c.currentBalance - c.startCapital;
+  const currentPct = c.startCapital > 0 ? currentReturn/c.startCapital*100 : 0;
+  const goalPct = c.targetPct;
+  const progressPct = goalPct > 0 ? Math.min(100, currentPct/goalPct*100) : 0;
+  const daysLeft = Math.ceil((new Date(c.endDate) - new Date()) / 86400000);
+  const openTrade = c.trades.find(t => !t.sellDate);
+  return `
+    <div class="ch-card">
+      <div class="top">
+        <div>
+          <div class="nm">${esc(c.name)}</div>
+          <div class="dates">${esc(c.startDate)} → ${esc(c.endDate)} ${daysLeft>=0?`· ${daysLeft}${lang==='ar'?' يوم':'d'}`:`· ${lang==='ar'?'انتهى':'ended'}`}</div>
+        </div>
+        <span class="badge active">${lang==='ar'?'نشط':'ACTIVE'}</span>
+      </div>
+      <div class="ch-stats">
+        <div class="ch-stat"><div class="lbl">${lang==='ar'?'الرصيد':'Balance'}</div><div class="v">$${fmt0(c.currentBalance)}</div></div>
+        <div class="ch-stat"><div class="lbl">${lang==='ar'?'العائد':'Return'}</div><div class="v ${currentReturn>=0?'up':'down'}">${currentReturn>=0?'+':''}${fmt(currentPct,1)}%</div></div>
+        <div class="ch-stat"><div class="lbl">${lang==='ar'?'الهدف':'Goal'}</div><div class="v">${fmt(goalPct,0)}%</div></div>
+      </div>
+      <div class="ch-pg"><div class="fill ${currentReturn>=0?'gain':'loss'}" style="width:${progressPct}%"></div></div>
+      <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:9px">${lang==='ar'?'تقدّمت':'Progress'}: ${fmt(progressPct,1)}% ${lang==='ar'?'من الهدف':'of goal'}</div>
+
+      <div style="display:flex;gap:6px">
+        ${openTrade ? `
+          <button class="btn" onclick="openChallengeSell('${c.id}','${openTrade.id}')" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700">${lang==='ar'?'بيع':'Close trade'}</button>
+        ` : `
+          <button class="btn" onclick="openChallengeBuy('${c.id}')" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700">+ ${lang==='ar'?'صفقة جديدة':'New trade'}</button>
+        `}
+        <button class="btn" onclick="endChallenge('${c.id}')">${lang==='ar'?'إنهاء':'End'}</button>
+      </div>
+
+      ${c.trades.length ? `
+        <div class="ch-trades">
+          ${c.trades.slice().reverse().map(tr => {
+            const isOpen = !tr.sellDate;
+            return `<div class="ch-trade">
+              <div class="nm"><span class="tic">${esc(tr.ticker)}</span></div>
+              <div class="am">${tr.invested!=null?'$'+fmt0(tr.invested):''}${tr.sold!=null?` → $${fmt0(tr.sold)}`:''}</div>
+              ${isOpen ? `<span class="open">${lang==='ar'?'مفتوح':'OPEN'}</span>` : `<span class="ret ${tr.returnPct>=0?'up':'down'}">${tr.returnPct>=0?'+':''}${fmt(tr.returnPct,1)}%</span>`}
+            </div>`;
+          }).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+function renderChallengeCardSmall(c){
+  const ret = c.currentBalance - c.startCapital;
+  const pct = c.startCapital > 0 ? ret/c.startCapital*100 : 0;
+  const success = pct >= c.targetPct;
+  return `<div class="ch-card" style="padding:11px 13px;margin-bottom:7px">
+    <div class="top" style="margin-bottom:0">
+      <div>
+        <div class="nm" style="font-size:13px">${esc(c.name)}</div>
+        <div class="dates">${esc(c.startDate)} → ${esc(c.endDate)} · ${c.trades.length} ${lang==='ar'?'صفقة':'trades'}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700;font-size:14px" class="${ret>=0?'up':'down'}">${ret>=0?'+':''}${fmt(pct,1)}%</div>
+        <span class="badge ${success?'done':'failed'}" style="margin-top:2px;display:inline-block">${success?(lang==='ar'?'نجح':'WON'):(lang==='ar'?'لم يكتمل':'MISSED')}</span>
+      </div>
+    </div>
+  </div>`;
+}
+function openCreateChallenge(){
+  modal(`
+    <h2>🏆 ${lang==='ar'?'تحدّي جديد':'New Challenge'}</h2>
+    <p class="sub">${lang==='ar'?'تحدّى نفسك! ابدأ بمبلغ معيّن وحاول توصل لهدفك بصفقات متتالية. كل صفقة تبيعها يدخل ربحها للرصيد التالي.':'Challenge yourself. Start with capital, chain trades — each sale rolls into the next buy.'}</p>
+    <div class="field"><label>${lang==='ar'?'اسم التحدّي':'Challenge name'}</label>
+      <input class="inp" id="nc_n" placeholder="${lang==='ar'?'تحدّي مايو':'May Run'}"></div>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'رأس المال':'Starting capital'} <small style="color:#444">$</small></label>
+        <input class="inp" id="nc_c" type="number" step="any" inputmode="decimal" value="5000"></div>
+      <div class="field"><label>${lang==='ar'?'الهدف %':'Goal %'}</label>
+        <input class="inp" id="nc_g" type="number" step="any" inputmode="decimal" value="100"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'البداية':'Start date'}</label>
+        <input class="inp" id="nc_s" type="date" value="${today()}"></div>
+      <div class="field"><label>${lang==='ar'?'النهاية':'End date'}</label>
+        <input class="inp" id="nc_e" type="date" value="${new Date(Date.now()+30*86400000).toISOString().slice(0,10)}"></div>
+    </div>
+    <div class="err" id="nc_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openChallengePage()">${t().cancel}</button>
+      <button class="btn primary" onclick="doCreateChallenge()">${lang==='ar'?'ابدأ':'Start'}</button>
+    </div>
+  `);
+}
+function doCreateChallenge(){
+  const name = $("#nc_n").value.trim() || (lang==='ar'?'تحدّي':'Challenge');
+  const cap = parseFloat($("#nc_c").value);
+  const goal = parseFloat($("#nc_g").value);
+  const sd = $("#nc_s").value;
+  const ed = $("#nc_e").value;
+  if (!isFinite(cap) || cap <= 0 || !isFinite(goal) || goal <= 0 || !sd || !ed){
+    $("#nc_err").textContent = lang==='ar'?'تأكّد من الحقول':'Check fields'; return;
+  }
+  const ch = {
+    id: uid(), pfId: settings.activePf, name,
+    startCapital: cap, currentBalance: cap, targetPct: goal,
+    startDate: sd, endDate: ed,
+    status: 'active', trades: [],
+    createdAt: Date.now(),
+  };
+  challenges.push(ch);
+  save();
+  openChallengePage();
+}
+function openChallengeBuy(chId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  modal(`
+    <h2 style="color:var(--accent)">+ ${lang==='ar'?'شراء':'Buy'}</h2>
+    <p class="sub">${lang==='ar'?`الرصيد المتاح: $${fmt0(c.currentBalance)}`:`Available: $${fmt0(c.currentBalance)}`}</p>
+    <div class="field"><label>${t().ticker}</label>
+      <div class="search-wrap">
+        <input class="inp" id="cb_t" placeholder="AAPL" oninput="liveSearch('cb_t','cb_sg')" autocomplete="off">
+      </div>
+      <div id="cb_sg"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'سعر الشراء':'Buy price'} <small style="color:#444">$</small></label>
+        <input class="inp" id="cb_p" type="number" step="any" inputmode="decimal"></div>
+      <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+        <input class="inp" id="cb_d" type="date" value="${today()}"></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px">${lang==='ar'?'الرصيد كاملاً يُستثمر في هذي الصفقة':'Entire balance goes into this trade'}</div>
+    <div class="err" id="cb_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openChallengePage()">${t().cancel}</button>
+      <button class="btn primary" onclick="doChallengeBuy('${c.id}')">${lang==='ar'?'تأكيد':'Confirm'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#cb_t")?.focus(),60);
+}
+function doChallengeBuy(chId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  const tic = $("#cb_t").value.trim().toUpperCase();
+  const price = parseFloat($("#cb_p").value);
+  const date = $("#cb_d").value || today();
+  if (!tic || !isFinite(price) || price <= 0){
+    $("#cb_err").textContent = lang==='ar'?'تأكّد من الرمز والسعر':'Check ticker and price'; return;
+  }
+  c.trades.push({ id: uid(), ticker: tic, buyDate: date, buyPrice: price, invested: c.currentBalance });
+  save();
+  openChallengePage();
+}
+function openChallengeSell(chId, tradeId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  const tr = c.trades.find(t => t.id === tradeId);
+  if (!tr) return;
+  modal(`
+    <h2 style="color:var(--loss)">− ${lang==='ar'?'بيع':'Close'}</h2>
+    <p class="sub">${esc(tr.ticker)} · ${lang==='ar'?'اشتريت بـ':'bought at'} $${fmt(tr.buyPrice)}</p>
+    <div class="grid2">
+      <div class="field"><label>${lang==='ar'?'سعر البيع':'Sell price'} <small style="color:#444">$</small></label>
+        <input class="inp" id="cs_p" type="number" step="any" inputmode="decimal" placeholder="${tr.buyPrice}"></div>
+      <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
+        <input class="inp" id="cs_d" type="date" value="${today()}"></div>
+    </div>
+    <div class="err" id="cs_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openChallengePage()">${t().cancel}</button>
+      <button class="btn primary" onclick="doChallengeSell('${chId}','${tradeId}')">${lang==='ar'?'تأكيد':'Confirm'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#cs_p")?.focus(),60);
+}
+function doChallengeSell(chId, tradeId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  const tr = c.trades.find(t => t.id === tradeId);
+  if (!tr) return;
+  const price = parseFloat($("#cs_p").value);
+  const date = $("#cs_d").value || today();
+  if (!isFinite(price) || price <= 0){
+    $("#cs_err").textContent = lang==='ar'?'تأكّد من السعر':'Check price'; return;
+  }
+  tr.sellDate = date;
+  tr.sellPrice = price;
+  // assume bought whole balance: shares = invested / buyPrice, sold = shares * sellPrice
+  const shares = tr.invested / tr.buyPrice;
+  tr.sold = shares * price;
+  tr.returnPct = (tr.sold - tr.invested) / tr.invested * 100;
+  c.currentBalance = tr.sold;
+  // achievement check: target hit?
+  const pct = (c.currentBalance - c.startCapital) / c.startCapital * 100;
+  if (pct >= c.targetPct){
+    grantAchievement('challenge_win');
+  }
+  save();
+  openChallengePage();
+}
+function endChallenge(chId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  modal(`<h2>${lang==='ar'?'إنهاء التحدّي؟':'End challenge?'}</h2>
+    <p class="sub">${lang==='ar'?'سيُحفظ في السجل ولن تقدر تضيف صفقات.':'Will be archived. No more trades can be added.'}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="openChallengePage()">${t().cancel}</button>
+      <button class="btn danger" onclick="doEndChallenge('${chId}')">${lang==='ar'?'إنهاء':'End'}</button>
+    </div>`);
+}
+function doEndChallenge(chId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  c.status = 'completed';
+  save();
+  openChallengePage();
+}
+
+/* ── Achievements ── */
+const ACHIEVEMENTS = [
+  { id:'first_stock', ic:'🌱', nm:{ar:'أول سهم',en:'First Stock'},      ds:{ar:'أضف أول سهم',en:'Added your first stock'} },
+  { id:'first_buy',   ic:'💸', nm:{ar:'أول صفقة',en:'First Trade'},     ds:{ar:'سجّل أول شراء',en:'Logged a buy'} },
+  { id:'first_sell',  ic:'💵', nm:{ar:'أول بيع',en:'First Sale'},        ds:{ar:'بعت سهم',en:'Sold a stock'} },
+  { id:'first_win',   ic:'🚀', nm:{ar:'أول ربح',en:'First Profit'},      ds:{ar:'بعت مع ربح',en:'Sold profitably'} },
+  { id:'five_stocks', ic:'📦', nm:{ar:'٥ أسهم',en:'5 Stocks'},           ds:{ar:'احتفظ بـ٥ أسهم',en:'Owned 5 stocks'} },
+  { id:'ten_trades',  ic:'⚡', nm:{ar:'١٠ صفقات',en:'10 Trades'},        ds:{ar:'سجّل ١٠ عمليات',en:'10 transactions'} },
+  { id:'options',     ic:'⚙️', nm:{ar:'أوبشنز',en:'Options Player'},     ds:{ar:'أضف عقد خيار',en:'Added an option'} },
+  { id:'dividend',    ic:'💰', nm:{ar:'توزيعة',en:'Dividend'},           ds:{ar:'سجّل أول توزيعة',en:'Logged a dividend'} },
+  { id:'challenge_win',ic:'🏆',nm:{ar:'بطل التحدّي',en:'Champion'},      ds:{ar:'حقّق هدف تحدّي',en:'Hit challenge goal'} },
+  { id:'big_win',     ic:'💎', nm:{ar:'صفقة كبيرة',en:'Big Winner'},     ds:{ar:'ربح +٢٥٪ بصفقة',en:'+25% in a trade'} },
+  { id:'diversified', ic:'🎨', nm:{ar:'متنوّع',en:'Diversified'},        ds:{ar:'٣ قطاعات+',en:'3+ tags'} },
+  { id:'patient',     ic:'🧘', nm:{ar:'صبور',en:'Patient'},              ds:{ar:'سهم +٦ شهور',en:'Held 6 months'} },
+];
+function grantAchievement(id){
+  if (!settings.achievements) settings.achievements = [];
+  if (settings.achievements.includes(id)) return;
+  settings.achievements.push(id);
+  save();
+  showAchievementPopup(id);
+}
+function showAchievementPopup(id){
+  const a = ACHIEVEMENTS.find(x => x.id === id);
+  if (!a) return;
+  document.querySelectorAll('.ach-pop').forEach(p => p.remove());
+  const el = document.createElement('div');
+  el.className = 'ach-pop';
+  el.style.opacity = '0';
+  el.innerHTML = `<div class="ic">${a.ic}</div><div><div class="nm">${lang==='ar'?'إنجاز':'Achievement'}</div><div class="ds">${esc(a.nm[lang])}</div></div>`;
+  document.body.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .3s ease'; el.style.opacity='1'; }, 30);
+  setTimeout(()=>{ el.style.opacity='0'; setTimeout(()=>el.remove(), 350); }, 3500);
+}
+function checkAchievements(){
+  if (!settings.achievements) settings.achievements = [];
+  const hs = holdings.filter(h => h.pfId === settings.activePf);
+  if (hs.length >= 1) grantAchievement('first_stock');
+  const allTx = hs.flatMap(h => h.transactions || []);
+  const buys = allTx.filter(t => t.type === 'buy');
+  const sells = allTx.filter(t => t.type === 'sell');
+  if (buys.length >= 1) grantAchievement('first_buy');
+  if (sells.length >= 1) grantAchievement('first_sell');
+  if (allTx.length >= 10) grantAchievement('ten_trades');
+  if (hs.length >= 5) grantAchievement('five_stocks');
+  if (hs.some(h => h.type && h.type !== 'stock')) grantAchievement('options');
+  if (hs.some(h => (h.dividends||[]).length > 0)) grantAchievement('dividend');
+  if (hs.some(h => { const s = statsFor(h); return s.realized > 0; })) grantAchievement('first_win');
+  if (hs.some(h => { const s = statsFor(h); return s.plPct > 25 || (s.deposited>0 && (s.realized/s.deposited)*100 > 25); })) grantAchievement('big_win');
+  const uniqueTags = new Set();
+  hs.forEach(h => (h.tags||[]).forEach(tg => uniqueTags.add(tg)));
+  if (uniqueTags.size >= 3) grantAchievement('diversified');
+  if (hs.some(h => h.purchaseDate && (Date.now() - new Date(h.purchaseDate).getTime()) > 180*86400000)) grantAchievement('patient');
+}
+function openAchievements(){
+  const earned = settings.achievements || [];
+  modal(`
+    <h2>🏅 ${lang==='ar'?'الإنجازات':'Achievements'}</h2>
+    <p class="sub">${earned.length}/${ACHIEVEMENTS.length} ${lang==='ar'?'مفتوحة':'unlocked'}</p>
+    <div class="ach-grid">
+      ${ACHIEVEMENTS.map(a => `<div class="ach ${earned.includes(a.id)?'earned':''}">
+        <div class="ic">${a.ic}</div>
+        <div class="nm">${esc(a.nm[lang])}</div>
+        <div class="ds">${esc(a.ds[lang])}</div>
+      </div>`).join('')}
+    </div>
+    <div class="m-actions">
+      <button class="btn primary" style="width:100%" onclick="openSettings()">${lang==='ar'?'رجوع':'Back'}</button>
+    </div>
+  `);
+}
+
+/* ── Weekly summary ── */
+function weeklySummary(){
+  const hist = history.filter(h => h.pfId === settings.activePf);
+  if (hist.length < 2) return null;
+  const now = Date.now();
+  const week_ago = now - 7*86400000;
+  const past = hist.filter(h => new Date(h.date).getTime() <= week_ago).slice(-1)[0];
+  const cur = hist[hist.length-1];
+  if (!past || !cur) return null;
+  const change = cur.value - past.value;
+  const pct = past.value > 0 ? change/past.value*100 : 0;
+  // best/worst holding this week (based on day change roughly)
+  const hs = activeHoldings().map(h => ({ h, s: statsFor(h) }));
+  hs.sort((a,b) => (b.s.todayPct||0) - (a.s.todayPct||0));
+  const best = hs[0]?.h.ticker;
+  const worst = hs[hs.length-1]?.h.ticker;
+  return { change, pct, best, worst };
+}
+
+/* ── Export / Import ── */
+function exportData(){
+  const blob = {
+    v: 6, exported: new Date().toISOString(),
+    profile, settings, portfolios, holdings, news, history, watchlist, challenges,
+  };
+  const json = JSON.stringify(blob, null, 2);
+  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  const a = document.createElement('a');
+  a.href = dataUri;
+  a.download = `portfolio-backup-${today()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  toast(lang==='ar'?'تم التحميل':'Downloaded');
+}
+function importData(){
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'application/json,.json';
+  inp.onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = async ev => {
+      try {
+        const b = JSON.parse(ev.target.result);
+        if (!b.portfolios || !b.holdings){ toast(lang==='ar'?'ملف غير صالح':'Invalid file'); return; }
+        profile = b.profile || profile;
+        settings = { ...settings, ...(b.settings || {}) };
+        portfolios = b.portfolios || [];
+        holdings = b.holdings || [];
+        news = b.news || [];
+        history = b.history || [];
+        watchlist = b.watchlist || [];
+        challenges = b.challenges || [];
+        await save();
+        toast(lang==='ar'?'تم الاستيراد':'Imported');
+        render();
+      } catch(err){ toast((lang==='ar'?'خطأ: ':'Error: ') + err.message); }
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+/* ── Updated liveSearch supporting different target boxes ── */
+const _origLiveSearch = liveSearch;
+liveSearch = function(inpId, boxId){
+  // backward-compat: no args → old behavior on f_tic/sg-box
+  const ti = inpId || 'f_tic';
+  const bx = boxId || 'sg-box';
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    const inp = document.getElementById(ti);
+    const box = document.getElementById(bx);
+    if (!inp || !box) return;
+    const q = inp.value.trim();
+    if (!q) { box.innerHTML = ""; return; }
+    box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
+    try {
+      const results = await finnhubSearch(q);
+      if (inp.value.trim() !== q) return;
+      if (!results.length) { box.innerHTML = `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`; return; }
+      box.innerHTML = `<div class="suggest">${results.map(r => {
+        const nm = (r.d || '').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+        return `<div class="sg-item" onclick="(()=>{document.getElementById('${ti}').value='${esc(r.s)}';document.getElementById('${ti}').dataset.name='${esc(nm)}';document.getElementById('${bx}').innerHTML='';})()">
+          <span class="tic">${esc(r.s)}</span>
+          <span class="nm">${esc(r.d || '')}</span>
+        </div>`;
+      }).join("")}</div>`;
+    } catch(e) {
+      if (inp.value.trim() === q) box.innerHTML = `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+    }
+  }, 380);
+};
+
 async function runDiagnostic(){
   modal(`
     <h2>${lang==='ar'?'تشخيص الاتصال':'Connection Diagnostic'}</h2>
@@ -1447,16 +3071,59 @@ function toggleLang(){
 }
 
 function openSettings(){
+  const cashTx = (settings.cashHistory||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,6);
   modal(`
     <h2>${t().settings}</h2>
-    <div class="field"><label>${t().profileName}</label>
-      <input class="inp" id="set_name" value="${esc(profile.name)}"></div>
+
+    <div class="set-section">
+      <h4>👤 ${lang==='ar'?'الملف الشخصي':'Profile'}</h4>
+      <div class="field"><label>${t().profileName}</label>
+        <input class="inp" id="set_name" value="${esc(profile.name)}"></div>
+      <button class="btn" style="width:100%;margin-bottom:8px" onclick="toggleLang()">${lang==='ar'?'🌐 English':'🌐 العربية'}</button>
+      <button class="btn danger" style="width:100%" onclick="logout()">⏏ ${lang==='ar'?'تسجيل خروج':'Logout'}</button>
+    </div>
+
+    <div class="set-section">
+      <h4>💵 ${lang==='ar'?'الكاش':'Cash'} · $${fmt(settings.cash||0,2)}</h4>
+      <div style="display:flex;gap:7px;margin-bottom:8px">
+        <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="addCashTx('deposit')">+ ${lang==='ar'?'إيداع':'Deposit'}</button>
+        <button class="btn" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700" onclick="addCashTx('withdraw')">− ${lang==='ar'?'سحب':'Withdraw'}</button>
+      </div>
+      ${cashTx.length ? `<div style="background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:11.5px">
+        ${cashTx.map(tx => `<div style="display:flex;align-items:center;gap:8px;padding:7px 11px;border-bottom:1px solid var(--line)">
+          <span style="font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:3px;background:${tx.type==='deposit'?'var(--accent-bg)':'var(--loss-bg)'};color:${tx.type==='deposit'?'var(--accent)':'var(--loss)'}">${tx.type==='deposit'?(lang==='ar'?'إيداع':'IN'):(lang==='ar'?'سحب':'OUT')}</span>
+          <span style="color:var(--muted)">${esc(tx.date)}</span>
+          <span style="flex:1;color:var(--muted2);font-size:11px">${esc(tx.note||'')}</span>
+          <span style="font-weight:700;font-variant-numeric:tabular-nums">$${fmt(tx.amount)}</span>
+          <button class="del" onclick="delCashTx('${tx.id}')" style="color:var(--muted2);width:22px;height:22px;border-radius:5px;font-size:11px">✕</button>
+        </div>`).join('')}
+      </div>` : ''}
+    </div>
+
+    <div class="set-section">
+      <h4>🏅 ${lang==='ar'?'الإنجازات':'Achievements'} · ${(settings.achievements||[]).length}/${ACHIEVEMENTS.length}</h4>
+      <button class="btn" style="width:100%" onclick="openAchievements()">${lang==='ar'?'عرض الكل':'View all'} →</button>
+    </div>
+
+    <div class="set-section">
+      <h4>💾 ${lang==='ar'?'النسخ الاحتياطي':'Backup'}</h4>
+      <div style="display:flex;gap:7px">
+        <button class="btn" style="flex:1" onclick="exportData()">📤 ${lang==='ar'?'تصدير':'Export'}</button>
+        <button class="btn" style="flex:1" onclick="importData()">📥 ${lang==='ar'?'استيراد':'Import'}</button>
+      </div>
+      <div class="info">${lang==='ar'?'ينزّل ملف JSON كل بياناتك. تقدر تستوردها على أي جهاز.':'Downloads a JSON file with all your data. Can be imported anywhere.'}</div>
+    </div>
+
+    <div class="set-section">
+      <h4>🔧 ${lang==='ar'?'صيانة':'Maintenance'}</h4>
+      <button class="btn" style="width:100%;margin-bottom:7px" onclick="runDiagnostic()">${lang==='ar'?'تشخيص الاتصال':'Connection diagnostic'}</button>
+      <button class="btn danger" style="width:100%" onclick="askReset()">${t().clearAll}</button>
+    </div>
+
     <div class="m-actions">
       <button class="btn" onclick="closeModal()">${t().cancel}</button>
       <button class="btn primary" onclick="saveSettings()">${t().save}</button>
     </div>
-    <button class="btn" style="width:100%;margin-top:10px" onclick="runDiagnostic()">${lang==='ar'?'🔧 تشخيص الاتصال':'🔧 Run diagnostic'}</button>
-    <button class="btn danger" style="width:100%;margin-top:10px" onclick="askReset()">${t().clearAll}</button>
   `);
 }
 function saveSettings(){
@@ -1482,29 +3149,208 @@ async function doReset(){
   closeModal(); render();
 }
 
-function renderOnboard(){
+function renderSplash(){
   applyLang();
   $("#app").innerHTML = `
-    <div class="onboard">
-      <div class="onboard-card">
-        <div class="logo">◎</div>
-        <h1>${t().welcome}</h1>
-        <p>${t().welcomeSub}</p>
-        <input class="inp" id="nameIn" placeholder="${t().enterName}">
-        <button class="btn primary" style="width:100%;margin-top:14px;padding:13px" onclick="saveName()">${t().start} →</button>
-        <button class="lang" style="margin-top:14px" onclick="toggleLang()">${lang==='ar'?'English':'العربية'}</button>
+    <div class="splash">
+      <div class="splash-inner">
+        <button class="splash-lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
+        <div class="splash-gem">${lang==='ar'?'ث':'T'}</div>
+        <h1 class="splash-title">${lang==='ar'?'ثروة':'Tharwa'}</h1>
+        <p class="splash-tag">${lang==='ar'?'محفظتك الذكية':'Your smart portfolio'}</p>
+        <button class="splash-cta" onclick="enterApp()">
+          ${lang==='ar'?'ابدأ':'Start'}
+          <span class="arr">←</span>
+        </button>
+        <a class="splash-mail" href="mailto:osamah.j09@gmail.com">osamah.j09@gmail.com</a>
       </div>
-    </div>`;
-  setTimeout(()=>{ const n=$("#nameIn"); if(n){ n.focus(); n.onkeydown=e=>{if(e.key==="Enter")saveName();}; } },60);
+    </div>
+  `;
 }
-function saveName(){
-  const v = $("#nameIn").value.trim();
-  if (!v){ $("#nameIn").style.borderColor = "var(--loss)"; return; }
-  profile.name = v;
-  profile.lang = lang;
-  save();
+
+async function enterApp(){
+  splashShown = true;
+  try { await window.storage.set("v4:splashShown", JSON.stringify(true)); } catch(e){}
   render();
 }
+
+function askAdmin(){
+  modal(`
+    <h2>${lang==='ar'?'وضع المدير':'Admin Access'}</h2>
+    <p class="sub">${lang==='ar'?'أدخل كلمة سر المدير لتفعيل حذف المحافظ.':'Enter admin password to enable portfolio deletion.'}</p>
+    <div class="field"><label>${lang==='ar'?'كلمة السر':'Password'}</label>
+      <input class="inp" id="adm_p" type="password" inputmode="numeric" placeholder="••••••••" autocomplete="off"></div>
+    <div class="err" id="adm_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="doAdminLogin()">${lang==='ar'?'دخول':'Enter'}</button>
+    </div>
+  `);
+  setTimeout(()=>{
+    const i = $("#adm_p");
+    i?.focus();
+    i?.addEventListener('keydown', e => { if(e.key==='Enter') doAdminLogin(); });
+  },60);
+}
+
+function doAdminLogin(){
+  const pw = $("#adm_p").value;
+  if (pw === '123101123'){
+    isAdmin = true;
+    closeModal();
+    render();
+  } else {
+    $("#adm_err").textContent = lang==='ar'?'كلمة سر خاطئة':'Wrong password';
+  }
+}
+
+function askDeletePf(id){
+  const p = portfolios.find(x => x.id === id);
+  if (!p) return;
+  modal(`
+    <h2>${lang==='ar'?'حذف محفظة؟':'Delete portfolio?'}</h2>
+    <p class="sub">${lang==='ar'?`بتُحذف "${esc(p.name)}" وكل أسهمها وبياناتها. لا يمكن استرجاعها.`:`"${esc(p.name)}" and all its data will be deleted permanently.`}</p>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn danger" onclick="doDeletePf('${id}')">${t().delete}</button>
+    </div>
+  `);
+}
+
+function doDeletePf(id){
+  portfolios = portfolios.filter(p => p.id !== id);
+  holdings = holdings.filter(h => h.pfId !== id);
+  watchlist = watchlist.filter(w => w.pfId !== id);
+  challenges = challenges.filter(c => c.pfId !== id);
+  history = history.filter(h => h.pfId !== id);
+  if (settings.activePf === id) { settings.activePf = null; settings.unlocked = false; }
+  save();
+  closeModal();
+  render();
+}
+
+function renderLanding(){
+  applyLang();
+  const list = portfolios.length ? portfolios.map(p => {
+    const ph = holdings.filter(h => h.pfId === p.id);
+    let mv = 0; ph.forEach(h => { mv += statsFor(h).mv; });
+    const locked = !!p.passHash;
+    return `<div class="acct-card ${locked?'locked':''}" ${isAdmin?'':`onclick="loginAccount('${p.id}')"`}>
+      <div class="av" style="background:${p.color||'#5FE9B0'}">${esc((p.name||'?')[0])}</div>
+      <div class="acn">
+        <div class="name">${esc(p.name)}</div>
+        <div class="meta">${ph.length} ${lang==='ar'?'سهم':'stocks'} · $${fmt0(mv)}</div>
+      </div>
+      ${isAdmin
+        ? `<button class="acct-del" onclick="event.stopPropagation();askDeletePf('${p.id}')" title="${lang==='ar'?'حذف':'Delete'}">✕</button>`
+        : `<div class="lock">${locked?'🔒':'·'}</div>`}
+    </div>`;
+  }).join("") : `<div class="acct-empty">${lang==='ar'?'لا توجد محافظ بعد':'No portfolios yet'}</div>`;
+  $("#app").innerHTML = `
+    <div class="landing">
+      <div class="landing-head">
+        <button class="lang landing-lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
+        <div class="logo">◎</div>
+        <h1>${lang==='ar'?'المحافظ':'Portfolios'}</h1>
+        <p class="sub">${lang==='ar'?'اختر محفظتك أو أنشئ واحدة جديدة':'Choose your portfolio or create a new one'}</p>
+      </div>
+      ${isAdmin ? `<div class="admin-bar">
+        <span>🔓 ${lang==='ar'?'وضع المدير مفعّل · اضغط ✕ لحذف محفظة':'Admin mode on · tap ✕ to delete'}</span>
+        <button class="admin-off" onclick="isAdmin=false;render()">${lang==='ar'?'إيقاف':'Exit'}</button>
+      </div>` : ''}
+      <div class="accounts-list">${list}</div>
+      <button class="acct-new" onclick="openCreatePortfolio()">＋ ${lang==='ar'?'محفظة جديدة':'New portfolio'}</button>
+      ${!isAdmin ? `<button class="admin-link" onclick="askAdmin()">admin</button>` : ''}
+    </div>
+  `;
+}
+
+function openCreatePortfolio(){
+  modal(`
+    <h2>${lang==='ar'?'محفظة جديدة':'New portfolio'}</h2>
+    <p class="sub">${lang==='ar'?'سمّ محفظتك وحط كلمة سر بسيطة (اختياري) عشان محد يدخلها غيرك.':'Name your portfolio. Set a password (optional) so only you can open it.'}</p>
+    <div class="field"><label>${lang==='ar'?'اسم المحفظة':'Portfolio name'}</label>
+      <input class="inp ar" id="pf_n" placeholder="${lang==='ar'?'مثلاً: محفظتي':'e.g. My Portfolio'}"></div>
+    <div class="field"><label>${lang==='ar'?'كلمة السر (4-8 أرقام)':'Password (4-8 digits)'} <small style="color:#444">· ${t().optional}</small></label>
+      <input class="inp" id="pf_p" type="password" inputmode="numeric" placeholder="••••" autocomplete="new-password"></div>
+    <div class="err" id="pf_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="doCreatePortfolio()">${lang==='ar'?'إنشاء':'Create'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#pf_n")?.focus(),60);
+}
+
+async function doCreatePortfolio(){
+  const name = $("#pf_n").value.trim();
+  const pw = $("#pf_p").value.trim();
+  if (!name){ $("#pf_err").textContent = lang==='ar'?'اكتب اسم':'Enter a name'; return; }
+  const passHash = pw ? await hashPin(pw) : null;
+  const p = { id: uid(), name, color: PF_COLORS[portfolios.length % PF_COLORS.length], passHash, createdAt: Date.now() };
+  portfolios.push(p);
+  settings.activePf = p.id;
+  settings.unlocked = true;
+  if (!profile.name) profile.name = name;
+  await save();
+  closeModal();
+  render();
+}
+
+async function loginAccount(pfId){
+  const p = portfolios.find(x => x.id === pfId);
+  if (!p) return;
+  if (!p.passHash){
+    // no password — open directly
+    settings.activePf = pfId;
+    settings.unlocked = true;
+    profile.name = p.name;
+    await save();
+    render();
+    return;
+  }
+  // ask for password
+  modal(`
+    <h2>🔒 ${esc(p.name)}</h2>
+    <p class="sub">${lang==='ar'?'أدخل كلمة السر للدخول':'Enter password to unlock'}</p>
+    <div class="field">
+      <input class="inp" id="lg_p" type="password" inputmode="numeric" placeholder="••••" autocomplete="off" autofocus>
+    </div>
+    <div class="err" id="lg_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="doLogin('${pfId}')">${lang==='ar'?'دخول':'Enter'}</button>
+    </div>
+  `);
+  setTimeout(()=>{ const i = $("#lg_p"); if (i){ i.focus(); i.onkeydown = e => { if (e.key === "Enter") doLogin(pfId); }; } },60);
+}
+
+async function doLogin(pfId){
+  const p = portfolios.find(x => x.id === pfId);
+  if (!p) return;
+  const pw = $("#lg_p").value.trim();
+  const hash = pw ? await hashPin(pw) : null;
+  if (hash !== p.passHash){
+    $("#lg_err").textContent = lang==='ar'?'كلمة السر خاطئة':'Wrong password';
+    return;
+  }
+  settings.activePf = pfId;
+  settings.unlocked = true;
+  profile.name = p.name;
+  await save();
+  closeModal();
+  render();
+}
+
+async function logout(){
+  settings.unlocked = false;
+  settings.activePf = null;
+  await save();
+  render();
+}
+
+function renderOnboard(){ renderLanding(); }
+function saveName(){ /* legacy compat */ }
 
 /* modal / toast */
 function modal(html){
@@ -1534,6 +3380,6 @@ window.addEventListener("resize", () => { if (booted && profile.name && activeTa
   await load();
   booted = true;
   render();
-  ensureSymbols(); // background prefetch for instant autocomplete
+  setTimeout(()=>{ try { checkAchievements(); } catch(e){} }, 800);
 })();
 </script>
