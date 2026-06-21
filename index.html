@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Circle">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href='data:application/json,{"name":"Circle - سيركل","short_name":"Circle","description":"Your smart portfolio","start_url":"/","display":"standalone","background_color":"%230A0A0A","theme_color":"%230A0A0A","orientation":"portrait","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22><rect width=%22192%22 height=%22192%22 rx=%2240%22 fill=%22%230A0A0A%22/><circle cx=%2296%22 cy=%2296%22 r=%2260%22 fill=%22none%22 stroke=%22%235FE9B0%22 stroke-width=%2210%22/><circle cx=%2296%22 cy=%2296%22 r=%2230%22 fill=%22%235FE9B0%22/></svg>","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%230A0A0A%22/><circle cx=%22256%22 cy=%22256%22 r=%22160%22 fill=%22none%22 stroke=%22%235FE9B0%22 stroke-width=%2226%22/><circle cx=%22256%22 cy=%22256%22 r=%2280%22 fill=%22%235FE9B0%22/></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%230A0A0A"/><circle cx="96" cy="96" r="60" fill="none" stroke="%235FE9B0" stroke-width="10"/><circle cx="96" cy="96" r="30" fill="%235FE9B0"/></svg>'>
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="%235FE9B0" stroke-width="2.5"/><circle cx="16" cy="16" r="5.5" fill="%235FE9B0"/></svg>'>
 <title>Circle | سيركل</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 :root{
@@ -62,10 +71,60 @@ input,select,textarea{font-family:inherit;color:inherit}
 .refresh-btn:hover{color:var(--txt);border-color:#3a3a3a}
 .refresh-btn:disabled{opacity:.5}
 
+/* bottom navigation tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(8,8,8,.92);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-top:1px solid var(--line);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom));margin:0;justify-content:space-around;gap:0}
+.tab{flex:1;padding:8px 4px;border-radius:10px;font-size:9.5px;font-weight:600;color:var(--muted);background:transparent;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.02em;min-height:54px;justify-content:center;line-height:1}
+.tab .tab-ic{font-size:18px;line-height:1;transition:transform .15s}
+.tab:hover{color:var(--txt2)}
+.tab.on{color:var(--accent)}
+.tab.on .tab-ic{transform:scale(1.1)}
+body{padding-bottom:80px !important}
+
+/* "More" menu list */
+.more-list{background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.more-row{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:13px;cursor:pointer;transition:.15s}
+.more-row:last-child{border-bottom:none}
+.more-row:hover{background:var(--surf)}
+.more-row .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;border:1px solid var(--line2);background:var(--bg);flex-shrink:0}
+.more-row .ic.gr{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.more-row .ic.gd{background:#1F1A0E;border-color:#5A4818;color:var(--gold)}
+.more-row .ic.bl{background:#0E1828;border-color:#1F3A6E;color:#5BA5FF}
+.more-row .ic.rd{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
+.more-row .body{flex:1;min-width:0}
+.more-row .nm{font-size:13.5px;font-weight:700;color:var(--txt);margin-bottom:2px}
+.more-row .sub{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.more-row .ar{color:var(--muted2);font-size:14px;flex-shrink:0}
+body[dir="rtl"] .more-row .ar{transform:scaleX(-1)}
+
+/* research checklist */
+.chk-section{margin-bottom:12px}
+.chk-header{display:flex;align-items:center;gap:10px;cursor:pointer;padding:11px 0;user-select:none}
+.chk-header .h{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;flex:1}
+.chk-header .score{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+.chk-header .score.low{background:var(--surf);color:var(--muted)}
+.chk-header .score.mid{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+.chk-header .score.high{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.chk-header .ar-i{font-size:11px;color:var(--muted2);transition:.2s}
+.chk-section.open .chk-header .ar-i{transform:rotate(180deg)}
+.chk-body{display:none;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.chk-section.open .chk-body{display:block}
+.chk-cat{padding:11px 13px 6px;background:linear-gradient(180deg,#0F0F0F,#0A0A0A);border-bottom:1px solid var(--line)}
+.chk-cat .cat-t{font-size:10px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
+.chk-item{padding:10px 13px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:10px;cursor:pointer;transition:.15s}
+.chk-item:last-child{border-bottom:none}
+.chk-item:hover{background:#080808}
+.chk-item .box{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;flex-shrink:0;margin-top:1px;transition:.15s;background:transparent}
+.chk-item.on .box{background:var(--accent);border-color:var(--accent)}
+.chk-item.on .box::after{content:"✓";color:#000;font-weight:800;font-size:14px;line-height:1}
+.chk-item .body{flex:1;min-width:0}
+.chk-item .nm{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--txt2);line-height:1.4}
+.chk-item.on .nm{color:var(--txt)}
+.chk-item .ds{font-size:11px;color:var(--muted);line-height:1.5}
+.chk-total{padding:13px;background:linear-gradient(180deg,#0F0F0F,#0A0A0A);text-align:center;border-top:1px solid var(--line)}
+.chk-total .t{font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.chk-total .v{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+
 /* tabs */
-.tabs{display:flex;justify-content:center;gap:6px;margin-bottom:14px}
-.tab{padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);background:transparent;transition:.15s}
-.tab:hover{color:var(--txt)} .tab.on{background:var(--surf2);color:var(--txt)}
 
 /* horizon filter strip */
 .horizon{display:flex;justify-content:center;gap:5px;margin-bottom:14px}
@@ -632,6 +691,148 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .chart-range-btn:hover{border-color:var(--line2);color:var(--txt2)}
 .chart-range-btn.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 
+/* cards view */
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media (max-width:380px){.cards-grid{grid-template-columns:1fr}}
+.card-h{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.card-h:active{transform:scale(.98)}
+.card-h .top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px;gap:6px}
+.card-h .tic-bx{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:11px;border:1px solid;flex-shrink:0}
+.card-h .ch{font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;padding:2px 6px;border-radius:5px;white-space:nowrap}
+.card-h .ch.up{background:var(--accent-bg);color:var(--accent)}
+.card-h .ch.down{background:var(--loss-bg);color:var(--loss)}
+.card-h .nm{font-weight:800;font-size:14px;letter-spacing:-.3px;margin-bottom:2px}
+.card-h .sub-l{font-size:10.5px;color:var(--muted);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-h .row-line{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px}
+.card-h .row-line .l{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.card-h .row-line .v{font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.card-h .row-line .v.pl-up{color:var(--accent)}
+.card-h .row-line .v.pl-down{color:var(--loss)}
+
+/* currency selector */
+.cur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cur-btn{background:#000;border:1px solid var(--line);color:var(--txt2);padding:9px 6px;border-radius:9px;text-align:center;cursor:pointer;font-family:inherit;transition:.15s;font-weight:700;font-size:11.5px;font-variant-numeric:tabular-nums}
+.cur-btn:hover{border-color:var(--line2)}
+.cur-btn.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.cur-btn .fl{font-size:17px;display:block;margin-bottom:2px}
+
+/* portfolio mini chart */
+.mv-chart-btn{margin-inline-start:6px;background:transparent;border:1px solid var(--line2);color:var(--muted);width:24px;height:24px;border-radius:6px;font-size:11px;font-family:inherit;cursor:pointer;vertical-align:middle;transition:.15s;line-height:1;display:inline-grid;place-items:center;padding:0}
+.mv-chart-btn:hover,.mv-chart-btn.on{border-color:var(--accent-d);color:var(--accent);background:var(--accent-bg)}
+.pf-mini-chart{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0 14px;animation:slideIn .25s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pf-mini-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px}
+.pf-mini-head .ttl{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.pf-mini-head .v{font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums}
+.pf-mini-head .v.up{color:var(--accent)}
+.pf-mini-head .v.down{color:var(--loss)}
+.pf-mini-svg{width:100%;height:120px;display:block;touch-action:none}
+.pf-mini-range{display:flex;gap:3px;margin-top:8px;overflow-x:auto;scrollbar-width:none}
+.pf-mini-range::-webkit-scrollbar{display:none}
+.pf-mini-range .b{flex-shrink:0;background:transparent;border:1px solid var(--line);color:var(--muted);padding:3px 9px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.pf-mini-range .b.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+
+/* PNG export button */
+.png-btn{background:linear-gradient(135deg,#1F1A0E,#0E1F17);border:1px solid #5A4818;color:var(--gold);padding:7px 13px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:.15s}
+.png-btn:hover{background:linear-gradient(135deg,#2A2410,#16291F);border-color:#7A6020}
+
+/* performance summary */
+.perf-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:12px}
+.perf-stat{background:#000;border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+.perf-stat .l{font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.perf-stat .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.perf-stat .v.gr{color:var(--accent)}
+.perf-stat .v.rd{color:var(--loss)}
+.perf-stat .sub-v{font-size:10.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.perf-period-row{display:flex;gap:4px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.perf-period-row::-webkit-scrollbar{display:none}
+.perf-period-row .b{flex-shrink:0;background:transparent;border:1px solid var(--line);color:var(--muted);padding:5px 11px;border-radius:7px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.perf-period-row .b.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+
+/* PNG capture surface */
+.png-capture{background:#0A0A0A;color:#FAFAFA;padding:24px;border-radius:16px;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;width:600px;max-width:100%}
+.png-capture h2{margin:0 0 6px;font-size:20px;font-weight:800;color:#FAFAFA;letter-spacing:-.3px}
+.png-capture .pcap-sub{color:#787878;font-size:12px;margin-bottom:16px}
+.png-capture .pcap-brand{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:14px;border-top:1px solid #1A1A1A;font-size:11px;color:#555}
+.png-capture .pcap-logo{display:flex;align-items:center;gap:6px;font-weight:800;color:#FAFAFA}
+.png-capture .pcap-logo .c{width:18px;height:18px;border-radius:50%;border:2px solid #5FE9B0;background:radial-gradient(circle,rgba(95,233,176,.2),transparent 70%);position:relative}
+.png-capture .pcap-logo .c::after{content:"";position:absolute;inset:3px;border-radius:50%;background:#5FE9B0}
+
+/* ── ticker tape (top live strip) ── */
+.ticker-tape{position:sticky;top:0;z-index:20;background:#000;border-bottom:1px solid var(--line);overflow:hidden;height:30px}
+.ticker-track{display:flex;gap:24px;align-items:center;height:100%;white-space:nowrap;animation:tickerScroll 80s linear infinite;padding:0 22px;font-size:11.5px;font-variant-numeric:tabular-nums;font-weight:600}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:6px}
+.ticker-item .sy{color:var(--txt);font-weight:800;letter-spacing:.02em}
+.ticker-item .pr{color:var(--muted)}
+.ticker-item .ch.up{color:var(--accent)}
+.ticker-item .ch.down{color:var(--loss)}
+body[dir="rtl"] .ticker-track{animation-name:tickerScrollRtl}
+@keyframes tickerScrollRtl{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
+
+/* ── analyst tab ── */
+.an-list{background:#000;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.an-row{padding:13px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:10px}
+.an-row:last-child{border-bottom:none}
+.an-tic{width:46px;height:46px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:13px;border:1px solid;flex-shrink:0}
+.an-body{flex:1;min-width:0}
+.an-tic-line{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.an-tic-line .tic{font-weight:800;font-size:14px}
+.an-tic-line .pr{color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;margin-inline-start:auto}
+.an-targets{display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+.an-targets b{color:var(--txt);font-weight:700}
+.an-targets .h{color:var(--accent)}
+.an-targets .l{color:var(--loss)}
+.an-rec{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.an-rec .pill{font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:5px;letter-spacing:.05em;display:inline-flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.an-rec .pill.strongbuy{background:#0a2814;color:#3ad19a;border:1px solid #1c5a3e}
+.an-rec .pill.buy{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.an-rec .pill.hold{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+.an-rec .pill.sell{background:#2A1818;color:#E89B6B;border:1px solid #5A2818}
+.an-rec .pill.strongsell{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+.an-loading{text-align:center;padding:50px 22px;color:var(--muted2);font-size:12px}
+.an-empty{text-align:center;padding:60px 22px;color:var(--muted)}
+
+/* ── trade markers on chart (buy/sell pins) ── */
+.tx-marker{cursor:pointer}
+
+/* ── heatmap monthly ── */
+.heat-wrap{margin-top:14px;background:#000;border:1px solid var(--line);border-radius:12px;padding:14px}
+.heat-title{font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.heat-grid{display:grid;gap:3px;grid-template-columns:auto repeat(12,1fr)}
+.heat-cell{aspect-ratio:1;border-radius:4px;display:grid;place-items:center;font-size:8.5px;font-weight:700;font-variant-numeric:tabular-nums;border:1px solid;line-height:1}
+.heat-yr-label{font-size:9px;color:var(--muted);font-weight:700;display:grid;place-items:center;padding-inline-end:6px}
+.heat-month-label{font-size:8px;color:var(--muted2);text-transform:uppercase;letter-spacing:.05em;text-align:center;font-weight:700}
+.heat-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:9.5px;color:var(--muted)}
+.heat-legend .b{width:14px;height:14px;border-radius:3px;border:1px solid}
+
+/* admin stats charts */
+.adm-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.adm-stat{background:#000;border:1px solid var(--line);border-radius:10px;padding:11px 12px;text-align:center}
+.adm-stat .l{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.adm-stat .v{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px}
+.adm-stat .v.gr{color:var(--accent)}
+.adm-stat .v.gd{color:var(--gold)}
+.adm-stat .v.bl{color:#5BA5FF}
+
+/* referral box */
+.ref-box{background:linear-gradient(135deg,#0E1F17,#0a1812);border:1px solid var(--accent-d);border-radius:14px;padding:16px;margin-bottom:14px}
+.ref-box .ttl{font-size:11px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.ref-box .head{font-size:14px;font-weight:800;color:var(--txt);margin-bottom:10px;line-height:1.5}
+.ref-code-row{display:flex;align-items:center;gap:8px;background:#000;border:1px dashed var(--accent-d);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.ref-code-row .code{flex:1;font-family:'Inter',monospace;font-size:18px;font-weight:800;letter-spacing:.15em;color:var(--accent);text-align:center}
+.ref-code-row button{background:var(--accent);color:#000;border:none;padding:6px 12px;border-radius:7px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit}
+.ref-box .count{font-size:11.5px;color:var(--muted);text-align:center;margin-top:6px}
+.ref-box .count b{color:var(--accent);font-weight:800;font-variant-numeric:tabular-nums}
+
+/* coupon row in admin */
+.coupon-row{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-size:12px;font-variant-numeric:tabular-nums}
+.coupon-row:last-child{border-bottom:none}
+.coupon-row .code{font-weight:800;color:var(--gold);font-family:'Inter',monospace;letter-spacing:.1em;font-size:13px}
+.coupon-row .pct{font-weight:800;color:var(--accent)}
+.coupon-row .desc{flex:1;color:var(--muted);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 /* ── admin mode ── */
 .admin-bar{
   display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -929,6 +1130,7 @@ async function load(){
   });
   // settings defaults
   if (settings.chartType == null) settings.chartType = 'bubble';
+  if (!settings.currency) settings.currency = 'USD';
   if (settings.curveRange == null) settings.curveRange = '30';
   if (settings.unlocked == null) settings.unlocked = false;
   applyLang();
@@ -1084,6 +1286,7 @@ function render(){
   const tt = totals();
   const dateStr = new Date().toLocaleDateString(lang==='ar'?'ar-SA-u-ca-gregory':'en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
   $("#app").innerHTML = `
+    ${renderTickerTape()}
     <div class="top">
       <button class="pf-pill" onclick="logout()">
         <span class="dot"></span>
@@ -1092,8 +1295,7 @@ function render(){
       </button>
       <div class="top-actions">
         <button class="ico ${settings.privacy?'on':''}" onclick="togglePrivacy()" title="${t().privacy_on}">${settings.privacy?'⊘':'👁'}</button>
-        <button class="ico" onclick="openChallengePage()" title="${lang==='ar'?'التحدّيات':'Challenges'}" style="${activeChallenge()?'color:#E8B96A;border-color:#5A4818':''}">🏆</button>
-        <button class="ico" onclick="openSettings()" title="${t().settings}">⚙</button>
+        ${activeChallenge() ? `<button class="ico" onclick="openChallengePage()" title="${lang==='ar'?'تحدّي نشط':'Active challenge'}" style="color:#E8B96A;border-color:#5A4818">🏆</button>` : ''}
       </div>
     </div>
 
@@ -1103,17 +1305,17 @@ function render(){
 
     <div class="hero-grid">
       <div class="hero-cell">
-        <div class="lbl">${t().marketValue}</div>
-        <div class="val">${maskMoney((tt.mv>=0?'$':'-$')+fmt(Math.abs(tt.mv)))}</div>
+        <div class="lbl">${t().marketValue} <button class="mv-chart-btn ${pfChartOpen?'on':''}" onclick="togglePfChart()" title="${lang==='ar'?'شارت أداء المحفظة':'Portfolio chart'}">📈</button></div>
+        <div class="val">${maskMoney(fmtMoney(tt.mv))}</div>
       </div>
       <div class="hero-cell">
         <div class="lbl">${t().totalPL}</div>
-        <div class="val ${sgn(tt.pl)}">${settings.privacy?'••••':((tt.pl>=0?'+':'')+(tt.pl<0?'-$':'$')+fmt(Math.abs(tt.pl)))}</div>
+        <div class="val ${sgn(tt.pl)}">${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmtMoney(Math.abs(tt.pl)))}</div>
       </div>
     </div>
     <div class="hero-sub ${sgn(tt.pl)}">
       ${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmt(tt.plPct,2)+'%')}
-      ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+'$'+fmt0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
+      ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+fmtMoney0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
     </div>
     <div class="hero-sar">${maskMoney(fmt0(tt.mv*3.75)+' SAR')}</div>
     ${tt.deposited > 0 ? `<div class="deposited-line">
@@ -1131,10 +1333,11 @@ function render(){
     </div>
 
     <div class="tabs">
-      <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')">${t().portfolio}</button>
-      <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')">⭐ ${lang==='ar'?'متابعة':'Watch'}</button>
-      <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')">${t().news}</button>
-      <button class="tab ${activeTab==='zakat'?'on':''}" onclick="setTab('zakat')">${t().zakat}</button>
+      <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')"><span class="tab-ic">🏠</span><span>${lang==='ar'?'الرئيسية':'Home'}</span></button>
+      <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')"><span class="tab-ic">⭐</span><span>${lang==='ar'?'متابعة':'Watch'}</span></button>
+      <button class="tab ${activeTab==='analysts'?'on':''}" onclick="setTab('analysts')"><span class="tab-ic">📈</span><span>${lang==='ar'?'المحللون':'Analysts'}</span></button>
+      <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')"><span class="tab-ic">📰</span><span>${lang==='ar'?'الأخبار':'News'}</span></button>
+      <button class="tab ${activeTab==='more'?'on':''}" onclick="setTab('more')"><span class="tab-ic">☰</span><span>${lang==='ar'?'المزيد':'More'}</span></button>
     </div>
 
     <div id="tab-content"></div>
@@ -1149,6 +1352,8 @@ function togglePrivacy(){ settings.privacy = !settings.privacy; save(); render()
 function renderTab(){
   const c = $("#tab-content"); if (!c) return;
   if (activeTab === "watch") { renderWatchlist(); refreshWatchlistPrices(); return; }
+  if (activeTab === "analysts") { renderAnalysts(); return; }
+  if (activeTab === "more") { renderMore(); return; }
   if (activeTab === "portfolio") {
     const all = allHoldingsInPf();
     if (!all.length){
@@ -1201,14 +1406,29 @@ function renderTab(){
       </div>
       <button class="close" onclick="dismissedWeeklySummary='${wsKey}';renderTab()">✕</button>
     </div>` : '';
+    const miniChart = pfChartOpen ? `<div class="pf-mini-chart">
+      <div class="pf-mini-head">
+        <span class="ttl" id="pf-mini-head-t">${lang==='ar'?'تغيّر القيمة':'Value change'}</span>
+        <span id="pf-mini-head-v"></span>
+      </div>
+      <svg id="pf-mini-svg" class="pf-mini-svg" viewBox="0 0 600 120" preserveAspectRatio="none"></svg>
+      <div class="pf-mini-range">
+        ${['1w','1m','3m','6m','1y','all'].map(r => `<button class="b ${pfChartRange===r?'on':''}" onclick="setPfChartRange('${r}')">${({'1w':lang==='ar'?'أسبوع':'1W','1m':lang==='ar'?'شهر':'1M','3m':lang==='ar'?'٣ أشهر':'3M','6m':lang==='ar'?'٦ أشهر':'6M','1y':lang==='ar'?'سنة':'1Y','all':lang==='ar'?'الكل':'ALL'})[r]}</button>`).join('')}
+      </div>
+    </div>` : '';
     c.innerHTML = `
       ${chBar}
       ${wsBanner}
+      ${miniChart}
       ${horizonStrip}
+      <div style="text-align:center;margin:-4px 0 10px">
+        <button class="png-btn" onclick="openPerfSummary()" style="background:transparent;color:var(--muted);border-color:var(--line2);padding:5px 11px;font-size:11.5px">📊 ${lang==='ar'?'ملخّص الأداء':'Performance Summary'}</button>
+      </div>
       ${hs.length ? `
         <div class="chart-type-switch">
           <button class="${settings.chartType==='bubble'?'on':''}" onclick="setChartType('bubble')"><span class="ic">◉</span> ${lang==='ar'?'فقاعات':'Bubbles'}</button>
           <button class="${settings.chartType==='bar'?'on':''}" onclick="setChartType('bar')"><span class="ic">▤</span> ${lang==='ar'?'أعمدة':'Bars'}</button>
+          <button class="${settings.chartType==='cards'?'on':''}" onclick="setChartType('cards')"><span class="ic">▦</span> ${lang==='ar'?'كروت':'Cards'}</button>
         </div>
         <div id="viz-wrap"></div>
         <div class="list">${hs.map(rowHtml).join("")}</div>
@@ -1218,9 +1438,11 @@ function renderTab(){
     `;
     if (hs.length) {
       if (settings.chartType === 'bar') renderBars();
+      else if (settings.chartType === 'cards') renderCards();
       else renderBubbles();
       if (hasHistory) renderPerformance();
     }
+    if (pfChartOpen) setTimeout(drawPfMiniChart, 30);
   }
   else if (activeTab === "news") renderNews();
   else if (activeTab === "zakat") renderZakat();
@@ -1326,6 +1548,35 @@ function mkText(parent, ns, text, attrs){
   for (const k in attrs) e.setAttribute(k, attrs[k]);
   e.textContent = text;
   parent.appendChild(e);
+}
+
+/* ════ cards view ════ */
+function renderCards(){
+  const wrap = $("#viz-wrap"); if (!wrap) return;
+  wrap.className = '';
+  const hs = activeHoldings();
+  const data = hs.map(h => { const s = statsFor(h); return { h, s }; }).filter(d => d.s.mv > 0);
+  if (!data.length) { wrap.innerHTML = ''; return; }
+  data.sort((a,b) => b.s.mv - a.s.mv);
+  wrap.innerHTML = `<div class="cards-grid">${data.map(({h,s}) => {
+    const up = s.pl >= 0;
+    const col = up ? "var(--accent)" : "var(--loss)";
+    const bg = up ? "var(--accent-bg)" : "var(--loss-bg)";
+    const isOpt = h.type && h.type !== 'stock';
+    const optTag = h.type === 'call' ? `<span style="font-size:8px;font-weight:800;padding:1px 4px;border-radius:3px;background:#1F2E25;color:#5FE9B0;border:1px solid #1E5C44;margin-inline-start:4px">C</span>`
+                 : h.type === 'put'  ? `<span style="font-size:8px;font-weight:800;padding:1px 4px;border-radius:3px;background:#2A0E10;color:#F26B6E;border:1px solid #5C1F22;margin-inline-start:4px">P</span>` : '';
+    return `<div class="card-h" onclick="openDetail('${h.id}')">
+      <div class="top">
+        <div class="tic-bx" style="background:${bg};color:${col};border-color:${col}33">${esc(h.ticker.slice(0,4))}</div>
+        ${s.today != null ? `<div class="ch ${s.today>=0?'up':'down'}">${s.today>=0?'+':''}${fmt(s.todayPct,1)}%</div>` : ''}
+      </div>
+      <div class="nm">${esc(h.ticker)}${optTag}</div>
+      <div class="sub-l">${esc((h.name && h.name !== h.ticker) ? h.name : (isOpt?(lang==='ar'?'عقد خيار':'Option'):' '))}</div>
+      <div class="row-line"><span class="l">${lang==='ar'?'قيمة':'Value'}</span><span class="v">${maskMoney(fmtMoney(s.mv))}</span></div>
+      <div class="row-line"><span class="l">P&L</span><span class="v ${s.pl>=0?'pl-up':'pl-down'}">${settings.privacy?'••':((s.pl>=0?'+':'')+fmtMoney(Math.abs(s.pl)))}</span></div>
+      <div class="row-line"><span class="l">%</span><span class="v ${s.pl>=0?'pl-up':'pl-down'}">${settings.privacy?'••':((s.plPct>=0?'+':'')+fmt(s.plPct,1)+'%')}</span></div>
+    </div>`;
+  }).join('')}</div>`;
 }
 
 /* ════ bar chart ════ */
@@ -1720,6 +1971,10 @@ function openDetail(id){
       <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
       <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
     </div>
+    <button class="btn" style="width:100%;background:linear-gradient(135deg,#0E1F17,#16140a);border-color:var(--accent-d);color:var(--accent);font-weight:700;margin-bottom:12px" onclick="openAIAnalysisComingSoon('${esc(h.ticker)}')">
+      🤖 ${lang==='ar'?'تحليل بالذكاء الاصطناعي':'AI Technical Analysis'}
+      <span style="font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:var(--gold);color:#000;margin-inline-start:6px;letter-spacing:.05em">${lang==='ar'?'قريباً':'SOON'}</span>
+    </button>
 
     ${s.realized ? `<div class="realized-box">
       <span class="lbl">${lang==='ar'?'الربح المحقّق':'Realized P&L'}</span>
@@ -1799,6 +2054,8 @@ function openDetail(id){
       </div>
     `).join('')}</div>` : ''}
     <button class="add-btn" onclick="addDividend('${h.id}')">＋ ${lang==='ar'?'إضافة توزيع':'Add dividend'}</button>
+
+    ${renderChecklistHTML(h)}
 
     <div class="coll" id="ins-coll" style="margin-top:14px">
       <div class="coll-head" onclick="document.getElementById('ins-coll').classList.toggle('open');loadInsiderTrades('${h.id}','${esc(h.ticker)}')">
@@ -2154,6 +2411,33 @@ function renderZakat(){
 /* ════ Finnhub (prices, search, news) + TwelveData (chart, earnings) — direct browser fetches ════ */
 const FINNHUB_KEY = "d8qgp71r01qr03nirq8gd8qgp71r01qr03nirq90";
 const FINNHUB = "https://finnhub.io/api/v1";
+const POLYGON_KEY = "11lwA2g6PrKa7AbVVTaOKp2f8g0p1z5oL";
+const POLYGON = "https://api.polygon.io";
+
+/* ════ Currency system (USD base, 6 currencies) ════ */
+const CURRENCIES = {
+  USD: { sym:'$',    fl:'🇺🇸', name:{ar:'دولار',  en:'USD'}, rate:1     },
+  SAR: { sym:'ر.س', fl:'🇸🇦', name:{ar:'ريال',   en:'SAR'}, rate:3.75  },
+  EUR: { sym:'€',    fl:'🇪🇺', name:{ar:'يورو',   en:'EUR'}, rate:0.92  },
+  GBP: { sym:'£',    fl:'🇬🇧', name:{ar:'استرليني',en:'GBP'},rate:0.79  },
+  AED: { sym:'د.إ', fl:'🇦🇪', name:{ar:'إماراتي',en:'AED'}, rate:3.67  },
+  KWD: { sym:'د.ك', fl:'🇰🇼', name:{ar:'كويتي',  en:'KWD'}, rate:0.31  },
+};
+function getCurrency(){ return (settings && settings.currency) || 'USD'; }
+function convCur(usdAmount){
+  const c = CURRENCIES[getCurrency()] || CURRENCIES.USD;
+  return usdAmount * c.rate;
+}
+function fmtMoney(usdAmount, decimals){
+  const c = CURRENCIES[getCurrency()] || CURRENCIES.USD;
+  const v = usdAmount * c.rate;
+  const dec = decimals != null ? decimals : (Math.abs(v) >= 100 ? 0 : 2);
+  const formatted = (v >= 0 ? '' : '−') + Math.abs(v).toLocaleString(undefined, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  if (getCurrency() === 'USD') return '$' + formatted;
+  return formatted + ' ' + c.sym;
+}
+function fmtMoney0(usdAmount){ return fmtMoney(usdAmount, 0); }
+
 const TD_KEY = "e5cdd6087f4b432abe74e66b0e55a215";
 const TD = "https://api.twelvedata.com";
 
@@ -2763,12 +3047,13 @@ function renderChallengeDetail(c){
       <div class="ch-pg"><div class="fill ${currentReturn>=0?'gain':'loss'}" style="width:${progressPct}%"></div></div>
       <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:9px">${lang==='ar'?'تقدّمت':'Progress'}: ${fmt(progressPct,1)}% ${lang==='ar'?'من الهدف':'of goal'}</div>
 
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
         ${openTrade ? `
-          <button class="btn" onclick="openChallengeSell('${c.id}','${openTrade.id}')" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700">${lang==='ar'?'بيع':'Close trade'}</button>
+          <button class="btn" onclick="openChallengeSell('${c.id}','${openTrade.id}')" style="flex:1;min-width:100px;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700">${lang==='ar'?'بيع':'Close trade'}</button>
         ` : `
-          <button class="btn" onclick="openChallengeBuy('${c.id}')" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700">+ ${lang==='ar'?'صفقة جديدة':'New trade'}</button>
+          <button class="btn" onclick="openChallengeBuy('${c.id}')" style="flex:1;min-width:100px;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700">+ ${lang==='ar'?'صفقة جديدة':'New trade'}</button>
         `}
+        <button class="png-btn" onclick="exportChallengePNG('${c.id}')">📥 ${lang==='ar'?'صورة':'PNG'}</button>
         <button class="btn" onclick="endChallenge('${c.id}')">${lang==='ar'?'إنهاء':'End'}</button>
       </div>
 
@@ -3127,6 +3412,1070 @@ liveSearch = function(inpId, boxId){
   }, 380);
 };
 
+/* ════════════════════════════════════════════════════════════════
+   v8 BLOCK: currency picker, perf summary, mini chart, PNG export
+   ════════════════════════════════════════════════════════════════ */
+
+function openCurrencyPicker(){
+  const cur = getCurrency();
+  modal(`
+    <h2>💱 ${lang==='ar'?'العملة المعروضة':'Display Currency'}</h2>
+    <p class="sub">${lang==='ar'?'أسعار الأسهم تبقى بالدولار، لكن العرض يتحوّل لعملتك. المعدلات تقريبية.':'Stock prices stay in USD, but display converts to your currency. Rates are approximate.'}</p>
+    <div class="cur-grid">
+      ${Object.keys(CURRENCIES).map(k => {
+        const c = CURRENCIES[k];
+        return `<button class="cur-btn ${cur===k?'on':''}" onclick="setCurrency('${k}')">
+          <span class="fl">${c.fl}</span>
+          <span>${k}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <div class="m-actions">
+      <button class="btn primary" style="width:100%" onclick="openSettings()">${lang==='ar'?'رجوع':'Back'}</button>
+    </div>
+  `);
+}
+function setCurrency(code){
+  settings.currency = code;
+  save();
+  cloudSaveSettings?.();
+  openCurrencyPicker();
+  setTimeout(()=>{ if (settings.activePf && settings.unlocked) render(); }, 200);
+}
+
+/* ── Portfolio mini chart (above MV) ── */
+let pfChartOpen = false;
+let pfChartRange = '1m';
+function togglePfChart(){
+  pfChartOpen = !pfChartOpen;
+  if (pfChartOpen) {
+    renderTab();
+    setTimeout(()=>drawPfMiniChart(), 50);
+  } else {
+    renderTab();
+  }
+}
+function setPfChartRange(r){
+  pfChartRange = r;
+  drawPfMiniChart();
+}
+function drawPfMiniChart(){
+  const svg = document.getElementById('pf-mini-svg');
+  if (!svg) return;
+  const hist = history.filter(h => h.pfId === settings.activePf)
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+  if (hist.length < 2){
+    svg.parentElement.innerHTML = `<div style="text-align:center;color:var(--muted2);font-size:11.5px;padding:30px 10px">${lang==='ar'?'مافي بيانات كافية بعد. سجّل عمليات وارجع بعد كم يوم.':'Not enough history yet. Make some trades and check back.'}</div>`;
+    return;
+  }
+  const now = Date.now();
+  const ranges = { '1w':7, '1m':30, '3m':90, '6m':180, '1y':365, 'all':null };
+  const cutoff = ranges[pfChartRange] ? now - ranges[pfChartRange] * 86400000 : 0;
+  const data = hist.filter(h => new Date(h.date).getTime() >= cutoff);
+  if (data.length < 2){
+    svg.parentElement.innerHTML = `<div style="text-align:center;color:var(--muted2);font-size:11.5px;padding:30px 10px">${lang==='ar'?'لا توجد بيانات لهذه الفترة':'No data for this range'}</div>`;
+    return;
+  }
+  const values = data.map(d => d.value);
+  const min = Math.min(...values), max = Math.max(...values), range = max - min || 1;
+  const W = 600, H = 120, PAD = 6;
+  const xs = values.map((_,i) => PAD + (i/(values.length-1))*(W-2*PAD));
+  const ys = values.map(v => PAD + (1-(v-min)/range)*(H-2*PAD));
+  const pts = values.map((_,i) => `${xs[i]},${ys[i]}`).join(' ');
+  const first = values[0], last = values[values.length-1];
+  const chg = last - first;
+  const chgPct = first > 0 ? chg/first*100 : 0;
+  const up = chg >= 0;
+  const col = up ? '#5FE9B0' : '#F26B6E';
+  svg.innerHTML = `
+    <defs><linearGradient id="pfgrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${col}" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="${col}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <polygon points="${PAD},${H-PAD} ${pts} ${W-PAD},${H-PAD}" fill="url(#pfgrad)"/>
+    <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.8"/>
+    <line id="pfx" x1="0" y1="0" x2="0" y2="${H}" stroke="rgba(255,255,255,.25)" stroke-width="0.6" style="display:none"/>
+    <circle id="pfdot" r="3.5" fill="${col}" stroke="#000" stroke-width="1.4" style="display:none"/>
+  `;
+  const head = document.getElementById('pf-mini-head-v');
+  if (head) head.innerHTML = `<span class="v ${up?'up':'down'}">${up?'+':''}${fmtMoney(Math.abs(chg))} · ${up?'+':''}${fmt(chgPct,1)}%</span>`;
+  const headTtl = document.getElementById('pf-mini-head-t');
+  if (headTtl) headTtl.textContent = (lang==='ar'?'تغيّر القيمة':'Value change');
+  const cross = svg.querySelector('#pfx');
+  const dot = svg.querySelector('#pfdot');
+  const handle = (e) => {
+    const t = e.touches ? e.touches[0] : e;
+    if (!t) return;
+    const rect = svg.getBoundingClientRect();
+    const x = (t.clientX - rect.left) / rect.width * W;
+    let idx = Math.round((x - PAD) / (W - 2*PAD) * (values.length - 1));
+    idx = Math.max(0, Math.min(values.length-1, idx));
+    cross.setAttribute('x1', xs[idx]); cross.setAttribute('x2', xs[idx]); cross.style.display='block';
+    dot.setAttribute('cx', xs[idx]); dot.setAttribute('cy', ys[idx]); dot.style.display='block';
+    if (head) head.innerHTML = `<span class="v" style="color:${col};font-variant-numeric:tabular-nums">${fmtMoney(values[idx])}</span>`;
+    if (headTtl) headTtl.textContent = data[idx].date;
+    e.preventDefault();
+  };
+  const reset = () => {
+    cross.style.display='none'; dot.style.display='none';
+    if (head) head.innerHTML = `<span class="v ${up?'up':'down'}">${up?'+':''}${fmtMoney(Math.abs(chg))} · ${up?'+':''}${fmt(chgPct,1)}%</span>`;
+    if (headTtl) headTtl.textContent = (lang==='ar'?'تغيّر القيمة':'Value change');
+  };
+  svg.addEventListener('mousemove', handle);
+  svg.addEventListener('mouseleave', reset);
+  svg.addEventListener('touchstart', handle, { passive:false });
+  svg.addEventListener('touchmove', handle, { passive:false });
+  svg.addEventListener('touchend', reset);
+}
+
+/* ── Performance summary ── */
+let perfPeriod = '1m';
+function openPerfSummary(){
+  renderPerfSummary();
+}
+function setPerfPeriod(p){
+  perfPeriod = p;
+  renderPerfSummary();
+}
+function calcPerfStats(periodKey){
+  const hist = history.filter(h => h.pfId === settings.activePf)
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+  const ranges = { '1w':7, '1m':30, '3m':90, '6m':180, '1y':365, 'all':null };
+  const cutoff = ranges[periodKey] ? Date.now() - ranges[periodKey]*86400000 : 0;
+  const data = hist.filter(h => new Date(h.date).getTime() >= cutoff);
+  const allHs = activeHoldings();
+  const allTx = [];
+  allHs.forEach(h => (h.transactions||[]).forEach(tx => allTx.push({...tx, holdId:h.id, ticker:h.ticker, isOpt: h.type && h.type !== 'stock'})));
+  const txInRange = allTx.filter(tx => tx.ts >= cutoff);
+
+  // realized P&L in period (matching sells against running avg from earlier txs)
+  let realizedInRange = 0;
+  const byHold = {};
+  allTx.forEach(tx => (byHold[tx.holdId] = byHold[tx.holdId] || []).push(tx));
+  Object.values(byHold).forEach(txs => {
+    txs.sort((a,b) => (a.ts||0)-(b.ts||0));
+    let shares = 0, cost = 0;
+    txs.forEach(tx => {
+      const mult = tx.isOpt ? 100 : 1;
+      if (tx.type === 'buy'){ cost += tx.qty * tx.price * mult; shares += tx.qty; }
+      else {
+        const avg = shares > 0 ? cost/shares : 0;
+        const r = (tx.price - avg/mult) * tx.qty * mult;
+        if (tx.ts >= cutoff) realizedInRange += r;
+        cost = Math.max(0, cost - avg*tx.qty);
+        shares = Math.max(0, shares - tx.qty);
+      }
+    });
+  });
+  const buysInRange = txInRange.filter(t => t.type === 'buy').length;
+  const sellsInRange = txInRange.filter(t => t.type === 'sell').length;
+  let wins = 0, losses = 0;
+  Object.values(byHold).forEach(txs => {
+    txs.sort((a,b) => (a.ts||0)-(b.ts||0));
+    let shares = 0, cost = 0;
+    txs.forEach(tx => {
+      const mult = tx.isOpt ? 100 : 1;
+      if (tx.type === 'buy'){ cost += tx.qty * tx.price * mult; shares += tx.qty; }
+      else {
+        const avg = shares > 0 ? cost/shares : 0;
+        const r = (tx.price - avg/mult) * tx.qty * mult;
+        if (tx.ts >= cutoff){
+          if (r > 0) wins++; else if (r < 0) losses++;
+        }
+        cost = Math.max(0, cost - avg*tx.qty);
+        shares = Math.max(0, shares - tx.qty);
+      }
+    });
+  });
+  const winRate = (wins+losses) > 0 ? wins/(wins+losses)*100 : null;
+
+  // value change
+  let valueChange = null, valueChangePct = null;
+  if (data.length >= 2){
+    const first = data[0].value, last = data[data.length-1].value;
+    valueChange = last - first;
+    valueChangePct = first > 0 ? valueChange/first*100 : 0;
+  }
+
+  // best/worst holding (by today's plPct)
+  const hStats = allHs.map(h => ({ h, s: statsFor(h) }))
+    .filter(x => x.s.shares > 0)
+    .sort((a,b) => (b.s.plPct||0) - (a.s.plPct||0));
+  const best = hStats[0]?.h;
+  const worst = hStats[hStats.length-1]?.h;
+
+  return {
+    valueChange, valueChangePct,
+    realizedInRange, buysInRange, sellsInRange,
+    wins, losses, winRate,
+    best, worst,
+    bestStats: hStats[0]?.s, worstStats: hStats[hStats.length-1]?.s,
+  };
+}
+function renderPerfSummary(){
+  const st = calcPerfStats(perfPeriod);
+  const ar = lang === 'ar';
+  const periods = [
+    { id:'1w', ar:'أسبوع', en:'1W' },
+    { id:'1m', ar:'شهر',   en:'1M' },
+    { id:'3m', ar:'٣ أشهر',en:'3M' },
+    { id:'6m', ar:'٦ أشهر',en:'6M' },
+    { id:'1y', ar:'سنة',   en:'1Y' },
+    { id:'all',ar:'الكل',  en:'ALL'},
+  ];
+  modal(`
+    <h2>📊 ${ar?'ملخّص الأداء':'Performance Summary'}</h2>
+    <p class="sub">${ar?'اختار الفترة:':'Pick a period:'}</p>
+    <div class="perf-period-row">${periods.map(p => `<button class="b ${perfPeriod===p.id?'on':''}" onclick="setPerfPeriod('${p.id}')">${ar?p.ar:p.en}</button>`).join('')}</div>
+    <div id="perf-capture-target">
+    <div class="perf-stats">
+      <div class="perf-stat">
+        <div class="l">${ar?'تغيّر القيمة':'Value change'}</div>
+        <div class="v ${st.valueChange!=null && st.valueChange>=0?'gr':(st.valueChange!=null?'rd':'')}">${st.valueChange!=null?((st.valueChange>=0?'+':'')+fmtMoney(Math.abs(st.valueChange))):'—'}</div>
+        ${st.valueChangePct!=null?`<div class="sub-v">${st.valueChangePct>=0?'+':''}${fmt(st.valueChangePct,2)}%</div>`:''}
+      </div>
+      <div class="perf-stat">
+        <div class="l">${ar?'الربح المحقّق':'Realized P&L'}</div>
+        <div class="v ${st.realizedInRange>=0?'gr':'rd'}">${st.realizedInRange>=0?'+':''}${fmtMoney(Math.abs(st.realizedInRange))}</div>
+        <div class="sub-v">${st.sellsInRange} ${ar?'صفقة بيع':'sells'}</div>
+      </div>
+      <div class="perf-stat">
+        <div class="l">${ar?'نسبة الفوز':'Win rate'}</div>
+        <div class="v ${st.winRate==null?'':st.winRate>=50?'gr':'rd'}">${st.winRate!=null?fmt(st.winRate,0)+'%':'—'}</div>
+        <div class="sub-v">${st.wins}W · ${st.losses}L</div>
+      </div>
+      <div class="perf-stat">
+        <div class="l">${ar?'العمليات':'Transactions'}</div>
+        <div class="v">${st.buysInRange + st.sellsInRange}</div>
+        <div class="sub-v">${st.buysInRange}B · ${st.sellsInRange}S</div>
+      </div>
+    </div>
+    ${st.best && st.bestStats ? `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px">
+      <div class="perf-stat" style="background:var(--accent-bg);border-color:var(--accent-d)">
+        <div class="l" style="color:var(--accent)">🏆 ${ar?'الأفضل':'Best'}</div>
+        <div class="v gr" style="font-size:14px">${esc(st.best.ticker)}</div>
+        <div class="sub-v" style="color:var(--accent)">${st.bestStats.plPct>=0?'+':''}${fmt(st.bestStats.plPct,1)}%</div>
+      </div>
+      <div class="perf-stat" style="background:var(--loss-bg);border-color:var(--loss-d)">
+        <div class="l" style="color:var(--loss)">📉 ${ar?'الأسوأ':'Worst'}</div>
+        <div class="v rd" style="font-size:14px">${esc(st.worst?.ticker || '—')}</div>
+        <div class="sub-v" style="color:var(--loss)">${st.worstStats ? (st.worstStats.plPct>=0?'+':'')+fmt(st.worstStats.plPct,1)+'%' : ''}</div>
+      </div>
+    </div>` : ''}
+    ${renderHeatmapHTML()}
+    </div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
+      <button class="png-btn" onclick="exportPerfPNG('${perfPeriod}')">📥 ${ar?'تصدير صورة':'Export PNG'}</button>
+    </div>
+  `);
+}
+
+/* ── PNG export helpers ── */
+async function captureToPNG(node, filename){
+  if (!window.html2canvas){
+    toast(lang==='ar'?'مكتبة الصور لم تحمّل':'Image library not loaded');
+    return;
+  }
+  try {
+    const canvas = await window.html2canvas(node, { backgroundColor:'#0A0A0A', scale: 2, logging:false, useCORS:true });
+    const dataUrl = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast(lang==='ar'?'تم التحميل':'Downloaded');
+  } catch(e){
+    toast((lang==='ar'?'خطأ: ':'Error: ') + e.message);
+  }
+}
+async function exportPerfPNG(periodKey){
+  const st = calcPerfStats(periodKey);
+  const ar = lang==='ar';
+  const periodNames = { '1w':ar?'أسبوع':'1 Week', '1m':ar?'شهر':'1 Month', '3m':ar?'٣ أشهر':'3 Months', '6m':ar?'٦ أشهر':'6 Months', '1y':ar?'سنة':'1 Year', 'all':ar?'الكل':'All time' };
+  const pfName = portfolios.find(p => p.id === settings.activePf)?.name || '';
+  const node = document.createElement('div');
+  node.className = 'png-capture';
+  node.style.position = 'fixed';
+  node.style.left = '-9999px';
+  node.style.top = '0';
+  node.innerHTML = `
+    <h2>📊 ${ar?'ملخّص الأداء':'Performance Summary'}</h2>
+    <div class="pcap-sub">${esc(pfName)} · ${esc(periodNames[periodKey]||periodKey)} · ${new Date().toLocaleDateString()}</div>
+    <div class="perf-stats">
+      <div class="perf-stat"><div class="l">${ar?'تغيّر القيمة':'Value change'}</div>
+        <div class="v ${st.valueChange!=null && st.valueChange>=0?'gr':'rd'}">${st.valueChange!=null?((st.valueChange>=0?'+':'')+fmtMoney(Math.abs(st.valueChange))):'—'}</div>
+        ${st.valueChangePct!=null?`<div class="sub-v">${st.valueChangePct>=0?'+':''}${fmt(st.valueChangePct,2)}%</div>`:''}</div>
+      <div class="perf-stat"><div class="l">${ar?'الربح المحقّق':'Realized P&L'}</div>
+        <div class="v ${st.realizedInRange>=0?'gr':'rd'}">${st.realizedInRange>=0?'+':''}${fmtMoney(Math.abs(st.realizedInRange))}</div>
+        <div class="sub-v">${st.sellsInRange} ${ar?'بيع':'sells'}</div></div>
+      <div class="perf-stat"><div class="l">${ar?'نسبة الفوز':'Win rate'}</div>
+        <div class="v ${st.winRate==null?'':st.winRate>=50?'gr':'rd'}">${st.winRate!=null?fmt(st.winRate,0)+'%':'—'}</div>
+        <div class="sub-v">${st.wins}W · ${st.losses}L</div></div>
+      <div class="perf-stat"><div class="l">${ar?'العمليات':'Trades'}</div>
+        <div class="v">${st.buysInRange + st.sellsInRange}</div>
+        <div class="sub-v">${st.buysInRange}B · ${st.sellsInRange}S</div></div>
+    </div>
+    ${st.best ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px">
+      <div class="perf-stat" style="background:#0E1F17;border-color:#1E5C44"><div class="l" style="color:#5FE9B0">🏆 ${ar?'الأفضل':'Best'}</div>
+        <div class="v gr" style="font-size:14px">${esc(st.best.ticker)}</div>
+        <div class="sub-v" style="color:#5FE9B0">${st.bestStats.plPct>=0?'+':''}${fmt(st.bestStats.plPct,1)}%</div></div>
+      <div class="perf-stat" style="background:#2A0E10;border-color:#5C1F22"><div class="l" style="color:#F26B6E">📉 ${ar?'الأسوأ':'Worst'}</div>
+        <div class="v rd" style="font-size:14px">${esc(st.worst?.ticker||'—')}</div>
+        <div class="sub-v" style="color:#F26B6E">${st.worstStats?(st.worstStats.plPct>=0?'+':'')+fmt(st.worstStats.plPct,1)+'%':''}</div></div>
+    </div>` : ''}
+    <div class="pcap-brand">
+      <div class="pcap-logo"><span class="c"></span><span>${ar?'سيركل':'Circle'}</span></div>
+      <span>circle.app</span>
+    </div>
+  `;
+  document.body.appendChild(node);
+  await captureToPNG(node, `performance-${periodKey}-${new Date().toISOString().slice(0,10)}.png`);
+  node.remove();
+}
+
+async function exportChallengePNG(chId){
+  const c = challenges.find(x => x.id === chId);
+  if (!c) return;
+  const ar = lang==='ar';
+  const ret = c.currentBalance - c.startCapital;
+  const pct = c.startCapital > 0 ? ret/c.startCapital*100 : 0;
+  const node = document.createElement('div');
+  node.className = 'png-capture';
+  node.style.position = 'fixed';
+  node.style.left = '-9999px';
+  node.style.top = '0';
+  node.innerHTML = `
+    <h2>🏆 ${esc(c.name)}</h2>
+    <div class="pcap-sub">${esc(c.startDate)} → ${esc(c.endDate)} · ${ar?'الهدف':'Goal'} ${fmt(c.targetPct,0)}%</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px">
+      <div class="perf-stat"><div class="l">${ar?'البداية':'Start'}</div><div class="v">${fmtMoney0(c.startCapital)}</div></div>
+      <div class="perf-stat"><div class="l">${ar?'الرصيد':'Balance'}</div><div class="v ${ret>=0?'gr':'rd'}">${fmtMoney0(c.currentBalance)}</div></div>
+      <div class="perf-stat"><div class="l">${ar?'العائد':'Return'}</div><div class="v ${ret>=0?'gr':'rd'}">${ret>=0?'+':''}${fmt(pct,1)}%</div></div>
+    </div>
+    ${c.trades.length ? `
+    <h3 style="margin:14px 0 8px;font-size:13px;font-weight:800;color:#FAFAFA">${ar?'الصفقات':'Trades'}</h3>
+    <div style="background:#000;border:1px solid #1A1A1A;border-radius:10px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 0.8fr;gap:6px;padding:8px 12px;background:#101010;font-size:9.5px;color:#787878;font-weight:700;text-transform:uppercase;letter-spacing:.06em">
+        <span>${ar?'الرمز':'Ticker'}</span>
+        <span style="text-align:right">${ar?'مُستثمر':'Invested'}</span>
+        <span style="text-align:right">${ar?'مستلم':'Sold'}</span>
+        <span style="text-align:right">%</span>
+      </div>
+      ${c.trades.map(tr => {
+        const isOpen = !tr.sellDate;
+        return `<div style="display:grid;grid-template-columns:1.2fr 1fr 1fr 0.8fr;gap:6px;padding:8px 12px;border-top:1px solid #1A1A1A;font-size:11px;font-variant-numeric:tabular-nums">
+          <span style="font-weight:800;color:#5FE9B0">${esc(tr.ticker)}<br><small style="color:#555;font-weight:500">${esc(tr.buyDate||'')}${tr.sellDate?' → '+esc(tr.sellDate):''}</small></span>
+          <span style="text-align:right;color:#D4D4D4">${fmtMoney0(tr.invested)}</span>
+          <span style="text-align:right;color:#D4D4D4">${tr.sold!=null?fmtMoney0(tr.sold):'—'}</span>
+          <span style="text-align:right;font-weight:800;color:${isOpen?'#E8B96A':(tr.returnPct>=0?'#5FE9B0':'#F26B6E')}">${isOpen?(ar?'مفتوحة':'OPEN'):((tr.returnPct>=0?'+':'')+fmt(tr.returnPct,1)+'%')}</span>
+        </div>`;
+      }).join('')}
+    </div>` : ''}
+    <div class="pcap-brand">
+      <div class="pcap-logo"><span class="c"></span><span>${ar?'سيركل':'Circle'}</span></div>
+      <span>${new Date().toLocaleDateString()}</span>
+    </div>
+  `;
+  document.body.appendChild(node);
+  await captureToPNG(node, `challenge-${c.name.replace(/[^\w]+/g,'_')}-${new Date().toISOString().slice(0,10)}.png`);
+  node.remove();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v9 BLOCK: Analysts, Ticker tape, Trade timeline, Heatmap,
+   Daily backup, Referral, Coupons, Admin stats
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Analyst recommendations (Polygon.io) ── */
+const analystCache = {};
+async function fetchAnalystData(ticker){
+  const cached = analystCache[ticker];
+  if (cached && Date.now() - cached.fetched < 6*3600000) return cached.data;
+  try {
+    // Polygon free tier: ticker details + last close from snapshot
+    const [detailsRes, snapshotRes] = await Promise.all([
+      fetch(`${POLYGON}/v3/reference/tickers/${ticker}?apiKey=${POLYGON_KEY}`),
+      fetch(`${POLYGON}/v2/snapshot/locale/us/markets/stocks/tickers/${ticker}?apiKey=${POLYGON_KEY}`),
+    ]);
+    const details = detailsRes.ok ? await detailsRes.json() : null;
+    const snapshot = snapshotRes.ok ? await snapshotRes.json() : null;
+    const result = {
+      name: details?.results?.name || ticker,
+      price: snapshot?.ticker?.day?.c || snapshot?.ticker?.lastTrade?.p || null,
+      changePct: snapshot?.ticker?.todaysChangePerc || null,
+      marketCap: details?.results?.market_cap || null,
+    };
+    // Fetch Finnhub recommendation trends (compatible aggregate)
+    try {
+      const recRes = await fetch(`${FINNHUB}/stock/recommendation?symbol=${ticker}&token=${FINNHUB_KEY}`);
+      if (recRes.ok){
+        const recData = await recRes.json();
+        if (Array.isArray(recData) && recData.length > 0){
+          result.recommendation = recData[0];
+        }
+      }
+    } catch(e){}
+    // Fetch price target from Finnhub
+    try {
+      const tgtRes = await fetch(`${FINNHUB}/stock/price-target?symbol=${ticker}&token=${FINNHUB_KEY}`);
+      if (tgtRes.ok){
+        const tgtData = await tgtRes.json();
+        result.target = {
+          high: tgtData.targetHigh, low: tgtData.targetLow,
+          mean: tgtData.targetMean, median: tgtData.targetMedian,
+          analysts: tgtData.numberOfAnalysts,
+          updated: tgtData.lastUpdated,
+        };
+      }
+    } catch(e){}
+    analystCache[ticker] = { data: result, fetched: Date.now() };
+    return result;
+  } catch(e){
+    return null;
+  }
+}
+
+async function renderAnalysts(){
+  const c = $("#tab-content"); if (!c) return;
+  const hs = activeHoldings();
+  const wl = watchlist.filter(w => w.pfId === settings.activePf);
+  const tickers = [...new Set([...hs.map(h => h.ticker), ...wl.map(w => w.ticker)])];
+  if (!tickers.length){
+    c.innerHTML = `<div class="an-empty">
+      <div style="font-size:42px;opacity:.5;margin-bottom:10px">📈</div>
+      <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${lang==='ar'?'لا يوجد أسهم':'No stocks yet'}</h3>
+      <p style="margin:0 auto;font-size:13px;line-height:1.6;max-width:280px">${lang==='ar'?'أضف أسهم لمحفظتك أو قائمة المتابعة عشان تشوف توصيات المحللين':'Add stocks to your portfolio or watchlist to see analyst recommendations'}</p>
+    </div>`;
+    return;
+  }
+  c.innerHTML = `<div class="an-loading"><span class="spin"></span> ${lang==='ar'?'يجلب التوصيات...':'Fetching analyst data...'}</div>`;
+  const results = await Promise.all(tickers.map(async tic => ({ tic, data: await fetchAnalystData(tic) })));
+  c.innerHTML = `
+    <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.5;text-align:center">
+      ${lang==='ar'?'توصيات المحللين وأهداف الأسعار من بنوك ومؤسسات وول ستريت':'Analyst recommendations and price targets from Wall Street firms'}
+    </div>
+    <div class="an-list">
+      ${results.map(({tic, data}) => {
+        const h = hs.find(x => x.ticker === tic);
+        const w = wl.find(x => x.ticker === tic);
+        const price = data?.price || h?.price || w?.price || null;
+        const t = data?.target;
+        const rec = data?.recommendation;
+        const inPf = !!h;
+        return `<div class="an-row">
+          <div class="an-tic" style="background:${inPf?'var(--accent-bg)':'#1A1F2E'};color:${inPf?'var(--accent)':'#5BA5FF'};border-color:${inPf?'var(--accent-d)':'#1F3A6E33'}">${esc(tic.slice(0,4))}</div>
+          <div class="an-body">
+            <div class="an-tic-line">
+              <span class="tic">${esc(tic)}</span>
+              ${inPf?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);letter-spacing:.05em">'+(lang==='ar'?'في المحفظة':'IN PORTFOLIO')+'</span>':'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33;letter-spacing:.05em">'+(lang==='ar'?'متابعة':'WATCH')+'</span>'}
+              ${price?`<span class="pr">$${fmt(price,2)}</span>`:''}
+            </div>
+            ${t && t.analysts ? `
+              <div class="an-targets">
+                <span><b>${t.analysts}</b> ${lang==='ar'?'محلل':'analysts'}</span>
+                <span>${lang==='ar'?'الأعلى':'High'}: <b class="h">$${fmt(t.high,0)}</b></span>
+                <span>${lang==='ar'?'متوسط':'Avg'}: <b>$${fmt(t.mean,2)}</b></span>
+                <span>${lang==='ar'?'الأدنى':'Low'}: <b class="l">$${fmt(t.low,0)}</b></span>
+                ${price && t.mean ? `<span style="margin-inline-start:auto">${lang==='ar'?'العائد المتوقع':'Upside'}: <b class="${t.mean>price?'h':'l'}">${(((t.mean-price)/price)*100>=0?'+':'')}${fmt((t.mean-price)/price*100,1)}%</b></span>`:''}
+              </div>
+            ` : '<div style="font-size:11px;color:var(--muted2);margin-top:4px">'+(lang==='ar'?'لا توجد بيانات أهداف للسعر':'No price target data available')+'</div>'}
+            ${rec ? `
+              <div class="an-rec">
+                ${rec.strongBuy ? `<span class="pill strongbuy">${rec.strongBuy} ${lang==='ar'?'شراء قوي':'STRONG BUY'}</span>` : ''}
+                ${rec.buy ? `<span class="pill buy">${rec.buy} ${lang==='ar'?'شراء':'BUY'}</span>` : ''}
+                ${rec.hold ? `<span class="pill hold">${rec.hold} ${lang==='ar'?'تثبيت':'HOLD'}</span>` : ''}
+                ${rec.sell ? `<span class="pill sell">${rec.sell} ${lang==='ar'?'بيع':'SELL'}</span>` : ''}
+                ${rec.strongSell ? `<span class="pill strongsell">${rec.strongSell} ${lang==='ar'?'بيع قوي':'STRONG SELL'}</span>` : ''}
+              </div>
+              <div style="font-size:9.5px;color:var(--muted2);margin-top:4px;font-variant-numeric:tabular-nums">${esc(rec.period||'')}</div>
+            ` : ''}
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+    <div style="text-align:center;color:var(--muted2);font-size:10px;margin-top:14px;letter-spacing:.04em">${lang==='ar'?'البيانات من Polygon.io و Finnhub':'Data via Polygon.io & Finnhub'}</div>
+  `;
+}
+
+/* ── Ticker tape (top live strip) ── */
+function renderTickerTape(){
+  const hs = activeHoldings();
+  const items = hs.filter(h => h.price != null).map(h => ({
+    ticker: h.ticker, price: h.price, changePct: h.dayChangePct,
+  }));
+  if (!items.length) return '';
+  // duplicate items for seamless scroll
+  const all = [...items, ...items];
+  return `<div class="ticker-tape"><div class="ticker-track">
+    ${all.map(it => {
+      const up = (it.changePct||0) >= 0;
+      return `<span class="ticker-item">
+        <span class="sy">${esc(it.ticker)}</span>
+        <span class="pr">$${fmt(it.price,2)}</span>
+        ${it.changePct!=null?`<span class="ch ${up?'up':'down'}">${up?'▲':'▼'}${fmt(Math.abs(it.changePct),2)}%</span>`:''}
+      </span>`;
+    }).join("")}
+  </div></div>`;
+}
+
+/* ── AI Analysis "coming soon" placeholder ── */
+function openAIAnalysisComingSoon(ticker){
+  modal(`
+    <h2>🤖 ${lang==='ar'?'تحليل بالذكاء الاصطناعي':'AI Technical Analysis'}</h2>
+    <p class="sub">${esc(ticker)}</p>
+    <div style="background:linear-gradient(135deg,#0E1F17,#16140a);border:1px solid var(--accent-d);border-radius:14px;padding:24px;text-align:center;margin:14px 0">
+      <div style="font-size:36px;margin-bottom:8px">✨</div>
+      <h3 style="font-size:16px;font-weight:800;margin:0 0 8px;color:var(--accent)">${lang==='ar'?'قريباً':'Coming Soon'}</h3>
+      <p style="font-size:12.5px;color:var(--muted);line-height:1.6;max-width:280px;margin:0 auto">${lang==='ar'?'تحليل فني ذكي عند الطلب: الاتجاه، الدعم والمقاومة، RSI/MACD، وهدف مقترح. ١٠ تحليلات شهرياً لمشتركي البريميوم.':'Smart on-demand technical analysis: trends, support/resistance, RSI/MACD, suggested targets. 10/month for Premium subscribers.'}</p>
+    </div>
+    <div class="m-actions">
+      <button class="btn primary" style="width:100%" onclick="closeModal()">${lang==='ar'?'فهمت':'Got it'}</button>
+    </div>
+  `);
+}
+
+/* ── Heatmap monthly performance ── */
+function buildHeatmap(){
+  const hist = history.filter(h => h.pfId === settings.activePf);
+  if (hist.length < 2) return null;
+  // group by year-month, take last value of month
+  const byMonth = {};
+  hist.forEach(h => {
+    const key = h.date.slice(0,7); // YYYY-MM
+    if (!byMonth[key] || new Date(h.date) > new Date(byMonth[key].date)){
+      byMonth[key] = h;
+    }
+  });
+  const sorted = Object.entries(byMonth).sort((a,b) => a[0].localeCompare(b[0]));
+  if (sorted.length < 2) return null;
+  // compute monthly % change from first record's value
+  const results = [];
+  for (let i = 1; i < sorted.length; i++){
+    const prev = sorted[i-1][1].value;
+    const cur = sorted[i][1].value;
+    const pct = prev > 0 ? (cur - prev) / prev * 100 : 0;
+    results.push({ ym: sorted[i][0], pct });
+  }
+  // group by year
+  const years = {};
+  results.forEach(r => {
+    const [y, m] = r.ym.split('-');
+    if (!years[y]) years[y] = {};
+    years[y][parseInt(m)] = r.pct;
+  });
+  return years;
+}
+function renderHeatmapHTML(){
+  const data = buildHeatmap();
+  if (!data) return '';
+  const months = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+  const monthsAr = ['ي','ف','م','أ','م','ي','ي','أ','س','أ','ن','د'];
+  const ml = lang === 'ar' ? monthsAr : months;
+  const yrs = Object.keys(data).sort();
+  return `<div class="heat-wrap">
+    <div class="heat-title">${lang==='ar'?'الأداء الشهري':'Monthly Performance'}</div>
+    <div class="heat-grid">
+      <div></div>
+      ${ml.map(m => `<div class="heat-month-label">${m}</div>`).join('')}
+      ${yrs.map(y => `
+        <div class="heat-yr-label">${y.slice(2)}</div>
+        ${ml.map((_, i) => {
+          const pct = data[y][i+1];
+          if (pct == null) return `<div class="heat-cell" style="background:#0A0A0A;border-color:#101010"></div>`;
+          const up = pct >= 0;
+          const intensity = Math.min(1, Math.abs(pct) / 15);
+          const bg = up
+            ? `rgba(95,233,176,${0.1 + intensity * 0.5})`
+            : `rgba(242,107,110,${0.1 + intensity * 0.5})`;
+          const bd = up ? 'var(--accent-d)' : 'var(--loss-d)';
+          const fg = up ? '#5FE9B0' : '#F26B6E';
+          return `<div class="heat-cell" style="background:${bg};border-color:${bd};color:${fg}" title="${y}/${i+1}: ${pct>=0?'+':''}${fmt(pct,1)}%">${pct>=0?'+':''}${fmt(pct,0)}</div>`;
+        }).join('')}
+      `).join('')}
+    </div>
+    <div class="heat-legend">
+      <span>${lang==='ar'?'أقل':'Lower'}</span>
+      <div class="b" style="background:rgba(242,107,110,.55);border-color:var(--loss-d)"></div>
+      <div class="b" style="background:rgba(242,107,110,.25);border-color:var(--loss-d)"></div>
+      <div class="b" style="background:#0A0A0A;border-color:#101010"></div>
+      <div class="b" style="background:rgba(95,233,176,.25);border-color:var(--accent-d)"></div>
+      <div class="b" style="background:rgba(95,233,176,.55);border-color:var(--accent-d)"></div>
+      <span>${lang==='ar'?'أعلى':'Higher'}</span>
+    </div>
+  </div>`;
+}
+
+/* ── Daily auto-backup ── */
+async function maybeRunDailyBackup(){
+  if (!currentUser) return;
+  const lastBackup = localStorage.getItem('v4:lastBackup_'+currentUser.id);
+  const today = new Date().toISOString().slice(0,10);
+  if (lastBackup === today) return;
+  try {
+    const snapshot = {
+      portfolios, holdings, watchlist, challenges,
+      settings: {
+        cash: settings.cash, cashHistory: settings.cashHistory,
+        achievements: settings.achievements, currency: settings.currency,
+      },
+      history, profile,
+      date: today,
+    };
+    await sb.from('user_backups').insert({
+      user_id: currentUser.id, snapshot,
+    });
+    localStorage.setItem('v4:lastBackup_'+currentUser.id, today);
+  } catch(e){
+    // silent fail
+  }
+}
+
+/* ── Referral system ── */
+function openReferralBox(){
+  if (!userProfile?.referral_code){
+    toast(lang==='ar'?'كود الإحالة غير متاح':'Referral code not ready');
+    return;
+  }
+  const url = window.location.origin + '?ref=' + userProfile.referral_code;
+  modal(`
+    <h2>🎁 ${lang==='ar'?'ادعُ صديقاً':'Refer a Friend'}</h2>
+    <p class="sub">${lang==='ar'?'شارك كودك مع أصدقائك. لما يشترك أحدهم، تحصل أنت وهو على شهر مجاني إضافي.':'Share your code with friends. When someone subscribes, both of you get an extra free month.'}</p>
+    <div class="ref-box">
+      <div class="ttl">${lang==='ar'?'كودك':'Your code'}</div>
+      <div class="head" style="font-size:12px;text-align:center;color:var(--muted)">${lang==='ar'?'اضغط لنسخ الرابط':'Tap to copy your link'}</div>
+      <div class="ref-code-row">
+        <div class="code">${esc(userProfile.referral_code)}</div>
+        <button onclick="navigator.clipboard?.writeText('${url}').then(()=>toast('${lang==='ar'?'تم النسخ':'Copied'}'))">${lang==='ar'?'انسخ':'Copy'}</button>
+      </div>
+      <div class="count">
+        ${lang==='ar'?'دعوت':'Invited'}: <b>${userProfile.referrals_count || 0}</b> ${lang==='ar'?'شخص':'people'}
+      </div>
+    </div>
+    <button class="btn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px" onclick="shareReferral()">
+      📤 ${lang==='ar'?'مشاركة':'Share'}
+    </button>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
+    </div>
+  `);
+}
+function shareReferral(){
+  if (!userProfile?.referral_code) return;
+  const url = window.location.origin + '?ref=' + userProfile.referral_code;
+  const text = lang==='ar'
+    ? `جرّب سيركل لتتبع استثماراتك! استخدم كودي ${userProfile.referral_code} وكلانا يحصل على شهر مجاني: ${url}`
+    : `Try Circle for tracking your investments! Use my code ${userProfile.referral_code} — we both get a free month: ${url}`;
+  if (navigator.share){
+    navigator.share({ title: 'Circle', text, url }).catch(()=>{});
+  } else {
+    navigator.clipboard?.writeText(text).then(()=>toast(lang==='ar'?'تم النسخ':'Copied'));
+  }
+}
+function getReferralFromUrl(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('ref');
+  } catch(e){ return null; }
+}
+
+/* ── Coupons (admin manage) ── */
+async function adminOpenCoupons(){
+  const { data: list } = await sb.from('coupons').select('*').order('created_at',{ascending:false});
+  modal(`
+    <h2>🎟️ ${lang==='ar'?'كوبونات الخصم':'Discount Coupons'}</h2>
+    <p class="sub">${lang==='ar'?'أنشئ كوبونات للترويج. اعطها للناس يستخدمونها عند الاشتراك.':'Create promotional codes. Share with users when they subscribe.'}</p>
+    <button class="btn primary" style="width:100%;margin-bottom:10px" onclick="adminNewCoupon()">+ ${lang==='ar'?'كوبون جديد':'New coupon'}</button>
+    ${(list||[]).length ? `<div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:300px;overflow-y:auto">
+      ${list.map(c => `<div class="coupon-row">
+        <span class="code">${esc(c.code)}</span>
+        <span class="pct">−${c.discount_pct}%</span>
+        <span class="desc">${esc(c.description||'')}</span>
+        ${c.uses_left!=null?`<span style="color:var(--muted2);font-size:10px">${c.uses_left} ${lang==='ar'?'متاح':'left'}</span>`:''}
+        <button class="acct-del" style="width:24px;height:24px;font-size:11px" onclick="adminDelCoupon('${esc(c.code)}')">✕</button>
+      </div>`).join('')}
+    </div>` : `<div style="text-align:center;padding:30px;color:var(--muted2);font-size:12px">${lang==='ar'?'لا توجد كوبونات':'No coupons'}</div>`}
+    <div class="m-actions">
+      <button class="btn" onclick="openAdminPanel()">${lang==='ar'?'رجوع':'Back'}</button>
+    </div>
+  `);
+}
+function adminNewCoupon(){
+  modal(`
+    <h2>${lang==='ar'?'كوبون جديد':'New coupon'}</h2>
+    <div class="field"><label>${lang==='ar'?'الكود':'Code'}</label>
+      <input class="inp" id="cp_c" placeholder="RAMADAN50" style="text-transform:uppercase"></div>
+    <div class="field"><label>${lang==='ar'?'نسبة الخصم %':'Discount %'}</label>
+      <input class="inp" id="cp_p" type="number" min="1" max="100" placeholder="50"></div>
+    <div class="field"><label>${lang==='ar'?'وصف':'Description'}</label>
+      <input class="inp" id="cp_d" placeholder="${lang==='ar'?'عرض رمضان':'Ramadan offer'}"></div>
+    <div class="field"><label>${lang==='ar'?'عدد الاستخدامات (اختياري)':'Max uses (optional)'}</label>
+      <input class="inp" id="cp_u" type="number" min="1" placeholder="${lang==='ar'?'غير محدود':'unlimited'}"></div>
+    <div class="err" id="cp_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="adminOpenCoupons()">${t().cancel}</button>
+      <button class="btn primary" onclick="adminSaveCoupon()">${lang==='ar'?'إنشاء':'Create'}</button>
+    </div>
+  `);
+}
+async function adminSaveCoupon(){
+  const code = $("#cp_c").value.trim().toUpperCase();
+  const pct = parseInt($("#cp_p").value);
+  const desc = $("#cp_d").value.trim();
+  const uses = $("#cp_u").value ? parseInt($("#cp_u").value) : null;
+  if (!code || !pct || pct < 1 || pct > 100){ $("#cp_err").textContent = lang==='ar'?'املأ الحقول':'Fill fields'; return; }
+  const { error } = await sb.from('coupons').insert({ code, discount_pct: pct, description: desc, uses_left: uses });
+  if (error){ $("#cp_err").textContent = error.message; return; }
+  adminOpenCoupons();
+}
+async function adminDelCoupon(code){
+  if (!confirm(lang==='ar'?`حذف "${code}"؟`:`Delete "${code}"?`)) return;
+  await sb.from('coupons').delete().eq('code', code);
+  adminOpenCoupons();
+}
+
+/* ── Admin stats panel ── */
+async function adminOpenStats(){
+  modal(`<h2>📊 ${lang==='ar'?'إحصائيات':'Statistics'}</h2><p class="sub">${lang==='ar'?'جاري...':'Loading...'}</p>`);
+  try {
+    const { data: users } = await sb.from('profiles').select('*');
+    const { data: pfs } = await sb.from('portfolios').select('id,created_at');
+    const { data: hs } = await sb.from('holdings').select('id,type');
+    const { data: chs } = await sb.from('challenges').select('id');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const active = users.filter(u => !u.suspended && u.subscription_paid_until && new Date(u.subscription_paid_until) >= today);
+    const paying = users.filter(u => u.subscription_status === 'active' && !u.is_admin);
+    const trials = users.filter(u => u.subscription_status === 'trial');
+    const expired = users.filter(u => !u.suspended && (!u.subscription_paid_until || new Date(u.subscription_paid_until) < today));
+    const mrr = paying.length * 10;
+    const conversionRate = trials.length + paying.length > 0 ? (paying.length / (trials.length + paying.length)) * 100 : 0;
+    // signups in last 7 days (by day)
+    const days7 = [];
+    for (let i = 6; i >= 0; i--){
+      const d = new Date(); d.setDate(d.getDate() - i); d.setHours(0,0,0,0);
+      const dStr = d.toISOString().slice(0,10);
+      const count = users.filter(u => u.created_at?.slice(0,10) === dStr).length;
+      days7.push({ d: dStr.slice(5), count });
+    }
+    const maxSignup = Math.max(1, ...days7.map(d => d.count));
+    const optionsCount = (hs||[]).filter(h => h.type && h.type !== 'stock').length;
+    modal(`
+      <h2 style="color:var(--accent)">📊 ${lang==='ar'?'إحصائيات':'Statistics'}</h2>
+      <p class="sub">${lang==='ar'?'نظرة شاملة على المنصة':'Platform overview'}</p>
+
+      <div class="adm-stat-row">
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'إيراد شهري':'MRR'}</div>
+          <div class="v gd">$${mrr}</div>
+        </div>
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'تحويل':'Conversion'}</div>
+          <div class="v gr">${fmt(conversionRate,0)}%</div>
+        </div>
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'مشتركين':'Paying'}</div>
+          <div class="v bl">${paying.length}</div>
+        </div>
+      </div>
+
+      <div class="adm-stat-row">
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'مستخدمين':'Users'}</div>
+          <div class="v">${users.length}</div>
+        </div>
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'محافظ':'Portfolios'}</div>
+          <div class="v">${(pfs||[]).length}</div>
+        </div>
+        <div class="adm-stat">
+          <div class="l">${lang==='ar'?'تحدّيات':'Challenges'}</div>
+          <div class="v">${(chs||[]).length}</div>
+        </div>
+      </div>
+
+      <h4 style="margin:14px 0 8px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'التسجيلات (٧ أيام)':'Signups (7 days)'}</h4>
+      <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:13px 12px;display:flex;align-items:flex-end;gap:6px;height:120px">
+        ${days7.map(d => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end">
+          <span style="font-size:10px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums">${d.count}</span>
+          <div style="width:100%;background:linear-gradient(180deg,var(--accent),var(--accent-d));border-radius:4px 4px 0 0;height:${(d.count/maxSignup)*70}%;min-height:3px"></div>
+          <span style="font-size:9px;color:var(--muted2);font-variant-numeric:tabular-nums">${d.d}</span>
+        </div>`).join('')}
+      </div>
+
+      <h4 style="margin:14px 0 8px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'توزيع المستخدمين':'User Distribution'}</h4>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:14px">
+        <div class="adm-stat" style="text-align:left;padding:9px 12px">
+          <div style="font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${lang==='ar'?'نشط':'ACTIVE'}</div>
+          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${active.length}</div>
+        </div>
+        <div class="adm-stat" style="text-align:left;padding:9px 12px">
+          <div style="font-size:10px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${lang==='ar'?'تجربة':'TRIAL'}</div>
+          <div style="font-size:18px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums">${trials.length}</div>
+        </div>
+        <div class="adm-stat" style="text-align:left;padding:9px 12px">
+          <div style="font-size:10px;color:var(--loss);font-weight:700;text-transform:uppercase;letter-spacing:.06em">${lang==='ar'?'منتهي':'EXPIRED'}</div>
+          <div style="font-size:18px;font-weight:800;color:var(--loss);font-variant-numeric:tabular-nums">${expired.length}</div>
+        </div>
+        <div class="adm-stat" style="text-align:left;padding:9px 12px">
+          <div style="font-size:10px;color:#5BA5FF;font-weight:700;text-transform:uppercase;letter-spacing:.06em">${lang==='ar'?'خيارات':'OPTIONS'}</div>
+          <div style="font-size:18px;font-weight:800;color:#5BA5FF;font-variant-numeric:tabular-nums">${optionsCount}</div>
+        </div>
+      </div>
+
+      <div class="m-actions">
+        <button class="btn" onclick="openAdminPanel()">${lang==='ar'?'رجوع':'Back'}</button>
+      </div>
+    `);
+  } catch(e){
+    modal(`<h2>${lang==='ar'?'خطأ':'Error'}</h2><p class="sub">${esc(e.message)}</p><div class="m-actions"><button class="btn primary" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button></div>`);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v10 BLOCK: Bottom-nav More menu + Stock Research Checklist
+   ════════════════════════════════════════════════════════════════ */
+
+function renderMore(){
+  const c = $("#tab-content"); if (!c) return;
+  const ar = lang === 'ar';
+  const chCount = challenges.filter(x => x.pfId === settings.activePf && x.status === 'active').length;
+  c.innerHTML = `
+    <h2 style="margin:0 0 4px;font-size:24px;font-weight:900;letter-spacing:-.5px">${ar?'المزيد':'More'}</h2>
+    <p style="margin:0 0 18px;color:var(--muted);font-size:13px">${ar?'كل الأدوات والإعدادات':'All your tools and settings'}</p>
+
+    <div class="more-list">
+      <div class="more-row" onclick="openChallengePage()">
+        <div class="ic gd">🏆</div>
+        <div class="body">
+          <div class="nm">${ar?'التحدّيات':'Challenges'}${chCount?` <span style="font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--gold);color:#000;margin-inline-start:4px">${chCount}</span>`:''}</div>
+          <div class="sub">${ar?'تحدّى نفسك بأهداف ربح وصفقات متتالية':'Challenge yourself with profit goals'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="setTab('zakat')">
+        <div class="ic gr">🕌</div>
+        <div class="body">
+          <div class="nm">${ar?'الزكاة':'Zakat'}</div>
+          <div class="sub">${ar?'حاسبة الزكاة لكل سهم بالتقويم الهجري':'Calculator per stock by Hijri year'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openReferralBox()">
+        <div class="ic gr">🎁</div>
+        <div class="body">
+          <div class="nm">${ar?'ادعُ صديقاً':'Refer a Friend'}</div>
+          <div class="sub">${ar?'أنت وصديقك تحصلون على شهر مجاني':'Both get a free month when they subscribe'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openPerfSummary()">
+        <div class="ic bl">📊</div>
+        <div class="body">
+          <div class="nm">${ar?'ملخّص الأداء':'Performance Summary'}</div>
+          <div class="sub">${ar?'تحليل أداءك على فترة معيّنة':'Analyze your performance over a period'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+    </div>
+
+    <div class="more-list">
+      <div class="more-row" onclick="openCurrencyPicker()">
+        <div class="ic">💱</div>
+        <div class="body">
+          <div class="nm">${ar?'العملة':'Currency'}</div>
+          <div class="sub">${CURRENCIES[getCurrency()].fl} ${getCurrency()} · ${esc(CURRENCIES[getCurrency()].name[lang])}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openCashFromMore()">
+        <div class="ic">💵</div>
+        <div class="body">
+          <div class="nm">${ar?'الكاش':'Cash'}</div>
+          <div class="sub">${fmtMoney(settings.cash||0)} · ${(settings.cashHistory||[]).length} ${ar?'عملية':'transactions'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openAchievements()">
+        <div class="ic gd">🏅</div>
+        <div class="body">
+          <div class="nm">${ar?'الإنجازات':'Achievements'}</div>
+          <div class="sub">${(settings.achievements||[]).length}/${ACHIEVEMENTS.length} ${ar?'مفتوحة':'unlocked'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openBackup()">
+        <div class="ic">💾</div>
+        <div class="body">
+          <div class="nm">${ar?'النسخ الاحتياطي':'Backup'}</div>
+          <div class="sub">${ar?'تصدير واستيراد بياناتك':'Export and import your data'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+    </div>
+
+    <div class="more-list">
+      <div class="more-row" onclick="openSettings()">
+        <div class="ic">⚙</div>
+        <div class="body">
+          <div class="nm">${ar?'الإعدادات':'Settings'}</div>
+          <div class="sub">${ar?'الملف الشخصي واللغة':'Profile and language'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      ${isAdminCloud ? `<div class="more-row" onclick="openAdminPanel()">
+        <div class="ic gd">🔓</div>
+        <div class="body">
+          <div class="nm" style="color:var(--gold)">${ar?'لوحة المدير':'Admin Panel'}</div>
+          <div class="sub">${ar?'تحكّم بالمستخدمين والاشتراكات':'Manage users and subscriptions'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>` : ''}
+      <div class="more-row" onclick="cloudLogout()">
+        <div class="ic rd">⏏</div>
+        <div class="body">
+          <div class="nm" style="color:var(--loss)">${ar?'تسجيل خروج':'Log out'}</div>
+          <div class="sub">${esc(currentUser?.email||'')}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;color:var(--muted2);font-size:10.5px;margin-top:16px;letter-spacing:.04em">
+      Circle · سيركل · v10
+    </div>
+  `;
+}
+
+function openCashFromMore(){ openSettings(); setTimeout(()=>{ const cs = document.querySelector('.set-section:nth-child(3)'); cs?.scrollIntoView({behavior:'smooth'}); }, 100); }
+function openBackup(){ openSettings(); }
+
+/* ── Stock Research Checklist (18 items, 5 categories) ── */
+const CHECKLIST = [
+  { cat:{ar:'القطاع والمحفّز',en:'Sector & Catalyst'}, items:[
+    { id:'hot_sector', ar:'قطاع ساخن / زخم', en:'Hot sector / momentum',
+      d:{ar:'السيولة تتدفق للموضوع (مثل مراكز البيانات) ترفع معظم أسهمه.',en:'Money flowing into the theme (e.g. data centers) lifting most stocks.'} },
+    { id:'direct_exposure', ar:'تعرّض مباشر', en:'Direct exposure',
+      d:{ar:'الشركة تستفيد فعلياً من الموضوع.',en:'Company genuinely benefits from the theme.'} },
+    { id:'catalyst_horizon', ar:'محفّز قادم', en:'Catalyst on the horizon',
+      d:{ar:'اكتتاب، إطلاق منتج، عقد، قرار تنظيمي، أو إدراج بمؤشر بتاريخ معروف.',en:'IPO, product launch, contract, regulatory decision or index inclusion with known date.'} },
+    { id:'macro_tailwind', ar:'دفعة كلية', en:'Macro tailwind',
+      d:{ar:'تحركات الفائدة أو الإنفاق الحكومي أو السياسة تدعم القطاع.',en:'Rate moves, government spending or policy shifts that benefit the sector.'} },
+    { id:'sector_peer', ar:'سهم نظير تحرّك', en:'Sector peer running',
+      d:{ar:'سهم مشابه ارتفع وهذا لم يلحق بعد.',en:'A similar stock has moved and this one has not caught up yet.'} },
+  ]},
+  { cat:{ar:'المطّلعون والمؤسسات',en:'Insider & Institutional'}, items:[
+    { id:'insider_buys', ar:'شراء مطّلعين حديث', en:'Recent insider buys',
+      d:{ar:'الرئيس التنفيذي أو المديرون اشتروا - يعرفون الشركة أفضل، يحدد قاع.',en:'CEO/director purchases — they know the business best, sets a floor.'} },
+    { id:'institutional_buying', ar:'شراء مؤسسي', en:'Institutional buying',
+      d:{ar:'صناديق كبيرة تبني مراكز.',en:'Big funds building positions.'} },
+    { id:'partnership', ar:'شراكة / عميل كبير', en:'Partnership / major customer',
+      d:{ar:'صفقة مع اسم كبير موثوق (مثل NVIDIA) يصادق على الأعمال.',en:'Deal with a credible big name (e.g. NVIDIA) that validates the business.'} },
+  ]},
+  { cat:{ar:'الأساسيات والمحللون',en:'Fundamentals & Analysts'}, items:[
+    { id:'upcoming_earnings', ar:'أرباح قريبة', en:'Upcoming earnings',
+      d:{ar:'احتمال تجاوز التوقعات أو توجيه قوي يحرك السهم. يعمل بالاتجاهين.',en:'Potential beat or strong guidance could move the stock. Works the other way too.'} },
+    { id:'guidance_raised', ar:'الإدارة رفعت توقعاتها', en:'Management raised guidance',
+      d:{ar:'الشركة ترفع توقعاتها الخاصة.',en:'Company raising its own forecasts/outlook.'} },
+    { id:'analyst_upgrades', ar:'رفع توصيات وأهداف', en:'Analyst upgrades / PT hikes',
+      d:{ar:'ترقيات وزيادة أهداف الأسعار تجلب زخم.',en:'Upgrades and price target increases bringing momentum.'} },
+  ]},
+  { cat:{ar:'المشاعر والتدفّق',en:'Sentiment & Flow'}, items:[
+    { id:'sentiment_shift', ar:'تحوّل بالأخبار', en:'News / sentiment shift',
+      d:{ar:'تطورات إيجابية تغيّر نظرة السوق للسهم.',en:'Positive developments changing how the market views the stock.'} },
+    { id:'short_interest', ar:'بيع على المكشوف عالي + فلوت صغير', en:'High short interest + small float',
+      d:{ar:'يهيّئ لارتداد قوي على الأخبار الإيجابية.',en:'Sets up potential squeeze on good news.'} },
+    { id:'volume_spike', ar:'قفزة بالحجم', en:'Volume spike',
+      d:{ar:'قفزة بحجم التداول تظهر اهتمام حقيقي.',en:'Jump in trading volume showing real interest.'} },
+    { id:'options_activity', ar:'نشاط خيارات غير عادي', en:'Unusual options activity',
+      d:{ar:'شراء كبير أو عدواني للـCalls يلمّح لارتفاع متوقع.',en:'Large or aggressive call buying hinting at expected upside.'} },
+    { id:'index_inclusion', ar:'إدراج قادم بمؤشر', en:'Upcoming index inclusion',
+      d:{ar:'الإضافة لمؤشر رئيسي تجبر الصناديق على الشراء.',en:'Being added to a major index forces funds to buy.'} },
+  ]},
+  { cat:{ar:'التحليل الفني',en:'Technicals'}, items:[
+    { id:'beaten_down', ar:'تراجع مؤخراً', en:'Recently beaten down',
+      d:{ar:'هبط أو لم يرتفع بعد، مساحة أكبر للصعود.',en:'Pulled back or has not run yet, so more room to the upside.'} },
+    { id:'technical_setup', ar:'تموضع فني', en:'Technical setup',
+      d:{ar:'كسر قاعدة، تثبيت دعم أو ارتداد عن مستوى رئيسي.',en:'Breaking out of a base, holding support or bouncing off a key level.'} },
+  ]},
+];
+
+function toggleChkItem(holdId, itemId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  if (!h.checklist) h.checklist = { items: [], notes: '' };
+  const idx = h.checklist.items.indexOf(itemId);
+  if (idx >= 0) h.checklist.items.splice(idx, 1);
+  else h.checklist.items.push(itemId);
+  cloudUpsertHolding(h);
+  save();
+  updateChecklistUI(holdId);
+}
+function updateChecklistUI(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const checked = (h.checklist?.items || []);
+  CHECKLIST.forEach(cat => cat.items.forEach(it => {
+    const el = document.getElementById(`chki_${holdId}_${it.id}`);
+    if (el){
+      if (checked.includes(it.id)) el.classList.add('on');
+      else el.classList.remove('on');
+    }
+  }));
+  const totalEl = document.getElementById(`chk-total-${holdId}`);
+  if (totalEl){
+    const n = checked.length;
+    const col = n >= 12 ? 'var(--accent)' : n >= 6 ? 'var(--gold)' : 'var(--muted)';
+    totalEl.innerHTML = `<span style="color:${col}">${n}</span><span style="color:var(--muted2);font-size:16px;font-weight:700"> / 18</span>`;
+  }
+  const scoreEl = document.getElementById(`chk-score-${holdId}`);
+  if (scoreEl){
+    const n = checked.length;
+    scoreEl.textContent = `${n}/18`;
+    scoreEl.className = 'score ' + (n >= 12 ? 'high' : n >= 6 ? 'mid' : 'low');
+  }
+}
+function saveChecklistNotes(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  if (!h.checklist) h.checklist = { items: [], notes: '' };
+  h.checklist.notes = $(`#chk-notes-${holdId}`)?.value || '';
+  cloudUpsertHolding(h);
+  save();
+}
+function renderChecklistHTML(h){
+  const checked = (h.checklist?.items || []);
+  const n = checked.length;
+  const scoreClass = n >= 12 ? 'high' : n >= 6 ? 'mid' : 'low';
+  return `
+    <div class="chk-section" id="chk-sec-${h.id}">
+      <div class="chk-header" onclick="document.getElementById('chk-sec-${h.id}').classList.toggle('open')">
+        <span class="h">📋 ${lang==='ar'?'قائمة فحص السهم':'Research Checklist'}</span>
+        <span class="score ${scoreClass}" id="chk-score-${h.id}">${n}/18</span>
+        <span class="ar-i">▾</span>
+      </div>
+      <div class="chk-body">
+        ${CHECKLIST.map(cat => `
+          <div class="chk-cat"><div class="cat-t">${esc(cat.cat[lang])}</div></div>
+          ${cat.items.map(it => `
+            <div class="chk-item ${checked.includes(it.id)?'on':''}" id="chki_${h.id}_${it.id}" onclick="toggleChkItem('${h.id}','${it.id}')">
+              <div class="box"></div>
+              <div class="body">
+                <div class="nm">${esc(it[lang])}</div>
+                <div class="ds">${esc(it.d[lang])}</div>
+              </div>
+            </div>
+          `).join('')}
+        `).join('')}
+        <div class="chk-total">
+          <div class="t">${lang==='ar'?'المجموع':'Total ticked'}</div>
+          <div class="v" id="chk-total-${h.id}"><span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:16px;font-weight:700"> / 18</span></div>
+        </div>
+        <textarea class="notes-textarea" id="chk-notes-${h.id}" placeholder="${lang==='ar'?'ملاحظات الفحص...':'Checklist notes...'}" onblur="saveChecklistNotes('${h.id}')" style="margin:8px 0 0;border-radius:0;border-left:none;border-right:none;border-bottom:none">${esc(h.checklist?.notes||'')}</textarea>
+      </div>
+    </div>
+  `;
+}
+
 async function runDiagnostic(){
   modal(`
     <h2>${lang==='ar'?'تشخيص الاتصال':'Connection Diagnostic'}</h2>
@@ -3320,7 +4669,13 @@ function openSettings(){
     </div>
 
     <div class="set-section">
-      <h4>💵 ${lang==='ar'?'الكاش':'Cash'} · $${fmt(settings.cash||0,2)}</h4>
+      <h4>💱 ${lang==='ar'?'العملة':'Currency'} · ${getCurrency()}</h4>
+      <button class="btn" style="width:100%" onclick="openCurrencyPicker()">${CURRENCIES[getCurrency()].fl} ${esc(CURRENCIES[getCurrency()].name[lang])} · ${getCurrency()} →</button>
+      <div class="info">${lang==='ar'?'الأسعار تنحفظ بالدولار، العرض يتحوّل لعملتك.':'Prices stored in USD, display converted to your currency.'}</div>
+    </div>
+
+    <div class="set-section">
+      <h4>💵 ${lang==='ar'?'الكاش':'Cash'} · ${fmtMoney(settings.cash||0)}</h4>
       <div style="display:flex;gap:7px;margin-bottom:8px">
         <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="addCashTx('deposit')">+ ${lang==='ar'?'إيداع':'Deposit'}</button>
         <button class="btn" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700" onclick="addCashTx('withdraw')">− ${lang==='ar'?'سحب':'Withdraw'}</button>
@@ -3352,7 +4707,6 @@ function openSettings(){
 
     <div class="set-section">
       <h4>🔧 ${lang==='ar'?'صيانة':'Maintenance'}</h4>
-      <button class="btn" style="width:100%;margin-bottom:7px" onclick="runDiagnostic()">${lang==='ar'?'تشخيص الاتصال':'Connection diagnostic'}</button>
       <button class="btn danger" style="width:100%" onclick="askReset()">${t().clearAll}</button>
     </div>
 
@@ -3399,7 +4753,7 @@ function renderSplash(){
       </div></nav>
 
       <header class="mkt-hero"><div class="mkt-wrap">
-        <div class="mkt-badge"><span class="dot"></span>${ar?'تجربة مجانية · بدون بطاقة':'Free trial · No card needed'}</div>
+        <div class="mkt-badge"><span class="dot"></span>${ar?'تجربة مجانية ٣ أيام · بدون بطاقة':'3-day free trial · No card needed'}</div>
         <h1>${ar?'محفظتك الذكية،':'Your smart portfolio,'}<br><span class="acc">${ar?'بأناقة سيركل':'powered by Circle'}</span></h1>
         <p class="sub">${ar?'تتبّع كامل للأسهم الأمريكية والخيارات. أسعار مباشرة، إغريقيات حقيقية، تحدّيات، أهداف، وحاسبة زكاة. كل شي بمكانه.':'Pro-grade tracking for US stocks and options. Live prices, real Greeks, challenges, targets, Zakat — all in one place.'}</p>
         <div class="mkt-ctas">
@@ -3812,7 +5166,7 @@ function renderBlocked(reason){
           ${reason.kind==='suspended'
             ? (ar?'تم إيقاف حسابك من قِبل الإدارة. تواصل مع الأدمن عبر الإيميل لمعرفة التفاصيل.':'Your account has been suspended by admin. Contact admin via email for details.')
             : (isTrial
-                ? (ar?'انتهت تجربتك المجانية (24 ساعة). للاستمرار، اشترك بـ$10/شهر عبر التواصل بالإيميل.':'Your 24-hour free trial has ended. To continue, subscribe at $10/month via email.')
+                ? (ar?'انتهت تجربتك المجانية (٣ أيام). للاستمرار، اشترك بـ$10/شهر عبر التواصل بالإيميل.':'Your 3-day free trial has ended. To continue, subscribe at $10/month via email.')
                 : (ar?'انتهى اشتراكك. جدّد عبر التواصل بالإيميل.':'Your subscription has expired. Renew via email.'))
           }
         </p>
@@ -4029,6 +5383,11 @@ async function openAdminPanel(){
     modal(`
       <h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
       <p class="sub">${lang==='ar'?'تحكّم كامل بكل المستخدمين والاشتراكات':'Full control over all users and subscriptions'}</p>
+
+      <div style="display:flex;gap:6px;margin-bottom:14px">
+        <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="adminOpenStats()">📊 ${lang==='ar'?'إحصائيات':'Stats'}</button>
+        <button class="btn" style="flex:1" onclick="adminOpenCoupons()">🎟️ ${lang==='ar'?'كوبونات':'Coupons'}</button>
+      </div>
 
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px">
         <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
@@ -4262,6 +5621,7 @@ async function adminDeletePf(pfId, pfName, userId, userName){
   render();
   setTimeout(()=>{ try { checkAchievements(); } catch(e){} }, 800);
   setTimeout(()=>{ try { maybeShowNotification(); } catch(e){} }, 1400);
+  setTimeout(()=>{ try { maybeRunDailyBackup(); } catch(e){} }, 3000);
 
   sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session && (!currentUser || currentUser.id !== session.user.id)){
