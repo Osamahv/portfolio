@@ -366,9 +366,18 @@ body[dir="rtl"] .landing-lang{left:auto;right:0}
 .perf-empty{padding:24px 0;text-align:center;color:var(--muted2);font-size:11.5px}
 
 /* ───── chart type switcher ───── */
-.chart-type-switch{display:flex;justify-content:center;gap:4px;background:var(--surf);border:1px solid var(--line);border-radius:11px;padding:3px;margin-bottom:8px;max-width:160px;margin-inline:auto}
-.chart-type-switch button{padding:6px 14px;border-radius:7px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.04em;flex:1;transition:.15s;display:flex;align-items:center;justify-content:center;gap:5px}
-.chart-type-switch button.on{background:var(--surf2);color:var(--txt)}
+.chart-type-switch{display:flex;justify-content:center;gap:4px;background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:4px;margin:0 auto 12px;max-width:280px}
+.chart-type-switch button{padding:8px 14px;border-radius:8px;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:.03em;flex:1;transition:.18s;display:flex;align-items:center;justify-content:center;gap:5px;border:none;background:transparent;cursor:pointer;font-family:inherit;white-space:nowrap}
+.chart-type-switch button .ic{font-size:13px;line-height:1}
+.chart-type-switch button:hover{color:var(--txt2)}
+.chart-type-switch button.on{background:var(--surf2);color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+
+/* prominent centered add button */
+.add-stock-row{display:flex;justify-content:center;margin:0 0 14px}
+.add-stock-btn{background:var(--accent);color:#000;border:none;padding:11px 26px;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(95,233,176,.25);transition:.18s;letter-spacing:.02em}
+.add-stock-btn:hover{background:#7AFAC2;transform:translateY(-1px);box-shadow:0 10px 28px rgba(95,233,176,.35)}
+.add-stock-btn:active{transform:translateY(0)}
+.add-stock-btn .plus{font-size:18px;font-weight:900;line-height:1}
 .chart-type-switch button .ic{font-size:13px;opacity:.8}
 
 /* ───── bar chart ───── */
@@ -1346,7 +1355,6 @@ function render(){
         <span class="ar">▾</span>
       </button>
       <div class="top-actions">
-        <button class="ico ico-add" onclick="openAdd()" title="${lang==='ar'?'أضف سهم':'Add stock'}">+</button>
         <button class="ico ${settings.privacy?'on':''}" onclick="togglePrivacy()" title="${t().privacy_on}">${settings.privacy?'⊘':'👁'}</button>
         ${activeChallenge() ? `<button class="ico" onclick="openChallengePage()" title="${lang==='ar'?'تحدّي نشط':'Active challenge'}" style="color:#E8B96A;border-color:#5A4818">🏆</button>` : ''}
       </div>
@@ -1416,7 +1424,9 @@ function renderTab(){
           <h3>${t().empty_title}</h3>
           <p>${t().empty_sub}</p>
         </div>
-        <button class="fab" onclick="openAdd()"><span class="plus">＋</span> ${t().addStock}</button>
+        <div class="add-stock-row" style="margin-top:14px">
+          <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${t().addStock}</button>
+        </div>
       `;
       return;
     }
@@ -1483,17 +1493,25 @@ function renderTab(){
           <button class="${settings.chartType==='bar'?'on':''}" onclick="setChartType('bar')"><span class="ic">▤</span> ${lang==='ar'?'أعمدة':'Bars'}</button>
           <button class="${settings.chartType==='cards'?'on':''}" onclick="setChartType('cards')"><span class="ic">▦</span> ${lang==='ar'?'كروت':'Cards'}</button>
         </div>
+        <div class="add-stock-row">
+          <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
+        </div>
         <div id="viz-wrap"></div>
         <div class="list">${hs.map(rowHtml).join("")}</div>
         ${hasHistory ? `<div class="perf-card" id="perf-card"></div>` : ''}
-      ` : `<div class="empty"><div class="ic">⊘</div><h3>${t().no_match}</h3><p>—</p></div>`}
-      <button class="fab" onclick="openAdd()"><span class="plus">＋</span> ${t().addStock}</button>
+      ` : `
+        <div class="add-stock-row" style="margin-top:20px">
+          <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة أول سهم':'Add Your First Stock'}</button>
+        </div>
+        <div class="empty"><div class="ic">⊘</div><h3>${t().no_match}</h3><p>—</p></div>
+      `}
     `;
     if (hs.length) {
       if (settings.chartType === 'bar') renderBars();
       else if (settings.chartType === 'cards') renderCards();
       else renderBubbles();
       if (hasHistory) renderPerformance();
+      lazyLoadLogos(hs.map(h => h.ticker));
     }
     if (pfChartOpen) setTimeout(drawPfMiniChart, 30);
   }
@@ -1511,8 +1529,12 @@ function rowHtml(h){
   const optTag = (h.type === 'call') ? `<span class="h-tag" style="background:#1F2E25;color:#5FE9B0;border-color:#1E5C44">CALL</span>`
                : (h.type === 'put')  ? `<span class="h-tag" style="background:#2A0E10;color:#F26B6E;border-color:#5C1F22">PUT</span>` : '';
   const qtyLabel = h.type === 'stock' ? '' : ` ${lang==='ar'?'عقد':'×100'}`;
+  const cachedLogo = _logoCache[h.ticker];
+  const logoHTML = cachedLogo
+    ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="co-logo">`
+    : `<div class="tic-bx" data-logo-tic="${esc(h.ticker)}" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>`;
   return `<div class="row" onclick="openDetail('${h.id}')">
-    <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
+    ${logoHTML}
     <div class="info">
       <div class="t-line"><span class="t">${esc(h.ticker)}</span>${optTag}${hzTag}</div>
       <div class="s mono">${fmt(s.shares,s.shares%1?4:0)}${qtyLabel} × $${fmt(s.avg)} · ${share.toFixed(1)}%</div>
@@ -1624,9 +1646,20 @@ async function lazyLoadLogos(tickers){
       const logo = await fetchLogo(tic);
       if (logo){
         document.querySelectorAll(`[data-logo-tic="${tic}"]`).forEach(el => {
-          el.outerHTML = `<img src="${logo}" alt="${tic}" class="logo-img" onerror="this.outerHTML='<div class=\\'logo-fallback\\' style=\\'background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)\\'>${tic.slice(0,3)}</div>'">`;
+          const isAnTic = el.classList.contains('an-tic');
+          const isTicBx = el.classList.contains('tic-bx');
+          const cls = isAnTic ? 'co-logo" style="width:46px;height:46px' : 'co-logo';
+          el.outerHTML = `<img src="${logo}" alt="${tic}" class="${cls}" onerror="this.outerHTML='<div class=\\'logo-fallback\\' style=\\'background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)\\'>${tic.slice(0,3)}</div>'">`;
         });
       }
+    } else if (_logoCache[tic]){
+      // Cache hit - still update any pending placeholders
+      const logo = _logoCache[tic];
+      document.querySelectorAll(`[data-logo-tic="${tic}"]`).forEach(el => {
+        const isAnTic = el.classList.contains('an-tic');
+        const cls = isAnTic ? 'co-logo" style="width:46px;height:46px' : 'co-logo';
+        el.outerHTML = `<img src="${logo}" alt="${tic}" class="${cls}">`;
+      });
     }
   }
 }
@@ -2878,23 +2911,32 @@ function renderWatchlist(){
   const items = watchlist.filter(w => w.pfId === settings.activePf);
   if (!items.length){
     c.innerHTML = `
+      <div class="add-stock-row" style="margin-top:8px">
+        <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
+      </div>
       <div class="watch-empty">
         <div style="font-size:42px;opacity:.45;color:var(--blue);margin-bottom:10px">⭐</div>
         <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${lang==='ar'?'قائمة المتابعة فاضية':'Watchlist is empty'}</h3>
         <p style="margin:0 auto 18px;font-size:13px;line-height:1.6;max-width:280px">${lang==='ar'?'أضف أسهماً تتابعها بدون شراء. تشوف أسعارها وتنبيهات لما توصل لهدفك':'Add stocks to track without owning. See prices and get alerts when they hit your target.'}</p>
       </div>
-      <button class="fab" onclick="addToWatchlist()"><span class="plus">＋</span> ${lang==='ar'?'إضافة':'Add'}</button>
     `;
     return;
   }
   c.innerHTML = `
+    <div class="add-stock-row">
+      <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
+    </div>
     <div class="watch-list">${items.map(w => {
       const up = w.dayChangePct != null && w.dayChangePct >= 0;
       let tgtPill = '';
       if (w.target && w.price && w.price >= w.target) tgtPill = `<span class="tgt-pill hit">🎯 ${lang==='ar'?'وصل الهدف':'TARGET HIT'}</span>`;
       else if (w.stop && w.price && w.price <= w.stop) tgtPill = `<span class="tgt-pill stop">⚠️ ${lang==='ar'?'كسر الوقف':'STOP HIT'}</span>`;
+      const cachedLogo = _logoCache[w.ticker];
+      const logoHTML = cachedLogo
+        ? `<img src="${cachedLogo}" alt="${esc(w.ticker)}" class="co-logo">`
+        : `<div class="tic-bx" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
       return `<div class="watch-row" onclick="openWatchDetail('${w.id}')">
-        <div class="tic-bx">${esc(w.ticker.slice(0,4))}</div>
+        ${logoHTML}
         <div class="info">
           <div class="t">${esc(w.ticker)}${tgtPill}</div>
           <div class="s">${esc(w.name || '')}${w.target?` · 🎯 $${fmt(w.target)}`:''}${w.stop?` · ⚠️ $${fmt(w.stop)}`:''}</div>
@@ -2905,15 +2947,19 @@ function renderWatchlist(){
         </div>
       </div>`;
     }).join("")}</div>
-    <button class="fab" onclick="addToWatchlist()"><span class="plus">＋</span> ${lang==='ar'?'إضافة':'Add'}</button>
   `;
+  lazyLoadLogos(items.map(w => w.ticker));
 }
-function openWatchDetail(id){
+async function openWatchDetail(id){
   const w = watchlist.find(x => x.id === id);
   if (!w) return;
   modal(`
-    <h2>${esc(w.ticker)}${w.price?` <span style="color:var(--muted);font-size:14px;font-weight:500"> · $${fmt(w.price)}</span>`:''}</h2>
+    <h2 style="display:flex;align-items:center;gap:10px">
+      <span id="wd-logo-slot" style="width:36px;height:36px;border-radius:8px;background:var(--accent-bg);border:1px solid var(--accent-d);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:11px">${esc(w.ticker.slice(0,4))}</span>
+      <span>${esc(w.ticker)}${w.price?` <span style="color:var(--muted);font-size:14px;font-weight:500"> · $${fmt(w.price)}</span>`:''}</span>
+    </h2>
     <p class="sub">${esc(w.name || w.ticker)}</p>
+    <div id="wd-rich" style="min-height:60px;margin-bottom:14px"><div style="text-align:center;color:var(--muted2);font-size:11.5px;padding:14px"><span class="spin"></span> ${lang==='ar'?'يجلب البيانات...':'Loading...'}</div></div>
     <div class="tgt-row">
       <div class="tgt-cell target">
         <div class="lbl">🎯 ${lang==='ar'?'السعر المستهدف':'Target'}</div>
@@ -2931,6 +2977,81 @@ function openWatchDetail(id){
       <button class="btn primary" onclick="saveWatchDetail('${w.id}')">${t().save}</button>
     </div>
   `);
+  // Load enrichments in parallel
+  loadWatchEnrichments(w);
+}
+
+async function loadWatchEnrichments(w){
+  const ar = lang==='ar';
+  const wrap = document.getElementById('wd-rich');
+  if (!wrap) return;
+  try {
+    const [profile, target, rec, newsRaw] = await Promise.all([
+      fetch(`${FINNHUB}/stock/profile2?symbol=${w.ticker}&token=${FINNHUB_KEY}`).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch(`${FINNHUB}/stock/price-target?symbol=${w.ticker}&token=${FINNHUB_KEY}`).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch(`${FINNHUB}/stock/recommendation?symbol=${w.ticker}&token=${FINNHUB_KEY}`).then(r=>r.ok?r.json():null).catch(()=>null),
+      fetch(`${FINNHUB}/company-news?symbol=${w.ticker}&from=${new Date(Date.now()-30*86400000).toISOString().slice(0,10)}&to=${new Date().toISOString().slice(0,10)}&token=${FINNHUB_KEY}`).then(r=>r.ok?r.json():[]).catch(()=>[]),
+    ]);
+    if (!document.getElementById('wd-rich')) return;
+    // Update logo
+    if (profile?.logo){
+      const slot = document.getElementById('wd-logo-slot');
+      if (slot) slot.outerHTML = `<img src="${profile.logo}" alt="${esc(w.ticker)}" style="width:36px;height:36px;border-radius:8px;background:#FFF;padding:3px;object-fit:contain;border:1px solid var(--line)">`;
+      _logoCache[w.ticker] = profile.logo;
+    }
+    const recLatest = Array.isArray(rec) && rec.length ? rec[0] : null;
+    const totalRec = recLatest ? (recLatest.strongBuy + recLatest.buy + recLatest.hold + recLatest.sell + recLatest.strongSell) : 0;
+    const news = Array.isArray(newsRaw) ? newsRaw.slice(0, 5) : [];
+    const html = `
+      ${profile && (profile.finnhubIndustry || profile.marketCapitalization) ? `
+        <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:10px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${ar?'عن الشركة':'About'}</div>
+          ${profile.finnhubIndustry ? `<div style="font-size:12px;color:var(--txt2);margin-bottom:4px;line-height:1.45"><b style="color:var(--muted);font-weight:600">${ar?'القطاع':'Industry'}:</b> ${esc(profile.finnhubIndustry)}</div>`:''}
+          ${profile.country ? `<div style="font-size:12px;color:var(--txt2);margin-bottom:4px;line-height:1.45"><b style="color:var(--muted);font-weight:600">${ar?'الدولة':'Country'}:</b> ${esc(profile.country)}</div>`:''}
+          ${profile.marketCapitalization ? `<div style="font-size:12px;color:var(--txt2);margin-bottom:4px;line-height:1.45"><b style="color:var(--muted);font-weight:600">${ar?'القيمة السوقية':'Market cap'}:</b> $${fmt0(profile.marketCapitalization/1000)}B</div>`:''}
+          ${profile.weburl ? `<a href="${esc(profile.weburl)}" target="_blank" rel="noopener" style="font-size:11px;color:var(--accent);text-decoration:none">↗ ${esc(profile.weburl.replace(/^https?:\/\//,'').replace(/\/$/,''))}</a>`:''}
+        </div>
+      `:''}
+
+      ${recLatest && totalRec > 0 ? `
+        <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:10px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${ar?'توصيات المحللين':'Analyst Recommendations'} · ${totalRec} ${ar?'محلل':'analysts'}</div>
+          <div class="an-rec">
+            ${recLatest.strongBuy ? `<span class="pill strongbuy">${recLatest.strongBuy} ${ar?'شراء قوي':'STRONG BUY'}</span>` : ''}
+            ${recLatest.buy ? `<span class="pill buy">${recLatest.buy} ${ar?'شراء':'BUY'}</span>` : ''}
+            ${recLatest.hold ? `<span class="pill hold">${recLatest.hold} ${ar?'تثبيت':'HOLD'}</span>` : ''}
+            ${recLatest.sell ? `<span class="pill sell">${recLatest.sell} ${ar?'بيع':'SELL'}</span>` : ''}
+            ${recLatest.strongSell ? `<span class="pill strongsell">${recLatest.strongSell} ${ar?'بيع قوي':'STRONG SELL'}</span>` : ''}
+          </div>
+        </div>
+      `:''}
+
+      ${target && target.targetMean ? `
+        <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 12px;margin-bottom:10px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${ar?'أهداف الأسعار':'Price Targets'}</div>
+          <div style="display:flex;justify-content:space-between;gap:6px;font-variant-numeric:tabular-nums">
+            <div><div style="font-size:9.5px;color:var(--muted)">${ar?'أدنى':'Low'}</div><div style="font-size:13.5px;font-weight:800;color:var(--loss)">$${fmt(target.targetLow,0)}</div></div>
+            <div><div style="font-size:9.5px;color:var(--muted)">${ar?'متوسط':'Avg'}</div><div style="font-size:15px;font-weight:800;color:var(--txt)">$${fmt(target.targetMean,2)}</div></div>
+            <div><div style="font-size:9.5px;color:var(--muted)">${ar?'أعلى':'High'}</div><div style="font-size:13.5px;font-weight:800;color:var(--accent)">$${fmt(target.targetHigh,0)}</div></div>
+            ${w.price && target.targetMean ? `<div><div style="font-size:9.5px;color:var(--muted)">${ar?'العائد':'Upside'}</div><div style="font-size:13.5px;font-weight:800;color:${target.targetMean>w.price?'var(--accent)':'var(--loss)'}">${target.targetMean>w.price?'+':''}${fmt((target.targetMean-w.price)/w.price*100,1)}%</div></div>`:''}
+          </div>
+        </div>
+      `:''}
+
+      ${news.length ? `
+        <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:10px">
+          <div style="padding:10px 12px;font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line)">${ar?'آخر الأخبار':'Latest News'}</div>
+          ${news.map(n => `<a href="${esc(n.url||'#')}" target="_blank" rel="noopener" style="display:block;padding:10px 12px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--txt2)">
+            <div style="font-size:12px;font-weight:600;line-height:1.4;margin-bottom:3px">${esc((n.headline||'').slice(0,120))}</div>
+            <div style="font-size:10px;color:var(--muted2);font-variant-numeric:tabular-nums">${esc(n.source||'')} · ${n.datetime?new Date(n.datetime*1000).toISOString().slice(0,10):''}</div>
+          </a>`).join('')}
+        </div>
+      `:''}
+    `;
+    wrap.innerHTML = html || `<div style="text-align:center;color:var(--muted2);font-size:11.5px;padding:14px">${ar?'لا توجد بيانات إضافية':'No additional data'}</div>`;
+  } catch(e){
+    wrap.innerHTML = `<div style="text-align:center;color:var(--muted2);font-size:11.5px;padding:14px">${ar?'تعذّر جلب البيانات':'Could not load data'}</div>`;
+  }
 }
 function saveWatchDetail(id){
   const w = watchlist.find(x => x.id === id);
@@ -3921,7 +4042,10 @@ async function renderAnalysts(){
     c.innerHTML = `<div class="an-empty">
       <div style="font-size:42px;opacity:.5;margin-bottom:10px">📈</div>
       <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${lang==='ar'?'لا يوجد أسهم':'No stocks yet'}</h3>
-      <p style="margin:0 auto;font-size:13px;line-height:1.6;max-width:280px">${lang==='ar'?'أضف أسهم لمحفظتك أو قائمة المتابعة عشان تشوف توصيات المحللين':'Add stocks to your portfolio or watchlist to see analyst recommendations'}</p>
+      <p style="margin:0 auto 18px;font-size:13px;line-height:1.6;max-width:280px">${lang==='ar'?'أضف أسهم لمحفظتك أو قائمة المتابعة عشان تشوف توصيات المحللين':'Add stocks to your portfolio or watchlist to see analyst recommendations'}</p>
+      <div class="add-stock-row" style="margin-bottom:0">
+        <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
+      </div>
     </div>`;
     return;
   }
@@ -3936,6 +4060,9 @@ async function renderAnalysts(){
   // Merge and sort all upgrade/downgrade news
   const newsFlat = allNews.flat().filter(n => n.gradeTime).sort((a,b) => (b.gradeTime||0) - (a.gradeTime||0)).slice(0, 25);
   c.innerHTML = `
+    <div class="add-stock-row">
+      <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
+    </div>
     <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.5;text-align:center">
       ${lang==='ar'?'توصيات وأخبار المحللين الرسمية لأسهمك':'Official analyst recommendations & news for your stocks'}
     </div>
@@ -3978,23 +4105,36 @@ async function renderAnalysts(){
         const t = data?.target;
         const rec = data?.recommendation;
         const inPf = !!h;
+        const totalRec = rec ? (rec.strongBuy + rec.buy + rec.hold + rec.sell + rec.strongSell) : 0;
+        const buyish = rec ? rec.strongBuy + rec.buy : 0;
+        const sellish = rec ? rec.sell + rec.strongSell : 0;
+        const consensus = totalRec ? (buyish > sellish + rec.hold/2 ? (lang==='ar'?'شراء':'Buy') 
+                                     : sellish > buyish + rec.hold/2 ? (lang==='ar'?'بيع':'Sell')
+                                     : (lang==='ar'?'تثبيت':'Hold')) : null;
+        const consColor = consensus === (lang==='ar'?'شراء':'Buy') ? 'var(--accent)' 
+                        : consensus === (lang==='ar'?'بيع':'Sell') ? 'var(--loss)' 
+                        : 'var(--gold)';
+        const cachedLogo = _logoCache[tic];
+        const logoHTML = cachedLogo
+          ? `<img src="${cachedLogo}" alt="${esc(tic)}" class="co-logo" style="width:46px;height:46px">`
+          : `<div class="an-tic" data-logo-tic="${esc(tic)}" style="background:${inPf?'var(--accent-bg)':'#1A1F2E'};color:${inPf?'var(--accent)':'#5BA5FF'};border-color:${inPf?'var(--accent-d)':'#1F3A6E33'}">${esc(tic.slice(0,4))}</div>`;
         return `<div class="an-row">
-          <div class="an-tic" style="background:${inPf?'var(--accent-bg)':'#1A1F2E'};color:${inPf?'var(--accent)':'#5BA5FF'};border-color:${inPf?'var(--accent-d)':'#1F3A6E33'}">${esc(tic.slice(0,4))}</div>
+          ${logoHTML}
           <div class="an-body">
             <div class="an-tic-line">
               <span class="tic">${esc(tic)}</span>
               ${inPf?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);letter-spacing:.05em">'+(lang==='ar'?'محفظة':'PORTFOLIO')+'</span>':'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33;letter-spacing:.05em">'+(lang==='ar'?'متابعة':'WATCH')+'</span>'}
               ${price?`<span class="pr">$${fmt(price,2)}</span>`:''}
             </div>
+            ${consensus ? `<div style="margin-top:4px;font-size:11.5px;color:var(--txt2);line-height:1.5">${lang==='ar'?`<b>${totalRec}</b> محلل بإجماع <b style="color:${consColor}">${consensus}</b>` : `<b>${totalRec}</b> analysts with consensus <b style="color:${consColor}">${consensus}</b>`}${t&&t.mean && price ? ` · ${lang==='ar'?'هدف':'target'} <b>$${fmt(t.mean,0)}</b> (<b style="color:${t.mean>price?'var(--accent)':'var(--loss)'}">${t.mean>price?'+':''}${fmt((t.mean-price)/price*100,0)}%</b>)`:''}</div>`:''}
             ${t && t.analysts ? `
               <div class="an-targets">
                 <span><b>${t.analysts}</b> ${lang==='ar'?'محلل':'analysts'}</span>
                 <span>${lang==='ar'?'الأعلى':'High'}: <b class="h">$${fmt(t.high,0)}</b></span>
                 <span>${lang==='ar'?'متوسط':'Avg'}: <b>$${fmt(t.mean,2)}</b></span>
                 <span>${lang==='ar'?'الأدنى':'Low'}: <b class="l">$${fmt(t.low,0)}</b></span>
-                ${price && t.mean ? `<span style="margin-inline-start:auto">${lang==='ar'?'العائد':'Upside'}: <b class="${t.mean>price?'h':'l'}">${(((t.mean-price)/price)*100>=0?'+':'')}${fmt((t.mean-price)/price*100,1)}%</b></span>`:''}
               </div>
-            ` : '<div style="font-size:11px;color:var(--muted2);margin-top:4px">'+(lang==='ar'?'لا توجد أهداف سعر متاحة':'No price target data')+'</div>'}
+            ` : ''}
             ${rec ? `
               <div class="an-rec">
                 ${rec.strongBuy ? `<span class="pill strongbuy">${rec.strongBuy} ${lang==='ar'?'شراء قوي':'STRONG BUY'}</span>` : ''}
@@ -4010,6 +4150,7 @@ async function renderAnalysts(){
     </div>
     <div style="text-align:center;color:var(--muted2);font-size:10px;margin-top:14px;letter-spacing:.04em">${lang==='ar'?'البيانات من Finnhub & Polygon.io':'Data: Finnhub & Polygon.io'}</div>
   `;
+  lazyLoadLogos(tickers);
 }
 
 /* ── Ticker tape (top live strip) ── */
