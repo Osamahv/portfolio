@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Portfolio</title>
+<title>Circle | سيركل</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.min.js"></script>
 
 <style>
 :root{
@@ -447,68 +448,189 @@ body[dir="rtl"] .watch-row .rt{text-align:left}
 .set-section h4{margin:6px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
 .set-section .info{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55}
 
-/* ── splash (minimal entry page) ── */
-.splash{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(180deg,#0A0A0A,#000);
-  padding:30px 20px;
-}
-.splash::before{
-  content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 40%,rgba(232,185,106,.12),transparent 70%),
-    radial-gradient(ellipse 40% 30% at 50% 80%,rgba(95,233,176,.06),transparent 70%);
-  pointer-events:none;
-}
-.splash::after{
-  content:"";position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:50px 50px;
-  pointer-events:none;opacity:.6;
-}
-.splash-inner{position:relative;z-index:1;text-align:center;max-width:380px;width:100%}
-.splash-lang{
-  position:absolute;top:-160px;inset-inline-end:0;
-  background:transparent;border:1px solid #222;color:#D4D4D4;
-  padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;
-  letter-spacing:.05em;cursor:pointer;font-family:inherit;transition:.15s;
-}
-.splash-lang:hover{border-color:#444;background:#101010}
-.splash-gem{
-  width:78px;height:78px;border-radius:20px;
-  background:linear-gradient(135deg,#E8B96A,#9B7F3F);
-  display:grid;place-items:center;
-  color:#000;font-weight:900;font-size:38px;
-  margin:0 auto 26px;
-  box-shadow:0 18px 60px rgba(232,185,106,.4),inset 0 1px 0 rgba(255,255,255,.3);
-}
-.splash-title{
-  font-size:44px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-bottom:14px;
-  background:linear-gradient(180deg,#fff 30%,#888);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-}
-.splash-tag{
-  color:#787878;font-size:15px;margin-bottom:42px;line-height:1.55;letter-spacing:-.1px;
-}
-.splash-cta{
-  background:#FAFAFA;color:#000;
-  padding:15px 36px;border-radius:12px;
-  font-size:16px;font-weight:800;border:none;cursor:pointer;
-  font-family:inherit;display:inline-flex;align-items:center;gap:10px;
-  box-shadow:0 10px 32px rgba(250,250,250,.16);transition:.2s;
-}
-.splash-cta:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(250,250,250,.28)}
-.splash-cta .arr{font-size:14px;transition:transform .2s;display:inline-block}
-body[dir="rtl"] .splash-cta .arr{transform:scaleX(-1)}
-.splash-cta:hover .arr{transform:translateX(3px)}
-body[dir="rtl"] .splash-cta:hover .arr{transform:scaleX(-1) translateX(3px)}
-.splash-mail{
-  display:block;margin-top:36px;color:#555;
-  font-size:11.5px;text-decoration:none;letter-spacing:.04em;transition:.15s;
-}
-.splash-mail:hover{color:#999}
+/* ── marketing landing (full page when logged out) ── */
+.mkt{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;background:#0A0A0A;-webkit-overflow-scrolling:touch}
+.mkt::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(95,233,176,.08),transparent 60%),radial-gradient(ellipse 60% 40% at 80% 70%,rgba(91,165,255,.04),transparent 60%);pointer-events:none;z-index:0}
+.mkt::after{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;opacity:.5}
+.mkt-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 22px}
+
+.mkt-nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);background:rgba(10,10,10,.72);border-bottom:1px solid rgba(255,255,255,.04)}
+.mkt-nav-in{max-width:1180px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mkt-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.5px;color:var(--txt)}
+.circle-ico{width:30px;height:30px;border-radius:50%;border:2.5px solid var(--accent);background:radial-gradient(circle at 50% 50%,rgba(95,233,176,.15),transparent 70%);position:relative;display:inline-block;box-shadow:0 0 18px rgba(95,233,176,.35)}
+.circle-ico::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.mkt-nav-r{display:flex;align-items:center;gap:8px}
+.mkt-lang{background:transparent;border:1px solid var(--line2);color:var(--txt2);padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;letter-spacing:.05em;cursor:pointer;font-family:inherit;transition:.15s}
+.mkt-lang:hover{border-color:var(--muted2);background:var(--surf)}
+.mkt-login{background:transparent;border:1px solid var(--line2);color:var(--txt2);padding:7px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.mkt-login:hover{border-color:var(--accent-d);color:var(--accent);background:var(--accent-bg)}
+
+.mkt-hero{padding:80px 0 50px;text-align:center}
+@media (max-width:680px){.mkt-hero{padding:50px 0 36px}}
+.mkt-badge{display:inline-flex;align-items:center;gap:7px;background:var(--accent-bg);border:1px solid var(--accent-d);color:var(--accent);font-size:12px;font-weight:700;padding:6px 13px;border-radius:99px;margin-bottom:22px;letter-spacing:.02em}
+.mkt-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);animation:mpulse 2s ease-in-out infinite}
+@keyframes mpulse{0%,100%{opacity:1}50%{opacity:.4}}
+.mkt-hero h1{font-size:clamp(34px,7vw,64px);font-weight:900;letter-spacing:-.03em;line-height:1.08;margin:0 0 18px;background:linear-gradient(180deg,#fff 30%,#888);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mkt-hero h1 .acc{background:linear-gradient(135deg,#5FE9B0 30%,#A8FFD8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mkt-hero .sub{font-size:clamp(15px,2.3vw,18px);color:var(--muted);max-width:600px;margin:0 auto 32px;line-height:1.65}
+.mkt-ctas{display:flex;gap:11px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.mkt-cta-1{background:var(--accent);color:#000;padding:14px 28px;border-radius:11px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:9px;box-shadow:0 10px 32px rgba(95,233,176,.25);transition:.2s}
+.mkt-cta-1:hover{transform:translateY(-2px);box-shadow:0 16px 44px rgba(95,233,176,.4)}
+.mkt-cta-1 .arr{font-size:13px;transition:transform .2s;display:inline-block}
+body[dir="rtl"] .mkt-cta-1 .arr{transform:scaleX(-1)}
+.mkt-cta-2{background:transparent;color:var(--txt2);padding:14px 22px;border-radius:11px;font-size:14.5px;font-weight:700;border:1px solid var(--line2);cursor:pointer;font-family:inherit;transition:.2s}
+.mkt-cta-2:hover{border-color:var(--muted2);background:var(--surf)}
+.mkt-meta{font-size:12.5px;color:var(--muted2);display:inline-flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.mkt-meta .sep{width:3px;height:3px;border-radius:50%;background:var(--muted2)}
+
+.mkt-stats{margin-top:50px;padding:22px;background:linear-gradient(180deg,var(--surf),transparent);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.mkt-stats-grid{max-width:880px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:680px){.mkt-stats-grid{grid-template-columns:repeat(2,1fr);gap:18px}}
+.mkt-stat{text-align:center}
+.mkt-stat .n{font-size:clamp(22px,3.5vw,30px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.mkt-stat .n.g{color:var(--accent)}
+.mkt-stat .n.gd{color:var(--gold)}
+.mkt-stat .n.b{color:#5BA5FF}
+.mkt-stat .l{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-top:5px}
+
+.mkt-section{padding:80px 0}
+@media (max-width:680px){.mkt-section{padding:50px 0}}
+.mkt-section-head{text-align:center;margin-bottom:42px}
+.mkt-tag{display:inline-block;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}
+.mkt-h{font-size:clamp(28px,4.5vw,42px);font-weight:900;letter-spacing:-.025em;line-height:1.15;margin:0 0 14px}
+.mkt-sub{font-size:clamp(14px,2vw,16px);color:var(--muted);max-width:580px;margin:0 auto;line-height:1.65}
+
+.mkt-features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+@media (max-width:920px){.mkt-features{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:580px){.mkt-features{grid-template-columns:1fr}}
+.mkt-feat{background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:22px 20px;transition:.25s}
+.mkt-feat:hover{border-color:var(--line2);transform:translateY(-2px);background:var(--surf2)}
+.mkt-feat .ico{width:44px;height:44px;border-radius:11px;background:var(--bg);border:1px solid var(--line2);display:grid;place-items:center;font-size:20px;margin-bottom:16px}
+.mkt-feat.g .ico{background:var(--accent-bg);border-color:var(--accent-d)}
+.mkt-feat.gd .ico{background:#1F1A0E;border-color:#5A4818}
+.mkt-feat.b .ico{background:#0E1828;border-color:#1F3A6E}
+.mkt-feat h3{font-size:16px;font-weight:800;margin:0 0 7px;letter-spacing:-.3px}
+.mkt-feat p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+
+.mkt-showcase{background:linear-gradient(180deg,transparent,var(--surf) 30%,var(--surf) 70%,transparent);position:relative}
+.mkt-phones{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:42px;flex-wrap:wrap}
+.mkt-phone{width:265px;background:#000;border:1px solid var(--line2);border-radius:30px;padding:13px 9px;box-shadow:0 22px 70px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.04);flex-shrink:0;transition:.4s}
+.mkt-phone:nth-child(2){transform:translateY(-22px)}
+.mkt-phone:hover{transform:translateY(-6px) scale(1.02)}
+.mkt-phone:nth-child(2):hover{transform:translateY(-28px) scale(1.02)}
+@media (max-width:920px){.mkt-phone{width:240px}.mkt-phone:nth-child(2){transform:none;order:-1}}
+@media (max-width:680px){.mkt-phones{gap:12px}.mkt-phone{width:calc(50% - 6px);max-width:200px}.mkt-phone:nth-child(3){display:none}}
+.mkt-phone .notch{width:55px;height:5px;border-radius:99px;background:#1A1A1A;margin:0 auto 10px}
+.mkt-phone .screen{background:var(--bg);border-radius:22px;overflow:hidden;font-size:10px;color:var(--txt);padding:13px 11px;min-height:450px}
+
+.mkt-pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px;margin:0 auto}
+@media (max-width:680px){.mkt-pricing-grid{grid-template-columns:1fr}}
+.mkt-price{background:var(--surf);border:1px solid var(--line);border-radius:20px;padding:30px 26px;position:relative;transition:.25s}
+.mkt-price.feat{border-color:var(--accent-d);background:linear-gradient(180deg,var(--accent-bg) 0%,var(--surf) 100%)}
+.mkt-price.feat::before{content:"الأكثر شعبية";position:absolute;top:-1px;inset-inline-end:22px;background:var(--accent);color:#000;font-size:10.5px;font-weight:800;padding:5px 11px;border-radius:0 0 8px 8px;letter-spacing:.03em}
+body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
+.mkt-price h3{font-size:21px;font-weight:800;margin:0 0 6px;letter-spacing:-.3px}
+.mkt-price .tagp{display:flex;align-items:baseline;gap:6px;margin:16px 0}
+.mkt-price .p{font-size:42px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.mkt-price .p.gr{color:var(--accent)}
+.mkt-price .pp{color:var(--muted);font-size:13px;font-weight:600}
+.mkt-price .ds{color:var(--muted);font-size:13.5px;line-height:1.55;margin-bottom:18px}
+.mkt-price ul{list-style:none;padding:0;margin:0}
+.mkt-price li{font-size:13.5px;color:var(--txt2);padding:6px 0;display:flex;align-items:flex-start;gap:9px;line-height:1.5}
+.mkt-price li::before{content:"✓";color:var(--accent);font-weight:900;font-size:13px;flex-shrink:0;margin-top:1px}
+.mkt-price .pcta{width:100%;margin-top:22px;padding:13px;border-radius:11px;font-size:14px;font-weight:800;text-align:center;display:block;transition:.2s;border:none;cursor:pointer;font-family:inherit;text-decoration:none}
+.mkt-price .pcta.free{background:var(--txt);color:#000}
+.mkt-price .pcta.free:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(250,250,250,.18)}
+.mkt-price .pcta.prem{background:var(--accent);color:#000}
+.mkt-price .pcta.prem:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(95,233,176,.3)}
+
+.mkt-cta-section{text-align:center;background:linear-gradient(180deg,transparent,var(--surf));position:relative;overflow:hidden}
+.mkt-cta-section::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(95,233,176,.12),transparent 70%);pointer-events:none}
+.mkt-cta-section .mkt-wrap{position:relative;z-index:1}
+
+.mkt-footer{border-top:1px solid var(--line);padding:32px 0 50px;margin-top:30px;position:relative;z-index:1}
+.mkt-footer-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;max-width:1180px;margin:0 auto;padding:0 22px}
+.mkt-footer-l{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--txt2)}
+.mkt-footer-l .ico-s{width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);background:radial-gradient(circle,rgba(95,233,176,.2),transparent 70%);position:relative}
+.mkt-footer-l .ico-s::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.mkt-footer-meta{font-size:12px;color:var(--muted)}
+.mkt-footer-links{display:flex;gap:18px}
+.mkt-footer-links a{color:var(--muted);font-size:12.5px;text-decoration:none;transition:.15s;cursor:pointer}
+.mkt-footer-links a:hover{color:var(--txt)}
+
+/* phone mockup contents */
+.mp .pf-name{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.mp .pf-name .name{background:var(--surf);border:1px solid var(--line);border-radius:99px;padding:4px 11px;font-weight:700;font-size:10px;display:inline-flex;align-items:center;gap:5px}
+.mp .pf-name .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.mp .pf-name .acts{display:flex;gap:4px}
+.mp .pf-name .acts span{width:18px;height:18px;border:1px solid var(--line);border-radius:5px;display:grid;place-items:center;font-size:8px;color:var(--muted)}
+.mp .day{font-size:8.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;font-weight:700}
+.mp .hero-s{text-align:center;margin-bottom:10px}
+.mp .lbls{display:flex;justify-content:center;gap:24px;font-size:8.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.mp .vals{display:flex;justify-content:center;gap:24px;font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.mp .vals .pl{color:var(--accent)}
+.mp .delta{font-size:9px;color:var(--accent);font-weight:700;margin-top:3px}
+.mp .inv{text-align:center;color:var(--muted);font-size:9px;border-top:1px solid var(--line);padding-top:9px;margin-top:9px;margin-bottom:10px}
+.mp .inv .up{color:var(--accent);font-weight:700}
+.mp .mtabs{display:flex;gap:3px;margin-bottom:11px;background:#000;border:1px solid var(--line);border-radius:7px;padding:2px}
+.mp .mtabs .t{flex:1;padding:5px;text-align:center;font-size:8.5px;font-weight:700;border-radius:5px;color:var(--muted)}
+.mp .mtabs .t.on{background:var(--surf2);color:var(--txt)}
+.mp .bubs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:9px}
+.mp .bub{aspect-ratio:1;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:10px;border:1px solid;text-align:center;line-height:1.1;padding:3px}
+.mp .bub .pct{font-size:7.5px;font-weight:700;margin-top:2px}
+.mp .bub.g1{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.mp .bub.g2{background:#0a1812;border-color:#143028;color:#3ad19a}
+.mp .bub.r{background:#2A0E10;border-color:#5C1F22;color:#F26B6E}
+.mp .dh{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.mp .dh .tic{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:10px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.mp .dh .nm{font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px}
+.mp .dh .bc{font-size:7.5px;font-weight:700;padding:1px 5px;border-radius:3px;background:#1F2E25;color:var(--accent);letter-spacing:.05em;border:1px solid var(--accent-d)}
+.mp .dh .sub{font-size:8.5px;color:var(--muted);margin-top:1px}
+.mp .malert{padding:7px 9px;background:var(--accent-bg);border:1px solid var(--accent-d);border-radius:8px;font-size:9px;color:var(--accent);margin-bottom:9px;font-weight:600;text-align:center}
+.mp .mtrade{display:flex;gap:5px;margin-bottom:11px}
+.mp .mtrade .tb{flex:1;padding:8px;border-radius:8px;font-size:10px;font-weight:800;text-align:center;border:1px solid}
+.mp .mtrade .tb.b{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)}
+.mp .mtrade .tb.s{background:#2A0E10;color:#F26B6E;border-color:#5C1F22}
+.mp .mgreeks{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:11px}
+.mp .mgreeks .g{background:#000;border:1px solid var(--line);border-radius:6px;padding:5px 3px;text-align:center}
+.mp .mgreeks .g .l{font-size:7px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.mp .mgreeks .g .v{font-size:9.5px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.mp .mgreeks .g .v.u{color:var(--accent)}
+.mp .mchart{height:60px;background:#000;border:1px solid var(--line);border-radius:8px;padding:6px;margin-bottom:10px}
+.mp .mchart svg{width:100%;height:100%}
+.mp .mtgts{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:9px}
+.mp .mtgts .c{background:#000;border:1px solid var(--line);border-radius:7px;padding:5px 7px}
+.mp .mtgts .c .l{font-size:7px;font-weight:800;letter-spacing:.04em}
+.mp .mtgts .c.t .l{color:var(--accent)}
+.mp .mtgts .c.s .l{color:#F26B6E}
+.mp .mtgts .c .v{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:2px}
+.mp .mch-h{display:flex;align-items:center;gap:6px;margin-bottom:14px}
+.mp .mch-h .i{font-size:18px;color:var(--gold)}
+.mp .mch-h h3{font-size:13px;font-weight:800;margin:0}
+.mp .mcc{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:11px}
+.mp .mcc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.mp .mcc-top .nm{font-size:11px;font-weight:800;letter-spacing:-.2px}
+.mp .mcc-top .dt{font-size:7.5px;color:var(--muted);margin-top:1px}
+.mp .mcc-top .bd{font-size:7.5px;font-weight:800;padding:2px 6px;border-radius:3px;background:var(--accent-bg);color:var(--accent);letter-spacing:.04em}
+.mp .mcc3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:9px}
+.mp .mcc3 .c{text-align:center;padding:6px 4px;background:#000;border-radius:6px;border:1px solid var(--line)}
+.mp .mcc3 .c .l{font-size:7px;color:var(--muted);font-weight:800;letter-spacing:.04em}
+.mp .mcc3 .c .v{font-size:10.5px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.mp .mcc3 .c .v.u{color:var(--accent)}
+.mp .mcpg{height:5px;background:#0E0E0E;border-radius:3px;overflow:hidden;margin-bottom:8px}
+.mp .mcpg .f{height:100%;background:linear-gradient(90deg,#E8B96A,#5FE9B0);border-radius:3px;width:72%}
+.mp .mct{display:flex;flex-direction:column;gap:3px}
+.mp .mct .r{display:flex;align-items:center;gap:5px;padding:5px 7px;background:#000;border:1px solid var(--line);border-radius:6px;font-size:8.5px}
+.mp .mct .r .n{flex:1;font-weight:800;color:var(--accent)}
+.mp .mct .r .a{color:var(--muted);font-size:7.5px}
+.mp .mct .r .p{font-weight:800;color:var(--accent)}
+
+/* chart range buttons */
+.chart-range-row{display:flex;gap:3px;margin:6px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 1px;scrollbar-width:none}
+.chart-range-row::-webkit-scrollbar{display:none}
+.chart-range-btn{flex-shrink:0;background:transparent;border:1px solid var(--line);color:var(--muted);padding:4px 9px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.04em;transition:.15s;font-variant-numeric:tabular-nums}
+.chart-range-btn:hover{border-color:var(--line2);color:var(--txt2)}
+.chart-range-btn.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 
 /* ── admin mode ── */
 .admin-bar{
@@ -753,7 +875,19 @@ let searchDebounce = null;
 
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
-const uid = () => Math.random().toString(36).slice(2,9);
+const uid = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() :
+  'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random()*16|0, v = c==='x'?r:(r&0x3|0x8); return v.toString(16);
+  });
+
+/* ════ Supabase config ════ */
+const SUPABASE_URL = 'https://ktjzjotshqqlfvxjiweg.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt0anpqb3RzaHFxbGZ2eGppd2VnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NzI4NTgsImV4cCI6MjA5NzU0ODg1OH0.Q0Ik81jucLUjaNmfAGHVBjmqmp6KxGfMO7NnaeDh5QU';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+  auth: { persistSession: true, autoRefreshToken: true, storage: window.localStorage }
+});
+let currentUser = null;
+let isAdminCloud = false;
 const today = () => new Date().toISOString().slice(0,10);
 const fmt = (n,d=2) => (n==null||isNaN(n)) ? "—" : Number(n).toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmt0 = n => (n==null||isNaN(n)) ? "—" : Math.round(n).toLocaleString("en-US");
@@ -936,8 +1070,9 @@ function zakatFor(h){
 /* ════ render ════ */
 function render(){
   if (!booted) return;
-  if (!splashShown) { renderSplash(); return; }
-  // No portfolios at all → show landing in create-first mode
+  if (!currentUser) { renderSplash(); return; }
+  const blocked = isAccessBlocked();
+  if (blocked) { renderBlocked(blocked); return; }
   if (!portfolios.length || !settings.activePf || !settings.unlocked) {
     renderLanding();
     return;
@@ -1483,6 +1618,7 @@ function saveHold(id){
       name: h.name || presetName,
       strike, expiry, iv,
     });
+    cloudUpsertHolding(h);
   } else {
     const sh = parseFloat($("#f_sh").value);
     const avg = parseFloat($("#f_avg").value);
@@ -1490,7 +1626,7 @@ function saveHold(id){
     if (isNaN(sh) || isNaN(avg) || sh <= 0 || avg < 0){
       $("#f_err").textContent = t().invalid; return;
     }
-    holdings.push({
+    const newH = {
       id: uid(), pfId: settings.activePf,
       ticker: tic, name: presetName, type: editType,
       transactions: [{ id: uid(), type:'buy', qty: sh, price: avg, date: dt, ts: new Date(dt).getTime() }],
@@ -1498,7 +1634,9 @@ function saveHold(id){
       purchaseDate: dt,
       horizon: editHorizon, tags: editTags,
       strike, expiry, iv,
-    });
+    };
+    holdings.push(newH);
+    cloudUpsertHolding(newH);
   }
   save(); closeModal(); render();
 }
@@ -1510,7 +1648,7 @@ function askDel(id){
       <button class="btn danger" onclick="doDel('${id}')">${t().delete}</button>
     </div>`);
 }
-function doDel(id){ holdings = holdings.filter(x => x.id !== id); save(); closeModal(); render(); }
+function doDel(id){ cloudDeleteHolding(id); holdings = holdings.filter(x => x.id !== id); save(); closeModal(); render(); }
 
 /* ════ detail with chart ════ */
 function openDetail(id){
@@ -1611,8 +1749,11 @@ function openDetail(id){
 
     <div class="chart-card">
       <div class="chart-head">
-        <span class="title">${t().chart30}</span>
+        <span class="title">${lang==='ar'?'الأداء':'Performance'}</span>
         <span class="meta" id="chart-meta"></span>
+      </div>
+      <div class="chart-range-row">
+        ${CHART_RANGES.map(r => `<button class="chart-range-btn ${r.id===chartCurrentRange?'on':''}" data-range="${r.id}" onclick="loadChartRange('${esc(h.ticker)}','${r.id}')">${lang==='ar'?r.ar:r.en}</button>`).join('')}
       </div>
       <div id="chart-box"><div class="chart-empty"><span class="spin"></span> ${t().chartLoading}</div></div>
     </div>
@@ -1692,51 +1833,129 @@ function doDelTx(holdId, txId){
   const h = holdings.find(x => x.id === holdId);
   if (!h) return;
   h.transactions = (h.transactions||[]).filter(t => t.id !== txId);
+  cloudUpsertHolding(h);
   save(); closeModal(); openDetail(holdId);
 }
 
+/* Chart ranges: 1d, 1w, 1m, 3m, 6m, 1y, 5y, all */
+const CHART_RANGES = [
+  { id:'1d',  ar:'يوم',    en:'1D',  interval:'1h',     size:24 },
+  { id:'1w',  ar:'أسبوع',  en:'1W',  interval:'1day',   size:7 },
+  { id:'1m',  ar:'شهر',    en:'1M',  interval:'1day',   size:30 },
+  { id:'3m',  ar:'٣ أشهر', en:'3M',  interval:'1day',   size:90 },
+  { id:'6m',  ar:'٦ أشهر', en:'6M',  interval:'1day',   size:180 },
+  { id:'1y',  ar:'سنة',    en:'1Y',  interval:'1week',  size:52 },
+  { id:'5y',  ar:'٥ سنوات',en:'5Y',  interval:'1month', size:60 },
+  { id:'all', ar:'الكل',   en:'ALL', interval:'1month', size:120 },
+];
+
+let chartCurrentRange = '1m';
+let chartCurrentTicker = null;
+let chartCurrentData = null; // {prices, dates}
+
 async function loadChart(ticker){
+  chartCurrentTicker = ticker;
+  if (!chartCurrentRange) chartCurrentRange = '1m';
+  await loadChartRange(ticker, chartCurrentRange);
+}
+
+async function loadChartRange(ticker, rangeId){
   const box = $("#chart-box");
   if (!box) return;
-  const cached = chartCache[ticker];
-  if (cached && Date.now() - cached.fetched < 3600000){
-    renderChart(cached.data, ticker); return;
+  chartCurrentRange = rangeId;
+  const range = CHART_RANGES.find(r => r.id === rangeId) || CHART_RANGES[2];
+  const cacheKey = `${ticker}_${rangeId}`;
+  const cached = chartCache[cacheKey];
+  // update active button
+  document.querySelectorAll('.chart-range-btn').forEach(b => {
+    b.classList.toggle('on', b.dataset.range === rangeId);
+  });
+  if (cached && Date.now() - cached.fetched < 1800000){
+    chartCurrentData = cached.data;
+    renderChart(cached.data.prices, ticker, cached.data.dates);
+    return;
   }
+  box.innerHTML = `<div class="chart-empty"><span class="spin"></span> ${lang==='ar'?'تحميل...':'Loading...'}</div>`;
   try {
-    const r = await fetch(`${TD}/time_series?symbol=${encodeURIComponent(ticker)}&interval=1day&outputsize=30&apikey=${TD_KEY}`);
+    const r = await fetch(`${TD}/time_series?symbol=${encodeURIComponent(ticker)}&interval=${range.interval}&outputsize=${range.size}&apikey=${TD_KEY}`);
     if (!r.ok) throw new Error("HTTP "+r.status);
     const data = await r.json();
     if (data.status === 'error') throw new Error(data.message || 'API error');
-    const values = data?.values || [];
-    const prices = values.map(v => parseFloat(v.close)).filter(n => isFinite(n) && n > 0).reverse();
+    const values = (data?.values || []).slice().reverse();
+    const prices = [], dates = [];
+    values.forEach(v => {
+      const p = parseFloat(v.close);
+      if (isFinite(p) && p > 0){ prices.push(p); dates.push(v.datetime); }
+    });
     if (prices.length < 2) throw new Error("insufficient data");
-    chartCache[ticker] = { data: prices, fetched: Date.now() };
-    renderChart(prices, ticker);
+    const payload = { prices, dates };
+    chartCache[cacheKey] = { data: payload, fetched: Date.now() };
+    chartCurrentData = payload;
+    renderChart(prices, ticker, dates);
   } catch(e){
-    const card = box.closest('.chart-card');
-    if (card) card.style.display = 'none';
+    box.innerHTML = `<div class="chart-empty" style="color:var(--muted2)">${lang==='ar'?'تعذّر تحميل الشارت لهذه الفترة':'Chart unavailable for this range'}</div>`;
   }
 }
 
-function renderChart(prices, ticker){
-  const box = $("#chart-box"); const meta = $("#chart-meta");
-  if (!box) return;
+function renderChart(prices, ticker, dates){
+  const box = $("#chart-box");
+  const meta = $("#chart-meta");
+  if (!box || !prices || prices.length < 2) return;
   const min = Math.min(...prices), max = Math.max(...prices), range = max-min || 1;
   const W = 600, H = 140, PAD = 8;
-  const pts = prices.map((v,i) => `${PAD + (i/(prices.length-1))*(W-2*PAD)},${PAD + (1-(v-min)/range)*(H-2*PAD)}`).join(" ");
+  const xs = prices.map((_,i) => PAD + (i/(prices.length-1))*(W-2*PAD));
+  const ys = prices.map(v => PAD + (1-(v-min)/range)*(H-2*PAD));
+  const pts = prices.map((_,i) => `${xs[i]},${ys[i]}`).join(" ");
   const up = prices[prices.length-1] >= prices[0];
   const chg = prices[prices.length-1] - prices[0];
   const chgPct = prices[0] > 0 ? chg/prices[0]*100 : 0;
   const col = up ? "#5FE9B0" : "#F26B6E";
-  box.innerHTML = `<svg id="stock-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+  box.innerHTML = `<svg id="stock-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="touch-action:none;cursor:crosshair">
     <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="${col}" stop-opacity="0.25"/>
       <stop offset="1" stop-color="${col}" stop-opacity="0"/>
     </linearGradient></defs>
     <polygon points="${PAD},${H-PAD} ${pts} ${W-PAD},${H-PAD}" fill="url(#cg)"/>
     <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.8"/>
+    <line id="ch-cross" x1="0" y1="0" x2="0" y2="${H}" stroke="rgba(255,255,255,.25)" stroke-width="0.6" style="display:none"/>
+    <circle id="ch-dot" cx="0" cy="0" r="3.5" fill="${col}" stroke="#000" stroke-width="1.4" style="display:none"/>
   </svg>`;
-  if (meta) meta.innerHTML = `<b style="color:${col}">${chg>=0?'+':''}${pct(chgPct)}</b> · $${fmt(prices[0])} → <b>$${fmt(prices[prices.length-1])}</b>`;
+  const metaDefault = `<b style="color:${col}">${chg>=0?'+':''}${pct(chgPct)}</b> · $${fmt(prices[0])} → <b>$${fmt(prices[prices.length-1])}</b>`;
+  if (meta) meta.innerHTML = metaDefault;
+
+  // crosshair interaction
+  const svg = $("#stock-chart");
+  const cross = $("#ch-cross");
+  const dot = $("#ch-dot");
+  if (!svg) return;
+  const handle = (e) => {
+    const t = e.touches ? e.touches[0] : e;
+    if (!t) return;
+    const rect = svg.getBoundingClientRect();
+    const x = (t.clientX - rect.left) / rect.width * W;
+    let idx = Math.round((x - PAD) / (W - 2*PAD) * (prices.length - 1));
+    idx = Math.max(0, Math.min(prices.length-1, idx));
+    const cx = xs[idx], cy = ys[idx];
+    cross.setAttribute('x1', cx); cross.setAttribute('x2', cx);
+    cross.style.display = 'block';
+    dot.setAttribute('cx', cx); dot.setAttribute('cy', cy);
+    dot.style.display = 'block';
+    const p = prices[idx];
+    const d = dates ? dates[idx] : '';
+    const dShort = d ? d.slice(0, d.length > 10 ? 10 : 10) : '';
+    if (meta) meta.innerHTML = `<b style="color:${col};font-variant-numeric:tabular-nums">$${fmt(p)}</b> <small style="color:var(--muted);font-weight:500">· ${esc(dShort)}</small>`;
+    e.preventDefault();
+  };
+  const reset = () => {
+    cross.style.display = 'none';
+    dot.style.display = 'none';
+    if (meta) meta.innerHTML = metaDefault;
+  };
+  svg.addEventListener('mousemove', handle);
+  svg.addEventListener('mouseleave', reset);
+  svg.addEventListener('touchstart', handle, { passive: false });
+  svg.addEventListener('touchmove', handle, { passive: false });
+  svg.addEventListener('touchend', reset);
 }
 
 /* ════ portfolio switcher ════ */
@@ -2065,6 +2284,7 @@ function saveTrade(holdId, type){
   }
   if (!Array.isArray(h.transactions)) h.transactions = [];
   h.transactions.push({ id: uid(), type, qty, price, date, ts: new Date(date).getTime() });
+  cloudUpsertHolding(h);
   // check if sold everything
   const after = statsFor(h);
   if (type === 'sell' && after.shares <= 0.0000001){
@@ -2135,6 +2355,7 @@ function saveEditTx(holdId, txId){
   tx.price = price;
   tx.date = date;
   tx.ts = new Date(date).getTime();
+  cloudUpsertHolding(h);
   save(); closeModal(); openDetail(holdId);
 }
 
@@ -2160,6 +2381,7 @@ function expireWorthless(holdId){
     date: h.expiry || today(), ts: new Date(h.expiry || today()).getTime(),
     note: 'expired'
   });
+  cloudUpsertHolding(h);
   save();
   toast(lang==='ar'?'تم التسجيل: انتهى بصفر':'Marked as expired worthless');
   openDetail(holdId);
@@ -2196,6 +2418,7 @@ function doCashTx(type){
   }
   settings.cashHistory.push({ id: uid(), type, amount, date, note, ts: Date.now() });
   settings.cash += (type === 'deposit' ? amount : -amount);
+  cloudSaveSettings();
   save();
   closeModal();
   openSettings();
@@ -2205,6 +2428,7 @@ function delCashTx(id){
   if (!tx) return;
   settings.cash -= (tx.type === 'deposit' ? tx.amount : -tx.amount);
   settings.cashHistory = settings.cashHistory.filter(x => x.id !== id);
+  cloudSaveSettings();
   save();
   openSettings();
 }
@@ -2245,13 +2469,16 @@ function saveWatch(){
   if (watchlist.find(w => w.ticker === tic && w.pfId === settings.activePf)){
     $("#wl_err").textContent = lang==='ar'?'موجود مسبقاً':'Already on watchlist'; return;
   }
-  watchlist.push({ id: uid(), pfId: settings.activePf, ticker: tic, name, target, stop, note, price: null, dayChangePct: null, addedAt: Date.now() });
+  const w = { id: uid(), pfId: settings.activePf, ticker: tic, name, target, stop, note, price: null, dayChangePct: null, addedAt: Date.now() };
+  watchlist.push(w);
+  cloudUpsertWatch(w);
   save();
   closeModal();
   refreshWatchlistPrices();
   render();
 }
 function delWatch(id){
+  cloudDeleteWatch(id);
   watchlist = watchlist.filter(w => w.id !== id);
   save();
   render();
@@ -2352,6 +2579,7 @@ function saveWatchDetail(id){
   w.target = $("#wd_t").value ? parseFloat($("#wd_t").value) : null;
   w.stop = $("#wd_s").value ? parseFloat($("#wd_s").value) : null;
   w.note = $("#wd_n").value.trim();
+  cloudUpsertWatch(w);
   save(); closeModal(); render();
 }
 
@@ -2390,6 +2618,7 @@ function saveDividend(holdId){
   }
   if (!Array.isArray(h.dividends)) h.dividends = [];
   h.dividends.push({ id: uid(), amount, date, note, ts: new Date(date).getTime() });
+  cloudUpsertHolding(h);
   save();
   closeModal();
   openDetail(holdId);
@@ -2398,6 +2627,7 @@ function delDividend(holdId, dvId){
   const h = holdings.find(x => x.id === holdId);
   if (!h) return;
   h.dividends = (h.dividends||[]).filter(d => d.id !== dvId);
+  cloudUpsertHolding(h);
   save();
   openDetail(holdId);
 }
@@ -2416,6 +2646,7 @@ function saveHoldTargets(id){
   h.target = $("#dt_t")?.value ? parseFloat($("#dt_t").value) : null;
   h.stopLoss = $("#dt_s")?.value ? parseFloat($("#dt_s").value) : null;
   h.notes = $("#dt_n")?.value.trim() || "";
+  cloudUpsertHolding(h);
   save();
   toast(lang==='ar'?'تم الحفظ':'Saved');
 }
@@ -2615,6 +2846,7 @@ function doCreateChallenge(){
     createdAt: Date.now(),
   };
   challenges.push(ch);
+  cloudUpsertChallenge(ch);
   save();
   openChallengePage();
 }
@@ -2655,6 +2887,7 @@ function doChallengeBuy(chId){
     $("#cb_err").textContent = lang==='ar'?'تأكّد من الرمز والسعر':'Check ticker and price'; return;
   }
   c.trades.push({ id: uid(), ticker: tic, buyDate: date, buyPrice: price, invested: c.currentBalance });
+  cloudUpsertChallenge(c);
   save();
   openChallengePage();
 }
@@ -2702,6 +2935,7 @@ function doChallengeSell(chId, tradeId){
   if (pct >= c.targetPct){
     grantAchievement('challenge_win');
   }
+  cloudUpsertChallenge(c);
   save();
   openChallengePage();
 }
@@ -2719,6 +2953,7 @@ function doEndChallenge(chId){
   const c = challenges.find(x => x.id === chId);
   if (!c) return;
   c.status = 'completed';
+  cloudUpsertChallenge(c);
   save();
   openChallengePage();
 }
@@ -2742,6 +2977,7 @@ function grantAchievement(id){
   if (!settings.achievements) settings.achievements = [];
   if (settings.achievements.includes(id)) return;
   settings.achievements.push(id);
+  cloudSaveSettings();
   save();
   showAchievementPopup(id);
 }
@@ -3080,7 +3316,7 @@ function openSettings(){
       <div class="field"><label>${t().profileName}</label>
         <input class="inp" id="set_name" value="${esc(profile.name)}"></div>
       <button class="btn" style="width:100%;margin-bottom:8px" onclick="toggleLang()">${lang==='ar'?'🌐 English':'🌐 العربية'}</button>
-      <button class="btn danger" style="width:100%" onclick="logout()">⏏ ${lang==='ar'?'تسجيل خروج':'Logout'}</button>
+      <button class="btn danger" style="width:100%" onclick="cloudLogout()">⏏ ${lang==='ar'?'تسجيل خروج كامل':'Full logout'}</button>
     </div>
 
     <div class="set-section">
@@ -3151,19 +3387,178 @@ async function doReset(){
 
 function renderSplash(){
   applyLang();
+  const ar = lang === 'ar';
   $("#app").innerHTML = `
-    <div class="splash">
-      <div class="splash-inner">
-        <button class="splash-lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
-        <div class="splash-gem">${lang==='ar'?'ث':'T'}</div>
-        <h1 class="splash-title">${lang==='ar'?'ثروة':'Tharwa'}</h1>
-        <p class="splash-tag">${lang==='ar'?'محفظتك الذكية':'Your smart portfolio'}</p>
-        <button class="splash-cta" onclick="enterApp()">
-          ${lang==='ar'?'ابدأ':'Start'}
-          <span class="arr">←</span>
-        </button>
-        <a class="splash-mail" href="mailto:osamah.j09@gmail.com">osamah.j09@gmail.com</a>
-      </div>
+    <div class="mkt">
+      <nav class="mkt-nav"><div class="mkt-nav-in">
+        <div class="mkt-logo"><span class="circle-ico"></span><span>${ar?'سيركل':'Circle'}</span></div>
+        <div class="mkt-nav-r">
+          <button class="mkt-lang" onclick="toggleLang()">${ar?'EN':'ع'}</button>
+          <button class="mkt-login" onclick="openLogin()">${ar?'دخول':'Log in'}</button>
+        </div>
+      </div></nav>
+
+      <header class="mkt-hero"><div class="mkt-wrap">
+        <div class="mkt-badge"><span class="dot"></span>${ar?'تجربة مجانية · بدون بطاقة':'Free trial · No card needed'}</div>
+        <h1>${ar?'محفظتك الذكية،':'Your smart portfolio,'}<br><span class="acc">${ar?'بأناقة سيركل':'powered by Circle'}</span></h1>
+        <p class="sub">${ar?'تتبّع كامل للأسهم الأمريكية والخيارات. أسعار مباشرة، إغريقيات حقيقية، تحدّيات، أهداف، وحاسبة زكاة. كل شي بمكانه.':'Pro-grade tracking for US stocks and options. Live prices, real Greeks, challenges, targets, Zakat — all in one place.'}</p>
+        <div class="mkt-ctas">
+          <button class="mkt-cta-1" onclick="openSignup()">${ar?'ابدأ مجاناً':'Start free trial'} <span class="arr">←</span></button>
+          <button class="mkt-cta-2" onclick="document.querySelector('.mkt-section')?.scrollIntoView({behavior:'smooth'})">${ar?'شاهد المميزات':'See features'}</button>
+        </div>
+        <div class="mkt-meta">
+          <span>${ar?'وصول من أي جهاز':'Access from any device'}</span><span class="sep"></span>
+          <span>${ar?'بدون إعلانات':'No ads'}</span><span class="sep"></span>
+          <span>${ar?'عربي · إنجليزي':'Arabic · English'}</span>
+        </div>
+      </div></header>
+
+      <div class="mkt-stats"><div class="mkt-stats-grid">
+        <div class="mkt-stat"><div class="n g">12+</div><div class="l">${ar?'ميزة':'Features'}</div></div>
+        <div class="mkt-stat"><div class="n gd">∞</div><div class="l">${ar?'محافظ':'Portfolios'}</div></div>
+        <div class="mkt-stat"><div class="n b">30s</div><div class="l">${ar?'تحديث':'Refresh'}</div></div>
+        <div class="mkt-stat"><div class="n">$10</div><div class="l">${ar?'بريميوم/شهر':'Premium/mo'}</div></div>
+      </div></div>
+
+      <section class="mkt-section"><div class="mkt-wrap">
+        <div class="mkt-section-head">
+          <div class="mkt-tag">${ar?'المميزات':'Features'}</div>
+          <h2 class="mkt-h">${ar?'كل اللي تحتاجه لمحفظتك':'Everything you need'}</h2>
+          <p class="mkt-sub">${ar?'من تتبّع الأسهم البسيط إلى إغريقيات الأوبشنز المعقّدة، صُمّم لمستثمر السوق الأمريكي.':'From simple stock tracking to complex options Greeks — built for the US market investor.'}</p>
+        </div>
+        <div class="mkt-features">
+          <div class="mkt-feat g"><div class="ico">📊</div><h3>${ar?'تتبّع شامل':'Full Tracking'}</h3><p>${ar?'أسهم وعقود خيار (Calls & Puts) مع حساب تلقائي للمتوسط والربح وقيمة السوق.':'Stocks and options with auto cost basis, realized P&L, and live market value.'}</p></div>
+          <div class="mkt-feat g"><div class="ico">⚡</div><h3>${ar?'أسعار مباشرة':'Live Prices'}</h3><p>${ar?'تحديث فوري من نيويورك وناسداك. زر تحديث بضغطة والكل يتزامن.':'Real-time from NYSE and NASDAQ. One tap refresh, everything syncs.'}</p></div>
+          <div class="mkt-feat b"><div class="ico">Δ</div><h3>${ar?'إغريقيات الأوبشنز':'Options Greeks'}</h3><p>${ar?'Delta · Gamma · Theta · Vega لكل عقد بصيغة Black-Scholes.':'Delta · Gamma · Theta · Vega for every option, Black-Scholes computed.'}</p></div>
+          <div class="mkt-feat"><div class="ico">⭐</div><h3>${ar?'قائمة المتابعة':'Watchlist'}</h3><p>${ar?'أسهم تراقبها بدون شراء. أسعار مباشرة + تنبيهات الأهداف.':'Track stocks without owning. Live prices + target alerts.'}</p></div>
+          <div class="mkt-feat gd"><div class="ico">🏆</div><h3>${ar?'تحدّيات':'Challenges'}</h3><p>${ar?'حدد مبلغ بداية وهدف وحاول تحقّقه بصفقات متتالية.':'Set capital and a goal — chain trades to hit it.'}</p></div>
+          <div class="mkt-feat g"><div class="ico">🎯</div><h3>${ar?'أهداف وتنبيهات':'Targets & Alerts'}</h3><p>${ar?'هدف ربح ووقف خسارة لكل سهم مع تنبيهات بصرية.':'Price targets and stop losses per stock with visual alerts.'}</p></div>
+          <div class="mkt-feat b"><div class="ico">📰</div><h3>${ar?'أخبار مترجمة':'Translated News'}</h3><p>${ar?'أخبار كل سهم تترجم آلياً للعربي.':'Company news auto-translated to Arabic.'}</p></div>
+          <div class="mkt-feat"><div class="ico">🕌</div><h3>${ar?'حاسبة الزكاة':'Zakat'}</h3><p>${ar?'حساب لكل سهم بالتاريخ الهجري (354.367 يوم).':'Per-stock calculator using Hijri year (354.367 days).'}</p></div>
+          <div class="mkt-feat gd"><div class="ico">🏅</div><h3>${ar?'شارات إنجاز':'Achievements'}</h3><p>${ar?'12 شارة تكتسبها مع تطور مستواك.':'12 badges you unlock as you progress.'}</p></div>
+        </div>
+      </div></section>
+
+      <section class="mkt-section mkt-showcase"><div class="mkt-wrap">
+        <div class="mkt-section-head">
+          <div class="mkt-tag">${ar?'من داخل التطبيق':'Inside the app'}</div>
+          <h2 class="mkt-h">${ar?'تصميم نظيف، معلومات واضحة':'Clean design, clear data'}</h2>
+          <p class="mkt-sub">${ar?'بدون إعلانات ولا فوضى، كل شاشة مصممة لتركز على اللي يهمك.':'No ads, no clutter. Every screen built for focus.'}</p>
+        </div>
+        <div class="mkt-phones">
+          <div class="mkt-phone"><div class="notch"></div><div class="screen mp">
+            <div class="pf-name"><div class="name"><span class="dot"></span>${ar?'محفظتي':'My Portfolio'}</div><div class="acts"><span>👁</span><span>🏆</span><span>⚙</span></div></div>
+            <div class="day">DEC 19</div>
+            <div class="hero-s">
+              <div class="lbls"><span>MV</span><span>P&L</span></div>
+              <div class="vals"><span>$3,142</span><span class="pl">+$525</span></div>
+              <div class="delta">+2.3% · +$72 today</div>
+            </div>
+            <div class="inv">Invested $2,475 · <span class="up">+27%</span></div>
+            <div class="mtabs"><div class="t on">📊</div><div class="t">⭐</div><div class="t">📰</div><div class="t">🕌</div></div>
+            <div class="bubs">
+              <div class="bub g1">HIMS<div class="pct">+19%</div></div>
+              <div class="bub g2">AAPL<div class="pct">+8%</div></div>
+              <div class="bub g1">NVDA<div class="pct">+15%</div></div>
+              <div class="bub r">TSLA<div class="pct">-4%</div></div>
+              <div class="bub g2">MSFT<div class="pct">+6%</div></div>
+              <div class="bub g1">CSIQ<div class="pct">+17%</div></div>
+            </div>
+          </div></div>
+
+          <div class="mkt-phone"><div class="notch"></div><div class="screen mp">
+            <div class="dh"><div class="tic">NVDA</div><div><div class="nm">NVDA <span class="bc">CALL</span></div><div class="sub">NVIDIA · $140 · 2026-03-15</div></div></div>
+            <div class="malert">🎯 ${ar?'السعر وصل هدفك $145':'Price hit your target $145'}</div>
+            <div class="mtrade"><div class="tb b">+ ${ar?'شراء':'Buy'}</div><div class="tb s">− ${ar?'بيع':'Sell'}</div></div>
+            <div class="mgreeks">
+              <div class="g"><div class="l">Δ Delta</div><div class="v u">0.582</div></div>
+              <div class="g"><div class="l">Γ Gamma</div><div class="v">0.0124</div></div>
+              <div class="g"><div class="l">Θ Theta</div><div class="v" style="color:#F26B6E">−0.082</div></div>
+              <div class="g"><div class="l">ν Vega</div><div class="v">0.214</div></div>
+            </div>
+            <div class="mchart"><svg viewBox="0 0 200 50" preserveAspectRatio="none">
+              <defs><linearGradient id="cg1" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#5FE9B0" stop-opacity=".4"/><stop offset="100%" stop-color="#5FE9B0" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,38 L20,32 L40,35 L60,28 L80,30 L100,24 L120,18 L140,20 L160,12 L180,14 L200,8 L200,50 L0,50 Z" fill="url(#cg1)"/>
+              <path d="M0,38 L20,32 L40,35 L60,28 L80,30 L100,24 L120,18 L140,20 L160,12 L180,14 L200,8" fill="none" stroke="#5FE9B0" stroke-width="1.5"/>
+              <circle cx="200" cy="8" r="2.5" fill="#5FE9B0"/>
+            </svg></div>
+            <div class="mtgts"><div class="c t"><div class="l">🎯 ${ar?'هدف':'Target'}</div><div class="v">$145</div></div><div class="c s"><div class="l">⚠️ ${ar?'وقف':'Stop'}</div><div class="v">$120</div></div></div>
+          </div></div>
+
+          <div class="mkt-phone"><div class="notch"></div><div class="screen mp">
+            <div class="mch-h"><div class="i">🏆</div><h3>${ar?'تحدّي مايو':'May Challenge'}</h3></div>
+            <div class="mcc">
+              <div class="mcc-top"><div><div class="nm">${ar?'رحلة المضاعفة':'The Doubling Run'}</div><div class="dt">14 May → 18 Jun · 28d</div></div><div class="bd">${ar?'نشط':'ACTIVE'}</div></div>
+              <div class="mcc3">
+                <div class="c"><div class="l">${ar?'الرصيد':'Balance'}</div><div class="v">$8,400</div></div>
+                <div class="c"><div class="l">${ar?'العائد':'Return'}</div><div class="v u">+68%</div></div>
+                <div class="c"><div class="l">${ar?'الهدف':'Goal'}</div><div class="v">100%</div></div>
+              </div>
+              <div class="mcpg"><div class="f"></div></div>
+              <div class="mct">
+                <div class="r"><div class="n">HIMS</div><div class="a">$7,611 → $8,400</div><div class="p">+10.3%</div></div>
+                <div class="r"><div class="n">XFAB</div><div class="a">$6,672 → $7,611</div><div class="p">+14.0%</div></div>
+                <div class="r"><div class="n">CSIQ</div><div class="a">$5,000 → $5,875</div><div class="p">+17.5%</div></div>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </div></section>
+
+      <section class="mkt-section" id="pricing"><div class="mkt-wrap">
+        <div class="mkt-section-head">
+          <div class="mkt-tag">${ar?'الأسعار':'Pricing'}</div>
+          <h2 class="mkt-h">${ar?'جرّب مجاناً، اشترك لما تحب':'Try free, subscribe when you love it'}</h2>
+          <p class="mkt-sub">${ar?'ابدأ بتجربة مجانية بدون بطاقة. اشتراك بريميوم لو حبيته بـ$10/شهر فقط.':'Start with a free trial — no card needed. Premium at $10/month when ready.'}</p>
+        </div>
+        <div class="mkt-pricing-grid">
+          <div class="mkt-price">
+            <h3>${ar?'تجربة مجانية':'Free Trial'}</h3>
+            <div class="tagp"><div class="p">$0</div><div class="pp">${ar?'للبدء':'to start'}</div></div>
+            <div class="ds">${ar?'كل المميزات الأساسية للتجربة. بدون بطاقة وبدون التزام.':'All core features to try. No card, no commitment.'}</div>
+            <ul>
+              <li>${ar?'محفظة واحدة':'1 portfolio'}</li>
+              <li>${ar?'أسعار مباشرة':'Live prices'}</li>
+              <li>${ar?'إغريقيات الأوبشنز':'Options Greeks'}</li>
+              <li>${ar?'حاسبة زكاة':'Zakat calculator'}</li>
+            </ul>
+            <button class="pcta free" onclick="openSignup()">${ar?'ابدأ مجاناً':'Start free'}</button>
+          </div>
+          <div class="mkt-price feat">
+            <h3>${ar?'بريميوم':'Premium'}</h3>
+            <div class="tagp"><div class="p gr">$10</div><div class="pp">/${ar?'شهر':'month'}</div></div>
+            <div class="ds">${ar?'تجربة كاملة بدون قيود. لمستثمر جاد.':'The full experience without limits. For serious investors.'}</div>
+            <ul>
+              <li>${ar?'محافظ غير محدودة':'Unlimited portfolios'}</li>
+              <li>${ar?'تحدّيات غير محدودة':'Unlimited challenges'}</li>
+              <li>${ar?'أخبار مترجمة + قائمة متابعة':'Translated news + Watchlist'}</li>
+              <li>${ar?'شارات إنجاز كاملة':'Full achievements'}</li>
+              <li>${ar?'دعم مباشر بالأولوية':'Priority support'}</li>
+              <li>${ar?'ميزات قادمة مجاناً':'Future features included'}</li>
+            </ul>
+            <a class="pcta prem" href="mailto:osamah.j09@gmail.com?subject=${encodeURIComponent(ar?'اشتراك Premium - سيركل':'Premium Subscription - Circle')}&body=${encodeURIComponent(ar?'مهتم بالاشتراك في باقة بريميوم.\n\n':'I am interested in Premium subscription.\n\n')}">${ar?'اشترك بـ$10/شهر':'Subscribe $10/mo'}</a>
+          </div>
+        </div>
+      </div></section>
+
+      <section class="mkt-cta-section mkt-section"><div class="mkt-wrap">
+        <h2 class="mkt-h">${ar?'جرّبه الحين، مجاناً':'Try Circle today'}</h2>
+        <p class="mkt-sub" style="margin-bottom:30px">${ar?'إنشاء الحساب يأخذ 10 ثوانٍ. بدون بطاقة، بدون التزام.':'Account in 10 seconds. No card, no commitment.'}</p>
+        <div class="mkt-ctas" style="margin-bottom:0">
+          <button class="mkt-cta-1" onclick="openSignup()">${ar?'إنشاء حساب':'Create account'} <span class="arr">←</span></button>
+          <a class="mkt-cta-2" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px" href="mailto:osamah.j09@gmail.com">✉ ${ar?'تواصل معنا':'Contact us'}</a>
+        </div>
+      </div></section>
+
+      <footer class="mkt-footer"><div class="mkt-footer-in">
+        <div class="mkt-footer-l"><span class="ico-s"></span><span>${ar?'سيركل':'Circle'}</span></div>
+        <div class="mkt-footer-meta">© 2026 · ${ar?'جميع الحقوق محفوظة':'All rights reserved'}</div>
+        <div class="mkt-footer-links">
+          <a onclick="document.querySelector('#pricing')?.scrollIntoView({behavior:'smooth'})">${ar?'الأسعار':'Pricing'}</a>
+          <a href="mailto:osamah.j09@gmail.com">${ar?'تواصل':'Contact'}</a>
+          <a onclick="openLogin()">${ar?'دخول':'Log in'}</a>
+        </div>
+      </div></footer>
     </div>
   `;
 }
@@ -3217,7 +3612,8 @@ function askDeletePf(id){
   `);
 }
 
-function doDeletePf(id){
+async function doDeletePf(id){
+  await cloudDeletePortfolio(id);
   portfolios = portfolios.filter(p => p.id !== id);
   holdings = holdings.filter(h => h.pfId !== id);
   watchlist = watchlist.filter(w => w.pfId !== id);
@@ -3234,33 +3630,30 @@ function renderLanding(){
   const list = portfolios.length ? portfolios.map(p => {
     const ph = holdings.filter(h => h.pfId === p.id);
     let mv = 0; ph.forEach(h => { mv += statsFor(h).mv; });
-    const locked = !!p.passHash;
-    return `<div class="acct-card ${locked?'locked':''}" ${isAdmin?'':`onclick="loginAccount('${p.id}')"`}>
+    return `<div class="acct-card" onclick="loginAccount('${p.id}')">
       <div class="av" style="background:${p.color||'#5FE9B0'}">${esc((p.name||'?')[0])}</div>
       <div class="acn">
         <div class="name">${esc(p.name)}</div>
         <div class="meta">${ph.length} ${lang==='ar'?'سهم':'stocks'} · $${fmt0(mv)}</div>
       </div>
-      ${isAdmin
-        ? `<button class="acct-del" onclick="event.stopPropagation();askDeletePf('${p.id}')" title="${lang==='ar'?'حذف':'Delete'}">✕</button>`
-        : `<div class="lock">${locked?'🔒':'·'}</div>`}
+      <button class="acct-del" onclick="event.stopPropagation();askDeletePf('${p.id}')" title="${lang==='ar'?'حذف':'Delete'}">✕</button>
     </div>`;
-  }).join("") : `<div class="acct-empty">${lang==='ar'?'لا توجد محافظ بعد':'No portfolios yet'}</div>`;
+  }).join("") : `<div class="acct-empty">${lang==='ar'?'لا توجد محافظ بعد · أنشئ واحدة':'No portfolios yet · create one'}</div>`;
   $("#app").innerHTML = `
     <div class="landing">
       <div class="landing-head">
         <button class="lang landing-lang" onclick="toggleLang()">${lang==='ar'?'EN':'ع'}</button>
         <div class="logo">◎</div>
         <h1>${lang==='ar'?'المحافظ':'Portfolios'}</h1>
-        <p class="sub">${lang==='ar'?'اختر محفظتك أو أنشئ واحدة جديدة':'Choose your portfolio or create a new one'}</p>
+        <p class="sub">${currentUser ? esc(currentUser.email) : (lang==='ar'?'اختر محفظتك':'Choose your portfolio')}</p>
       </div>
-      ${isAdmin ? `<div class="admin-bar">
-        <span>🔓 ${lang==='ar'?'وضع المدير مفعّل · اضغط ✕ لحذف محفظة':'Admin mode on · tap ✕ to delete'}</span>
-        <button class="admin-off" onclick="isAdmin=false;render()">${lang==='ar'?'إيقاف':'Exit'}</button>
+      ${isAdminCloud ? `<div class="admin-bar">
+        <span>🔓 ${lang==='ar'?'وضع المدير · شف كل المستخدمين':'Admin · view all users'}</span>
+        <button class="admin-off" onclick="openAdminPanel()">${lang==='ar'?'لوحة المدير':'Admin Panel'}</button>
       </div>` : ''}
       <div class="accounts-list">${list}</div>
       <button class="acct-new" onclick="openCreatePortfolio()">＋ ${lang==='ar'?'محفظة جديدة':'New portfolio'}</button>
-      ${!isAdmin ? `<button class="admin-link" onclick="askAdmin()">admin</button>` : ''}
+      <button class="admin-link" onclick="cloudLogout()">${lang==='ar'?'تسجيل خروج':'log out'}</button>
     </div>
   `;
 }
@@ -3268,11 +3661,9 @@ function renderLanding(){
 function openCreatePortfolio(){
   modal(`
     <h2>${lang==='ar'?'محفظة جديدة':'New portfolio'}</h2>
-    <p class="sub">${lang==='ar'?'سمّ محفظتك وحط كلمة سر بسيطة (اختياري) عشان محد يدخلها غيرك.':'Name your portfolio. Set a password (optional) so only you can open it.'}</p>
+    <p class="sub">${lang==='ar'?'سمّ محفظتك. تنحفظ بحسابك على السحابة.':'Name your portfolio. Saves to your cloud account.'}</p>
     <div class="field"><label>${lang==='ar'?'اسم المحفظة':'Portfolio name'}</label>
       <input class="inp ar" id="pf_n" placeholder="${lang==='ar'?'مثلاً: محفظتي':'e.g. My Portfolio'}"></div>
-    <div class="field"><label>${lang==='ar'?'كلمة السر (4-8 أرقام)':'Password (4-8 digits)'} <small style="color:#444">· ${t().optional}</small></label>
-      <input class="inp" id="pf_p" type="password" inputmode="numeric" placeholder="••••" autocomplete="new-password"></div>
     <div class="err" id="pf_err"></div>
     <div class="m-actions">
       <button class="btn" onclick="closeModal()">${t().cancel}</button>
@@ -3284,10 +3675,13 @@ function openCreatePortfolio(){
 
 async function doCreatePortfolio(){
   const name = $("#pf_n").value.trim();
-  const pw = $("#pf_p").value.trim();
   if (!name){ $("#pf_err").textContent = lang==='ar'?'اكتب اسم':'Enter a name'; return; }
-  const passHash = pw ? await hashPin(pw) : null;
-  const p = { id: uid(), name, color: PF_COLORS[portfolios.length % PF_COLORS.length], passHash, createdAt: Date.now() };
+  const p = { id: uid(), name, color: PF_COLORS[portfolios.length % PF_COLORS.length], passHash: null, createdAt: Date.now() };
+  try {
+    await cloudInsertPortfolio(p);
+  } catch(e){
+    $("#pf_err").textContent = lang==='ar'?'خطأ في الحفظ':'Save error'; return;
+  }
   portfolios.push(p);
   settings.activePf = p.id;
   settings.unlocked = true;
@@ -3300,49 +3694,18 @@ async function doCreatePortfolio(){
 async function loginAccount(pfId){
   const p = portfolios.find(x => x.id === pfId);
   if (!p) return;
-  if (!p.passHash){
-    // no password — open directly
-    settings.activePf = pfId;
-    settings.unlocked = true;
-    profile.name = p.name;
-    await save();
-    render();
-    return;
-  }
-  // ask for password
-  modal(`
-    <h2>🔒 ${esc(p.name)}</h2>
-    <p class="sub">${lang==='ar'?'أدخل كلمة السر للدخول':'Enter password to unlock'}</p>
-    <div class="field">
-      <input class="inp" id="lg_p" type="password" inputmode="numeric" placeholder="••••" autocomplete="off" autofocus>
-    </div>
-    <div class="err" id="lg_err"></div>
-    <div class="m-actions">
-      <button class="btn" onclick="closeModal()">${t().cancel}</button>
-      <button class="btn primary" onclick="doLogin('${pfId}')">${lang==='ar'?'دخول':'Enter'}</button>
-    </div>
-  `);
-  setTimeout(()=>{ const i = $("#lg_p"); if (i){ i.focus(); i.onkeydown = e => { if (e.key === "Enter") doLogin(pfId); }; } },60);
-}
-
-async function doLogin(pfId){
-  const p = portfolios.find(x => x.id === pfId);
-  if (!p) return;
-  const pw = $("#lg_p").value.trim();
-  const hash = pw ? await hashPin(pw) : null;
-  if (hash !== p.passHash){
-    $("#lg_err").textContent = lang==='ar'?'كلمة السر خاطئة':'Wrong password';
-    return;
-  }
+  // cloud auth handles security - no per-portfolio password needed
   settings.activePf = pfId;
   settings.unlocked = true;
   profile.name = p.name;
   await save();
-  closeModal();
   render();
 }
 
+async function doLogin(pfId){ return loginAccount(pfId); } // legacy compat
+
 async function logout(){
+  // From inside app: just go back to portfolio selection (not full cloud logout)
   settings.unlocked = false;
   settings.activePf = null;
   await save();
@@ -3375,11 +3738,551 @@ function toast(msg){
 
 window.addEventListener("resize", () => { if (booted && profile.name && activeTab === "portfolio") renderBubbles(); });
 
+/* ════════════════════════════════════════════════════════════════
+   CLOUD SYNC LAYER (Supabase)
+   ════════════════════════════════════════════════════════════════ */
+
+async function checkAdmin(){
+  if (!currentUser) return false;
+  try {
+    const { data } = await sb.from('profiles').select('is_admin').eq('id', currentUser.id).single();
+    return data?.is_admin === true;
+  } catch(e){ return false; }
+}
+
+let userProfile = null; // holds full profile incl subscription
+
+async function loadUserProfile(){
+  if (!currentUser) return null;
+  const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
+  userProfile = data;
+  return data;
+}
+
+function isAccessBlocked(){
+  if (!userProfile) return false;
+  if (userProfile.is_admin) return false;
+  if (userProfile.suspended) return { kind:'suspended' };
+  if (userProfile.subscription_paid_until){
+    const exp = new Date(userProfile.subscription_paid_until);
+    if (exp < new Date()){
+      return { kind:'expired', wasTrial: userProfile.subscription_status === 'trial' };
+    }
+  }
+  return false;
+}
+
+async function dismissNotification(){
+  if (!currentUser) return;
+  await sb.from('profiles').update({ notification_seen: true }).eq('id', currentUser.id);
+  if (userProfile) userProfile.notification_seen = true;
+  closeModal();
+}
+
+function maybeShowNotification(){
+  if (!userProfile || !userProfile.notification || userProfile.notification_seen) return;
+  modal(`
+    <h2>📢 ${lang==='ar'?'إشعار من الإدارة':'Notice from admin'}</h2>
+    <div style="background:#1F1A0E;border:1px solid #5A4818;color:#FFE9B5;padding:14px 16px;border-radius:11px;font-size:13.5px;line-height:1.6;margin-bottom:14px;white-space:pre-wrap">${esc(userProfile.notification)}</div>
+    <div class="m-actions">
+      <button class="btn primary" onclick="dismissNotification()">${lang==='ar'?'فهمت':'Got it'}</button>
+    </div>
+  `);
+}
+
+function renderBlocked(reason){
+  applyLang();
+  const ar = lang==='ar';
+  const isExp = reason.kind === 'expired';
+  const isTrial = isExp && reason.wasTrial;
+  const subject = encodeURIComponent(ar?'تجديد اشتراك سيركل':'Circle subscription');
+  const body = encodeURIComponent((ar?'السلام عليكم،\n\nأريد تجديد اشتراكي.\nالإيميل: ':'Hi,\n\nI want to renew my subscription.\nEmail: ') + (currentUser?.email||''));
+  $("#app").innerHTML = `
+    <div class="splash">
+      <div class="splash-inner" style="max-width:440px">
+        <div style="filter:blur(0);margin-bottom:18px">
+          <div style="width:78px;height:78px;border-radius:50%;border:3px solid ${reason.kind==='suspended'?'#F26B6E':'var(--gold)'};background:radial-gradient(circle,${reason.kind==='suspended'?'rgba(242,107,110,.2)':'rgba(232,185,106,.2)'},transparent 70%);margin:0 auto;position:relative">
+            <div style="position:absolute;inset:13px;border-radius:50%;background:${reason.kind==='suspended'?'#F26B6E':'var(--gold)'};box-shadow:0 0 24px ${reason.kind==='suspended'?'#F26B6E':'var(--gold)'};display:grid;place-items:center;font-size:24px">${reason.kind==='suspended'?'🔒':'⏰'}</div>
+          </div>
+        </div>
+        <h1 style="font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--txt)">
+          ${reason.kind==='suspended'?(ar?'حسابك موقّف':'Account Suspended'):(isTrial?(ar?'انتهت التجربة':'Trial Ended'):(ar?'انتهى اشتراكك':'Subscription Expired'))}
+        </h1>
+        <p style="color:var(--muted);font-size:14px;line-height:1.65;margin-bottom:22px">
+          ${reason.kind==='suspended'
+            ? (ar?'تم إيقاف حسابك من قِبل الإدارة. تواصل مع الأدمن عبر الإيميل لمعرفة التفاصيل.':'Your account has been suspended by admin. Contact admin via email for details.')
+            : (isTrial
+                ? (ar?'انتهت تجربتك المجانية (24 ساعة). للاستمرار، اشترك بـ$10/شهر عبر التواصل بالإيميل.':'Your 24-hour free trial has ended. To continue, subscribe at $10/month via email.')
+                : (ar?'انتهى اشتراكك. جدّد عبر التواصل بالإيميل.':'Your subscription has expired. Renew via email.'))
+          }
+        </p>
+        <a href="mailto:osamah.j09@gmail.com?subject=${subject}&body=${body}" style="background:var(--accent);color:#000;padding:14px 28px;border-radius:11px;font-size:15px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:9px;box-shadow:0 10px 30px rgba(95,233,176,.25)">
+          ✉ ${ar?'تواصل مع الأدمن':'Contact admin'}
+        </a>
+        <div style="margin-top:24px;font-size:11.5px;color:var(--muted2);letter-spacing:.04em">
+          osamah.j09@gmail.com
+        </div>
+        <button onclick="cloudLogout()" style="display:block;margin:26px auto 0;background:transparent;border:none;color:#444;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:inherit">${ar?'تسجيل خروج':'log out'}</button>
+      </div>
+    </div>
+  `;
+}
+
+async function cloudLoadAll(){
+  if (!currentUser) return;
+  const { data: pfs } = await sb.from('portfolios').select('*').order('created_at');
+  portfolios = (pfs || []).map(p => ({
+    id: p.id, name: p.name, color: p.color || '#5FE9B0',
+    passHash: null, createdAt: new Date(p.created_at).getTime(),
+  }));
+  const { data: hs } = await sb.from('holdings').select('*');
+  holdings = (hs || []).map(h => ({
+    id: h.id, pfId: h.portfolio_id,
+    ticker: h.ticker, name: h.name || h.ticker,
+    type: h.type || 'stock',
+    transactions: h.transactions || [],
+    dividends: h.dividends || [],
+    target: h.target ? parseFloat(h.target) : null,
+    stopLoss: h.stop_loss ? parseFloat(h.stop_loss) : null,
+    notes: h.notes || '',
+    tags: h.tags || [], horizon: h.horizon || null,
+    strike: h.strike ? parseFloat(h.strike) : null,
+    expiry: h.expiry || null,
+    iv: h.iv ? parseFloat(h.iv) : null,
+    purchaseDate: h.purchase_date || null,
+    price: null, prev: null, dayChangePct: null,
+  }));
+  const { data: ws } = await sb.from('watchlist').select('*');
+  watchlist = (ws || []).map(w => ({
+    id: w.id, pfId: w.portfolio_id,
+    ticker: w.ticker, name: w.name || w.ticker,
+    target: w.target ? parseFloat(w.target) : null,
+    stop: w.stop ? parseFloat(w.stop) : null,
+    note: w.note || '',
+    addedAt: new Date(w.created_at).getTime(),
+    price: null, dayChangePct: null,
+  }));
+  const { data: chs } = await sb.from('challenges').select('*');
+  challenges = (chs || []).map(c => ({
+    id: c.id, pfId: c.portfolio_id, name: c.name,
+    startCapital: parseFloat(c.start_capital),
+    currentBalance: parseFloat(c.current_balance),
+    targetPct: parseFloat(c.target_pct),
+    startDate: c.start_date, endDate: c.end_date,
+    status: c.status, trades: c.trades || [],
+    createdAt: new Date(c.created_at).getTime(),
+  }));
+  const { data: us } = await sb.from('user_settings').select('*').eq('user_id', currentUser.id).maybeSingle();
+  if (us){
+    settings.cash = parseFloat(us.cash) || 0;
+    settings.cashHistory = us.cash_history || [];
+    settings.achievements = us.achievements || [];
+    settings.privacy = !!us.privacy;
+    if (us.lang) lang = us.lang;
+  }
+  profile.name = currentUser.user_metadata?.name || currentUser.email?.split('@')[0] || 'User';
+  profile.lang = lang;
+}
+
+async function cloudInsertPortfolio(p){
+  if (!currentUser) return;
+  await sb.from('portfolios').insert({ id: p.id, user_id: currentUser.id, name: p.name, color: p.color });
+}
+async function cloudDeletePortfolio(id){
+  if (!currentUser) return;
+  await sb.from('portfolios').delete().eq('id', id);
+}
+async function cloudUpsertHolding(h){
+  if (!currentUser) return;
+  const payload = {
+    id: h.id, user_id: currentUser.id, portfolio_id: h.pfId,
+    ticker: h.ticker, name: h.name || h.ticker, type: h.type || 'stock',
+    transactions: h.transactions || [], dividends: h.dividends || [],
+    target: h.target || null, stop_loss: h.stopLoss || null,
+    notes: h.notes || null, tags: h.tags || [], horizon: h.horizon || null,
+    strike: h.strike || null, expiry: h.expiry || null, iv: h.iv || null,
+    purchase_date: h.purchaseDate || null,
+  };
+  const { error } = await sb.from('holdings').upsert(payload);
+  if (error) console.error('upsert holding', error);
+}
+async function cloudDeleteHolding(id){
+  if (!currentUser) return;
+  await sb.from('holdings').delete().eq('id', id);
+}
+async function cloudUpsertWatch(w){
+  if (!currentUser) return;
+  await sb.from('watchlist').upsert({
+    id: w.id, user_id: currentUser.id, portfolio_id: w.pfId,
+    ticker: w.ticker, name: w.name, target: w.target||null, stop: w.stop||null, note: w.note||null,
+  });
+}
+async function cloudDeleteWatch(id){
+  if (!currentUser) return;
+  await sb.from('watchlist').delete().eq('id', id);
+}
+async function cloudUpsertChallenge(c){
+  if (!currentUser) return;
+  await sb.from('challenges').upsert({
+    id: c.id, user_id: currentUser.id, portfolio_id: c.pfId, name: c.name,
+    start_capital: c.startCapital, current_balance: c.currentBalance,
+    target_pct: c.targetPct, start_date: c.startDate, end_date: c.endDate,
+    status: c.status, trades: c.trades || [],
+  });
+}
+
+let _settingsSaveTimer = null;
+function cloudSaveSettings(){
+  if (!currentUser) return;
+  clearTimeout(_settingsSaveTimer);
+  _settingsSaveTimer = setTimeout(async () => {
+    await sb.from('user_settings').upsert({
+      user_id: currentUser.id, cash: settings.cash || 0,
+      cash_history: settings.cashHistory || [], achievements: settings.achievements || [],
+      lang: lang || 'ar', privacy: !!settings.privacy,
+      updated_at: new Date().toISOString(),
+    });
+  }, 1200);
+}
+
+/* ════ Auth UI ════ */
+function openSignup(){
+  modal(`
+    <h2>${lang==='ar'?'إنشاء حساب جديد':'Create Account'}</h2>
+    <p class="sub">${lang==='ar'?'سجّل بإيميل وكلمة سر. محفظتك تنحفظ وتدخل من أي جهاز.':'Sign up with email + password. Access from any device.'}</p>
+    <div class="field"><label>${lang==='ar'?'الاسم':'Name'}</label>
+      <input class="inp" id="au_n" placeholder="${lang==='ar'?'اسمك':'Your name'}"></div>
+    <div class="field"><label>${lang==='ar'?'الإيميل':'Email'}</label>
+      <input class="inp" id="au_e" type="email" placeholder="email@example.com" autocomplete="email"></div>
+    <div class="field"><label>${lang==='ar'?'كلمة السر':'Password'} <small style="color:#444">${lang==='ar'?'6 أحرف على الأقل':'min 6 chars'}</small></label>
+      <input class="inp" id="au_p" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+    <div class="err" id="au_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal();openLogin()">${lang==='ar'?'عندي حساب':'Have account'}</button>
+      <button class="btn primary" onclick="doSignup()">${lang==='ar'?'إنشاء':'Sign up'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#au_n")?.focus(),60);
+}
+async function doSignup(){
+  const name = $("#au_n").value.trim();
+  const email = $("#au_e").value.trim();
+  const pw = $("#au_p").value;
+  if (!name){ $("#au_err").textContent = lang==='ar'?'اكتب اسمك':'Enter your name'; return; }
+  if (!email || !email.includes('@')){ $("#au_err").textContent = lang==='ar'?'إيميل غير صالح':'Invalid email'; return; }
+  if (!pw || pw.length < 6){ $("#au_err").textContent = lang==='ar'?'كلمة السر 6 أحرف على الأقل':'Password min 6 chars'; return; }
+  $("#au_err").textContent = lang==='ar'?'جاري الإنشاء...':'Creating...';
+  const { error } = await sb.auth.signUp({ email, password: pw, options: { data: { name } } });
+  if (error){ $("#au_err").textContent = error.message; return; }
+  closeModal();
+}
+function openLogin(){
+  modal(`
+    <h2>${lang==='ar'?'تسجيل الدخول':'Log in'}</h2>
+    <div class="field"><label>${lang==='ar'?'الإيميل':'Email'}</label>
+      <input class="inp" id="lo_e" type="email" autocomplete="email"></div>
+    <div class="field"><label>${lang==='ar'?'كلمة السر':'Password'}</label>
+      <input class="inp" id="lo_p" type="password" autocomplete="current-password"></div>
+    <div class="err" id="lo_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal();openSignup()">${lang==='ar'?'حساب جديد':'New account'}</button>
+      <button class="btn primary" onclick="doLogin()">${lang==='ar'?'دخول':'Log in'}</button>
+    </div>
+  `);
+  setTimeout(()=>{
+    $("#lo_e")?.focus();
+    ['lo_e','lo_p'].forEach(id=>$("#"+id)?.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()}));
+  },60);
+}
+async function doLogin(){
+  const email = $("#lo_e").value.trim();
+  const pw = $("#lo_p").value;
+  if (!email || !pw){ $("#lo_err").textContent = lang==='ar'?'املأ الحقول':'Fill fields'; return; }
+  $("#lo_err").textContent = lang==='ar'?'جاري الدخول...':'Logging in...';
+  const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error){ $("#lo_err").textContent = error.message; return; }
+  closeModal();
+}
+async function cloudLogout(){
+  await sb.auth.signOut();
+}
+
+/* ════ Admin Panel ════ */
+async function openAdminPanel(){
+  modal(`<h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
+    <p class="sub">${lang==='ar'?'جاري التحميل...':'Loading...'}</p>`);
+  try {
+    const { data: users, error: ue } = await sb.from('profiles').select('*').order('created_at',{ascending:false});
+    if (ue) throw ue;
+    const { data: allPfs } = await sb.from('portfolios').select('id,user_id');
+    const { data: allHs } = await sb.from('holdings').select('id,user_id');
+    const pfCount = {}, hCount = {};
+    (allPfs||[]).forEach(p => { pfCount[p.user_id] = (pfCount[p.user_id]||0) + 1; });
+    (allHs||[]).forEach(h => { hCount[h.user_id] = (hCount[h.user_id]||0) + 1; });
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const activeUsers = users.filter(u => !u.suspended && u.subscription_paid_until && new Date(u.subscription_paid_until) >= today).length;
+    const expiredUsers = users.filter(u => !u.suspended && (!u.subscription_paid_until || new Date(u.subscription_paid_until) < today)).length;
+    const suspendedUsers = users.filter(u => u.suspended).length;
+
+    modal(`
+      <h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
+      <p class="sub">${lang==='ar'?'تحكّم كامل بكل المستخدمين والاشتراكات':'Full control over all users and subscriptions'}</p>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px">
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${users.length}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'إجمالي':'Total'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${activeUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'نشط':'Active'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums">${expiredUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'منتهي':'Expired'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--loss);font-variant-numeric:tabular-nums">${suspendedUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'موقوف':'Suspended'}</div>
+        </div>
+      </div>
+
+      <h4 style="margin:12px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'المستخدمون':'Users'}</h4>
+      <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:380px;overflow-y:auto">
+        ${users.map(u => {
+          const paidUntil = u.subscription_paid_until ? new Date(u.subscription_paid_until) : null;
+          const expired = !paidUntil || paidUntil < today;
+          const daysLeft = paidUntil ? Math.ceil((paidUntil - today) / 86400000) : null;
+          const statusColor = u.suspended ? 'var(--loss)' : (expired ? 'var(--gold)' : 'var(--accent)');
+          const statusBg = u.suspended ? 'var(--loss-bg)' : (expired ? '#1F1A0E' : 'var(--accent-bg)');
+          const statusBd = u.suspended ? '#5C1F22' : (expired ? '#5A4818' : 'var(--accent-d)');
+          const statusLabel = u.suspended ? (lang==='ar'?'موقوف':'SUSPENDED')
+                            : (u.subscription_status === 'trial' && !expired) ? (lang==='ar'?'تجربة':'TRIAL')
+                            : expired ? (lang==='ar'?'منتهي':'EXPIRED')
+                            : (lang==='ar'?'نشط':'ACTIVE');
+          return `<div style="padding:11px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px">
+            <div style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#1A1F2E,#0E1828);color:#5BA5FF;display:grid;place-items:center;font-weight:800;font-size:14px;border:1px solid #1F3A6E33;flex-shrink:0">${esc((u.name||u.email||'?')[0].toUpperCase())}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                ${esc(u.name||u.email.split('@')[0])}
+                ${u.is_admin?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1F1A0E;color:#E8B96A;border:1px solid #5A4818;letter-spacing:.05em">ADMIN</span>':''}
+                <span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:${statusBg};color:${statusColor};border:1px solid ${statusBd};letter-spacing:.05em">${statusLabel}</span>
+              </div>
+              <div style="font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(u.email)}</div>
+              <div style="font-size:10px;color:var(--muted2);margin-top:2px;font-variant-numeric:tabular-nums">
+                ${pfCount[u.id]||0} ${lang==='ar'?'محفظة':'pf'} · ${hCount[u.id]||0} ${lang==='ar'?'سهم':'hold'}
+                ${paidUntil ? ` · ${lang==='ar'?'حتى':'until'} ${paidUntil.toISOString().slice(0,10)}` : ''}
+                ${daysLeft!=null && !u.suspended ? ` · <b style="color:${expired?'var(--loss)':'var(--accent)'}">${daysLeft>=0?daysLeft:0}${lang==='ar'?' يوم':'d'}</b>` : ''}
+              </div>
+            </div>
+            ${!u.is_admin ? `<button style="background:transparent;border:1px solid var(--line2);color:var(--muted);padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0" onclick="adminUserActions('${u.id}','${esc((u.name||u.email).replace(/'/g,'').slice(0,30))}','${esc(u.email)}')">${lang==='ar'?'تحكّم':'Manage'}</button>` : ''}
+          </div>`;
+        }).join("") || `<div style="padding:30px;text-align:center;color:var(--muted2);font-size:12px">${lang==='ar'?'لا يوجد مستخدمون':'No users'}</div>`}
+      </div>
+      <div class="m-actions">
+        <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
+      </div>
+    `);
+  } catch(e){
+    modal(`<h2>${lang==='ar'?'خطأ':'Error'}</h2>
+      <p class="sub">${esc(e.message||'')}</p>
+      <div class="m-actions"><button class="btn primary" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button></div>`);
+  }
+}
+
+async function adminUserActions(userId, userName, userEmail){
+  const { data: u } = await sb.from('profiles').select('*').eq('id', userId).single();
+  const { data: pfs } = await sb.from('portfolios').select('id,name').eq('user_id', userId);
+  const { data: hs } = await sb.from('holdings').select('id,portfolio_id,ticker').eq('user_id', userId);
+  const hByPf = {};
+  (hs||[]).forEach(h => { (hByPf[h.portfolio_id] = hByPf[h.portfolio_id]||[]).push(h); });
+  const today = new Date(); today.setHours(0,0,0,0);
+  const paidUntil = u.subscription_paid_until ? new Date(u.subscription_paid_until) : null;
+  const daysLeft = paidUntil ? Math.ceil((paidUntil - today) / 86400000) : 0;
+  const noticeSeenLabel = u.notification_seen ? (lang==='ar'?'شوهد':'seen') : (lang==='ar'?'لم يُشاهد':'unseen');
+  modal(`
+    <h2>${esc(userName)}</h2>
+    <p class="sub">${esc(userEmail)} · ${lang==='ar'?'منذ':'since'} ${u.created_at?.slice(0,10) || '—'}</p>
+
+    <h4 style="margin:12px 0 6px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'الاشتراك':'Subscription'}</h4>
+    <div style="background:#000;border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:11.5px;color:var(--muted)">${lang==='ar'?'الحالة':'Status'}</span>
+        <span style="font-size:11px;font-weight:800;color:${u.suspended?'var(--loss)':(daysLeft<=0?'var(--gold)':'var(--accent)')}">${u.suspended?(lang==='ar'?'موقوف':'SUSPENDED'):(u.subscription_status||'').toUpperCase()}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:11.5px;color:var(--muted)">${lang==='ar'?'بدأ':'Started'}</span>
+        <span style="font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums">${u.subscription_started || '—'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span style="font-size:11.5px;color:var(--muted)">${lang==='ar'?'مدفوع حتى':'Paid until'}</span>
+        <span style="font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums">${u.subscription_paid_until || '—'}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11.5px;color:var(--muted)">${lang==='ar'?'الأيام المتبقية':'Days left'}</span>
+        <span style="font-size:14px;font-weight:800;color:${daysLeft<=0?'var(--loss)':daysLeft<=3?'var(--gold)':'var(--accent)'};font-variant-numeric:tabular-nums">${daysLeft<=0?0:daysLeft} ${lang==='ar'?'يوم':'days'}</span>
+      </div>
+    </div>
+
+    <h4 style="margin:14px 0 6px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'إجراءات':'Actions'}</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+      <button class="btn" style="background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="adminRenewMonth('${userId}','${esc(userName)}','${esc(userEmail)}')">${lang==='ar'?'+ شهر مدفوع':'+ Paid month'}</button>
+      <button class="btn" onclick="adminExtendDays('${userId}','${esc(userName)}','${esc(userEmail)}')">${lang==='ar'?'+ أيام مخصّصة':'+ Custom days'}</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+      <button class="btn" onclick="adminSendNotification('${userId}','${esc(userName)}','${esc(userEmail)}')">${lang==='ar'?'📢 إرسال إشعار':'📢 Send notice'}</button>
+      <button class="btn ${u.suspended?'':'danger'}" style="${u.suspended?'background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700':''}" onclick="adminToggleSuspend('${userId}',${u.suspended?'false':'true'},'${esc(userName)}','${esc(userEmail)}')">
+        ${u.suspended?(lang==='ar'?'✓ رفع الإيقاف':'✓ Unsuspend'):(lang==='ar'?'🔒 إيقاف':'🔒 Suspend')}
+      </button>
+    </div>
+    ${u.notification ? `<div style="background:#1F1A0E;border:1px solid #5A4818;color:#FFE9B5;padding:9px 11px;border-radius:9px;font-size:11.5px;margin-top:8px">
+      <div style="font-size:9.5px;color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">${lang==='ar'?'إشعار قائم':'Pending notice'} · ${noticeSeenLabel}</div>
+      <div style="font-size:11px;line-height:1.5">${esc(u.notification)}</div>
+      <button onclick="adminClearNotice('${userId}','${esc(userName)}','${esc(userEmail)}')" style="margin-top:6px;background:transparent;border:1px solid #5A4818;color:var(--gold);padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">${lang==='ar'?'حذف':'Clear'}</button>
+    </div>` : ''}
+
+    ${(pfs||[]).length ? `
+      <h4 style="margin:14px 0 6px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'محافظه':'Portfolios'} (${pfs.length})</h4>
+      <div style="background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;max-height:180px;overflow-y:auto;margin-bottom:8px">
+        ${pfs.map(p => {
+          const ph = hByPf[p.id] || [];
+          return `<div style="padding:8px 11px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-size:11.5px">
+            <div style="flex:1;min-width:0"><b>${esc(p.name)}</b> <span style="color:var(--muted);font-size:10px">· ${ph.length} ${lang==='ar'?'سهم':'hold'} · ${ph.slice(0,3).map(h=>esc(h.ticker)).join(', ')}${ph.length>3?'…':''}</span></div>
+            <button class="acct-del" style="width:26px;height:26px;font-size:11px" onclick="adminDeletePfDirect('${p.id}','${esc(p.name)}','${userId}','${esc(userName)}','${esc(userEmail)}')">✕</button>
+          </div>`;
+        }).join('')}
+      </div>
+    ` : ''}
+
+    <div class="m-actions">
+      <button class="btn" onclick="openAdminPanel()">${lang==='ar'?'رجوع':'Back'}</button>
+    </div>
+  `);
+}
+
+async function adminRenewMonth(userId, userName, userEmail){
+  const today = new Date();
+  const { data: u } = await sb.from('profiles').select('subscription_paid_until,subscription_status').eq('id', userId).single();
+  let base = today;
+  if (u?.subscription_paid_until){
+    const cur = new Date(u.subscription_paid_until);
+    if (cur > today) base = cur;
+  }
+  const newDate = new Date(base);
+  newDate.setMonth(newDate.getMonth() + 1);
+  await sb.from('profiles').update({
+    subscription_paid_until: newDate.toISOString().slice(0,10),
+    subscription_status: 'active'
+  }).eq('id', userId);
+  toast(lang==='ar'?'تم تجديد الشهر':'Renewed +1 month');
+  adminUserActions(userId, userName, userEmail);
+}
+
+async function adminExtendDays(userId, userName, userEmail){
+  const txt = prompt(lang==='ar'?'كم يوم تبي تضيف؟':'How many days to add?', '7');
+  const days = parseInt(txt);
+  if (!days || days < 1) return;
+  const today = new Date();
+  const { data: u } = await sb.from('profiles').select('subscription_paid_until').eq('id', userId).single();
+  let base = today;
+  if (u?.subscription_paid_until){
+    const cur = new Date(u.subscription_paid_until);
+    if (cur > today) base = cur;
+  }
+  const newDate = new Date(base);
+  newDate.setDate(newDate.getDate() + days);
+  await sb.from('profiles').update({
+    subscription_paid_until: newDate.toISOString().slice(0,10),
+    subscription_status: 'active'
+  }).eq('id', userId);
+  toast(lang==='ar'?`أُضيف ${days} يوم`:`Added ${days} days`);
+  adminUserActions(userId, userName, userEmail);
+}
+
+async function adminToggleSuspend(userId, suspend, userName, userEmail){
+  suspend = suspend === 'true' || suspend === true;
+  await sb.from('profiles').update({ suspended: suspend }).eq('id', userId);
+  toast(suspend ? (lang==='ar'?'تم الإيقاف':'Suspended') : (lang==='ar'?'تم الرفع':'Unsuspended'));
+  adminUserActions(userId, userName, userEmail);
+}
+
+function adminSendNotification(userId, userName, userEmail){
+  modal(`
+    <h2>📢 ${lang==='ar'?'إرسال إشعار':'Send notice'}</h2>
+    <p class="sub">${lang==='ar'?`لـ${esc(userName)}. سيظهر له لما يدخل التطبيق.`:`To ${esc(userName)}. Shown when they open the app.`}</p>
+    <textarea id="adn_t" class="notes-textarea" style="min-height:90px" placeholder="${lang==='ar'?'اكتب رسالتك...':'Write your message...'}"></textarea>
+    <div class="m-actions">
+      <button class="btn" onclick="adminUserActions('${userId}','${esc(userName)}','${esc(userEmail)}')">${t().cancel}</button>
+      <button class="btn primary" onclick="adminSaveNotice('${userId}','${esc(userName)}','${esc(userEmail)}')">${lang==='ar'?'إرسال':'Send'}</button>
+    </div>
+  `);
+}
+
+async function adminSaveNotice(userId, userName, userEmail){
+  const text = $("#adn_t").value.trim();
+  if (!text){ return; }
+  await sb.from('profiles').update({ notification: text, notification_seen: false }).eq('id', userId);
+  toast(lang==='ar'?'تم الإرسال':'Sent');
+  adminUserActions(userId, userName, userEmail);
+}
+
+async function adminClearNotice(userId, userName, userEmail){
+  await sb.from('profiles').update({ notification: null, notification_seen: true }).eq('id', userId);
+  adminUserActions(userId, userName, userEmail);
+}
+
+async function adminDeletePfDirect(pfId, pfName, userId, userName, userEmail){
+  if (!confirm((lang==='ar'?`حذف "${pfName}"؟`:`Delete "${pfName}"?`))) return;
+  await sb.from('portfolios').delete().eq('id', pfId);
+  adminUserActions(userId, userName, userEmail);
+}
+
+async function adminViewUser(userId, userName){ return adminUserActions(userId, userName, ''); }
+
+async function adminDeletePf(pfId, pfName, userId, userName){
+  if (!confirm((lang==='ar'?`حذف محفظة "${pfName}" نهائياً؟`:`Delete "${pfName}" permanently?`))) return;
+  const { error } = await sb.from('portfolios').delete().eq('id', pfId);
+  if (error){ alert('Error: '+error.message); return; }
+  toast(lang==='ar'?'تم الحذف':'Deleted');
+  adminUserActions(userId, userName, '');
+}
 /* boot */
 (async function(){
+  const { data: { session } } = await sb.auth.getSession();
+  if (session){
+    currentUser = session.user;
+    await loadUserProfile();
+    isAdminCloud = userProfile?.is_admin === true;
+    if (!isAccessBlocked()) await cloudLoadAll();
+  }
   await load();
   booted = true;
   render();
   setTimeout(()=>{ try { checkAchievements(); } catch(e){} }, 800);
+  setTimeout(()=>{ try { maybeShowNotification(); } catch(e){} }, 1400);
+
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session && (!currentUser || currentUser.id !== session.user.id)){
+      currentUser = session.user;
+      await loadUserProfile();
+      isAdminCloud = userProfile?.is_admin === true;
+      if (!isAccessBlocked()) await cloudLoadAll();
+      settings.activePf = null;
+      settings.unlocked = false;
+      render();
+      setTimeout(()=>{ try { maybeShowNotification(); } catch(e){} }, 800);
+    } else if (event === 'SIGNED_OUT'){
+      currentUser = null;
+      userProfile = null;
+      isAdminCloud = false;
+      portfolios = []; holdings = []; watchlist = []; challenges = [];
+      settings.activePf = null; settings.unlocked = false;
+      settings.cash = 0; settings.cashHistory = []; settings.achievements = [];
+      splashShown = false;
+      render();
+    }
+  });
 })();
 </script>
