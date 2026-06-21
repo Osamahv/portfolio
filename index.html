@@ -745,6 +745,80 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .mp .mct .r .a{color:var(--muted);font-size:7.5px}
 .mp .mct .r .p{font-weight:800;color:var(--accent)}
 
+/* ── Pull to refresh ── */
+.ptr-indicator{position:fixed;top:0;left:0;right:0;height:0;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;z-index:100;transition:height .2s ease-out;overflow:hidden}
+.ptr-indicator.show{height:54px}
+.ptr-indicator .ptr-inner{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(8,8,8,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--accent);font-size:11px;font-weight:700;margin-bottom:8px;letter-spacing:.04em}
+.ptr-spin{width:14px;height:14px;border:2px solid var(--accent);border-top-color:transparent;border-radius:50%;animation:ptrSpin .8s linear infinite;display:inline-block}
+@keyframes ptrSpin{to{transform:rotate(360deg)}}
+.ptr-arrow{display:inline-block;font-size:14px;transition:transform .2s}
+.ptr-arrow.up{transform:rotate(180deg)}
+
+/* ── Daily Brief ── */
+.brief-wrap{background:linear-gradient(180deg,#0E2517,#0A1812);border:1px solid var(--accent-d);border-radius:16px;padding:22px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.brief-wrap::before{content:'';position:absolute;top:-50%;right:-30%;width:280px;height:280px;background:radial-gradient(circle,rgba(95,233,176,.18),transparent 70%);pointer-events:none}
+.brief-greeting{font-size:12.5px;color:var(--accent);font-weight:700;letter-spacing:.06em;margin-bottom:4px}
+.brief-h{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:12px;line-height:1.3}
+.brief-pl{font-size:32px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.8px;line-height:1;margin-bottom:8px}
+.brief-pl.up{color:var(--accent)}
+.brief-pl.down{color:var(--loss)}
+.brief-pct{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.brief-movers{margin-top:18px}
+.brief-movers-h{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.brief-mover{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid rgba(255,255,255,.06);font-size:12px}
+.brief-mover:first-of-type{border-top:none}
+.brief-mover .tic{font-weight:800;color:var(--txt)}
+.brief-mover .val{font-variant-numeric:tabular-nums;font-weight:700}
+.brief-mover .val.up{color:var(--accent)}
+.brief-mover .val.down{color:var(--loss)}
+
+/* ── Paper trading badge ── */
+.paper-badge{font-size:8.5px;font-weight:800;padding:2px 6px;border-radius:4px;background:#0E1828;color:#5BA5FF;border:1px solid #1F3A6E;letter-spacing:.08em;display:inline-flex;align-items:center;gap:4px}
+.paper-bg-tint{background:linear-gradient(135deg,rgba(91,165,255,.08),transparent)}
+
+/* ── Community ── */
+.com-post-form{background:linear-gradient(135deg,#0E1F17,#0a1812);border:1px solid var(--accent-d);border-radius:14px;padding:14px;margin-bottom:14px}
+.com-post-form textarea{width:100%;background:#000;border:1px solid var(--line);color:var(--txt);padding:11px 13px;border-radius:10px;font-family:inherit;font-size:13.5px;line-height:1.55;min-height:80px;resize:vertical}
+.com-post-form textarea:focus{outline:none;border-color:var(--accent-d)}
+.com-post-form .actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.com-post-form .meta{font-size:10px;color:var(--muted2);font-variant-numeric:tabular-nums}
+.com-post-form button{background:var(--accent);color:#000;border:none;padding:9px 18px;border-radius:9px;font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit}
+.com-post-form button:disabled{opacity:.4;cursor:not-allowed}
+.com-feed{display:flex;flex-direction:column;gap:10px}
+.com-post{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;transition:.18s}
+.com-post .head{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.com-post .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1A1F2E,#0E1828);color:#5BA5FF;display:grid;place-items:center;font-weight:800;font-size:13px;border:1px solid #1F3A6E33;flex-shrink:0}
+.com-post .meta{flex:1;min-width:0}
+.com-post .pseudo{font-weight:800;font-size:12.5px;color:var(--txt)}
+.com-post .dt{font-size:10px;color:var(--muted2);font-variant-numeric:tabular-nums}
+.com-post .body{font-size:13.5px;line-height:1.6;color:var(--txt2);white-space:pre-wrap;margin-bottom:10px}
+.com-post .tickers{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.com-post .tic-pill{font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.com-post .footer{display:flex;align-items:center;gap:14px;padding-top:10px;border-top:1px solid var(--line)}
+.com-post .act{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);font-weight:700;cursor:pointer;background:none;border:none;font-family:inherit;padding:4px 8px;border-radius:6px;transition:.15s}
+.com-post .act:hover{color:var(--txt2);background:var(--surf2)}
+.com-post .act.liked{color:var(--accent)}
+.com-post .act.liked .heart{color:var(--accent)}
+.com-post .act .heart{font-size:14px}
+.com-post .del-btn{margin-inline-start:auto;background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;font-family:inherit;padding:4px 8px;border-radius:6px;transition:.15s}
+.com-post .del-btn:hover{color:var(--loss)}
+.com-comments-list{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:none}
+.com-post.expanded .com-comments-list{display:block}
+.com-comment{display:flex;gap:9px;padding:8px 0;align-items:flex-start;font-size:12px}
+.com-comment .av-sm{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1A1F2E,#0E1828);color:#5BA5FF;display:grid;place-items:center;font-weight:800;font-size:10px;border:1px solid #1F3A6E33;flex-shrink:0}
+.com-comment .body{flex:1;min-width:0}
+.com-comment .pseudo{font-weight:800;color:var(--txt);font-size:11.5px}
+.com-comment .dt{font-size:9.5px;color:var(--muted2);margin-inline-start:6px}
+.com-comment .text{margin-top:2px;color:var(--txt2);line-height:1.5}
+.com-comment-form{display:flex;gap:6px;margin-top:8px}
+.com-comment-form input{flex:1;background:#000;border:1px solid var(--line);color:var(--txt);padding:8px 11px;border-radius:8px;font-family:inherit;font-size:12px}
+.com-comment-form button{background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;font-family:inherit}
+.com-locked{background:linear-gradient(135deg,#1F1A0E,#160E08);border:1px solid #5A4818;border-radius:14px;padding:24px 18px;text-align:center}
+.com-locked .ic{font-size:32px;margin-bottom:8px}
+.com-locked h3{font-size:16px;font-weight:800;color:var(--gold);margin:0 0 6px}
+.com-locked p{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0 auto 14px;max-width:280px}
+
+
 /* ── Stock Assessment Tool (v12) ── */
 .assess-stage{animation:slideIn .25s ease-out}
 .assess-step-h{display:flex;align-items:center;gap:8px;margin:-4px 0 12px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
@@ -1445,6 +1519,7 @@ function render(){
       <button class="pf-pill" onclick="logout()">
         <span class="dot"></span>
         <span class="nm">${esc(pf.name)}</span>
+        ${pf.isPaper ? `<span class="paper-badge">🎮 ${lang==='ar'?'تدريب':'PAPER'}</span>` : ''}
         <span class="ar">▾</span>
       </button>
       <div class="top-actions">
@@ -1508,6 +1583,7 @@ function renderTab(){
   if (activeTab === "watch") { renderWatchlist(); refreshWatchlistPrices(); return; }
   if (activeTab === "analysts") { renderAnalysts(); return; }
   if (activeTab === "more") { renderMore(); return; }
+  if (activeTab === "community") { renderCommunity(); return; }
   if (activeTab === "portfolio") {
     const all = allHoldingsInPf();
     if (!all.length){
@@ -4592,6 +4668,14 @@ function renderMore(){
     <p style="margin:0 0 18px;color:var(--muted);font-size:13px">${ar?'كل الأدوات والإعدادات':'All your tools and settings'}</p>
 
     <div class="more-list">
+      <div class="more-row" onclick="setTab('community')">
+        <div class="ic gr">💬</div>
+        <div class="body">
+          <div class="nm">${ar?'المجتمع':'Community'}</div>
+          <div class="sub">${ar?'شارك أفكارك مع مستثمري سيركل':'Share thoughts with Circle investors'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
       <div class="more-row" onclick="openChallengePage()">
         <div class="ic gd">🏆</div>
         <div class="body">
@@ -4733,6 +4817,478 @@ function openContactUs(){
       <button class="btn" style="width:100%" onclick="closeModal()">${t().close}</button>
     </div>
   `);
+}
+/* ════════════════════════════════════════════════════════════════
+   v13 BLOCK: Pull-to-Refresh, Daily Brief, Paper Trading, Community
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Pull to Refresh ── */
+let _ptrStartY = 0;
+let _ptrDelta = 0;
+let _ptrActive = false;
+let _ptrRefreshing = false;
+const PTR_THRESHOLD = 70;
+
+function installPullToRefresh(){
+  const ind = document.createElement('div');
+  ind.className = 'ptr-indicator';
+  ind.id = 'ptr-ind';
+  ind.innerHTML = `<div class="ptr-inner"><span class="ptr-arrow" id="ptr-arrow">↓</span><span id="ptr-txt">${lang==='ar'?'اسحب للتحديث':'Pull to refresh'}</span></div>`;
+  document.body.appendChild(ind);
+
+  document.body.addEventListener('touchstart', (e) => {
+    if (window.scrollY > 0 || _ptrRefreshing) return;
+    const open = document.querySelector('.modal-back');
+    if (open) return;
+    _ptrStartY = e.touches[0].clientY;
+    _ptrActive = true;
+    _ptrDelta = 0;
+  }, { passive: true });
+
+  document.body.addEventListener('touchmove', (e) => {
+    if (!_ptrActive || _ptrRefreshing) return;
+    const y = e.touches[0].clientY;
+    _ptrDelta = y - _ptrStartY;
+    if (_ptrDelta <= 0){
+      ind.classList.remove('show');
+      return;
+    }
+    if (_ptrDelta > 6) ind.classList.add('show');
+    const arrow = document.getElementById('ptr-arrow');
+    const txt = document.getElementById('ptr-txt');
+    if (_ptrDelta >= PTR_THRESHOLD){
+      arrow?.classList.add('up');
+      if (txt) txt.textContent = lang==='ar' ? 'حرّر للتحديث' : 'Release to refresh';
+    } else {
+      arrow?.classList.remove('up');
+      if (txt) txt.textContent = lang==='ar' ? 'اسحب للتحديث' : 'Pull to refresh';
+    }
+  }, { passive: true });
+
+  document.body.addEventListener('touchend', async () => {
+    if (!_ptrActive) return;
+    _ptrActive = false;
+    if (_ptrDelta >= PTR_THRESHOLD && !_ptrRefreshing){
+      _ptrRefreshing = true;
+      const arrow = document.getElementById('ptr-arrow');
+      const txt = document.getElementById('ptr-txt');
+      if (arrow) arrow.outerHTML = '<span class="ptr-spin" id="ptr-arrow"></span>';
+      if (txt) txt.textContent = lang==='ar' ? 'جاري التحديث...' : 'Refreshing...';
+      try {
+        await triggerRefresh();
+      } catch(e){}
+      _ptrRefreshing = false;
+      ind.classList.remove('show');
+      setTimeout(()=>{
+        const arr = document.getElementById('ptr-arrow');
+        if (arr) arr.outerHTML = '<span class="ptr-arrow" id="ptr-arrow">↓</span>';
+        const t = document.getElementById('ptr-txt');
+        if (t) t.textContent = lang==='ar'?'اسحب للتحديث':'Pull to refresh';
+      }, 200);
+    } else {
+      ind.classList.remove('show');
+    }
+    _ptrDelta = 0;
+  }, { passive: true });
+}
+
+async function triggerRefresh(){
+  if (activeTab === 'portfolio'){
+    if (typeof refreshPrices === 'function') await refreshPrices();
+    renderTab();
+  } else if (activeTab === 'watch'){
+    if (typeof refreshWatchlistPrices === 'function') await refreshWatchlistPrices();
+    renderWatchlist();
+  } else if (activeTab === 'analysts'){
+    renderAnalysts();
+  } else if (activeTab === 'news'){
+    if (typeof renderNews === 'function') renderNews();
+  } else if (activeTab === 'more'){
+    renderMore();
+  } else if (activeTab === 'community'){
+    renderCommunity();
+  }
+  toast(lang==='ar' ? '✓ تم التحديث' : '✓ Refreshed');
+}
+
+/* ── Daily Brief ── */
+function shouldShowDailyBrief(){
+  if (!currentUser) return false;
+  if (!portfolios.length || !holdings.length) return false;
+  const key = 'lastBrief_' + currentUser.id;
+  const last = localStorage.getItem(key);
+  const today = new Date().toISOString().slice(0,10);
+  return last !== today;
+}
+function markBriefSeen(){
+  if (!currentUser) return;
+  localStorage.setItem('lastBrief_' + currentUser.id, new Date().toISOString().slice(0,10));
+}
+
+function showDailyBrief(){
+  if (!shouldShowDailyBrief()) return;
+  // Need active portfolio with stocks
+  const pf = portfolios.find(p => p.id === settings.activePf);
+  if (!pf) return;
+  const hs = activeHoldings();
+  if (!hs.length) return;
+  
+  const ar = lang === 'ar';
+  const now = new Date();
+  const hour = now.getHours();
+  const greeting = hour < 5 ? (ar?'مساء الخير':'Good evening')
+                  : hour < 12 ? (ar?'صباح الخير':'Good morning')
+                  : hour < 18 ? (ar?'مساء الخير':'Good afternoon')
+                  : (ar?'مساء الخير':'Good evening');
+  const dateStr = now.toLocaleDateString(ar?'ar-SA-u-ca-gregory':'en-US',{weekday:'long', month:'long', day:'numeric'});
+  
+  // Compute today's performance
+  let todayPL = 0, todayPLPct = 0, totalMV = 0;
+  hs.forEach(h => {
+    const s = statsFor(h);
+    totalMV += s.mv;
+    if (s.today != null) todayPL += s.today;
+  });
+  if (totalMV > 0) todayPLPct = (todayPL / (totalMV - todayPL)) * 100;
+  const up = todayPL >= 0;
+  
+  // Top 3 movers (by day change %)
+  const movers = hs
+    .map(h => ({ h, s: statsFor(h) }))
+    .filter(x => x.s.todayPct != null && x.s.mv > 0)
+    .sort((a,b) => Math.abs(b.s.todayPct) - Math.abs(a.s.todayPct))
+    .slice(0, 5);
+  
+  modal(`
+    <div class="brief-wrap">
+      <div class="brief-greeting">${greeting} 👋</div>
+      <div class="brief-h">${ar?'هذي محفظتك اليوم':'Your portfolio today'}</div>
+      <div style="font-size:10px;color:var(--muted2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;font-weight:700">${esc(dateStr)}</div>
+      <div class="brief-pl ${up?'up':'down'}">${up?'+':''}${fmtMoney(Math.abs(todayPL))}</div>
+      <div class="brief-pct">${up?'+':''}${fmt(todayPLPct,2)}% ${ar?'اليوم':'today'}</div>
+      ${movers.length ? `
+        <div class="brief-movers">
+          <div class="brief-movers-h">${ar?'أكثر الأسهم تحرّكاً':'Top Movers'}</div>
+          ${movers.map(m => {
+            const sUp = m.s.todayPct >= 0;
+            return `<div class="brief-mover">
+              <span class="tic">${esc(m.h.ticker)}</span>
+              <span class="val ${sUp?'up':'down'}">${sUp?'+':''}${fmt(m.s.todayPct,2)}%</span>
+            </div>`;
+          }).join('')}
+        </div>
+      ` : ''}
+    </div>
+    <div class="m-actions">
+      <button class="btn primary" style="width:100%" onclick="markBriefSeen();closeModal()">${ar?'لنبدأ ←':'Let us go ←'}</button>
+    </div>
+  `);
+}
+
+/* ── Paper Trading ── */
+function openCreatePaperPortfolio(){
+  const ar = lang === 'ar';
+  modal(`
+    <h2>🎮 ${ar?'محفظة تدريب':'Paper Portfolio'}</h2>
+    <p class="sub">${ar?'محفظة وهمية للتدريب بدون مخاطرة. الأسعار حقيقية لكن الأموال افتراضية.':'Practice portfolio with zero risk. Real prices, virtual money.'}</p>
+    <div class="field">
+      <label>${ar?'اسم المحفظة':'Portfolio name'}</label>
+      <input class="inp" id="pp_name" placeholder="${ar?'محفظة التدريب':'Practice Portfolio'}" value="${ar?'محفظة التدريب':'Practice Portfolio'}">
+    </div>
+    <div class="field">
+      <label>${ar?'رأس المال الوهمي (USD)':'Starting capital (USD)'} <small style="color:var(--muted2)">${ar?'تقدر تختار أي مبلغ':'Pick any amount'}</small></label>
+      <input class="inp" id="pp_cap" type="number" inputmode="decimal" value="100000" min="100" step="100">
+    </div>
+    <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+      <button class="btn" style="flex:1;min-width:80px;font-size:11px" onclick="$('#pp_cap').value=10000">$10K</button>
+      <button class="btn" style="flex:1;min-width:80px;font-size:11px" onclick="$('#pp_cap').value=50000">$50K</button>
+      <button class="btn" style="flex:1;min-width:80px;font-size:11px" onclick="$('#pp_cap').value=100000">$100K</button>
+      <button class="btn" style="flex:1;min-width:80px;font-size:11px" onclick="$('#pp_cap').value=500000">$500K</button>
+    </div>
+    <div class="err" id="pp_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn primary" onclick="doCreatePaperPortfolio()">${ar?'إنشاء':'Create'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#pp_name")?.focus(), 80);
+}
+
+async function doCreatePaperPortfolio(){
+  const ar = lang === 'ar';
+  const name = $("#pp_name").value.trim() || (ar?'محفظة التدريب':'Practice Portfolio');
+  const cap = parseFloat($("#pp_cap").value);
+  if (!cap || cap < 100){ $("#pp_err").textContent = ar?'رأس المال 100 على الأقل':'Min capital is 100'; return; }
+  const id = uid();
+  const pf = { id, name, color: '#5BA5FF', passHash: null, createdAt: Date.now(), isPaper: true, paperStartingCapital: cap };
+  portfolios.push(pf);
+  settings.cash = cap;
+  // Insert to cloud with is_paper
+  if (currentUser){
+    try {
+      await sb.from('portfolios').insert({
+        id: pf.id, user_id: currentUser.id, name: pf.name, color: pf.color,
+        is_paper: true, paper_starting_capital: cap,
+      });
+    } catch(e){ console.error('paper pf insert', e); }
+  }
+  settings.activePf = id;
+  settings.unlocked = true;
+  save();
+  cloudSaveSettings();
+  closeModal();
+  render();
+  toast(ar?`✓ محفظة تدريب جاهزة بـ$${fmt0(cap)}`:`✓ Paper portfolio ready with $${fmt0(cap)}`);
+}
+
+/* ── Community ── */
+async function renderCommunity(){
+  const c = $("#tab-content"); if (!c) return;
+  const ar = lang === 'ar';
+  
+  // Check subscription status
+  const isSubscribed = userProfile?.is_admin || (
+    userProfile?.subscription_status === 'active' &&
+    userProfile?.subscription_paid_until &&
+    new Date(userProfile.subscription_paid_until) >= new Date()
+  );
+  
+  c.innerHTML = `<div class="an-loading"><span class="spin"></span> ${ar?'يحمّل المنشورات...':'Loading posts...'}</div>`;
+  
+  try {
+    const [postsRes, likesRes] = await Promise.all([
+      sb.from('community_posts').select('*').order('created_at',{ascending:false}).limit(50),
+      currentUser ? sb.from('community_likes').select('post_id').eq('user_id', currentUser.id) : Promise.resolve({data:[]}),
+    ]);
+    const posts = postsRes.data || [];
+    const likedIds = new Set((likesRes.data || []).map(l => l.post_id));
+    
+    // Get unique user IDs and fetch their pseudonyms
+    const userIds = [...new Set(posts.map(p => p.user_id))];
+    let userMap = {};
+    if (userIds.length){
+      const { data: profs } = await sb.from('profiles').select('id,pseudonym').in('id', userIds);
+      userMap = Object.fromEntries((profs||[]).map(p => [p.id, p.pseudonym || 'user']));
+    }
+    
+    c.innerHTML = `
+      <h2 style="margin:0 0 4px;font-size:24px;font-weight:900;letter-spacing:-.5px">💬 ${ar?'المجتمع':'Community'}</h2>
+      <p style="margin:0 0 16px;color:var(--muted);font-size:13px">${ar?'شارك أفكارك مع مستثمري سيركل':'Share thoughts with Circle investors'}</p>
+      
+      ${isSubscribed ? `
+        <div class="com-post-form">
+          <textarea id="com-new" placeholder="${ar?'شارك فكرتك أو سؤالك أو تحليلك...':'Share your thought, question, or analysis...'}" maxlength="500" oninput="updatePostMeta()"></textarea>
+          <div class="actions">
+            <span class="meta" id="com-meta">0/500 · ${ar?'اذكر $TICKER في النص':'Mention $TICKER in text'}</span>
+            <button id="com-submit" disabled onclick="submitPost()">${ar?'نشر':'Post'}</button>
+          </div>
+        </div>
+      ` : `
+        <div class="com-locked">
+          <div class="ic">🔒</div>
+          <h3>${ar?'المجتمع للمشتركين':'Community for Subscribers'}</h3>
+          <p>${ar?'يمكنك قراءة المنشورات. النشر والتعليق متاحان للمشتركين فقط ($10/شهر).':'You can read posts. Posting and commenting are for paid subscribers ($10/month).'}</p>
+          <a href="mailto:osamah.j09@gmail.com?subject=${encodeURIComponent(ar?'اشتراك سيركل':'Circle subscription')}" style="background:var(--gold);color:#000;padding:9px 18px;border-radius:9px;font-weight:800;font-size:12.5px;text-decoration:none;display:inline-block">${ar?'اشترك الآن':'Subscribe'}</a>
+        </div>
+      `}
+      
+      ${posts.length ? `
+        <div class="com-feed">
+          ${posts.map(p => renderPostHTML(p, userMap[p.user_id] || 'user', likedIds.has(p.id), isSubscribed)).join('')}
+        </div>
+      ` : `
+        <div style="text-align:center;padding:40px 16px;color:var(--muted2)">
+          <div style="font-size:42px;opacity:.5;margin-bottom:8px">💬</div>
+          <p style="font-size:13px">${ar?'لا توجد منشورات بعد. كن أول من ينشر!':'No posts yet. Be the first to post!'}</p>
+        </div>
+      `}
+    `;
+  } catch(e){
+    c.innerHTML = `<div style="text-align:center;padding:30px;color:var(--muted2);font-size:12px">${lang==='ar'?'تعذّر تحميل المنشورات':'Failed to load posts'}</div>`;
+  }
+}
+
+function renderPostHTML(p, pseudonym, isLiked, canInteract){
+  const ar = lang === 'ar';
+  const date = new Date(p.created_at);
+  const now = new Date();
+  const diffMin = Math.floor((now - date) / 60000);
+  const timeStr = diffMin < 1 ? (ar?'الآن':'now')
+                : diffMin < 60 ? (ar?`قبل ${diffMin}د`:`${diffMin}m ago`)
+                : diffMin < 1440 ? (ar?`قبل ${Math.floor(diffMin/60)}س`:`${Math.floor(diffMin/60)}h ago`)
+                : date.toISOString().slice(0,10);
+  const isOwn = currentUser && currentUser.id === p.user_id;
+  return `<div class="com-post" id="post-${p.id}">
+    <div class="head">
+      <div class="avatar">${esc((pseudonym||'?')[0].toUpperCase())}</div>
+      <div class="meta">
+        <div class="pseudo">${esc(pseudonym||'user')}</div>
+        <div class="dt">${timeStr}</div>
+      </div>
+    </div>
+    <div class="body">${esc(p.content)}</div>
+    ${p.tickers && p.tickers.length ? `<div class="tickers">${p.tickers.map(tic => `<span class="tic-pill">$${esc(tic)}</span>`).join('')}</div>` : ''}
+    <div class="footer">
+      <button class="act ${isLiked?'liked':''}" ${canInteract?'':'disabled'} onclick="toggleLike('${p.id}',this)">
+        <span class="heart">${isLiked?'♥':'♡'}</span>
+        <span class="count">${p.likes_count || 0}</span>
+      </button>
+      <button class="act" onclick="toggleComments('${p.id}')">
+        <span style="font-size:14px">💬</span>
+        <span class="count">${p.comments_count || 0}</span>
+      </button>
+      ${isOwn ? `<button class="del-btn" onclick="deletePost('${p.id}')" title="${ar?'حذف':'Delete'}">✕</button>` : ''}
+    </div>
+    <div class="com-comments-list" id="comments-${p.id}"></div>
+  </div>`;
+}
+
+function updatePostMeta(){
+  const txt = $("#com-new").value;
+  const meta = $("#com-meta");
+  const btn = $("#com-submit");
+  if (!meta || !btn) return;
+  meta.textContent = `${txt.length}/500`;
+  btn.disabled = txt.trim().length < 3;
+}
+
+function extractTickers(text){
+  const matches = text.match(/\$([A-Z]{1,5})\b/g) || [];
+  return [...new Set(matches.map(m => m.slice(1)))];
+}
+
+async function submitPost(){
+  if (!currentUser) return;
+  const content = $("#com-new").value.trim();
+  if (content.length < 3) return;
+  const tickers = extractTickers(content);
+  try {
+    const { error } = await sb.from('community_posts').insert({
+      user_id: currentUser.id,
+      content,
+      tickers: tickers.length ? tickers : null,
+    });
+    if (error) throw error;
+    $("#com-new").value = '';
+    updatePostMeta();
+    renderCommunity();
+    toast(lang==='ar'?'✓ تم النشر':'✓ Posted');
+  } catch(e){
+    toast((lang==='ar'?'خطأ: ':'Error: ') + (e.message || ''));
+  }
+}
+
+async function toggleLike(postId, btn){
+  if (!currentUser) return;
+  const isLiked = btn.classList.contains('liked');
+  const countEl = btn.querySelector('.count');
+  const heartEl = btn.querySelector('.heart');
+  const cur = parseInt(countEl.textContent) || 0;
+  // Optimistic UI
+  if (isLiked){
+    btn.classList.remove('liked');
+    heartEl.textContent = '♡';
+    countEl.textContent = Math.max(0, cur - 1);
+    await sb.from('community_likes').delete().eq('post_id', postId).eq('user_id', currentUser.id);
+  } else {
+    btn.classList.add('liked');
+    heartEl.textContent = '♥';
+    countEl.textContent = cur + 1;
+    const { error } = await sb.from('community_likes').insert({ post_id: postId, user_id: currentUser.id });
+    if (error){
+      // Revert
+      btn.classList.remove('liked');
+      heartEl.textContent = '♡';
+      countEl.textContent = cur;
+      toast(lang==='ar'?'يتطلب اشتراك':'Subscription required');
+    }
+  }
+}
+
+async function toggleComments(postId){
+  const post = document.getElementById(`post-${postId}`);
+  const list = document.getElementById(`comments-${postId}`);
+  if (!post || !list) return;
+  if (post.classList.contains('expanded')){
+    post.classList.remove('expanded');
+    return;
+  }
+  post.classList.add('expanded');
+  list.innerHTML = `<div style="text-align:center;color:var(--muted2);font-size:11px;padding:8px"><span class="spin"></span> ${lang==='ar'?'يحمل التعليقات...':'Loading...'}</div>`;
+  try {
+    const { data: comments } = await sb.from('community_comments').select('*').eq('post_id', postId).order('created_at',{ascending:true});
+    const userIds = [...new Set((comments||[]).map(c => c.user_id))];
+    let userMap = {};
+    if (userIds.length){
+      const { data: profs } = await sb.from('profiles').select('id,pseudonym').in('id', userIds);
+      userMap = Object.fromEntries((profs||[]).map(p => [p.id, p.pseudonym || 'user']));
+    }
+    const isSubscribed = userProfile?.is_admin || (
+      userProfile?.subscription_status === 'active' &&
+      userProfile?.subscription_paid_until &&
+      new Date(userProfile.subscription_paid_until) >= new Date()
+    );
+    list.innerHTML = `
+      ${(comments||[]).map(c => {
+        const pseudo = userMap[c.user_id] || 'user';
+        const date = new Date(c.created_at);
+        const diffMin = Math.floor((new Date() - date) / 60000);
+        const timeStr = diffMin < 1 ? (lang==='ar'?'الآن':'now')
+                      : diffMin < 60 ? (lang==='ar'?`قبل ${diffMin}د`:`${diffMin}m`)
+                      : diffMin < 1440 ? (lang==='ar'?`قبل ${Math.floor(diffMin/60)}س`:`${Math.floor(diffMin/60)}h`)
+                      : date.toISOString().slice(0,10);
+        return `<div class="com-comment">
+          <div class="av-sm">${esc(pseudo[0].toUpperCase())}</div>
+          <div class="body">
+            <span class="pseudo">${esc(pseudo)}</span><span class="dt">${timeStr}</span>
+            <div class="text">${esc(c.content)}</div>
+          </div>
+        </div>`;
+      }).join('') || `<div style="color:var(--muted2);font-size:11.5px;text-align:center;padding:6px">${lang==='ar'?'لا تعليقات':'No comments'}</div>`}
+      ${isSubscribed ? `
+        <div class="com-comment-form">
+          <input id="cc-${postId}" placeholder="${lang==='ar'?'اكتب تعليق...':'Write a comment...'}" maxlength="300" onkeydown="if(event.key==='Enter')submitComment('${postId}')">
+          <button onclick="submitComment('${postId}')">${lang==='ar'?'أرسل':'Send'}</button>
+        </div>
+      ` : ''}
+    `;
+  } catch(e){
+    list.innerHTML = `<div style="color:var(--muted2);font-size:11.5px;text-align:center;padding:6px">${lang==='ar'?'تعذّر التحميل':'Failed'}</div>`;
+  }
+}
+
+async function submitComment(postId){
+  const input = document.getElementById(`cc-${postId}`);
+  if (!input || !currentUser) return;
+  const content = input.value.trim();
+  if (content.length < 1) return;
+  try {
+    const { error } = await sb.from('community_comments').insert({
+      post_id: postId, user_id: currentUser.id, content,
+    });
+    if (error) throw error;
+    input.value = '';
+    // Refresh comments
+    const post = document.getElementById(`post-${postId}`);
+    if (post){
+      post.classList.remove('expanded');
+      toggleComments(postId);
+    }
+    // Update count on post (optimistic)
+    const countEl = document.querySelector(`#post-${postId} .footer .act:nth-child(2) .count`);
+    if (countEl){
+      const cur = parseInt(countEl.textContent) || 0;
+      countEl.textContent = cur + 1;
+    }
+  } catch(e){
+    toast(lang==='ar'?'يتطلب اشتراك':'Subscription required');
+  }
+}
+
+async function deletePost(postId){
+  if (!confirm(lang==='ar'?'حذف هذا المنشور؟':'Delete this post?')) return;
+  await sb.from('community_posts').delete().eq('id', postId);
+  renderCommunity();
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -5759,6 +6315,7 @@ function renderLanding(){
       </div>` : ''}
       <div class="accounts-list">${list}</div>
       <button class="acct-new" onclick="openCreatePortfolio()">＋ ${lang==='ar'?'محفظة جديدة':'New portfolio'}</button>
+      <button class="acct-new" onclick="openCreatePaperPortfolio()" style="background:linear-gradient(135deg,rgba(91,165,255,.08),transparent);border-color:#1F3A6E;color:#5BA5FF;margin-top:8px">🎮 ${lang==='ar'?'محفظة تدريب (وهمية)':'Paper Portfolio (Practice)'}</button>
       <button class="admin-link" onclick="cloudLogout()">${lang==='ar'?'تسجيل خروج':'log out'}</button>
     </div>
   `;
@@ -5940,6 +6497,7 @@ async function cloudLoadAll(){
   portfolios = (pfs || []).map(p => ({
     id: p.id, name: p.name, color: p.color || '#5FE9B0',
     passHash: null, createdAt: new Date(p.created_at).getTime(),
+    isPaper: !!p.is_paper, paperStartingCapital: p.paper_starting_capital ? parseFloat(p.paper_starting_capital) : null,
   }));
   const { data: hs } = await sb.from('holdings').select('*');
   holdings = (hs || []).map(h => ({
@@ -6374,6 +6932,8 @@ async function adminDeletePf(pfId, pfName, userId, userName){
   setTimeout(()=>{ try { checkAchievements(); } catch(e){} }, 800);
   setTimeout(()=>{ try { maybeShowNotification(); } catch(e){} }, 1400);
   setTimeout(()=>{ try { maybeRunDailyBackup(); } catch(e){} }, 3000);
+  setTimeout(()=>{ try { showDailyBrief(); } catch(e){} }, 2200);
+  try { installPullToRefresh(); } catch(e){}
 
   sb.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_IN' && session && (!currentUser || currentUser.id !== session.user.id)){
