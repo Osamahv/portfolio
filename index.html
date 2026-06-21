@@ -745,6 +745,99 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .mp .mct .r .a{color:var(--muted);font-size:7.5px}
 .mp .mct .r .p{font-weight:800;color:var(--accent)}
 
+/* ── Stock Assessment Tool (v12) ── */
+.assess-stage{animation:slideIn .25s ease-out}
+.assess-step-h{display:flex;align-items:center;gap:8px;margin:-4px 0 12px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.assess-step-h .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.assess-stock-pick{background:linear-gradient(135deg,#0E1F17,#0a1812);border:1px solid var(--accent-d);border-radius:14px;padding:18px;margin-bottom:14px;text-align:center}
+.assess-stock-pick .l{font-size:10.5px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.assess-stock-pick input{width:100%;text-align:center;background:#000;border:1.5px solid var(--accent-d);color:var(--accent);font-size:24px;font-weight:800;padding:14px;border-radius:10px;font-family:inherit;text-transform:uppercase;letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.assess-stock-pick input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(95,233,176,.15)}
+.assess-stock-pick .h-name{font-size:13px;color:var(--muted);margin-top:6px;min-height:16px}
+
+.assess-crit-list{background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.assess-crit-row{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:9px;font-size:13px}
+.assess-crit-row:last-child{border-bottom:none}
+.assess-crit-row .check{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line2);display:grid;place-items:center;flex-shrink:0;margin-top:1px;cursor:pointer;transition:.15s;background:transparent}
+.assess-crit-row .check.on{background:var(--accent);border-color:var(--accent)}
+.assess-crit-row .check.on::after{content:"✓";color:#000;font-weight:800;font-size:14px;line-height:1}
+.assess-crit-row .txt{flex:1;line-height:1.5;color:var(--txt2);cursor:pointer}
+.assess-crit-row.included .txt{color:var(--txt)}
+.assess-crit-row .actions{display:flex;gap:4px;flex-shrink:0;align-items:center}
+.assess-crit-row .act-btn{width:26px;height:26px;border-radius:6px;background:transparent;border:1px solid var(--line2);color:var(--muted);font-size:11px;cursor:pointer;display:grid;place-items:center;transition:.15s;font-family:inherit}
+.assess-crit-row .act-btn:hover{border-color:var(--line2);color:var(--txt2);background:var(--surf)}
+.assess-add-crit{padding:14px;display:flex;gap:6px;border-top:1px dashed var(--line)}
+.assess-add-crit input{flex:1;background:#000;border:1px solid var(--line);color:var(--txt);padding:9px 11px;border-radius:8px;font-size:13px;font-family:inherit}
+.assess-add-crit button{background:var(--accent);color:#000;border:none;padding:9px 14px;border-radius:8px;font-weight:800;font-size:12.5px;cursor:pointer;font-family:inherit}
+
+/* Rating dots (1-5 colored circles) */
+.rate-q{padding:14px 14px 12px;border-bottom:1px solid var(--line);background:#000}
+.rate-q:last-child{border-bottom:none}
+.rate-q .q-txt{font-size:13.5px;font-weight:700;color:var(--txt);line-height:1.5;margin-bottom:10px}
+.rate-q .q-dots{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-bottom:8px}
+.rate-q .dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--line2);background:transparent;cursor:pointer;transition:.18s;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--muted2);font-family:inherit;font-variant-numeric:tabular-nums}
+.rate-q .dot:hover{border-color:var(--line2);color:var(--txt2);transform:scale(1.05)}
+.rate-q .dot.on{transform:scale(1.05)}
+.rate-q .dot[data-r="1"].on{background:#3a0e10;border-color:#F26B6E;color:#F26B6E}
+.rate-q .dot[data-r="2"].on{background:#3a1d10;border-color:#E89B6B;color:#E89B6B}
+.rate-q .dot[data-r="3"].on{background:#3a3010;border-color:#E8B96A;color:#E8B96A}
+.rate-q .dot[data-r="4"].on{background:#1A3025;border-color:#7FD9A5;color:#7FD9A5}
+.rate-q .dot[data-r="5"].on{background:#0E2517;border-color:#5FE9B0;color:#5FE9B0}
+.rate-q .scale-lbl{display:flex;justify-content:space-between;font-size:9px;color:var(--muted2);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:0 2px}
+.rate-q textarea{width:100%;margin-top:8px;background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 9px;border-radius:7px;font-size:11.5px;font-family:inherit;resize:none;min-height:34px}
+.rate-q textarea:focus{outline:none;border-color:var(--accent-d);color:var(--txt2)}
+
+/* Running total bar */
+.rate-running{position:sticky;top:0;background:rgba(8,8,8,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:5;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.rate-running .r-bar{flex:1;height:6px;background:#1A1A1A;border-radius:3px;overflow:hidden}
+.rate-running .r-fill{height:100%;background:linear-gradient(90deg,var(--loss),var(--gold),var(--accent));transition:width .25s}
+.rate-running .r-score{font-size:14px;font-weight:800;color:var(--txt);font-variant-numeric:tabular-nums;min-width:50px;text-align:end}
+
+/* Result screen */
+.result-hero{background:linear-gradient(180deg,var(--surf),#000);border:1px solid var(--line);border-radius:16px;padding:24px 18px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
+.result-hero.strong{background:linear-gradient(180deg,#0E2517,#000);border-color:var(--accent-d)}
+.result-hero.caution{background:linear-gradient(180deg,#1F1A0E,#000);border-color:#5A4818}
+.result-hero.avoid{background:linear-gradient(180deg,#2A0E10,#000);border-color:var(--loss-d)}
+.result-hero .rec-emoji{font-size:38px;margin-bottom:6px;line-height:1}
+.result-hero .rec-label{font-size:14.5px;font-weight:800;letter-spacing:.04em;margin-bottom:10px}
+.result-hero.strong .rec-label{color:var(--accent)}
+.result-hero.caution .rec-label{color:var(--gold)}
+.result-hero.avoid .rec-label{color:var(--loss)}
+.result-hero .score-big{font-size:44px;font-weight:900;letter-spacing:-1.2px;font-variant-numeric:tabular-nums;line-height:1}
+.result-hero.strong .score-big{color:var(--accent)}
+.result-hero.caution .score-big{color:var(--gold)}
+.result-hero.avoid .score-big{color:var(--loss)}
+.result-hero .score-frac{font-size:18px;color:var(--muted2);font-weight:600}
+.result-hero .pct{font-size:14px;color:var(--muted);font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+.result-hero .ticker-line{font-size:18px;font-weight:800;margin-bottom:14px}
+
+.result-section{margin-bottom:14px;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.result-section .head{padding:11px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px}
+.result-section.strengths .head{color:var(--accent)}
+.result-section.weak .head{color:var(--loss)}
+.result-section.neutral .head{color:var(--gold)}
+.result-section .item{padding:10px 14px;font-size:13px;color:var(--txt2);line-height:1.5;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:9px}
+.result-section .item:last-child{border-bottom:none}
+.result-section .item .num{flex-shrink:0;font-size:11px;font-weight:800;padding:1px 6px;border-radius:4px;font-variant-numeric:tabular-nums}
+.result-section.strengths .item .num{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.result-section.weak .item .num{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+.result-section.neutral .item .num{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+
+/* Assessment history rows */
+.assess-hist-row{padding:13px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s}
+.assess-hist-row:hover{background:var(--surf)}
+.assess-hist-row:last-child{border-bottom:none}
+.assess-hist-row .logo{width:38px;height:38px;border-radius:9px;background:#000;border:1px solid var(--line2);object-fit:contain;padding:3px;flex-shrink:0}
+.assess-hist-row .logo-fb{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:12px;flex-shrink:0;border:1px solid}
+.assess-hist-row .info{flex:1;min-width:0}
+.assess-hist-row .tic{font-weight:800;font-size:13.5px;color:var(--txt)}
+.assess-hist-row .nm{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.assess-hist-row .dt{font-size:10px;color:var(--muted2);margin-top:2px;font-variant-numeric:tabular-nums}
+.assess-hist-row .pill{font-size:11px;font-weight:800;padding:4px 9px;border-radius:6px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.assess-hist-row .pill.strong{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.assess-hist-row .pill.caution{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+.assess-hist-row .pill.avoid{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+
 /* chart range buttons */
 .chart-range-row{display:flex;gap:3px;margin:6px 0 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 1px;scrollbar-width:none}
 .chart-range-row::-webkit-scrollbar{display:none}
@@ -4611,227 +4704,6 @@ function renderMore(){
 function openCashFromMore(){ openSettings(); setTimeout(()=>{ const cs = document.querySelector('.set-section:nth-child(3)'); cs?.scrollIntoView({behavior:'smooth'}); }, 100); }
 function openBackup(){ openSettings(); }
 
-/* ── Stock Research Checklist (18 items, 5 categories) ── */
-const CHECKLIST = [
-  { cat:{ar:'القطاع والمحفّز',en:'Sector & Catalyst'}, items:[
-    { id:'hot_sector', ar:'قطاع ساخن / زخم', en:'Hot sector / momentum',
-      d:{ar:'السيولة تتدفق للموضوع (مثل مراكز البيانات) ترفع معظم أسهمه.',en:'Money flowing into the theme (e.g. data centers) lifting most stocks.'} },
-    { id:'direct_exposure', ar:'تعرّض مباشر', en:'Direct exposure',
-      d:{ar:'الشركة تستفيد فعلياً من الموضوع.',en:'Company genuinely benefits from the theme.'} },
-    { id:'catalyst_horizon', ar:'محفّز قادم', en:'Catalyst on the horizon',
-      d:{ar:'اكتتاب، إطلاق منتج، عقد، قرار تنظيمي، أو إدراج بمؤشر بتاريخ معروف.',en:'IPO, product launch, contract, regulatory decision or index inclusion with known date.'} },
-    { id:'macro_tailwind', ar:'دفعة كلية', en:'Macro tailwind',
-      d:{ar:'تحركات الفائدة أو الإنفاق الحكومي أو السياسة تدعم القطاع.',en:'Rate moves, government spending or policy shifts that benefit the sector.'} },
-    { id:'sector_peer', ar:'سهم نظير تحرّك', en:'Sector peer running',
-      d:{ar:'سهم مشابه ارتفع وهذا لم يلحق بعد.',en:'A similar stock has moved and this one has not caught up yet.'} },
-  ]},
-  { cat:{ar:'المطّلعون والمؤسسات',en:'Insider & Institutional'}, items:[
-    { id:'insider_buys', ar:'شراء مطّلعين حديث', en:'Recent insider buys',
-      d:{ar:'الرئيس التنفيذي أو المديرون اشتروا - يعرفون الشركة أفضل، يحدد قاع.',en:'CEO/director purchases — they know the business best, sets a floor.'} },
-    { id:'institutional_buying', ar:'شراء مؤسسي', en:'Institutional buying',
-      d:{ar:'صناديق كبيرة تبني مراكز.',en:'Big funds building positions.'} },
-    { id:'partnership', ar:'شراكة / عميل كبير', en:'Partnership / major customer',
-      d:{ar:'صفقة مع اسم كبير موثوق (مثل NVIDIA) يصادق على الأعمال.',en:'Deal with a credible big name (e.g. NVIDIA) that validates the business.'} },
-  ]},
-  { cat:{ar:'الأساسيات والمحللون',en:'Fundamentals & Analysts'}, items:[
-    { id:'upcoming_earnings', ar:'أرباح قريبة', en:'Upcoming earnings',
-      d:{ar:'احتمال تجاوز التوقعات أو توجيه قوي يحرك السهم. يعمل بالاتجاهين.',en:'Potential beat or strong guidance could move the stock. Works the other way too.'} },
-    { id:'guidance_raised', ar:'الإدارة رفعت توقعاتها', en:'Management raised guidance',
-      d:{ar:'الشركة ترفع توقعاتها الخاصة.',en:'Company raising its own forecasts/outlook.'} },
-    { id:'analyst_upgrades', ar:'رفع توصيات وأهداف', en:'Analyst upgrades / PT hikes',
-      d:{ar:'ترقيات وزيادة أهداف الأسعار تجلب زخم.',en:'Upgrades and price target increases bringing momentum.'} },
-  ]},
-  { cat:{ar:'المشاعر والتدفّق',en:'Sentiment & Flow'}, items:[
-    { id:'sentiment_shift', ar:'تحوّل بالأخبار', en:'News / sentiment shift',
-      d:{ar:'تطورات إيجابية تغيّر نظرة السوق للسهم.',en:'Positive developments changing how the market views the stock.'} },
-    { id:'short_interest', ar:'بيع على المكشوف عالي + فلوت صغير', en:'High short interest + small float',
-      d:{ar:'يهيّئ لارتداد قوي على الأخبار الإيجابية.',en:'Sets up potential squeeze on good news.'} },
-    { id:'volume_spike', ar:'قفزة بالحجم', en:'Volume spike',
-      d:{ar:'قفزة بحجم التداول تظهر اهتمام حقيقي.',en:'Jump in trading volume showing real interest.'} },
-    { id:'options_activity', ar:'نشاط خيارات غير عادي', en:'Unusual options activity',
-      d:{ar:'شراء كبير أو عدواني للـCalls يلمّح لارتفاع متوقع.',en:'Large or aggressive call buying hinting at expected upside.'} },
-    { id:'index_inclusion', ar:'إدراج قادم بمؤشر', en:'Upcoming index inclusion',
-      d:{ar:'الإضافة لمؤشر رئيسي تجبر الصناديق على الشراء.',en:'Being added to a major index forces funds to buy.'} },
-  ]},
-  { cat:{ar:'التحليل الفني',en:'Technicals'}, items:[
-    { id:'beaten_down', ar:'تراجع مؤخراً', en:'Recently beaten down',
-      d:{ar:'هبط أو لم يرتفع بعد، مساحة أكبر للصعود.',en:'Pulled back or has not run yet, so more room to the upside.'} },
-    { id:'technical_setup', ar:'تموضع فني', en:'Technical setup',
-      d:{ar:'كسر قاعدة، تثبيت دعم أو ارتداد عن مستوى رئيسي.',en:'Breaking out of a base, holding support or bouncing off a key level.'} },
-  ]},
-];
-
-function toggleChkItem(holdId, itemId){
-  const h = holdings.find(x => x.id === holdId);
-  if (!h) return;
-  if (!h.checklist) h.checklist = { items: [], notes: '' };
-  const idx = h.checklist.items.indexOf(itemId);
-  if (idx >= 0) h.checklist.items.splice(idx, 1);
-  else h.checklist.items.push(itemId);
-  cloudUpsertHolding(h);
-  save();
-  updateChecklistUI(holdId);
-}
-function updateChecklistUI(holdId){
-  const h = holdings.find(x => x.id === holdId);
-  if (!h) return;
-  const checked = (h.checklist?.items || []);
-  CHECKLIST.forEach(cat => cat.items.forEach(it => {
-    const el = document.getElementById(`chki_${holdId}_${it.id}`);
-    if (el){
-      if (checked.includes(it.id)) el.classList.add('on');
-      else el.classList.remove('on');
-    }
-  }));
-  const totalEl = document.getElementById(`chk-total-${holdId}`);
-  if (totalEl){
-    const n = checked.length;
-    const col = n >= 12 ? 'var(--accent)' : n >= 6 ? 'var(--gold)' : 'var(--muted)';
-    totalEl.innerHTML = `<span style="color:${col}">${n}</span><span style="color:var(--muted2);font-size:16px;font-weight:700"> / 18</span>`;
-  }
-  const scoreEl = document.getElementById(`chk-score-${holdId}`);
-  if (scoreEl){
-    const n = checked.length;
-    scoreEl.textContent = `${n}/18`;
-    scoreEl.className = 'score ' + (n >= 12 ? 'high' : n >= 6 ? 'mid' : 'low');
-  }
-}
-function saveChecklistNotes(holdId){
-  const h = holdings.find(x => x.id === holdId);
-  if (!h) return;
-  if (!h.checklist) h.checklist = { items: [], notes: '' };
-  h.checklist.notes = $(`#chk-notes-${holdId}`)?.value || '';
-  cloudUpsertHolding(h);
-  save();
-}
-function renderChecklistHTML(h){
-  const checked = (h.checklist?.items || []);
-  const n = checked.length;
-  const scoreClass = n >= 12 ? 'high' : n >= 6 ? 'mid' : 'low';
-  return `
-    <div class="chk-section" id="chk-sec-${h.id}">
-      <div class="chk-header" onclick="document.getElementById('chk-sec-${h.id}').classList.toggle('open')">
-        <span class="h">📋 ${lang==='ar'?'قائمة فحص السهم':'Research Checklist'}</span>
-        <span class="score ${scoreClass}" id="chk-score-${h.id}">${n}/18</span>
-        <span class="ar-i">▾</span>
-      </div>
-      <div class="chk-body">
-        ${CHECKLIST.map(cat => `
-          <div class="chk-cat"><div class="cat-t">${esc(cat.cat[lang])}</div></div>
-          ${cat.items.map(it => `
-            <div class="chk-item ${checked.includes(it.id)?'on':''}" id="chki_${h.id}_${it.id}" onclick="toggleChkItem('${h.id}','${it.id}')">
-              <div class="box"></div>
-              <div class="body">
-                <div class="nm">${esc(it[lang])}</div>
-                <div class="ds">${esc(it.d[lang])}</div>
-              </div>
-            </div>
-          `).join('')}
-        `).join('')}
-        <div class="chk-total">
-          <div class="t">${lang==='ar'?'المجموع':'Total ticked'}</div>
-          <div class="v" id="chk-total-${h.id}"><span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:16px;font-weight:700"> / 18</span></div>
-        </div>
-        <textarea class="notes-textarea" id="chk-notes-${h.id}" placeholder="${lang==='ar'?'ملاحظات الفحص...':'Checklist notes...'}" onblur="saveChecklistNotes('${h.id}')" style="margin:8px 0 0;border-radius:0;border-left:none;border-right:none;border-bottom:none">${esc(h.checklist?.notes||'')}</textarea>
-      </div>
-    </div>
-  `;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   v11 BLOCK: Earnings timeline, Analyst news in tab, 
-   Checklist as standalone tool, Contact us
-   ════════════════════════════════════════════════════════════════ */
-
-/* ── Earnings Timeline ── */
-const earnCache = {};
-async function loadEarningsTimeline(holdId, ticker){
-  const wrap = document.getElementById(`earn-timeline-${holdId}`);
-  if (!wrap) return;
-  const cached = earnCache[ticker];
-  let data;
-  if (cached && Date.now() - cached.fetched < 21600000) {
-    data = cached.data;
-  } else {
-    try {
-      const fromDate = new Date(Date.now() - 365*86400000).toISOString().slice(0,10);
-      const toDate = new Date(Date.now() + 180*86400000).toISOString().slice(0,10);
-      const r = await fetch(`${FINNHUB}/calendar/earnings?from=${fromDate}&to=${toDate}&symbol=${ticker}&token=${FINNHUB_KEY}`);
-      if (!r.ok) throw new Error('fetch failed');
-      data = await r.json();
-      earnCache[ticker] = { data, fetched: Date.now() };
-    } catch(e){
-      return;
-    }
-  }
-  const events = (data?.earningsCalendar || []).sort((a,b) => new Date(a.date) - new Date(b.date));
-  if (!events.length) return;
-  const now = Date.now();
-  const ar = lang === 'ar';
-  // determine year boundaries (1 year window centered around now)
-  const startDate = new Date(now - 365*86400000);
-  const endDate = new Date(now + 365*86400000);
-  const totalRange = endDate - startDate;
-  // find "next" earnings (first future event)
-  const nextEvent = events.find(e => new Date(e.date) > new Date());
-  // last 4 past events for summary
-  const pastEvents = events.filter(e => new Date(e.date) <= new Date()).slice(-4);
-  // year for header
-  const yr = new Date().getFullYear();
-  wrap.innerHTML = `
-    <div class="earn-tl">
-      <div class="earn-tl-head">
-        <span class="t">📅 ${ar?'مواعيد إعلانات الأرباح':'Earnings Schedule'}</span>
-        <span class="yr">${yr-1} — ${yr+1}</span>
-      </div>
-      <div class="earn-tl-bar">
-        <div class="earn-tl-line"></div>
-        ${events.map(ev => {
-          const evDate = new Date(ev.date);
-          const isPast = evDate <= new Date();
-          const isNext = nextEvent && ev.date === nextEvent.date;
-          const pos = ((evDate - startDate) / totalRange) * 100;
-          if (pos < 0 || pos > 100) return '';
-          const q = ev.quarter ? `Q${ev.quarter}` : '';
-          const cls = isNext ? 'next' : isPast ? 'past' : 'future';
-          const lblCls = isNext ? 'next' : '';
-          return `
-            <div class="earn-tl-q" style="${ar?'right':'left'}:${pos}%">${q}</div>
-            <div class="earn-tl-dot ${cls}" style="${ar?'right':'left'}:${pos}%" title="${ev.date}"></div>
-            <div class="earn-tl-lbl ${lblCls}" style="${ar?'right':'left'}:${pos}%">${ev.date.slice(5)}</div>
-          `;
-        }).join('')}
-      </div>
-      ${pastEvents.length ? `
-      <div style="margin-top:20px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em">${ar?'آخر ٤ إعلانات':'Last 4 announcements'}</div>
-      <div class="earn-summary">
-        ${pastEvents.map(ev => {
-          const beatEPS = ev.epsActual != null && ev.epsEstimate != null && ev.epsActual >= ev.epsEstimate;
-          const beatRev = ev.revenueActual != null && ev.revenueEstimate != null && ev.revenueActual >= ev.revenueEstimate;
-          const surprise = ev.epsActual != null && ev.epsEstimate != null && ev.epsEstimate !== 0 
-            ? ((ev.epsActual - ev.epsEstimate) / Math.abs(ev.epsEstimate)) * 100 
-            : null;
-          return `<div class="earn-q">
-            <div class="q-h">
-              <span class="q-n">Q${ev.quarter||''} ${ev.year||''}</span>
-              <span class="q-dt">${ev.date}</span>
-            </div>
-            ${ev.epsActual != null ? `<div class="row">
-              <span class="l">EPS</span>
-              <span class="v ${beatEPS?'beat':'miss'}">$${fmt(ev.epsActual,2)}${ev.epsEstimate!=null?` <small style="color:var(--muted2);font-weight:500">(${ar?'متوقع':'est'} $${fmt(ev.epsEstimate,2)})</small>`:''}</span>
-            </div>` : ''}
-            ${ev.revenueActual != null ? `<div class="row">
-              <span class="l">${ar?'إيرادات':'Rev'}</span>
-              <span class="v ${beatRev?'beat':'miss'}">$${fmt0((ev.revenueActual||0)/1e9)}B</span>
-            </div>` : ''}
-            ${surprise != null ? `<span class="surprise ${surprise>=0?'beat':'miss'}">${surprise>=0?'✓ '+(ar?'تجاوز':'BEAT'):'✗ '+(ar?'دون':'MISS')} ${surprise>=0?'+':''}${fmt(surprise,1)}%</span>`:''}
-          </div>`;
-        }).join('')}
-      </div>` : ''}
-    </div>
-  `;
-}
-
 /* ── Analyst Recommendations Inside Analysts Tab (Price target news from Finnhub) ── */
 async function fetchAnalystUpgradeNews(ticker){
   try {
@@ -4840,84 +4712,6 @@ async function fetchAnalystUpgradeNews(ticker){
     const data = await r.json();
     return (data || []).slice(0, 5);
   } catch(e){ return []; }
-}
-
-/* ── Checklist as standalone tool in More menu ── */
-function openChecklistTool(){
-  const hs = activeHoldings();
-  if (!hs.length){
-    modal(`
-      <h2>📋 ${lang==='ar'?'قائمة فحص السهم':'Stock Research Checklist'}</h2>
-      <p class="sub">${lang==='ar'?'لا توجد أسهم في محفظتك بعد. أضف سهماً أولاً لتقييمه.':'No stocks in your portfolio yet. Add one to assess.'}</p>
-      <div class="m-actions">
-        <button class="btn primary" style="width:100%" onclick="closeModal()">${t().close}</button>
-      </div>
-    `);
-    return;
-  }
-  modal(`
-    <h2>📋 ${lang==='ar'?'قائمة فحص السهم':'Stock Research Checklist'}</h2>
-    <p class="sub">${lang==='ar'?'أداة ١٨ معيار لتقييم أي سهم. اختر سهم لبدء الفحص:':'18-criteria tool to assess any stock. Pick one to start:'}</p>
-    <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:340px;overflow-y:auto;margin-bottom:10px">
-      ${hs.map(h => {
-        const score = (h.checklist?.items || []).length;
-        const col = score >= 12 ? 'var(--accent)' : score >= 6 ? 'var(--gold)' : 'var(--muted)';
-        return `<div onclick="closeModal();openChecklistFor('${h.id}')" style="padding:13px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s" onmouseover="this.style.background='var(--surf)'" onmouseout="this.style.background='transparent'">
-          <div style="width:34px;height:34px;border-radius:8px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);display:grid;place-items:center;font-weight:800;font-size:11.5px;flex-shrink:0">${esc(h.ticker.slice(0,4))}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-weight:700;font-size:13px">${esc(h.ticker)}</div>
-            <div style="font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc((h.name && h.name !== h.ticker) ? h.name : '')}</div>
-          </div>
-          <span style="font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:6px;color:${col};background:${score>=12?'var(--accent-bg)':score>=6?'#1F1A0E':'var(--surf)'};border:1px solid ${score>=12?'var(--accent-d)':score>=6?'#5A4818':'var(--line)'};font-variant-numeric:tabular-nums">${score}/18</span>
-        </div>`;
-      }).join('')}
-    </div>
-    <div class="m-actions">
-      <button class="btn" onclick="closeModal()">${t().close}</button>
-    </div>
-  `);
-}
-function openChecklistFor(holdId){
-  const h = holdings.find(x => x.id === holdId);
-  if (!h) return;
-  const checked = (h.checklist?.items || []);
-  const n = checked.length;
-  modal(`
-    <h2 style="margin-bottom:6px">📋 ${esc(h.ticker)}</h2>
-    <p class="sub">${esc(h.name && h.name!==h.ticker ? h.name : (lang==='ar'?'قائمة فحص ١٨ معيار':'18-criteria research checklist'))}</p>
-    <div style="background:linear-gradient(180deg,#0F0F0F,#0A0A0A);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center;margin-bottom:12px">
-      <div style="font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">${lang==='ar'?'النتيجة':'Score'}</div>
-      <div id="chkt-score" style="font-size:30px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.5px"><span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:18px;font-weight:700"> / 18</span></div>
-    </div>
-    <div style="background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:380px;overflow-y:auto;margin-bottom:10px">
-      ${CHECKLIST.map(cat => `
-        <div class="chk-cat"><div class="cat-t">${esc(cat.cat[lang])}</div></div>
-        ${cat.items.map(it => `
-          <div class="chk-item ${checked.includes(it.id)?'on':''}" id="chki_${h.id}_${it.id}" onclick="toggleChkItemTool('${h.id}','${it.id}')">
-            <div class="box"></div>
-            <div class="body">
-              <div class="nm">${esc(it[lang])}</div>
-              <div class="ds">${esc(it.d[lang])}</div>
-            </div>
-          </div>
-        `).join('')}
-      `).join('')}
-    </div>
-    <textarea class="notes-textarea" id="chkt-notes-${h.id}" placeholder="${lang==='ar'?'ملاحظات الفحص...':'Checklist notes...'}" onblur="saveChecklistNotes('${h.id}')" style="margin-bottom:10px">${esc(h.checklist?.notes||'')}</textarea>
-    <div class="m-actions">
-      <button class="btn" onclick="openChecklistTool()">${lang==='ar'?'← رجوع':'← Back'}</button>
-      <button class="btn primary" onclick="closeModal()">${lang==='ar'?'تم':'Done'}</button>
-    </div>
-  `);
-}
-function toggleChkItemTool(holdId, itemId){
-  toggleChkItem(holdId, itemId);
-  const h = holdings.find(x => x.id === holdId);
-  if (!h) return;
-  const checked = (h.checklist?.items || []);
-  const n = checked.length;
-  const el = document.getElementById('chkt-score');
-  if (el) el.innerHTML = `<span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:18px;font-weight:700"> / 18</span>`;
 }
 
 /* ── Contact us ── */
@@ -4939,6 +4733,508 @@ function openContactUs(){
       <button class="btn" style="width:100%" onclick="closeModal()">${t().close}</button>
     </div>
   `);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v12 BLOCK: Full Stock Assessment Tool (rate, customize, history, PNG)
+   ════════════════════════════════════════════════════════════════ */
+
+const DEFAULT_CRITERIA = [
+  { id:'hot_sector', q:{ar:'هل القطاع ساخن وتتدفق عليه السيولة حالياً؟',en:'Is the sector hot with money flowing in?'} },
+  { id:'direct_exposure', q:{ar:'هل تستفيد الشركة بشكل مباشر من القطاع/الموضوع؟',en:'Does the company benefit directly from the theme?'} },
+  { id:'catalyst', q:{ar:'هل يوجد محفّز قادم بتاريخ معروف (منتج، عقد، إعلان)؟',en:'Is there an upcoming catalyst with known date?'} },
+  { id:'macro_tailwind', q:{ar:'هل تدعم البيئة الكلية (فائدة، سياسة) القطاع؟',en:'Does the macro environment support the sector?'} },
+  { id:'peer_running', q:{ar:'هل تحرّك سهم نظير في القطاع ولم يلحق بعد؟',en:'Has a peer stock moved while this lags?'} },
+  { id:'insider_buys', q:{ar:'هل اشترى مديرون أو مطّلعون من السهم مؤخراً؟',en:'Have insiders been buying recently?'} },
+  { id:'institutional', q:{ar:'هل تبني صناديق ومؤسسات كبيرة مراكز؟',en:'Are big funds building positions?'} },
+  { id:'partnership', q:{ar:'هل عقدت الشركة شراكات مع أسماء كبيرة موثوقة؟',en:'Are there partnerships with credible big names?'} },
+  { id:'upcoming_earnings', q:{ar:'هل توجد أرباح قريبة محتمل تجاوز التوقعات؟',en:'Are upcoming earnings likely to beat expectations?'} },
+  { id:'guidance_raised', q:{ar:'هل رفعت الإدارة توقعاتها مؤخراً؟',en:'Has management raised their guidance?'} },
+  { id:'analyst_upgrades', q:{ar:'هل ترقّى السهم عند المحللين أو رُفعت أهدافه؟',en:'Have analysts upgraded or raised targets?'} },
+  { id:'sentiment_shift', q:{ar:'هل تتحوّل نظرة السوق للسهم نحو الإيجابية؟',en:'Is sentiment shifting positive?'} },
+  { id:'short_interest', q:{ar:'هل البيع على المكشوف عالي مع فلوت صغير؟',en:'Is short interest high with small float?'} },
+  { id:'volume_spike', q:{ar:'هل توجد قفزة في حجم التداول مؤخراً؟',en:'Has volume spiked recently?'} },
+  { id:'options_activity', q:{ar:'هل يوجد نشاط خيارات غير عادي (Calls كبيرة)؟',en:'Is there unusual options activity (large calls)?'} },
+  { id:'index_inclusion', q:{ar:'هل احتمال إضافته لمؤشر رئيسي قريباً؟',en:'Is index inclusion likely soon?'} },
+  { id:'beaten_down', q:{ar:'هل تراجع السهم وعنده مساحة للارتفاع؟',en:'Has the stock pulled back with room to rise?'} },
+  { id:'technical_setup', q:{ar:'هل التموضع الفني قوي (كسر قاعدة، دعم محصّن)؟',en:'Is the technical setup strong (breakout, support holding)?'} },
+];
+
+// In-flight assessment state
+let assessState = null;
+
+function getUserTemplate(){
+  // returns custom template if exists, else default
+  return (settings.checklistTemplate && Array.isArray(settings.checklistTemplate) && settings.checklistTemplate.length > 0)
+    ? settings.checklistTemplate
+    : DEFAULT_CRITERIA.map(c => ({ id:c.id, q: c.q[lang] || c.q.en, included: true }));
+}
+
+function saveUserTemplate(template){
+  settings.checklistTemplate = template;
+  save();
+  cloudSaveSettings();
+}
+
+function recommendationFor(percentage){
+  if (percentage >= 75) return { key:'strong', ar:'يُنصح بقوة بالشراء', en:'Strongly Recommended', emoji:'✅' };
+  if (percentage >= 60) return { key:'caution', ar:'فرصة جيدة مع حذر', en:'Good with Caution', emoji:'🟡' };
+  if (percentage >= 45) return { key:'caution', ar:'محايد - يحتاج دراسة', en:'Neutral - Needs Study', emoji:'⚖️' };
+  return { key:'avoid', ar:'لا يُنصح بالشراء الآن', en:'Not Recommended', emoji:'❌' };
+}
+
+/* ── ENTRY: Open assessment tool ── */
+async function openChecklistTool(){
+  const c = $("#tab-content");
+  if (!currentUser){ toast(lang==='ar'?'يلزم تسجيل الدخول':'Login required'); return; }
+  modal(`<h2>📊 ${lang==='ar'?'تقييم الأسهم':'Stock Assessment'}</h2>
+    <p class="sub">${lang==='ar'?'جاري التحميل...':'Loading...'}</p>`);
+  let history = [];
+  try {
+    const { data } = await sb.from('stock_assessments').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false}).limit(50);
+    history = data || [];
+  } catch(e){}
+  renderAssessmentHome(history);
+}
+
+function renderAssessmentHome(history){
+  const ar = lang === 'ar';
+  modal(`
+    <h2>📊 ${ar?'تقييم الأسهم':'Stock Assessment'}</h2>
+    <p class="sub">${ar?'قيّم أي سهم قبل شراءه على معايير شاملة، تطلع لك توصية موضوعية.':'Rate any stock against comprehensive criteria, get an objective recommendation.'}</p>
+    <button class="add-stock-btn" style="width:100%;justify-content:center;margin-bottom:14px" onclick="assessmentNewStart()"><span class="plus">+</span> ${ar?'تقييم جديد':'New Assessment'}</button>
+    ${history.length ? `
+      <h4 style="margin:14px 0 8px;font-size:10.5px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em">${ar?'التقييمات السابقة':'Previous Assessments'}</h4>
+      <div style="background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:320px;overflow-y:auto">
+        ${history.map(a => {
+          const rec = recommendationFor(a.percentage || 0);
+          const cachedLogo = _logoCache[a.ticker] || a.logo_url;
+          const logoHTML = cachedLogo
+            ? `<img src="${cachedLogo}" alt="${esc(a.ticker)}" class="logo" onerror="this.outerHTML='<div class=\\'logo-fb\\' style=\\'background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)\\'>${esc(a.ticker.slice(0,3))}</div>'">`
+            : `<div class="logo-fb" style="background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)">${esc(a.ticker.slice(0,3))}</div>`;
+          const dateStr = new Date(a.created_at).toLocaleDateString(ar?'ar-SA-u-ca-gregory':'en-US',{year:'numeric',month:'short',day:'numeric'});
+          return `<div class="assess-hist-row" onclick="assessmentViewHistory('${a.id}')">
+            ${logoHTML}
+            <div class="info">
+              <div class="tic">${esc(a.ticker)}</div>
+              ${a.company_name ? `<div class="nm">${esc(a.company_name)}</div>` : ''}
+              <div class="dt">${dateStr}</div>
+            </div>
+            <span class="pill ${rec.key}">${a.total_score}/${a.max_score}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    ` : `<div style="text-align:center;padding:30px 16px;color:var(--muted2);font-size:12px;background:#000;border:1px solid var(--line);border-radius:12px">${ar?'لا توجد تقييمات سابقة. ابدأ بتقييمك الأول!':'No previous assessments. Start your first one!'}</div>`}
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${ar?'إغلاق':'Close'}</button>
+    </div>
+  `);
+}
+
+/* ── STAGE 1: Pick stock ── */
+function assessmentNewStart(){
+  assessState = { stage: 1, ticker:'', companyName:'', logo:'', criteria: getUserTemplate(), ratings: {}, notes: '' };
+  renderAssessmentStage1();
+}
+
+function renderAssessmentStage1(){
+  const ar = lang === 'ar';
+  modal(`
+    <h2>📊 ${ar?'تقييم جديد':'New Assessment'}</h2>
+    <div class="assess-step-h"><span class="dot"></span><span>${ar?'الخطوة ١ من ٣ · اختيار السهم':'Step 1 of 3 · Pick stock'}</span></div>
+    <div class="assess-stock-pick">
+      <div class="l">${ar?'رمز السهم':'Stock Ticker'}</div>
+      <input id="as_t" placeholder="AAPL" maxlength="8" autocomplete="off" autocapitalize="characters" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9.-]/g,'');assessLookup()">
+      <div class="h-name" id="as_name">${ar?'اكتب رمز السهم':'Type a ticker symbol'}</div>
+    </div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal();assessState=null">${ar?'إلغاء':'Cancel'}</button>
+      <button class="btn primary" id="as_next" disabled onclick="assessmentToStage2()">${ar?'متابعة ←':'Next →'}</button>
+    </div>
+  `);
+  setTimeout(()=>$("#as_t")?.focus(), 80);
+}
+
+let _assessLookupTimer = null;
+function assessLookup(){
+  const tic = $("#as_t").value.trim();
+  const nameEl = $("#as_name");
+  const nextBtn = $("#as_next");
+  clearTimeout(_assessLookupTimer);
+  if (!tic){
+    if (nameEl) nameEl.textContent = lang==='ar'?'اكتب رمز السهم':'Type a ticker symbol';
+    if (nextBtn) nextBtn.disabled = true;
+    return;
+  }
+  if (tic.length < 1){ return; }
+  _assessLookupTimer = setTimeout(async () => {
+    if (nameEl) nameEl.textContent = lang==='ar'?'يبحث...':'Looking up...';
+    try {
+      const r = await fetch(`${FINNHUB}/stock/profile2?symbol=${tic}&token=${FINNHUB_KEY}`);
+      const data = r.ok ? await r.json() : null;
+      if (data && data.name){
+        if (assessState){
+          assessState.ticker = tic;
+          assessState.companyName = data.name;
+          assessState.logo = data.logo || '';
+        }
+        if (nameEl) nameEl.innerHTML = `<b style="color:var(--accent)">${esc(data.name)}</b>${data.finnhubIndustry?` · <span style="color:var(--muted)">${esc(data.finnhubIndustry)}</span>`:''}`;
+        if (nextBtn) nextBtn.disabled = false;
+      } else {
+        if (assessState){ assessState.ticker = tic; assessState.companyName = tic; assessState.logo = ''; }
+        if (nameEl) nameEl.innerHTML = `<span style="color:var(--gold)">${lang==='ar'?'سهم غير معروف - يمكنك المتابعة':'Unknown ticker - you can still proceed'}</span>`;
+        if (nextBtn) nextBtn.disabled = false;
+      }
+    } catch(e){
+      if (assessState){ assessState.ticker = tic; assessState.companyName = tic; assessState.logo = ''; }
+      if (nextBtn) nextBtn.disabled = false;
+    }
+  }, 450);
+}
+
+/* ── STAGE 2: Customize criteria ── */
+function assessmentToStage2(){
+  if (!assessState) return;
+  renderAssessmentStage2();
+}
+
+function renderAssessmentStage2(){
+  const ar = lang === 'ar';
+  modal(`
+    <h2>📋 ${esc(assessState.ticker)}</h2>
+    <div class="assess-step-h"><span class="dot"></span><span>${ar?'الخطوة ٢ من ٣ · تخصيص المعايير':'Step 2 of 3 · Customize criteria'}</span></div>
+    <p class="sub" style="margin-bottom:10px">${ar?'اختر المعايير التي تهمك، عدّلها، أو أضف معايير خاصة بك':'Choose criteria you care about, edit them, or add your own'}</p>
+
+    <div class="assess-crit-list" id="as-crit-list">
+      ${assessState.criteria.map((cr, i) => `
+        <div class="assess-crit-row ${cr.included?'included':''}">
+          <div class="check ${cr.included?'on':''}" onclick="toggleCrit(${i})"></div>
+          <div class="txt" onclick="toggleCrit(${i})">${esc(cr.q)}</div>
+          <div class="actions">
+            <button class="act-btn" onclick="editCrit(${i})" title="${ar?'تعديل':'Edit'}">✎</button>
+            <button class="act-btn" onclick="deleteCrit(${i})" title="${ar?'حذف':'Delete'}">✕</button>
+          </div>
+        </div>
+      `).join('')}
+      <div class="assess-add-crit">
+        <input id="as_new_crit" placeholder="${ar?'أضف معيار جديد...':'Add new criterion...'}" maxlength="160">
+        <button onclick="addNewCrit()">+</button>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;font-size:11.5px;color:var(--muted);text-align:center">
+      ${ar?`<b style="color:var(--accent)">${assessState.criteria.filter(c=>c.included).length}</b> معيار محدد من <b>${assessState.criteria.length}</b>`:`<b style="color:var(--accent)">${assessState.criteria.filter(c=>c.included).length}</b> of <b>${assessState.criteria.length}</b> selected`}
+    </div>
+
+    <div class="m-actions">
+      <button class="btn" onclick="renderAssessmentStage1()">${ar?'← رجوع':'← Back'}</button>
+      <button class="btn" onclick="saveAndUseTemplate()" title="${ar?'حفظ كقالب شخصي':'Save as personal template'}">💾</button>
+      <button class="btn primary" onclick="assessmentToStage3()" ${assessState.criteria.filter(c=>c.included).length===0?'disabled':''}>${ar?'ابدأ التقييم ←':'Start Rating →'}</button>
+    </div>
+  `);
+}
+
+function toggleCrit(i){
+  if (!assessState) return;
+  assessState.criteria[i].included = !assessState.criteria[i].included;
+  renderAssessmentStage2();
+}
+
+function editCrit(i){
+  if (!assessState) return;
+  const ar = lang === 'ar';
+  const cur = assessState.criteria[i].q;
+  const updated = prompt(ar?'عدّل نص المعيار:':'Edit criterion text:', cur);
+  if (updated == null) return;
+  const trimmed = updated.trim();
+  if (!trimmed){ return; }
+  assessState.criteria[i].q = trimmed;
+  renderAssessmentStage2();
+}
+
+function deleteCrit(i){
+  if (!assessState) return;
+  assessState.criteria.splice(i, 1);
+  renderAssessmentStage2();
+}
+
+function addNewCrit(){
+  if (!assessState) return;
+  const input = $("#as_new_crit");
+  const val = input?.value.trim();
+  if (!val) return;
+  assessState.criteria.push({ id: 'custom_' + Date.now(), q: val, included: true });
+  renderAssessmentStage2();
+  setTimeout(()=>{ const i = $("#as_new_crit"); if (i) i.focus(); }, 50);
+}
+
+function saveAndUseTemplate(){
+  if (!assessState) return;
+  saveUserTemplate(assessState.criteria.map(c => ({ id: c.id, q: c.q, included: c.included })));
+  toast(lang==='ar'?'تم حفظ القالب':'Template saved');
+}
+
+/* ── STAGE 3: Rate each criterion ── */
+function assessmentToStage3(){
+  if (!assessState) return;
+  assessState.criteria.forEach(c => {
+    if (c.included && assessState.ratings[c.id] == null) assessState.ratings[c.id] = 0;
+  });
+  renderAssessmentStage3();
+}
+
+function renderAssessmentStage3(){
+  const ar = lang === 'ar';
+  const included = assessState.criteria.filter(c => c.included);
+  const totalSoFar = included.reduce((sum, c) => sum + (assessState.ratings[c.id] || 0), 0);
+  const maxScore = included.length * 5;
+  const pct = maxScore > 0 ? (totalSoFar / maxScore) * 100 : 0;
+  const allRated = included.every(c => assessState.ratings[c.id] > 0);
+
+  modal(`
+    <h2>⭐ ${esc(assessState.ticker)}</h2>
+    <div class="assess-step-h"><span class="dot"></span><span>${ar?'الخطوة ٣ من ٣ · التقييم':'Step 3 of 3 · Rate'}</span></div>
+
+    <div class="rate-running">
+      <div class="r-bar"><div class="r-fill" style="width:${pct}%"></div></div>
+      <div class="r-score">${totalSoFar}/${maxScore}</div>
+    </div>
+
+    <div style="background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:60vh;overflow-y:auto">
+      ${included.map((cr, idx) => {
+        const r = assessState.ratings[cr.id] || 0;
+        return `<div class="rate-q">
+          <div class="q-txt"><span style="color:var(--muted);font-weight:600;font-size:11.5px">${idx+1}/${included.length} ·</span> ${esc(cr.q)}</div>
+          <div class="q-dots">
+            ${[1,2,3,4,5].map(n => `<button class="dot ${r===n?'on':''}" data-r="${n}" onclick="setRating('${cr.id}',${n})">${n}</button>`).join('')}
+          </div>
+          <div class="scale-lbl">
+            <span>${ar?'ضعيف':'Weak'}</span>
+            <span>${ar?'ممتاز':'Strong'}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="m-actions">
+      <button class="btn" onclick="renderAssessmentStage2()">${ar?'← رجوع':'← Back'}</button>
+      <button class="btn primary" onclick="assessmentToResult()" ${allRated?'':'disabled'}>${allRated?(ar?'إنهاء التقييم ←':'Finish ←'):(ar?'قيّم الكل أولاً':'Rate all first')}</button>
+    </div>
+  `);
+}
+
+function setRating(critId, n){
+  if (!assessState) return;
+  assessState.ratings[critId] = n;
+  renderAssessmentStage3();
+}
+
+/* ── STAGE 4: Result ── */
+function assessmentToResult(){
+  if (!assessState) return;
+  const included = assessState.criteria.filter(c => c.included);
+  const totalScore = included.reduce((s, c) => s + (assessState.ratings[c.id] || 0), 0);
+  const maxScore = included.length * 5;
+  const pct = maxScore > 0 ? (totalScore / maxScore) * 100 : 0;
+  const rec = recommendationFor(pct);
+  assessState.totalScore = totalScore;
+  assessState.maxScore = maxScore;
+  assessState.percentage = pct;
+  assessState.recommendation = rec.key;
+  assessState.stage = 4;
+  renderAssessmentResult();
+}
+
+function renderAssessmentResult(){
+  const ar = lang === 'ar';
+  const rec = recommendationFor(assessState.percentage);
+  const included = assessState.criteria.filter(c => c.included);
+  const strengths = included.filter(c => (assessState.ratings[c.id]||0) >= 4);
+  const weak = included.filter(c => (assessState.ratings[c.id]||0) <= 2 && (assessState.ratings[c.id]||0) > 0);
+  const neutral = included.filter(c => (assessState.ratings[c.id]||0) === 3);
+
+  modal(`
+    <div id="assess-result-content">
+    <div class="result-hero ${rec.key}">
+      <div class="ticker-line">${esc(assessState.ticker)}${assessState.companyName && assessState.companyName !== assessState.ticker ? `<span style="color:var(--muted);font-weight:600;font-size:13px"> · ${esc(assessState.companyName)}</span>` : ''}</div>
+      <div class="rec-emoji">${rec.emoji}</div>
+      <div class="rec-label">${rec[lang]}</div>
+      <div class="score-big">${assessState.totalScore}<span class="score-frac"> / ${assessState.maxScore}</span></div>
+      <div class="pct">${fmt(assessState.percentage,1)}%</div>
+    </div>
+
+    ${strengths.length ? `
+      <div class="result-section strengths">
+        <div class="head">💪 ${ar?'نقاط القوة':'Strengths'} (${strengths.length})</div>
+        ${strengths.map(c => `<div class="item"><span class="num">${assessState.ratings[c.id]}</span><span>${esc(c.q)}</span></div>`).join('')}
+      </div>
+    ` : ''}
+
+    ${weak.length ? `
+      <div class="result-section weak">
+        <div class="head">⚠️ ${ar?'التحديات':'Challenges'} (${weak.length})</div>
+        ${weak.map(c => `<div class="item"><span class="num">${assessState.ratings[c.id]}</span><span>${esc(c.q)}</span></div>`).join('')}
+      </div>
+    ` : ''}
+
+    ${neutral.length ? `
+      <div class="result-section neutral">
+        <div class="head">⚖️ ${ar?'محايد':'Neutral'} (${neutral.length})</div>
+        ${neutral.map(c => `<div class="item"><span class="num">${assessState.ratings[c.id]}</span><span>${esc(c.q)}</span></div>`).join('')}
+      </div>
+    ` : ''}
+    </div>
+
+    <textarea class="notes-textarea" id="as_final_notes" placeholder="${ar?'ملاحظاتك العامة عن هذا التقييم...':'Your general notes about this assessment...'}" style="margin-top:12px">${esc(assessState.notes||'')}</textarea>
+
+    <div class="m-actions">
+      <button class="btn" onclick="renderAssessmentStage3()">${ar?'← تعديل':'← Edit'}</button>
+      <button class="png-btn" onclick="exportAssessmentPNG()">📥 ${ar?'صورة':'PNG'}</button>
+      <button class="btn primary" onclick="saveAssessment()">${ar?'✓ حفظ':'✓ Save'}</button>
+    </div>
+  `);
+}
+
+/* ── Save assessment to cloud ── */
+async function saveAssessment(){
+  if (!assessState || !currentUser) return;
+  const notesEl = $("#as_final_notes");
+  if (notesEl) assessState.notes = notesEl.value.trim();
+  const criteriaSnapshot = assessState.criteria
+    .filter(c => c.included)
+    .map(c => ({ id: c.id, q: c.q, rating: assessState.ratings[c.id] || 0 }));
+  try {
+    const { error } = await sb.from('stock_assessments').insert({
+      user_id: currentUser.id,
+      ticker: assessState.ticker,
+      company_name: assessState.companyName || null,
+      logo_url: assessState.logo || null,
+      criteria: criteriaSnapshot,
+      total_score: assessState.totalScore,
+      max_score: assessState.maxScore,
+      percentage: assessState.percentage,
+      recommendation: assessState.recommendation,
+      notes: assessState.notes || null,
+    });
+    if (error) throw error;
+    toast(lang==='ar'?'تم حفظ التقييم':'Assessment saved');
+    assessState = null;
+    openChecklistTool();
+  } catch(e){
+    toast((lang==='ar'?'خطأ: ':'Error: ') + (e.message || ''));
+  }
+}
+
+/* ── View saved assessment ── */
+async function assessmentViewHistory(id){
+  const ar = lang === 'ar';
+  try {
+    const { data } = await sb.from('stock_assessments').select('*').eq('id', id).single();
+    if (!data) return;
+    const rec = recommendationFor(data.percentage || 0);
+    const criteria = data.criteria || [];
+    const strengths = criteria.filter(c => c.rating >= 4);
+    const weak = criteria.filter(c => c.rating <= 2 && c.rating > 0);
+    const neutral = criteria.filter(c => c.rating === 3);
+    const dateStr = new Date(data.created_at).toLocaleDateString(ar?'ar-SA-u-ca-gregory':'en-US',{year:'numeric',month:'long',day:'numeric'});
+    // Set assessState for re-export
+    assessState = {
+      stage: 4, ticker: data.ticker, companyName: data.company_name,
+      logo: data.logo_url || '',
+      totalScore: data.total_score, maxScore: data.max_score,
+      percentage: data.percentage, recommendation: data.recommendation,
+      notes: data.notes,
+      criteria: criteria.map(c => ({ id: c.id, q: c.q, included: true })),
+      ratings: Object.fromEntries(criteria.map(c => [c.id, c.rating])),
+    };
+    modal(`
+      <div id="assess-result-content">
+      <div class="result-hero ${rec.key}">
+        <div class="ticker-line">${esc(data.ticker)}${data.company_name && data.company_name !== data.ticker ? `<span style="color:var(--muted);font-weight:600;font-size:13px"> · ${esc(data.company_name)}</span>` : ''}</div>
+        <div class="rec-emoji">${rec.emoji}</div>
+        <div class="rec-label">${rec[lang]}</div>
+        <div class="score-big">${data.total_score}<span class="score-frac"> / ${data.max_score}</span></div>
+        <div class="pct">${fmt(data.percentage||0,1)}% · ${dateStr}</div>
+      </div>
+      ${strengths.length ? `<div class="result-section strengths"><div class="head">💪 ${ar?'نقاط القوة':'Strengths'} (${strengths.length})</div>${strengths.map(c => `<div class="item"><span class="num">${c.rating}</span><span>${esc(c.q)}</span></div>`).join('')}</div>` : ''}
+      ${weak.length ? `<div class="result-section weak"><div class="head">⚠️ ${ar?'التحديات':'Challenges'} (${weak.length})</div>${weak.map(c => `<div class="item"><span class="num">${c.rating}</span><span>${esc(c.q)}</span></div>`).join('')}</div>` : ''}
+      ${neutral.length ? `<div class="result-section neutral"><div class="head">⚖️ ${ar?'محايد':'Neutral'} (${neutral.length})</div>${neutral.map(c => `<div class="item"><span class="num">${c.rating}</span><span>${esc(c.q)}</span></div>`).join('')}</div>` : ''}
+      ${data.notes ? `<div style="margin-top:10px;padding:11px 13px;background:#000;border:1px solid var(--line);border-radius:10px;font-size:12.5px;color:var(--txt2);line-height:1.55;white-space:pre-wrap">${esc(data.notes)}</div>` : ''}
+      </div>
+      <div class="m-actions">
+        <button class="btn danger" onclick="assessmentDelete('${id}')">${t().delete}</button>
+        <button class="png-btn" onclick="exportAssessmentPNG()">📥 ${ar?'صورة':'PNG'}</button>
+        <button class="btn primary" onclick="openChecklistTool()">${ar?'إغلاق':'Close'}</button>
+      </div>
+    `);
+  } catch(e){
+    toast(lang==='ar'?'خطأ في التحميل':'Failed to load');
+  }
+}
+
+async function assessmentDelete(id){
+  if (!confirm(lang==='ar'?'حذف هذا التقييم نهائياً؟':'Delete this assessment permanently?')) return;
+  await sb.from('stock_assessments').delete().eq('id', id);
+  assessState = null;
+  openChecklistTool();
+}
+
+/* ── Export Assessment PNG ── */
+async function exportAssessmentPNG(){
+  if (!assessState) return;
+  const ar = lang === 'ar';
+  const rec = recommendationFor(assessState.percentage);
+  const included = assessState.criteria.filter(c => c.included);
+  const strengths = included.filter(c => (assessState.ratings[c.id]||0) >= 4);
+  const weak = included.filter(c => (assessState.ratings[c.id]||0) <= 2 && (assessState.ratings[c.id]||0) > 0);
+  const neutral = included.filter(c => (assessState.ratings[c.id]||0) === 3);
+
+  const recBg = rec.key === 'strong' ? 'linear-gradient(180deg,#0E2517,#000)'
+              : rec.key === 'caution' ? 'linear-gradient(180deg,#1F1A0E,#000)'
+              : 'linear-gradient(180deg,#2A0E10,#000)';
+  const recCol = rec.key === 'strong' ? '#5FE9B0' : rec.key === 'caution' ? '#E8B96A' : '#F26B6E';
+  const recBd = rec.key === 'strong' ? '#1E5C44' : rec.key === 'caution' ? '#5A4818' : '#5C1F22';
+
+  const node = document.createElement('div');
+  node.className = 'png-capture';
+  node.style.position = 'fixed';
+  node.style.left = '-9999px';
+  node.style.top = '0';
+  node.innerHTML = `
+    <h2>📊 ${ar?'تقييم سهم':'Stock Assessment'}</h2>
+    <div class="pcap-sub">${esc(assessState.ticker)}${assessState.companyName && assessState.companyName !== assessState.ticker?' · '+esc(assessState.companyName):''} · ${new Date().toLocaleDateString()}</div>
+
+    <div style="background:${recBg};border:1px solid ${recBd};border-radius:14px;padding:20px;text-align:center;margin-bottom:14px">
+      <div style="font-size:32px;margin-bottom:4px">${rec.emoji}</div>
+      <div style="font-size:14px;font-weight:800;color:${recCol};letter-spacing:.04em;margin-bottom:10px">${rec[lang]}</div>
+      <div style="font-size:38px;font-weight:900;color:${recCol};letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums">${assessState.totalScore}<span style="font-size:16px;color:#555">/${assessState.maxScore}</span></div>
+      <div style="font-size:13px;color:#888;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums">${fmt(assessState.percentage,1)}%</div>
+    </div>
+
+    ${strengths.length ? `
+      <div style="margin-bottom:12px;background:#000;border:1px solid #1A1A1A;border-radius:11px;overflow:hidden">
+        <div style="padding:10px 13px;font-size:10.5px;font-weight:800;color:#5FE9B0;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid #1A1A1A">💪 ${ar?'نقاط القوة':'Strengths'} (${strengths.length})</div>
+        ${strengths.map(c => `<div style="padding:9px 13px;font-size:12.5px;color:#D4D4D4;line-height:1.5;border-bottom:1px solid #141414;display:flex;gap:8px"><span style="font-weight:800;color:#5FE9B0;background:#0E2517;border:1px solid #1E5C44;padding:1px 6px;border-radius:4px;font-size:11px">${c.rating!=null?assessState.ratings[c.id]:''}</span><span>${esc(c.q)}</span></div>`).join('')}
+      </div>
+    ` : ''}
+
+    ${weak.length ? `
+      <div style="margin-bottom:12px;background:#000;border:1px solid #1A1A1A;border-radius:11px;overflow:hidden">
+        <div style="padding:10px 13px;font-size:10.5px;font-weight:800;color:#F26B6E;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid #1A1A1A">⚠️ ${ar?'التحديات':'Challenges'} (${weak.length})</div>
+        ${weak.map(c => `<div style="padding:9px 13px;font-size:12.5px;color:#D4D4D4;line-height:1.5;border-bottom:1px solid #141414;display:flex;gap:8px"><span style="font-weight:800;color:#F26B6E;background:#2A0E10;border:1px solid #5C1F22;padding:1px 6px;border-radius:4px;font-size:11px">${assessState.ratings[c.id]}</span><span>${esc(c.q)}</span></div>`).join('')}
+      </div>
+    ` : ''}
+
+    ${assessState.notes ? `<div style="background:#000;border:1px solid #1A1A1A;border-radius:11px;padding:11px 13px;font-size:11.5px;color:#A3A3A3;line-height:1.55;white-space:pre-wrap;margin-bottom:6px">${esc(assessState.notes)}</div>` : ''}
+
+    <div class="pcap-brand">
+      <div class="pcap-logo"><span class="c"></span><span>${ar?'سيركل':'Circle'}</span></div>
+      <span>${ar?'تقييم':'Assessment'} · ${new Date().toLocaleDateString()}</span>
+    </div>
+  `;
+  document.body.appendChild(node);
+  await captureToPNG(node, `assessment-${assessState.ticker}-${new Date().toISOString().slice(0,10)}.png`);
+  node.remove();
 }
 
 async function runDiagnostic(){
