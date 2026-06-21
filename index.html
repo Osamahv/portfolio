@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Circle">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href='data:application/json,{"name":"Circle - سيركل","short_name":"Circle","description":"Your smart portfolio","start_url":"/","display":"standalone","background_color":"%230A0A0A","theme_color":"%230A0A0A","orientation":"portrait","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22><rect width=%22192%22 height=%22192%22 rx=%2240%22 fill=%22%230A0A0A%22/><circle cx=%2296%22 cy=%2296%22 r=%2260%22 fill=%22none%22 stroke=%22%235FE9B0%22 stroke-width=%2210%22/><circle cx=%2296%22 cy=%2296%22 r=%2230%22 fill=%22%235FE9B0%22/></svg>","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%230A0A0A%22/><circle cx=%22256%22 cy=%22256%22 r=%22160%22 fill=%22none%22 stroke=%22%235FE9B0%22 stroke-width=%2226%22/><circle cx=%22256%22 cy=%22256%22 r=%2280%22 fill=%22%235FE9B0%22/></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="manifest" href='data:application/json,{"name":"Circle","short_name":"Circle","description":"Smart portfolio tracker","start_url":"/","display":"standalone","background_color":"%230A0A0A","theme_color":"%230A0A0A","orientation":"portrait","icons":[{"src":"data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 192 192%22><rect width=%22192%22 height=%22192%22 rx=%2240%22 fill=%22%230A0A0A%22/><circle cx=%2296%22 cy=%2296%22 r=%2260%22 fill=%22none%22 stroke=%22%235FE9B0%22 stroke-width=%2210%22/><circle cx=%2296%22 cy=%2296%22 r=%2230%22 fill=%22%235FE9B0%22/></svg>","sizes":"192x192","type":"image/svg+xml"}]}'>
 <link rel="apple-touch-icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%230A0A0A"/><circle cx="96" cy="96" r="60" fill="none" stroke="%235FE9B0" stroke-width="10"/><circle cx="96" cy="96" r="30" fill="%235FE9B0"/></svg>'>
 <link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="11" fill="none" stroke="%235FE9B0" stroke-width="2.5"/><circle cx="16" cy="16" r="5.5" fill="%235FE9B0"/></svg>'>
 <title>Circle | سيركل</title>
@@ -73,12 +73,64 @@ input,select,textarea{font-family:inherit;color:inherit}
 
 /* bottom navigation tabs */
 .tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(8,8,8,.92);backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);border-top:1px solid var(--line);z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom));margin:0;justify-content:space-around;gap:0}
-.tab{flex:1;padding:8px 4px;border-radius:10px;font-size:9.5px;font-weight:600;color:var(--muted);background:transparent;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:3px;letter-spacing:.02em;min-height:54px;justify-content:center;line-height:1}
-.tab .tab-ic{font-size:18px;line-height:1;transition:transform .15s}
+.tab{flex:1;padding:8px 4px;border-radius:10px;font-size:9.5px;font-weight:600;color:var(--muted);background:transparent;transition:.15s;display:flex;flex-direction:column;align-items:center;gap:4px;letter-spacing:.02em;min-height:54px;justify-content:center;line-height:1;border:none;cursor:pointer;font-family:inherit}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:.15s}
 .tab:hover{color:var(--txt2)}
 .tab.on{color:var(--accent)}
-.tab.on .tab-ic{transform:scale(1.1)}
+.tab.on svg{stroke:var(--accent)}
 body{padding-bottom:80px !important}
+
+/* New cards view (simplified - just ticker + %) */
+.cards-grid-v2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;padding:0 4px}
+@media (max-width:420px){.cards-grid-v2{grid-template-columns:repeat(2,1fr)}}
+.card-v2{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:18px 12px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:110px}
+.card-v2.up{background:linear-gradient(135deg,#0e2017,#0a1812);border-color:var(--accent-d)}
+.card-v2.down{background:linear-gradient(135deg,#1f0e10,#180a0a);border-color:var(--loss-d)}
+.card-v2:active{transform:scale(.96)}
+.card-v2 .logo-img{width:36px;height:36px;border-radius:8px;background:#000;border:1px solid var(--line2);object-fit:contain;padding:3px;flex-shrink:0;margin-bottom:2px}
+.card-v2 .logo-fallback{width:36px;height:36px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:11px;border:1px solid;flex-shrink:0;margin-bottom:2px}
+.card-v2 .tic{font-size:20px;font-weight:800;letter-spacing:-.3px;line-height:1}
+.card-v2.up .tic{color:var(--accent)}
+.card-v2.down .tic{color:var(--loss)}
+.card-v2 .pct{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.card-v2.up .pct{color:var(--accent)}
+.card-v2.down .pct{color:var(--loss)}
+
+/* Company logo (small for lists) */
+.co-logo{width:34px;height:34px;border-radius:8px;background:#FFF;padding:3px;object-fit:contain;flex-shrink:0;border:1px solid var(--line)}
+
+/* Earnings timeline (horizontal) */
+.earn-tl{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.earn-tl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.earn-tl-head .t{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+.earn-tl-head .yr{font-size:12px;font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums}
+.earn-tl-bar{position:relative;height:38px;margin:0 16px 14px}
+.earn-tl-line{position:absolute;top:50%;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--line),var(--line2),var(--line));transform:translateY(-50%)}
+.earn-tl-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--line2);transition:.15s;cursor:pointer}
+.earn-tl-dot.past{border-color:var(--accent);background:var(--accent)}
+.earn-tl-dot.future{border-color:var(--gold);background:var(--bg);box-shadow:0 0 8px rgba(232,185,106,.4)}
+.earn-tl-dot.next{border-color:var(--gold);background:var(--gold);box-shadow:0 0 16px var(--gold);animation:earnPulse 2s ease-in-out infinite}
+@keyframes earnPulse{0%,100%{box-shadow:0 0 10px var(--gold)}50%{box-shadow:0 0 20px var(--gold)}}
+.earn-tl-lbl{position:absolute;top:calc(50% + 12px);transform:translateX(-50%);font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.05em;white-space:nowrap}
+.earn-tl-lbl.next{color:var(--gold);font-weight:800}
+.earn-tl-q{position:absolute;top:calc(50% - 18px);transform:translateX(-50%);font-size:9px;color:var(--muted2);font-weight:700;letter-spacing:.05em}
+.earn-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:10px}
+.earn-q{background:#000;border:1px solid var(--line);border-radius:9px;padding:9px 11px}
+.earn-q .q-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.earn-q .q-h .q-n{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.05em}
+.earn-q .q-h .q-dt{font-size:10px;color:var(--muted2);font-variant-numeric:tabular-nums}
+.earn-q .row{display:flex;justify-content:space-between;font-size:11px;margin-top:2px;font-variant-numeric:tabular-nums}
+.earn-q .row .l{color:var(--muted)}
+.earn-q .row .v{font-weight:700}
+.earn-q .row .v.beat{color:var(--accent)}
+.earn-q .row .v.miss{color:var(--loss)}
+.earn-q .surprise{margin-top:6px;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:5px;display:inline-block;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.earn-q .surprise.beat{background:var(--accent-bg);color:var(--accent)}
+.earn-q .surprise.miss{background:var(--loss-bg);color:var(--loss)}
+
+/* Add stock button in top bar */
+.ico-add{background:var(--accent);color:#000;border-color:var(--accent);font-weight:900;font-size:18px}
+.ico-add:hover{background:#7AFAC2;border-color:#7AFAC2}
 
 /* "More" menu list */
 .more-list{background:#000;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
@@ -1294,6 +1346,7 @@ function render(){
         <span class="ar">▾</span>
       </button>
       <div class="top-actions">
+        <button class="ico ico-add" onclick="openAdd()" title="${lang==='ar'?'أضف سهم':'Add stock'}">+</button>
         <button class="ico ${settings.privacy?'on':''}" onclick="togglePrivacy()" title="${t().privacy_on}">${settings.privacy?'⊘':'👁'}</button>
         ${activeChallenge() ? `<button class="ico" onclick="openChallengePage()" title="${lang==='ar'?'تحدّي نشط':'Active challenge'}" style="color:#E8B96A;border-color:#5A4818">🏆</button>` : ''}
       </div>
@@ -1333,11 +1386,11 @@ function render(){
     </div>
 
     <div class="tabs">
-      <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')"><span class="tab-ic">🏠</span><span>${lang==='ar'?'الرئيسية':'Home'}</span></button>
-      <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')"><span class="tab-ic">⭐</span><span>${lang==='ar'?'متابعة':'Watch'}</span></button>
-      <button class="tab ${activeTab==='analysts'?'on':''}" onclick="setTab('analysts')"><span class="tab-ic">📈</span><span>${lang==='ar'?'المحللون':'Analysts'}</span></button>
-      <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')"><span class="tab-ic">📰</span><span>${lang==='ar'?'الأخبار':'News'}</span></button>
-      <button class="tab ${activeTab==='more'?'on':''}" onclick="setTab('more')"><span class="tab-ic">☰</span><span>${lang==='ar'?'المزيد':'More'}</span></button>
+      <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>${lang==='ar'?'الرئيسية':'Home'}</span></button>
+      <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 21.5 12 18 5.5 21.5 7 14.5 2 9.5 9 9 12 2"/></svg><span>${lang==='ar'?'متابعة':'Watch'}</span></button>
+      <button class="tab ${activeTab==='analysts'?'on':''}" onclick="setTab('analysts')"><svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg><span>${lang==='ar'?'المحللون':'Analysts'}</span></button>
+      <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')"><svg viewBox="0 0 24 24"><path d="M4 5h13a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z"/><path d="M19 8h2v9a2 2 0 0 1-2 2"/><line x1="8" y1="9" x2="15" y2="9"/><line x1="8" y1="13" x2="15" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg><span>${lang==='ar'?'الأخبار':'News'}</span></button>
+      <button class="tab ${activeTab==='more'?'on':''}" onclick="setTab('more')"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span>${lang==='ar'?'المزيد':'More'}</span></button>
     </div>
 
     <div id="tab-content"></div>
@@ -1550,7 +1603,34 @@ function mkText(parent, ns, text, attrs){
   parent.appendChild(e);
 }
 
-/* ════ cards view ════ */
+/* ════ cards view (simplified) ════ */
+const _logoCache = {};
+async function fetchLogo(ticker){
+  if (_logoCache[ticker] !== undefined) return _logoCache[ticker];
+  try {
+    const r = await fetch(`${FINNHUB}/stock/profile2?symbol=${ticker}&token=${FINNHUB_KEY}`);
+    if (r.ok){
+      const data = await r.json();
+      _logoCache[ticker] = data.logo || null;
+      return data.logo || null;
+    }
+  } catch(e){}
+  _logoCache[ticker] = null;
+  return null;
+}
+async function lazyLoadLogos(tickers){
+  for (const tic of tickers){
+    if (_logoCache[tic] === undefined){
+      const logo = await fetchLogo(tic);
+      if (logo){
+        document.querySelectorAll(`[data-logo-tic="${tic}"]`).forEach(el => {
+          el.outerHTML = `<img src="${logo}" alt="${tic}" class="logo-img" onerror="this.outerHTML='<div class=\\'logo-fallback\\' style=\\'background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)\\'>${tic.slice(0,3)}</div>'">`;
+        });
+      }
+    }
+  }
+}
+
 function renderCards(){
   const wrap = $("#viz-wrap"); if (!wrap) return;
   wrap.className = '';
@@ -1558,25 +1638,19 @@ function renderCards(){
   const data = hs.map(h => { const s = statsFor(h); return { h, s }; }).filter(d => d.s.mv > 0);
   if (!data.length) { wrap.innerHTML = ''; return; }
   data.sort((a,b) => b.s.mv - a.s.mv);
-  wrap.innerHTML = `<div class="cards-grid">${data.map(({h,s}) => {
-    const up = s.pl >= 0;
-    const col = up ? "var(--accent)" : "var(--loss)";
-    const bg = up ? "var(--accent-bg)" : "var(--loss-bg)";
-    const isOpt = h.type && h.type !== 'stock';
-    const optTag = h.type === 'call' ? `<span style="font-size:8px;font-weight:800;padding:1px 4px;border-radius:3px;background:#1F2E25;color:#5FE9B0;border:1px solid #1E5C44;margin-inline-start:4px">C</span>`
-                 : h.type === 'put'  ? `<span style="font-size:8px;font-weight:800;padding:1px 4px;border-radius:3px;background:#2A0E10;color:#F26B6E;border:1px solid #5C1F22;margin-inline-start:4px">P</span>` : '';
-    return `<div class="card-h" onclick="openDetail('${h.id}')">
-      <div class="top">
-        <div class="tic-bx" style="background:${bg};color:${col};border-color:${col}33">${esc(h.ticker.slice(0,4))}</div>
-        ${s.today != null ? `<div class="ch ${s.today>=0?'up':'down'}">${s.today>=0?'+':''}${fmt(s.todayPct,1)}%</div>` : ''}
-      </div>
-      <div class="nm">${esc(h.ticker)}${optTag}</div>
-      <div class="sub-l">${esc((h.name && h.name !== h.ticker) ? h.name : (isOpt?(lang==='ar'?'عقد خيار':'Option'):' '))}</div>
-      <div class="row-line"><span class="l">${lang==='ar'?'قيمة':'Value'}</span><span class="v">${maskMoney(fmtMoney(s.mv))}</span></div>
-      <div class="row-line"><span class="l">P&L</span><span class="v ${s.pl>=0?'pl-up':'pl-down'}">${settings.privacy?'••':((s.pl>=0?'+':'')+fmtMoney(Math.abs(s.pl)))}</span></div>
-      <div class="row-line"><span class="l">%</span><span class="v ${s.pl>=0?'pl-up':'pl-down'}">${settings.privacy?'••':((s.plPct>=0?'+':'')+fmt(s.plPct,1)+'%')}</span></div>
+  wrap.innerHTML = `<div class="cards-grid-v2">${data.map(({h,s}) => {
+    const up = s.plPct >= 0;
+    const cachedLogo = _logoCache[h.ticker];
+    const logoHTML = cachedLogo
+      ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="logo-img" onerror="this.style.display='none'">`
+      : `<div class="logo-fallback" data-logo-tic="${esc(h.ticker)}" style="background:${up?'var(--accent-bg)':'var(--loss-bg)'};color:${up?'var(--accent)':'var(--loss)'};border-color:${up?'var(--accent-d)':'var(--loss-d)'}">${esc(h.ticker.slice(0,3))}</div>`;
+    return `<div class="card-v2 ${up?'up':'down'}" onclick="openDetail('${h.id}')">
+      ${logoHTML}
+      <div class="tic">${esc(h.ticker)}</div>
+      <div class="pct">${settings.privacy?'••':(up?'+':'−')+fmt(Math.abs(s.plPct),0)+'%'}</div>
     </div>`;
   }).join('')}</div>`;
+  lazyLoadLogos(data.map(d => d.h.ticker));
 }
 
 /* ════ bar chart ════ */
@@ -2055,7 +2129,7 @@ function openDetail(id){
     `).join('')}</div>` : ''}
     <button class="add-btn" onclick="addDividend('${h.id}')">＋ ${lang==='ar'?'إضافة توزيع':'Add dividend'}</button>
 
-    ${renderChecklistHTML(h)}
+    <div id="earn-timeline-${h.id}"></div>
 
     <div class="coll" id="ins-coll" style="margin-top:14px">
       <div class="coll-head" onclick="document.getElementById('ins-coll').classList.toggle('open');loadInsiderTrades('${h.id}','${esc(h.ticker)}')">
@@ -2073,6 +2147,7 @@ function openDetail(id){
     </div>
   `);
   loadChart(h.ticker);
+  loadEarningsTimeline(h.id, h.ticker);
   loadStockEarnings(h.id, h.ticker);
 }
 
@@ -3850,12 +3925,51 @@ async function renderAnalysts(){
     </div>`;
     return;
   }
-  c.innerHTML = `<div class="an-loading"><span class="spin"></span> ${lang==='ar'?'يجلب التوصيات...':'Fetching analyst data...'}</div>`;
-  const results = await Promise.all(tickers.map(async tic => ({ tic, data: await fetchAnalystData(tic) })));
+  c.innerHTML = `<div class="an-loading"><span class="spin"></span> ${lang==='ar'?'يجلب التوصيات وأخبار المحللين...':'Fetching recommendations and analyst news...'}</div>`;
+  const [results, allNews] = await Promise.all([
+    Promise.all(tickers.map(async tic => ({ tic, data: await fetchAnalystData(tic) }))),
+    Promise.all(tickers.map(async tic => {
+      const news = await fetchAnalystUpgradeNews(tic);
+      return news.map(n => ({ ...n, ticker: tic }));
+    })),
+  ]);
+  // Merge and sort all upgrade/downgrade news
+  const newsFlat = allNews.flat().filter(n => n.gradeTime).sort((a,b) => (b.gradeTime||0) - (a.gradeTime||0)).slice(0, 25);
   c.innerHTML = `
     <div style="font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.5;text-align:center">
-      ${lang==='ar'?'توصيات المحللين وأهداف الأسعار من بنوك ومؤسسات وول ستريت':'Analyst recommendations and price targets from Wall Street firms'}
+      ${lang==='ar'?'توصيات وأخبار المحللين الرسمية لأسهمك':'Official analyst recommendations & news for your stocks'}
     </div>
+
+    ${newsFlat.length ? `
+      <h4 style="margin:0 0 8px;font-size:10.5px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.08em">📰 ${lang==='ar'?'آخر التحديثات الرسمية':'Latest Analyst Actions'}</h4>
+      <div class="an-list" style="margin-bottom:18px">
+        ${newsFlat.map(n => {
+          const date = n.gradeTime ? new Date(n.gradeTime*1000) : null;
+          const dateStr = date ? date.toISOString().slice(0,10) : '';
+          const action = (n.action || '').toLowerCase();
+          const isUp = action.includes('up') || action.includes('init') || action === 'main';
+          const isDown = action.includes('down');
+          const col = isUp ? 'var(--accent)' : isDown ? 'var(--loss)' : 'var(--gold)';
+          const bg = isUp ? 'var(--accent-bg)' : isDown ? 'var(--loss-bg)' : '#1F1A0E';
+          const bd = isUp ? 'var(--accent-d)' : isDown ? 'var(--loss-d)' : '#5A4818';
+          const actionLabel = isUp ? (lang==='ar'?'رفع توصية':'UPGRADE') 
+                            : isDown ? (lang==='ar'?'خفض توصية':'DOWNGRADE') 
+                            : (lang==='ar'?'تأكيد':'REITERATED');
+          const sentence = lang === 'ar'
+            ? `<b>${esc(n.company || '')}</b> ${isUp?'رفع':isDown?'خفض':'أكد'} توصية <b>${esc(n.ticker)}</b>${n.fromGrade?` من <b style="color:var(--muted)">${esc(n.fromGrade)}</b>`:''}${n.toGrade?` إلى <b style="color:${col}">${esc(n.toGrade)}</b>`:''}`
+            : `<b>${esc(n.company || '')}</b> ${isUp?'upgraded':isDown?'downgraded':'reiterated'} <b>${esc(n.ticker)}</b>${n.fromGrade?` from <b style="color:var(--muted)">${esc(n.fromGrade)}</b>`:''}${n.toGrade?` to <b style="color:${col}">${esc(n.toGrade)}</b>`:''}`;
+          return `<div style="padding:13px 14px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+              <span style="font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;background:${bg};color:${col};border:1px solid ${bd};letter-spacing:.05em">${actionLabel}</span>
+              <span style="font-size:10.5px;color:var(--muted2);font-variant-numeric:tabular-nums;margin-inline-start:auto">${dateStr}</span>
+            </div>
+            <div style="font-size:13px;line-height:1.55;color:var(--txt2)">${sentence}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    ` : ''}
+
+    <h4 style="margin:0 0 8px;font-size:10.5px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em">📊 ${lang==='ar'?'أهداف الأسعار والتوصيات':'Price Targets & Recommendations'}</h4>
     <div class="an-list">
       ${results.map(({tic, data}) => {
         const h = hs.find(x => x.ticker === tic);
@@ -3869,7 +3983,7 @@ async function renderAnalysts(){
           <div class="an-body">
             <div class="an-tic-line">
               <span class="tic">${esc(tic)}</span>
-              ${inPf?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);letter-spacing:.05em">'+(lang==='ar'?'في المحفظة':'IN PORTFOLIO')+'</span>':'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33;letter-spacing:.05em">'+(lang==='ar'?'متابعة':'WATCH')+'</span>'}
+              ${inPf?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);letter-spacing:.05em">'+(lang==='ar'?'محفظة':'PORTFOLIO')+'</span>':'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33;letter-spacing:.05em">'+(lang==='ar'?'متابعة':'WATCH')+'</span>'}
               ${price?`<span class="pr">$${fmt(price,2)}</span>`:''}
             </div>
             ${t && t.analysts ? `
@@ -3878,9 +3992,9 @@ async function renderAnalysts(){
                 <span>${lang==='ar'?'الأعلى':'High'}: <b class="h">$${fmt(t.high,0)}</b></span>
                 <span>${lang==='ar'?'متوسط':'Avg'}: <b>$${fmt(t.mean,2)}</b></span>
                 <span>${lang==='ar'?'الأدنى':'Low'}: <b class="l">$${fmt(t.low,0)}</b></span>
-                ${price && t.mean ? `<span style="margin-inline-start:auto">${lang==='ar'?'العائد المتوقع':'Upside'}: <b class="${t.mean>price?'h':'l'}">${(((t.mean-price)/price)*100>=0?'+':'')}${fmt((t.mean-price)/price*100,1)}%</b></span>`:''}
+                ${price && t.mean ? `<span style="margin-inline-start:auto">${lang==='ar'?'العائد':'Upside'}: <b class="${t.mean>price?'h':'l'}">${(((t.mean-price)/price)*100>=0?'+':'')}${fmt((t.mean-price)/price*100,1)}%</b></span>`:''}
               </div>
-            ` : '<div style="font-size:11px;color:var(--muted2);margin-top:4px">'+(lang==='ar'?'لا توجد بيانات أهداف للسعر':'No price target data available')+'</div>'}
+            ` : '<div style="font-size:11px;color:var(--muted2);margin-top:4px">'+(lang==='ar'?'لا توجد أهداف سعر متاحة':'No price target data')+'</div>'}
             ${rec ? `
               <div class="an-rec">
                 ${rec.strongBuy ? `<span class="pill strongbuy">${rec.strongBuy} ${lang==='ar'?'شراء قوي':'STRONG BUY'}</span>` : ''}
@@ -3889,13 +4003,12 @@ async function renderAnalysts(){
                 ${rec.sell ? `<span class="pill sell">${rec.sell} ${lang==='ar'?'بيع':'SELL'}</span>` : ''}
                 ${rec.strongSell ? `<span class="pill strongsell">${rec.strongSell} ${lang==='ar'?'بيع قوي':'STRONG SELL'}</span>` : ''}
               </div>
-              <div style="font-size:9.5px;color:var(--muted2);margin-top:4px;font-variant-numeric:tabular-nums">${esc(rec.period||'')}</div>
             ` : ''}
           </div>
         </div>`;
       }).join("")}
     </div>
-    <div style="text-align:center;color:var(--muted2);font-size:10px;margin-top:14px;letter-spacing:.04em">${lang==='ar'?'البيانات من Polygon.io و Finnhub':'Data via Polygon.io & Finnhub'}</div>
+    <div style="text-align:center;color:var(--muted2);font-size:10px;margin-top:14px;letter-spacing:.04em">${lang==='ar'?'البيانات من Finnhub & Polygon.io':'Data: Finnhub & Polygon.io'}</div>
   `;
 }
 
@@ -4277,6 +4390,14 @@ function renderMore(){
         </div>
         <div class="ar">›</div>
       </div>
+      <div class="more-row" onclick="openChecklistTool()">
+        <div class="ic gr">📋</div>
+        <div class="body">
+          <div class="nm">${ar?'قائمة فحص الأسهم':'Stock Research Checklist'}</div>
+          <div class="sub">${ar?'١٨ معيار لتقييم أي سهم قبل الشراء':'18-criteria tool to assess any stock'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
     </div>
 
     <div class="more-list">
@@ -4304,14 +4425,6 @@ function renderMore(){
         </div>
         <div class="ar">›</div>
       </div>
-      <div class="more-row" onclick="openBackup()">
-        <div class="ic">💾</div>
-        <div class="body">
-          <div class="nm">${ar?'النسخ الاحتياطي':'Backup'}</div>
-          <div class="sub">${ar?'تصدير واستيراد بياناتك':'Export and import your data'}</div>
-        </div>
-        <div class="ar">›</div>
-      </div>
     </div>
 
     <div class="more-list">
@@ -4320,6 +4433,14 @@ function renderMore(){
         <div class="body">
           <div class="nm">${ar?'الإعدادات':'Settings'}</div>
           <div class="sub">${ar?'الملف الشخصي واللغة':'Profile and language'}</div>
+        </div>
+        <div class="ar">›</div>
+      </div>
+      <div class="more-row" onclick="openContactUs()">
+        <div class="ic gr">✉</div>
+        <div class="body">
+          <div class="nm">${ar?'تواصل معنا':'Contact Us'}</div>
+          <div class="sub">${ar?'شكاوي · اقتراحات · تحسينات':'Complaints · Suggestions · Improvements'}</div>
         </div>
         <div class="ar">›</div>
       </div>
@@ -4474,6 +4595,209 @@ function renderChecklistHTML(h){
       </div>
     </div>
   `;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v11 BLOCK: Earnings timeline, Analyst news in tab, 
+   Checklist as standalone tool, Contact us
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Earnings Timeline ── */
+const earnCache = {};
+async function loadEarningsTimeline(holdId, ticker){
+  const wrap = document.getElementById(`earn-timeline-${holdId}`);
+  if (!wrap) return;
+  const cached = earnCache[ticker];
+  let data;
+  if (cached && Date.now() - cached.fetched < 21600000) {
+    data = cached.data;
+  } else {
+    try {
+      const fromDate = new Date(Date.now() - 365*86400000).toISOString().slice(0,10);
+      const toDate = new Date(Date.now() + 180*86400000).toISOString().slice(0,10);
+      const r = await fetch(`${FINNHUB}/calendar/earnings?from=${fromDate}&to=${toDate}&symbol=${ticker}&token=${FINNHUB_KEY}`);
+      if (!r.ok) throw new Error('fetch failed');
+      data = await r.json();
+      earnCache[ticker] = { data, fetched: Date.now() };
+    } catch(e){
+      return;
+    }
+  }
+  const events = (data?.earningsCalendar || []).sort((a,b) => new Date(a.date) - new Date(b.date));
+  if (!events.length) return;
+  const now = Date.now();
+  const ar = lang === 'ar';
+  // determine year boundaries (1 year window centered around now)
+  const startDate = new Date(now - 365*86400000);
+  const endDate = new Date(now + 365*86400000);
+  const totalRange = endDate - startDate;
+  // find "next" earnings (first future event)
+  const nextEvent = events.find(e => new Date(e.date) > new Date());
+  // last 4 past events for summary
+  const pastEvents = events.filter(e => new Date(e.date) <= new Date()).slice(-4);
+  // year for header
+  const yr = new Date().getFullYear();
+  wrap.innerHTML = `
+    <div class="earn-tl">
+      <div class="earn-tl-head">
+        <span class="t">📅 ${ar?'مواعيد إعلانات الأرباح':'Earnings Schedule'}</span>
+        <span class="yr">${yr-1} — ${yr+1}</span>
+      </div>
+      <div class="earn-tl-bar">
+        <div class="earn-tl-line"></div>
+        ${events.map(ev => {
+          const evDate = new Date(ev.date);
+          const isPast = evDate <= new Date();
+          const isNext = nextEvent && ev.date === nextEvent.date;
+          const pos = ((evDate - startDate) / totalRange) * 100;
+          if (pos < 0 || pos > 100) return '';
+          const q = ev.quarter ? `Q${ev.quarter}` : '';
+          const cls = isNext ? 'next' : isPast ? 'past' : 'future';
+          const lblCls = isNext ? 'next' : '';
+          return `
+            <div class="earn-tl-q" style="${ar?'right':'left'}:${pos}%">${q}</div>
+            <div class="earn-tl-dot ${cls}" style="${ar?'right':'left'}:${pos}%" title="${ev.date}"></div>
+            <div class="earn-tl-lbl ${lblCls}" style="${ar?'right':'left'}:${pos}%">${ev.date.slice(5)}</div>
+          `;
+        }).join('')}
+      </div>
+      ${pastEvents.length ? `
+      <div style="margin-top:20px;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em">${ar?'آخر ٤ إعلانات':'Last 4 announcements'}</div>
+      <div class="earn-summary">
+        ${pastEvents.map(ev => {
+          const beatEPS = ev.epsActual != null && ev.epsEstimate != null && ev.epsActual >= ev.epsEstimate;
+          const beatRev = ev.revenueActual != null && ev.revenueEstimate != null && ev.revenueActual >= ev.revenueEstimate;
+          const surprise = ev.epsActual != null && ev.epsEstimate != null && ev.epsEstimate !== 0 
+            ? ((ev.epsActual - ev.epsEstimate) / Math.abs(ev.epsEstimate)) * 100 
+            : null;
+          return `<div class="earn-q">
+            <div class="q-h">
+              <span class="q-n">Q${ev.quarter||''} ${ev.year||''}</span>
+              <span class="q-dt">${ev.date}</span>
+            </div>
+            ${ev.epsActual != null ? `<div class="row">
+              <span class="l">EPS</span>
+              <span class="v ${beatEPS?'beat':'miss'}">$${fmt(ev.epsActual,2)}${ev.epsEstimate!=null?` <small style="color:var(--muted2);font-weight:500">(${ar?'متوقع':'est'} $${fmt(ev.epsEstimate,2)})</small>`:''}</span>
+            </div>` : ''}
+            ${ev.revenueActual != null ? `<div class="row">
+              <span class="l">${ar?'إيرادات':'Rev'}</span>
+              <span class="v ${beatRev?'beat':'miss'}">$${fmt0((ev.revenueActual||0)/1e9)}B</span>
+            </div>` : ''}
+            ${surprise != null ? `<span class="surprise ${surprise>=0?'beat':'miss'}">${surprise>=0?'✓ '+(ar?'تجاوز':'BEAT'):'✗ '+(ar?'دون':'MISS')} ${surprise>=0?'+':''}${fmt(surprise,1)}%</span>`:''}
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+    </div>
+  `;
+}
+
+/* ── Analyst Recommendations Inside Analysts Tab (Price target news from Finnhub) ── */
+async function fetchAnalystUpgradeNews(ticker){
+  try {
+    const r = await fetch(`${FINNHUB}/stock/upgrade-downgrade?symbol=${ticker}&token=${FINNHUB_KEY}`);
+    if (!r.ok) return [];
+    const data = await r.json();
+    return (data || []).slice(0, 5);
+  } catch(e){ return []; }
+}
+
+/* ── Checklist as standalone tool in More menu ── */
+function openChecklistTool(){
+  const hs = activeHoldings();
+  if (!hs.length){
+    modal(`
+      <h2>📋 ${lang==='ar'?'قائمة فحص السهم':'Stock Research Checklist'}</h2>
+      <p class="sub">${lang==='ar'?'لا توجد أسهم في محفظتك بعد. أضف سهماً أولاً لتقييمه.':'No stocks in your portfolio yet. Add one to assess.'}</p>
+      <div class="m-actions">
+        <button class="btn primary" style="width:100%" onclick="closeModal()">${t().close}</button>
+      </div>
+    `);
+    return;
+  }
+  modal(`
+    <h2>📋 ${lang==='ar'?'قائمة فحص السهم':'Stock Research Checklist'}</h2>
+    <p class="sub">${lang==='ar'?'أداة ١٨ معيار لتقييم أي سهم. اختر سهم لبدء الفحص:':'18-criteria tool to assess any stock. Pick one to start:'}</p>
+    <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:340px;overflow-y:auto;margin-bottom:10px">
+      ${hs.map(h => {
+        const score = (h.checklist?.items || []).length;
+        const col = score >= 12 ? 'var(--accent)' : score >= 6 ? 'var(--gold)' : 'var(--muted)';
+        return `<div onclick="closeModal();openChecklistFor('${h.id}')" style="padding:13px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s" onmouseover="this.style.background='var(--surf)'" onmouseout="this.style.background='transparent'">
+          <div style="width:34px;height:34px;border-radius:8px;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d);display:grid;place-items:center;font-weight:800;font-size:11.5px;flex-shrink:0">${esc(h.ticker.slice(0,4))}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:700;font-size:13px">${esc(h.ticker)}</div>
+            <div style="font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc((h.name && h.name !== h.ticker) ? h.name : '')}</div>
+          </div>
+          <span style="font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:6px;color:${col};background:${score>=12?'var(--accent-bg)':score>=6?'#1F1A0E':'var(--surf)'};border:1px solid ${score>=12?'var(--accent-d)':score>=6?'#5A4818':'var(--line)'};font-variant-numeric:tabular-nums">${score}/18</span>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="m-actions">
+      <button class="btn" onclick="closeModal()">${t().close}</button>
+    </div>
+  `);
+}
+function openChecklistFor(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const checked = (h.checklist?.items || []);
+  const n = checked.length;
+  modal(`
+    <h2 style="margin-bottom:6px">📋 ${esc(h.ticker)}</h2>
+    <p class="sub">${esc(h.name && h.name!==h.ticker ? h.name : (lang==='ar'?'قائمة فحص ١٨ معيار':'18-criteria research checklist'))}</p>
+    <div style="background:linear-gradient(180deg,#0F0F0F,#0A0A0A);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:center;margin-bottom:12px">
+      <div style="font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">${lang==='ar'?'النتيجة':'Score'}</div>
+      <div id="chkt-score" style="font-size:30px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.5px"><span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:18px;font-weight:700"> / 18</span></div>
+    </div>
+    <div style="background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:380px;overflow-y:auto;margin-bottom:10px">
+      ${CHECKLIST.map(cat => `
+        <div class="chk-cat"><div class="cat-t">${esc(cat.cat[lang])}</div></div>
+        ${cat.items.map(it => `
+          <div class="chk-item ${checked.includes(it.id)?'on':''}" id="chki_${h.id}_${it.id}" onclick="toggleChkItemTool('${h.id}','${it.id}')">
+            <div class="box"></div>
+            <div class="body">
+              <div class="nm">${esc(it[lang])}</div>
+              <div class="ds">${esc(it.d[lang])}</div>
+            </div>
+          </div>
+        `).join('')}
+      `).join('')}
+    </div>
+    <textarea class="notes-textarea" id="chkt-notes-${h.id}" placeholder="${lang==='ar'?'ملاحظات الفحص...':'Checklist notes...'}" onblur="saveChecklistNotes('${h.id}')" style="margin-bottom:10px">${esc(h.checklist?.notes||'')}</textarea>
+    <div class="m-actions">
+      <button class="btn" onclick="openChecklistTool()">${lang==='ar'?'← رجوع':'← Back'}</button>
+      <button class="btn primary" onclick="closeModal()">${lang==='ar'?'تم':'Done'}</button>
+    </div>
+  `);
+}
+function toggleChkItemTool(holdId, itemId){
+  toggleChkItem(holdId, itemId);
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const checked = (h.checklist?.items || []);
+  const n = checked.length;
+  const el = document.getElementById('chkt-score');
+  if (el) el.innerHTML = `<span style="color:${n>=12?'var(--accent)':n>=6?'var(--gold)':'var(--muted)'}">${n}</span><span style="color:var(--muted2);font-size:18px;font-weight:700"> / 18</span>`;
+}
+
+/* ── Contact us ── */
+function openContactUs(){
+  const ar = lang === 'ar';
+  const subject = encodeURIComponent(ar?'تواصل من سيركل':'Circle - Contact');
+  const body = encodeURIComponent((ar?'مرحباً،\n\n':'Hello,\n\n'));
+  modal(`
+    <h2>✉ ${ar?'تواصل معنا':'Contact Us'}</h2>
+    <p class="sub" style="line-height:1.7">${ar?'نستقبل شكواكم واقتراحاتكم وأفكاركم لتطوير سيركل. كل ملاحظة نقرأها بعناية.':'We welcome your complaints, suggestions, and ideas to improve Circle. Every message is read carefully.'}</p>
+    <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:16px;margin-bottom:10px;text-align:center">
+      <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${ar?'الإيميل':'Email'}</div>
+      <div style="font-size:14px;font-weight:700;color:var(--accent);font-family:'Inter',monospace;letter-spacing:.02em">osamah.j09@gmail.com</div>
+    </div>
+    <a href="mailto:osamah.j09@gmail.com?subject=${subject}&body=${body}" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#000;padding:14px;border-radius:11px;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(95,233,176,.2)">
+      ✉ ${ar?'افتح الإيميل':'Open Email'}
+    </a>
+    <div class="m-actions">
+      <button class="btn" style="width:100%" onclick="closeModal()">${t().close}</button>
+    </div>
+  `);
 }
 
 async function runDiagnostic(){
@@ -4694,15 +5018,6 @@ function openSettings(){
     <div class="set-section">
       <h4>🏅 ${lang==='ar'?'الإنجازات':'Achievements'} · ${(settings.achievements||[]).length}/${ACHIEVEMENTS.length}</h4>
       <button class="btn" style="width:100%" onclick="openAchievements()">${lang==='ar'?'عرض الكل':'View all'} →</button>
-    </div>
-
-    <div class="set-section">
-      <h4>💾 ${lang==='ar'?'النسخ الاحتياطي':'Backup'}</h4>
-      <div style="display:flex;gap:7px">
-        <button class="btn" style="flex:1" onclick="exportData()">📤 ${lang==='ar'?'تصدير':'Export'}</button>
-        <button class="btn" style="flex:1" onclick="importData()">📥 ${lang==='ar'?'استيراد':'Import'}</button>
-      </div>
-      <div class="info">${lang==='ar'?'ينزّل ملف JSON كل بياناتك. تقدر تستوردها على أي جهاز.':'Downloads a JSON file with all your data. Can be imported anywhere.'}</div>
     </div>
 
     <div class="set-section">
