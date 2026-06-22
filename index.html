@@ -233,12 +233,20 @@ body[dir="rtl"] .row .rt{text-align:left}
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:grid;place-items:flex-end;padding:0;z-index:60;animation:fade .18s}
 @media(min-width:520px){.scrim{place-items:center;padding:20px}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.modal{width:100%;max-width:440px;background:#0A0A0A;border:1px solid var(--line);border-radius:20px 20px 0 0;padding:24px 22px;max-height:92vh;overflow:auto;animation:slide .22s}
+.modal{width:100%;max-width:440px;background:#0A0A0A;border:1px solid var(--line);border-radius:20px 20px 0 0;padding:24px 22px 28px;max-height:92vh;overflow:auto;animation:slide .22s;position:relative}
 @media(min-width:520px){.modal{border-radius:20px}}
 @keyframes slide{from{transform:translateY(20px);opacity:.5}to{transform:none;opacity:1}}
-.modal h2{margin:0 0 6px;font-size:19px;font-weight:700;letter-spacing:-.3px}
+.modal h2{margin:0 0 6px;font-size:19px;font-weight:700;letter-spacing:-.3px;padding-inline-end:36px}
 .modal .sub{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.6}
 .modal h4{margin:14px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.modal-close-x{position:absolute;top:16px;inset-inline-end:16px;width:36px;height:36px;border-radius:50%;background:var(--surf);border:1px solid var(--line2);color:var(--txt2);display:grid;place-items:center;cursor:pointer;font-family:inherit;font-size:18px;font-weight:600;z-index:5;line-height:1;padding:0;transition:.15s}
+.modal-close-x:hover{background:var(--surf2);color:var(--txt);transform:rotate(90deg)}
+.modal-close-x:active{transform:rotate(90deg) scale(.9)}
+/* modal grab handle for mobile (above content) */
+@media(max-width:520px){
+  .modal{padding-top:32px}
+  .modal::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:42px;height:4px;border-radius:2px;background:var(--line2)}
+}
 .field{margin-bottom:12px}
 .field label{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:6px;letter-spacing:.02em}
 .inp{width:100%;background:#000;border:1px solid var(--line);border-radius:11px;padding:11px 13px;color:var(--txt);font-size:14.5px;outline:none;transition:.15s;font-variant-numeric:tabular-nums}
@@ -744,6 +752,48 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .mp .mct .r .n{flex:1;font-weight:800;color:var(--accent)}
 .mp .mct .r .a{color:var(--muted);font-size:7.5px}
 .mp .mct .r .p{font-weight:800;color:var(--accent)}
+
+/* Quick filter chips */
+.quick-filter-row{display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.quick-filter-row::-webkit-scrollbar{display:none}
+.qf-chip{flex-shrink:0;background:transparent;border:1px solid var(--line);color:var(--muted);padding:6px 13px;border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.02em;display:inline-flex;align-items:center;gap:5px;transition:.15s}
+.qf-chip:hover{color:var(--txt2);border-color:var(--line2)}
+.qf-chip.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.qf-chip.win.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.qf-chip.loss.on{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
+
+/* Today summary strip atop Hero */
+.today-strip{display:flex;align-items:center;gap:10px;padding:9px 14px;margin:0 0 12px;background:rgba(20,20,20,.6);border:1px solid var(--line);border-radius:12px;font-size:11.5px;font-variant-numeric:tabular-nums}
+.today-strip .lbl{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:800}
+.today-strip .val{font-weight:800}
+.today-strip .val.up{color:var(--accent)}
+.today-strip .val.down{color:var(--loss)}
+.today-strip .sep{color:var(--line2);margin:0 4px}
+.today-strip .movers{display:flex;gap:6px;margin-inline-start:auto;overflow-x:auto;scrollbar-width:none}
+.today-strip .movers::-webkit-scrollbar{display:none}
+.today-strip .mover{font-size:10.5px;padding:2px 7px;border-radius:5px;background:var(--surf);border:1px solid var(--line);font-weight:700;white-space:nowrap}
+.today-strip .mover.up{color:var(--accent);border-color:var(--accent-d)}
+.today-strip .mover.down{color:var(--loss);border-color:var(--loss-d)}
+
+/* Watchlist group buttons */
+.wg-btn{flex:1;background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 6px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.02em;transition:.15s;white-space:nowrap;text-align:center}
+.wg-btn:hover{color:var(--txt2);border-color:var(--line2)}
+.wg-btn.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
+.wg-pill{display:inline-flex;align-items:center;gap:3px;font-size:8.5px;font-weight:800;padding:2px 6px;border-radius:4px;background:var(--surf);color:var(--muted);border:1px solid var(--line);letter-spacing:.05em;text-transform:uppercase}
+.wg-pill.buy{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-d)}
+.wg-pill.study{background:#1F1A0E;color:var(--gold);border-color:#5A4818}
+.wg-pill.watch{background:#0E1828;color:#5BA5FF;border-color:#1F3A6E}
+
+/* Watchlist filter chips */
+.wl-filter-row{display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.wl-filter-row::-webkit-scrollbar{display:none}
+
+/* Earnings approaching badge */
+.earn-warn{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:#2A1A0E;color:#E89B6B;border:1px solid #5C3B22;letter-spacing:.05em;text-transform:uppercase;margin-inline-start:4px}
+
+/* viz frame around portfolio holdings */
+.viz-frame{background:rgba(20,20,20,.35);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
+.viz-frame > #viz-wrap{margin-bottom:0}
 
 /* ── Pull to refresh ── */
 .ptr-indicator{position:fixed;top:0;left:0;right:0;height:0;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;z-index:100;transition:height .2s ease-out;overflow:hidden}
@@ -1287,7 +1337,7 @@ const PF_COLORS = ["#5FE9B0","#5BA5FF","#E8B96A","#A78BFA","#FB7185","#FB923C","
 
 /* ════ state ════ */
 let profile = { name: "", lang: "ar" };
-let settings = { lastRefresh: null, lastNewsRefresh: null, privacy: false, activePf: null, horizonFilter: "all" };
+let settings = { lastRefresh: null, lastNewsRefresh: null, privacy: false, activePf: null, horizonFilter: "all", quickFilter: "all" };
 let portfolios = [];
 let holdings = [];
 let news = [];
@@ -1344,6 +1394,8 @@ async function load(){
   if (!settings.achievements) settings.achievements = [];
   if (settings.cash == null) settings.cash = 0;
   if (!settings.cashHistory) settings.cashHistory = [];
+  // Per-portfolio cash helpers
+  if (!settings.pfCashHistory) settings.pfCashHistory = {};
   lang = profile.lang || "ar";
   // schema upgrades — passHash on portfolios, transactions on holdings, type field
   portfolios.forEach(p => { if (!('passHash' in p)) p.passHash = null; });
@@ -1399,13 +1451,59 @@ function snapshotHistory(){
 }
 
 /* ════ filters ════ */
+/* ── per-portfolio cash helpers ── */
+function getPfCash(){
+  const pf = portfolios.find(p => p.id === settings.activePf);
+  return pf ? (pf.cash || 0) : 0;
+}
+function setPfCash(amount){
+  const pf = portfolios.find(p => p.id === settings.activePf);
+  if (!pf) return;
+  pf.cash = Math.max(0, amount);
+  if (currentUser){
+    sb.from('portfolios').update({ cash: pf.cash }).eq('id', pf.id);
+  }
+  save();
+}
+function getPfCashHistory(){
+  return (settings.pfCashHistory && settings.pfCashHistory[settings.activePf]) || [];
+}
+function pushPfCashHistory(entry){
+  if (!settings.pfCashHistory) settings.pfCashHistory = {};
+  if (!settings.pfCashHistory[settings.activePf]) settings.pfCashHistory[settings.activePf] = [];
+  settings.pfCashHistory[settings.activePf].push(entry);
+  save();
+  cloudSaveSettings();
+}
+function removePfCashHistory(id){
+  if (!settings.pfCashHistory) return;
+  const arr = settings.pfCashHistory[settings.activePf] || [];
+  settings.pfCashHistory[settings.activePf] = arr.filter(x => x.id !== id);
+  save();
+  cloudSaveSettings();
+}
+function activeIsPaper(){
+  const pf = portfolios.find(p => p.id === settings.activePf);
+  return !!(pf && pf.isPaper);
+}
+
 function activeHoldings(){
   let hs = holdings.filter(h => h.pfId === settings.activePf);
   if (settings.horizonFilter !== "all"){
     hs = hs.filter(h => h.horizon === settings.horizonFilter);
   }
+  if (settings.quickFilter && settings.quickFilter !== "all"){
+    hs = hs.filter(h => {
+      const s = statsFor(h);
+      if (settings.quickFilter === 'win') return s.pl > 0;
+      if (settings.quickFilter === 'loss') return s.pl < 0;
+      if (settings.quickFilter === 'opt') return h.type && h.type !== 'stock';
+      return true;
+    });
+  }
   return hs;
 }
+function setQuickFilter(q){ settings.quickFilter = q; save(); render(); }
 function allHoldingsInPf(){ return holdings.filter(h => h.pfId === settings.activePf); }
 function horizonCount(hz){
   const all = allHoldingsInPf();
@@ -1528,6 +1626,31 @@ function render(){
       </div>
     </div>
 
+    ${(() => {
+      const hs = activeHoldings();
+      if (!hs.length) return '';
+      let todayPL = 0, totalMV = 0;
+      hs.forEach(h => { const s = statsFor(h); totalMV += s.mv; if (s.today != null) todayPL += s.today; });
+      if (totalMV === 0) return '';
+      const todayPct = totalMV > 0 ? (todayPL / (totalMV - todayPL)) * 100 : 0;
+      const up = todayPL >= 0;
+      const movers = hs.map(h => ({ h, s: statsFor(h) }))
+        .filter(x => x.s.todayPct != null && x.s.mv > 0)
+        .sort((a,b) => Math.abs(b.s.todayPct) - Math.abs(a.s.todayPct))
+        .slice(0, 3);
+      return `<div class="today-strip">
+        <span class="lbl">${lang==='ar'?'اليوم':'Today'}</span>
+        <span class="val ${up?'up':'down'}">${up?'+':''}${fmtMoney(Math.abs(todayPL))}</span>
+        <span class="val ${up?'up':'down'}" style="font-size:10.5px">(${up?'+':''}${fmt(todayPct,2)}%)</span>
+        <div class="movers">
+          ${movers.map(m => {
+            const sUp = m.s.todayPct >= 0;
+            return `<span class="mover ${sUp?'up':'down'}">${esc(m.h.ticker)} ${sUp?'+':''}${fmt(m.s.todayPct,1)}%</span>`;
+          }).join('')}
+        </div>
+      </div>`;
+    })()}
+
     <div class="hero-eyebrow">
       ${t().portfolio} <span class="dot">·</span> ${dateStr}
     </div>
@@ -1554,7 +1677,7 @@ function render(){
       <span class="lbl">${lang==='ar'?'العائد الكلي':'Total return'}</span>
       <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+'$'+fmt0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
     </div>` : ''}
-    ${settings.cash > 0 ? `<div class="cash-line"><span class="ic">💵</span><span class="lbl">${lang==='ar'?'كاش':'Cash'}</span> <span class="v">${maskMoney('$'+fmt0(settings.cash))}</span></div>` : ''}
+    ${getPfCash() > 0 ? `<div class="cash-line"><span class="ic">💵</span><span class="lbl">${lang==='ar'?'كاش':'Cash'}</span> <span class="v">${maskMoney(fmtMoney(getPfCash()))}</span></div>` : ''}
 
     <div class="hero-live">
       <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
@@ -1606,6 +1729,12 @@ function renderTab(){
         <button class="h-chip ${settings.horizonFilter==='st'?'on':''}" onclick="setHorizonFilter('st')">ST<span class="cnt">${horizonCount('st')}</span></button>
         <button class="h-chip ${settings.horizonFilter==='mt'?'on':''}" onclick="setHorizonFilter('mt')">MT<span class="cnt">${horizonCount('mt')}</span></button>
         <button class="h-chip ${settings.horizonFilter==='lt'?'on':''}" onclick="setHorizonFilter('lt')">LT<span class="cnt">${horizonCount('lt')}</span></button>
+      </div>
+      <div class="quick-filter-row">
+        <button class="qf-chip ${settings.quickFilter==='all'?'on':''}" onclick="setQuickFilter('all')">${lang==='ar'?'الكل':'All'}</button>
+        <button class="qf-chip win ${settings.quickFilter==='win'?'on':''}" onclick="setQuickFilter('win')">📈 ${lang==='ar'?'رابح':'Winning'}</button>
+        <button class="qf-chip loss ${settings.quickFilter==='loss'?'on':''}" onclick="setQuickFilter('loss')">📉 ${lang==='ar'?'خاسر':'Losing'}</button>
+        <button class="qf-chip ${settings.quickFilter==='opt'?'on':''}" onclick="setQuickFilter('opt')">🎯 ${lang==='ar'?'خيارات':'Options'}</button>
       </div>
     `;
     const hs = activeHoldings();
@@ -1665,7 +1794,7 @@ function renderTab(){
         <div class="add-stock-row">
           <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
         </div>
-        <div id="viz-wrap"></div>
+        <div class="viz-frame"><div id="viz-wrap"></div></div>
         <div class="list">${hs.map(rowHtml).join("")}</div>
         ${hasHistory ? `<div class="perf-card" id="perf-card"></div>` : ''}
       ` : `
@@ -2230,12 +2359,20 @@ function openDetail(id){
     }
   }
 
+  // Compute live what-if at current price
+  const whatIfDefault = h.price || s.avg;
+  const cachedLogo = _logoCache[h.ticker];
+  const logoHTML = cachedLogo
+    ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" style="width:46px;height:46px;border-radius:10px;background:#FFF;padding:3px;object-fit:contain;border:1px solid var(--line)">`
+    : `<div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>`;
+
   modal(`
     <div class="d-head">
-      <div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>
+      ${logoHTML}
       <div>
         <div class="nm">${esc(h.ticker)}${optBadge}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
         <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}${isOpt && h.strike?` · Strike $${fmt(h.strike,0)}`:''}${isOpt && h.expiry?` · ${esc(h.expiry)}`:''}</div>
+        ${h.price != null ? `<div style="margin-top:4px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:12px;font-weight:700;margin-inline-start:8px">${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>` : ''}
       </div>
     </div>
 
@@ -2243,18 +2380,33 @@ function openDetail(id){
     ${alertBox}
     ${expBox}
 
-    <div class="trade-row">
-      <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
-      <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
+    <!-- 1. CHART -->
+    <div class="chart-card" style="margin-top:6px">
+      <div class="chart-head">
+        <span class="title">${lang==='ar'?'الأداء':'Performance'}</span>
+        <span class="meta" id="chart-meta"></span>
+      </div>
+      <div class="chart-range-row">
+        ${CHART_RANGES.map(r => `<button class="chart-range-btn ${r.id===chartCurrentRange?'on':''}" data-range="${r.id}" onclick="loadChartRange('${esc(h.ticker)}','${r.id}')">${lang==='ar'?r.ar:r.en}</button>`).join('')}
+      </div>
+      <div id="chart-box"><div class="chart-empty"><span class="spin"></span> ${t().chartLoading}</div></div>
     </div>
-    <button class="btn" style="width:100%;background:linear-gradient(135deg,#0E1F17,#16140a);border-color:var(--accent-d);color:var(--accent);font-weight:700;margin-bottom:12px" onclick="openAIAnalysisComingSoon('${esc(h.ticker)}')">
-      🤖 ${lang==='ar'?'تحليل بالذكاء الاصطناعي':'AI Technical Analysis'}
-      <span style="font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:var(--gold);color:#000;margin-inline-start:6px;letter-spacing:.05em">${lang==='ar'?'قريباً':'SOON'}</span>
-    </button>
+
+    <!-- 2. QUICK SUMMARY -->
+    <div class="d-rows">
+      <div class="d-row"><span>${t().detail_mv}</span><div class="v">${maskMoney(fmtMoney(s.mv))}</div></div>
+      <div class="d-row"><span>${t().detail_avg}</span><div class="v">${fmtMoney(s.avg, 2)}</div></div>
+      <div class="d-row"><span>${isOpt?(lang==='ar'?'عدد العقود':'Contracts'):t().detail_shares}</span><div class="v">${fmt(s.shares, s.shares%1?4:0)}${isOpt?` (×100=${fmt(s.shares*100,0)})`:''}</div></div>
+      <div class="d-row"><span>${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span><div class="v">${maskMoney(fmtMoney(s.deposited))}</div></div>
+      ${divTotal>0?`<div class="d-row"><span>${lang==='ar'?'توزيعات':'Dividends'}</span><div class="v" style="color:var(--accent)">+${fmtMoney(divTotal, 2)}</div></div>`:''}
+      <div class="d-row"><span>${t().detail_pl}</span><div class="v ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+fmtMoney(Math.abs(s.pl)))}<small>${settings.privacy?'':pct(s.plPct)}</small></div></div>
+      ${s.today!=null?`<div class="d-row"><span>${t().detail_today}</span><div class="v ${sgn(s.today)}">${settings.privacy?'••••':((s.today>=0?'+':'')+fmtMoney(Math.abs(s.today)))}<small>${settings.privacy?'':pct(s.todayPct)}</small></div></div>`:''}
+      <div class="d-row"><span>${t().detail_share}</span><div class="v">${tt.mv>0?(s.mv/tt.mv*100).toFixed(1)+'%':'—'}</div></div>
+    </div>
 
     ${s.realized ? `<div class="realized-box">
       <span class="lbl">${lang==='ar'?'الربح المحقّق':'Realized P&L'}</span>
-      <span class="val ${s.realized>=0?'up':'down'}">${s.realized>=0?'+':''}$${fmt(Math.abs(s.realized),2)}</span>
+      <span class="val ${s.realized>=0?'up':'down'}">${s.realized>=0?'+':''}${fmtMoney(Math.abs(s.realized), 2)}</span>
     </div>` : ''}
 
     ${greeks ? `
@@ -2267,7 +2419,34 @@ function openDetail(id){
       </div>
     ` : ''}
 
-    <h4 style="margin:14px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'الأهداف':'Targets'}</h4>
+    <!-- 3. BUY/SELL + AI -->
+    <div class="trade-row" style="margin-top:14px">
+      <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
+      <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
+    </div>
+    <button class="btn" style="width:100%;background:linear-gradient(135deg,#0E1F17,#16140a);border-color:var(--accent-d);color:var(--accent);font-weight:700;margin-bottom:12px" onclick="openAIAnalysisComingSoon('${esc(h.ticker)}')">
+      🤖 ${lang==='ar'?'تحليل بالذكاء الاصطناعي':'AI Technical Analysis'}
+      <span style="font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:var(--gold);color:#000;margin-inline-start:6px;letter-spacing:.05em">${lang==='ar'?'قريباً':'SOON'}</span>
+    </button>
+
+    <!-- 4. WHAT IF CALCULATOR -->
+    ${s.shares > 0 ? `
+      <div style="background:linear-gradient(135deg,#0E1F17,#0a1812);border:1px solid var(--accent-d);border-radius:12px;padding:13px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:11px;color:var(--accent);font-weight:800;text-transform:uppercase;letter-spacing:.07em">🧮 ${lang==='ar'?'لو بعت الآن بـ':'What if I sell at'}</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="color:var(--muted);font-size:14px;font-weight:700">$</span>
+          <input id="whatif_p" type="number" step="any" inputmode="decimal" value="${whatIfDefault}" style="flex:1;background:#000;border:1px solid var(--accent-d);color:var(--accent);padding:9px 12px;border-radius:9px;font-size:16px;font-weight:800;font-family:inherit;font-variant-numeric:tabular-nums" oninput="updateWhatIf('${h.id}')">
+        </div>
+        <div id="whatif_result" style="margin-top:10px;padding:10px 12px;background:#000;border:1px solid var(--line);border-radius:9px;font-size:12.5px;line-height:1.65">
+          <span class="spin"></span> ${lang==='ar'?'احسب...':'Calculating...'}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- 5. TARGETS + STOP -->
+    <h4 style="margin:14px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">🎯 ${lang==='ar'?'الأهداف ووقف الخسارة':'Targets & Stop Loss'}</h4>
     <div class="tgt-row">
       <div class="tgt-cell target"><div class="lbl">🎯 ${lang==='ar'?'هدف':'Target'}</div>
         <input id="dt_t" type="number" step="any" inputmode="decimal" value="${h.target||''}" placeholder="—" onblur="saveHoldTargets('${h.id}')"></div>
@@ -2275,36 +2454,30 @@ function openDetail(id){
         <input id="dt_s" type="number" step="any" inputmode="decimal" value="${h.stopLoss||''}" placeholder="—" onblur="saveHoldTargets('${h.id}')"></div>
     </div>
 
-    <h4 style="margin:6px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'ملاحظات':'Notes'}</h4>
-    <textarea class="notes-textarea" id="dt_n" placeholder="${lang==='ar'?'سبب الشراء، خطة الخروج، تحليلك...':'Why you bought, exit plan, your thesis...'}" onblur="saveHoldTargets('${h.id}')">${esc(h.notes||'')}</textarea>
-
-    <div class="chart-card">
-      <div class="chart-head">
-        <span class="title">${lang==='ar'?'الأداء':'Performance'}</span>
-        <span class="meta" id="chart-meta"></span>
-      </div>
-      <div class="chart-range-row">
-        ${CHART_RANGES.map(r => `<button class="chart-range-btn ${r.id===chartCurrentRange?'on':''}" data-range="${r.id}" onclick="loadChartRange('${esc(h.ticker)}','${r.id}')">${lang==='ar'?r.ar:r.en}</button>`).join('')}
-      </div>
-      <div id="chart-box"><div class="chart-empty"><span class="spin"></span> ${t().chartLoading}</div></div>
-    </div>
-
-    <div class="d-rows">
-      <div class="d-row"><span>${t().detail_mv}</span><div class="v">${maskMoney('$'+fmt(s.mv))}<small>${maskMoney(fmt0(s.mv*3.75)+' SAR')}</small></div></div>
-      <div class="d-row"><span>${t().detail_price}</span><div class="v">${h.price!=null?'$'+fmt(s.price):'—'}<small>${h.price!=null?fmt0(s.price*3.75)+' SAR':''}</small></div></div>
-      <div class="d-row"><span>${t().detail_avg}</span><div class="v">$${fmt(s.avg)}<small>${fmt0(s.avg*3.75)} SAR</small></div></div>
-      <div class="d-row"><span>${isOpt?(lang==='ar'?'عدد العقود':'Contracts'):t().detail_shares}</span><div class="v">${fmt(s.shares, s.shares%1?4:0)}${isOpt?` (×100=${fmt(s.shares*100,0)})`:''}</div></div>
-      <div class="d-row"><span>${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span><div class="v">${maskMoney('$'+fmt(s.deposited))}</div></div>
-      ${divTotal>0?`<div class="d-row"><span>${lang==='ar'?'توزيعات مستلمة':'Dividends received'}</span><div class="v" style="color:var(--accent)">+$${fmt(divTotal,2)}</div></div>`:''}
-      <div class="d-row"><span>${t().detail_pl}</span><div class="v ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+'$'+fmt(Math.abs(s.pl)))}<small>${settings.privacy?'':pct(s.plPct)}</small></div></div>
-      ${s.today!=null?`<div class="d-row"><span>${t().detail_today}</span><div class="v ${sgn(s.today)}">${settings.privacy?'••••':((s.today>=0?'+':'')+'$'+fmt(Math.abs(s.today)))}<small>${settings.privacy?'':pct(s.todayPct)}</small></div></div>`:''}
-      <div class="d-row"><span>${t().detail_share}</span><div class="v">${tt.mv>0?(s.mv/tt.mv*100).toFixed(1)+'%':'—'}</div></div>
-    </div>
-
+    <!-- 6. EARNINGS TIMELINE -->
+    <div id="earn-timeline-${h.id}"></div>
     <div class="earn-card" id="earn-box-${h.id}" style="display:none"></div>
 
+    <!-- 7. NEWS -->
+    <div id="stock-news-${h.id}" style="margin-top:12px"></div>
+
+    <!-- 8. INSIDER TRADES -->
+    <div class="coll" id="ins-coll" style="margin-top:12px">
+      <div class="coll-head" onclick="document.getElementById('ins-coll').classList.toggle('open');loadInsiderTrades('${h.id}','${esc(h.ticker)}')">
+        <span class="ttl">📋 ${lang==='ar'?'صفقات المطّلعين':'Insider Activity'}</span>
+        <span class="ar">▾</span>
+      </div>
+      <div class="coll-body">
+        <div id="ins-box-${h.id}"><div style="padding:11px;text-align:center;color:var(--muted2);font-size:12px"><span class="spin"></span></div></div>
+      </div>
+    </div>
+
+    <!-- 9. ANALYST RECOMMENDATIONS -->
+    <div id="stock-analyst-${h.id}" style="margin-top:12px"></div>
+
+    <!-- ORDER HISTORY + DIVIDENDS -->
     ${txs.length ? `
-      <div class="tx-head">${lang==='ar'?'سجل الأوامر':'Order History'} (${txs.length})</div>
+      <div class="tx-head" style="margin-top:14px">${lang==='ar'?'سجل الأوامر':'Order History'} (${txs.length})</div>
       <div class="tx-hint">${lang==='ar'?'اضغط على أي عملية للتعديل':'Click any transaction to edit'}</div>
       <div class="tx-list">${txs.map(tx => `
         <div class="tx-row editable" onclick="openEditTx('${h.id}','${tx.id}')">
@@ -2316,7 +2489,7 @@ function openDetail(id){
       `).join("")}</div>
     ` : ''}
 
-    <div class="tx-head" style="display:flex;align-items:center;justify-content:space-between">
+    <div class="tx-head" style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
       <span>💰 ${lang==='ar'?'التوزيعات':'Dividends'}</span>
       ${divs.length?`<span style="color:var(--accent);font-size:11px;font-weight:600;text-transform:none;letter-spacing:0">${maskMoney('+$'+fmt(divTotal,2))}</span>`:''}
     </div>
@@ -2331,26 +2504,173 @@ function openDetail(id){
     `).join('')}</div>` : ''}
     <button class="add-btn" onclick="addDividend('${h.id}')">＋ ${lang==='ar'?'إضافة توزيع':'Add dividend'}</button>
 
-    <div id="earn-timeline-${h.id}"></div>
-
-    <div class="coll" id="ins-coll" style="margin-top:14px">
-      <div class="coll-head" onclick="document.getElementById('ins-coll').classList.toggle('open');loadInsiderTrades('${h.id}','${esc(h.ticker)}')">
-        <span class="ttl">📋 ${lang==='ar'?'صفقات المطّلعين':'Insider Activity'}</span>
-        <span class="ar">▾</span>
-      </div>
-      <div class="coll-body">
-        <div id="ins-box-${h.id}"><div style="padding:11px;text-align:center;color:var(--muted2);font-size:12px"><span class="spin"></span></div></div>
-      </div>
-    </div>
+    <!-- 10. NOTES -->
+    <h4 style="margin:14px 0 6px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">📝 ${lang==='ar'?'ملاحظات':'Notes'}</h4>
+    <textarea class="notes-textarea" id="dt_n" placeholder="${lang==='ar'?'سبب الشراء، خطة الخروج، تحليلك...':'Why you bought, exit plan, your thesis...'}" onblur="saveHoldTargets('${h.id}')">${esc(h.notes||'')}</textarea>
 
     <div class="m-actions">
-      <button class="btn" onclick="closeModal()">${t().cancel}</button>
+      <button class="btn" onclick="closeDetail()">${t().cancel}</button>
       <button class="btn primary" onclick="openEdit('${h.id}')">${t().editStock}</button>
     </div>
   `);
   loadChart(h.ticker);
   loadEarningsTimeline(h.id, h.ticker);
   loadStockEarnings(h.id, h.ticker);
+  loadStockNews(h.id, h.ticker);
+  loadStockAnalystInline(h.id, h.ticker);
+  startStockLiveRefresh(h.id);
+  if (s.shares > 0) updateWhatIf(h.id);
+}
+
+/* ── Live price refresh while in stock detail (every 30s) ── */
+let _stockDetailInterval = null;
+function startStockLiveRefresh(holdId){
+  stopStockLiveRefresh();
+  _stockDetailInterval = setInterval(async () => {
+    const stillOpen = document.querySelector('.modal');
+    if (!stillOpen){ stopStockLiveRefresh(); return; }
+    const h = holdings.find(x => x.id === holdId);
+    if (!h) { stopStockLiveRefresh(); return; }
+    try {
+      const r = await fetch(`${FINNHUB}/quote?symbol=${h.ticker}&token=${FINNHUB_KEY}`);
+      if (!r.ok) return;
+      const q = await r.json();
+      if (q && q.c){
+        h.price = q.c;
+        h.prev = q.pc;
+        h.dayChangePct = q.dp;
+        // Update display elements live
+        if (typeof updateWhatIf === 'function') updateWhatIf(holdId);
+        save();
+      }
+    } catch(e){}
+  }, 30000);
+}
+function stopStockLiveRefresh(){
+  if (_stockDetailInterval){
+    clearInterval(_stockDetailInterval);
+    _stockDetailInterval = null;
+  }
+}
+function closeDetail(){
+  stopStockLiveRefresh();
+  closeModal();
+}
+
+/* ── What-if calculator ── */
+function updateWhatIf(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const inp = document.getElementById('whatif_p');
+  const resEl = document.getElementById('whatif_result');
+  if (!inp || !resEl) return;
+  const sellPrice = parseFloat(inp.value);
+  if (!isFinite(sellPrice) || sellPrice <= 0){
+    resEl.innerHTML = `<span style="color:var(--muted2)">${lang==='ar'?'أدخل سعر صحيح':'Enter a valid price'}</span>`;
+    return;
+  }
+  const s = statsFor(h);
+  const mult = (h.type && h.type !== 'stock') ? 100 : 1;
+  const proceedsGross = s.shares * sellPrice * mult;
+  const costBasis = s.shares * s.avg * mult;
+  const profit = proceedsGross - costBasis;
+  const profitPct = costBasis > 0 ? (profit / costBasis) * 100 : 0;
+  const up = profit >= 0;
+  const ar = lang === 'ar';
+  resEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+      <span style="color:var(--muted)">${ar?'إجمالي المبيع':'Proceeds'}</span>
+      <b style="font-variant-numeric:tabular-nums">${fmtMoney(proceedsGross, 2)}</b>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+      <span style="color:var(--muted)">${ar?'التكلفة الأصلية':'Cost basis'}</span>
+      <span style="font-variant-numeric:tabular-nums">${fmtMoney(costBasis, 2)}</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;padding-top:7px;border-top:1px solid var(--line);margin-top:5px">
+      <span style="font-weight:700">${ar?'الربح/الخسارة':'P&L'}</span>
+      <b style="color:${up?'var(--accent)':'var(--loss)'};font-variant-numeric:tabular-nums;font-size:14.5px">${up?'+':''}${fmtMoney(Math.abs(profit), 2)} (${up?'+':''}${fmt(profitPct,1)}%)</b>
+    </div>
+  `;
+}
+
+/* ── Fetch latest stock news (3-5 items) ── */
+async function loadStockNews(holdId, ticker){
+  const wrap = document.getElementById(`stock-news-${holdId}`);
+  if (!wrap) return;
+  try {
+    const from = new Date(Date.now() - 30*86400000).toISOString().slice(0,10);
+    const to = new Date().toISOString().slice(0,10);
+    const r = await fetch(`${FINNHUB}/company-news?symbol=${ticker}&from=${from}&to=${to}&token=${FINNHUB_KEY}`);
+    if (!r.ok) return;
+    const news = await r.json();
+    const items = (Array.isArray(news) ? news : []).slice(0, 5);
+    if (!items.length) return;
+    const ar = lang === 'ar';
+    wrap.innerHTML = `
+      <div class="coll open">
+        <div class="coll-head">
+          <span class="ttl">📰 ${ar?'آخر الأخبار':'Latest News'}</span>
+        </div>
+        <div class="coll-body" style="max-height:none">
+          ${items.map(n => `<a href="${esc(n.url||'#')}" target="_blank" rel="noopener" style="display:block;padding:10px 13px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--txt2)">
+            <div style="font-size:12.5px;font-weight:600;line-height:1.45;margin-bottom:4px">${esc((n.headline||'').slice(0,140))}</div>
+            <div style="font-size:10px;color:var(--muted2);font-variant-numeric:tabular-nums">${esc(n.source||'')} · ${n.datetime?new Date(n.datetime*1000).toISOString().slice(0,10):''}</div>
+          </a>`).join('')}
+        </div>
+      </div>
+    `;
+  } catch(e){}
+}
+
+/* ── Inline analyst recommendation summary in stock detail ── */
+async function loadStockAnalystInline(holdId, ticker){
+  const wrap = document.getElementById(`stock-analyst-${holdId}`);
+  if (!wrap) return;
+  try {
+    const data = await fetchAnalystData(ticker);
+    if (!data) return;
+    const rec = data.recommendation;
+    const t = data.target;
+    if (!rec && !t) return;
+    const ar = lang === 'ar';
+    const totalRec = rec ? (rec.strongBuy + rec.buy + rec.hold + rec.sell + rec.strongSell) : 0;
+    const buyish = rec ? rec.strongBuy + rec.buy : 0;
+    const sellish = rec ? rec.sell + rec.strongSell : 0;
+    const consensus = totalRec ? (buyish > sellish + (rec.hold||0)/2 ? (ar?'شراء':'Buy') 
+                                 : sellish > buyish + (rec.hold||0)/2 ? (ar?'بيع':'Sell')
+                                 : (ar?'تثبيت':'Hold')) : null;
+    const consColor = consensus === (ar?'شراء':'Buy') ? 'var(--accent)' 
+                    : consensus === (ar?'بيع':'Sell') ? 'var(--loss)' 
+                    : 'var(--gold)';
+    const price = data.price || holdings.find(x => x.id === holdId)?.price || null;
+    wrap.innerHTML = `
+      <div class="coll open">
+        <div class="coll-head">
+          <span class="ttl">📈 ${ar?'توصيات المحللين':'Analyst Recommendations'}</span>
+        </div>
+        <div class="coll-body" style="padding:13px">
+          ${consensus && totalRec > 0 ? `
+            <div style="background:#000;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px;font-size:12.5px;line-height:1.6">
+              ${ar?`<b>${totalRec}</b> محلل بإجماع <b style="color:${consColor}">${consensus}</b>` : `<b>${totalRec}</b> analysts with consensus <b style="color:${consColor}">${consensus}</b>`}
+              ${t && t.mean && price ? `<br><span style="color:var(--muted);font-size:11.5px">${ar?'الهدف المتوسط':'Avg target'}: <b style="color:var(--txt2)">$${fmt(t.mean,0)}</b> (<b style="color:${t.mean>price?'var(--accent)':'var(--loss)'}">${t.mean>price?'+':''}${fmt((t.mean-price)/price*100,1)}%</b>)</span>`:''}
+            </div>
+          ` : ''}
+          ${rec ? `<div class="an-rec" style="margin:0">
+            ${rec.strongBuy ? `<span class="pill strongbuy">${rec.strongBuy} ${ar?'شراء قوي':'STRONG BUY'}</span>` : ''}
+            ${rec.buy ? `<span class="pill buy">${rec.buy} ${ar?'شراء':'BUY'}</span>` : ''}
+            ${rec.hold ? `<span class="pill hold">${rec.hold} ${ar?'تثبيت':'HOLD'}</span>` : ''}
+            ${rec.sell ? `<span class="pill sell">${rec.sell} ${ar?'بيع':'SELL'}</span>` : ''}
+            ${rec.strongSell ? `<span class="pill strongsell">${rec.strongSell} ${ar?'بيع قوي':'STRONG SELL'}</span>` : ''}
+          </div>` : ''}
+          ${t && t.high && t.low ? `<div style="margin-top:9px;display:flex;justify-content:space-between;background:#000;border:1px solid var(--line);border-radius:9px;padding:9px 11px;font-size:11.5px;font-variant-numeric:tabular-nums">
+            <div><div style="color:var(--muted);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em">${ar?'أدنى':'Low'}</div><div style="color:var(--loss);font-weight:800">$${fmt(t.low,0)}</div></div>
+            <div><div style="color:var(--muted);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em">${ar?'متوسط':'Avg'}</div><div style="color:var(--txt);font-weight:800">$${fmt(t.mean,2)}</div></div>
+            <div><div style="color:var(--muted);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em">${ar?'أعلى':'High'}</div><div style="color:var(--accent);font-weight:800">$${fmt(t.high,0)}</div></div>
+          </div>` : ''}
+        </div>
+      </div>
+    `;
+  } catch(e){}
 }
 
 function delTransaction(holdId, txId){
@@ -2844,8 +3164,26 @@ function saveTrade(holdId, type){
     return;
   }
   if (!Array.isArray(h.transactions)) h.transactions = [];
+  // Update portfolio cash based on trade
+  const mult = (h.type && h.type !== 'stock') ? 100 : 1;
+  const tradeCost = qty * price * mult;
+  if (type === 'buy'){
+    const curCash = getPfCash();
+    if (curCash < tradeCost && curCash > 0){
+      // Soft warning but allow (might be using external funds)
+      if (!confirm(lang==='ar'
+        ? `الكاش الحالي ${fmtMoney(curCash)} أقل من سعر الصفقة ${fmtMoney(tradeCost)}. متابعة؟`
+        : `Current cash ${fmtMoney(curCash)} is less than trade cost ${fmtMoney(tradeCost)}. Continue?`)){
+        return;
+      }
+    }
+    setPfCash(Math.max(0, curCash - tradeCost));
+  } else {
+    setPfCash(getPfCash() + tradeCost);
+  }
   h.transactions.push({ id: uid(), type, qty, price, date, ts: new Date(date).getTime() });
   cloudUpsertHolding(h);
+  logActivity(type, { ticker: h.ticker, qty, price });
   // check if sold everything
   const after = statsFor(h);
   if (type === 'sell' && after.shares <= 0.0000001){
@@ -2950,6 +3288,10 @@ function expireWorthless(holdId){
 
 /* ── Cash management ── */
 function addCashTx(type){
+  if (activeIsPaper()){
+    toast(lang==='ar'?'محفظة التدريب لا تقبل إيداع/سحب':'Paper portfolio is locked');
+    return;
+  }
   modal(`
     <h2>${type==='deposit'?(lang==='ar'?'إيداع كاش':'Deposit cash'):(lang==='ar'?'سحب كاش':'Withdraw cash')}</h2>
     <div class="grid2">
@@ -2969,28 +3311,27 @@ function addCashTx(type){
   setTimeout(()=>$("#ch_a")?.focus(),60);
 }
 function doCashTx(type){
+  if (activeIsPaper()) return;
   const amount = parseFloat($("#ch_a").value);
   if (!isFinite(amount) || amount <= 0){ $("#ch_err").textContent = lang==='ar'?'مبلغ غير صحيح':'invalid'; return; }
   const date = $("#ch_d").value || today();
   const note = $("#ch_n").value.trim();
-  if (type === 'withdraw' && amount > settings.cash){
-    $("#ch_err").textContent = lang==='ar'?`الرصيد $${fmt(settings.cash)} فقط`:`Balance is only $${fmt(settings.cash)}`;
+  const curCash = getPfCash();
+  if (type === 'withdraw' && amount > curCash){
+    $("#ch_err").textContent = lang==='ar'?`الرصيد ${fmtMoney(curCash)} فقط`:`Balance is only ${fmtMoney(curCash)}`;
     return;
   }
-  settings.cashHistory.push({ id: uid(), type, amount, date, note, ts: Date.now() });
-  settings.cash += (type === 'deposit' ? amount : -amount);
-  cloudSaveSettings();
-  save();
+  pushPfCashHistory({ id: uid(), type, amount, date, note, ts: Date.now() });
+  setPfCash(curCash + (type === 'deposit' ? amount : -amount));
   closeModal();
   openSettings();
 }
 function delCashTx(id){
-  const tx = settings.cashHistory.find(x => x.id === id);
+  if (activeIsPaper()) return;
+  const tx = getPfCashHistory().find(x => x.id === id);
   if (!tx) return;
-  settings.cash -= (tx.type === 'deposit' ? tx.amount : -tx.amount);
-  settings.cashHistory = settings.cashHistory.filter(x => x.id !== id);
-  cloudSaveSettings();
-  save();
+  setPfCash(getPfCash() - (tx.type === 'deposit' ? tx.amount : -tx.amount));
+  removePfCashHistory(id);
   openSettings();
 }
 
@@ -3010,6 +3351,13 @@ function addToWatchlist(){
       <div class="field"><label>${lang==='ar'?'وقف الخسارة':'Stop loss'} <small style="color:#444">$</small></label>
         <input class="inp" id="wl_s" type="number" step="any" inputmode="decimal" placeholder="—"></div>
     </div>
+    <div class="field"><label>${lang==='ar'?'المجموعة':'Group'}</label>
+      <div style="display:flex;gap:5px">
+        <button type="button" class="wg-btn on" data-g="watch" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">👁 ${lang==='ar'?'مراقبة':'Watch'}</button>
+        <button type="button" class="wg-btn" data-g="buy" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">🛒 ${lang==='ar'?'للشراء':'To Buy'}</button>
+        <button type="button" class="wg-btn" data-g="study" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">📚 ${lang==='ar'?'للدراسة':'Studying'}</button>
+      </div>
+    </div>
     <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
       <input class="inp" id="wl_n" placeholder="${lang==='ar'?'سبب الاهتمام':'why this stock'}"></div>
     <div class="err" id="wl_err"></div>
@@ -3027,11 +3375,24 @@ function saveWatch(){
   const target = $("#wl_t").value ? parseFloat($("#wl_t").value) : null;
   const stop = $("#wl_s").value ? parseFloat($("#wl_s").value) : null;
   const note = $("#wl_n").value.trim();
+  const groupBtn = document.querySelector('.wg-btn.on');
+  const wgroup = groupBtn ? groupBtn.dataset.g : 'watch';
   if (watchlist.find(w => w.ticker === tic && w.pfId === settings.activePf)){
     $("#wl_err").textContent = lang==='ar'?'موجود مسبقاً':'Already on watchlist'; return;
   }
-  const w = { id: uid(), pfId: settings.activePf, ticker: tic, name, target, stop, note, price: null, dayChangePct: null, addedAt: Date.now() };
+  const w = { id: uid(), pfId: settings.activePf, ticker: tic, name, target, stop, note, price: null, dayChangePct: null, addedAt: Date.now(), wgroup, addedPrice: null };
   watchlist.push(w);
+  // Try to fetch current price to lock in addedPrice
+  fetch(`${FINNHUB}/quote?symbol=${tic}&token=${FINNHUB_KEY}`).then(r => r.ok ? r.json() : null).then(q => {
+    if (q && q.c){
+      w.addedPrice = q.c;
+      w.price = q.c;
+      w.dayChangePct = q.dp;
+      cloudUpsertWatch(w);
+      save();
+      renderWatchlist();
+    }
+  }).catch(()=>{});
   cloudUpsertWatch(w);
   save();
   closeModal();
@@ -3077,8 +3438,8 @@ async function refreshWatchlistPrices(){
 }
 function renderWatchlist(){
   const c = $("#tab-content"); if (!c) return;
-  const items = watchlist.filter(w => w.pfId === settings.activePf);
-  if (!items.length){
+  const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+  if (!allItems.length){
     c.innerHTML = `
       <div class="add-stock-row" style="margin-top:8px">
         <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
@@ -3091,15 +3452,36 @@ function renderWatchlist(){
     `;
     return;
   }
+  if (!settings.wlFilter) settings.wlFilter = 'all';
+  const items = settings.wlFilter === 'all' ? allItems : allItems.filter(w => (w.wgroup||'watch') === settings.wlFilter);
+  const cnt = (g) => allItems.filter(w => (w.wgroup||'watch') === g).length;
   c.innerHTML = `
     <div class="add-stock-row">
       <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
+    </div>
+    <div class="wl-filter-row">
+      <button class="qf-chip ${settings.wlFilter==='all'?'on':''}" onclick="setWlFilter('all')">${lang==='ar'?'الكل':'All'} <span style="opacity:.6;font-weight:600">${allItems.length}</span></button>
+      <button class="qf-chip ${settings.wlFilter==='buy'?'on':''}" onclick="setWlFilter('buy')">🛒 ${lang==='ar'?'للشراء':'To Buy'} <span style="opacity:.6;font-weight:600">${cnt('buy')}</span></button>
+      <button class="qf-chip ${settings.wlFilter==='watch'?'on':''}" onclick="setWlFilter('watch')">👁 ${lang==='ar'?'مراقبة':'Watch'} <span style="opacity:.6;font-weight:600">${cnt('watch')}</span></button>
+      <button class="qf-chip ${settings.wlFilter==='study'?'on':''}" onclick="setWlFilter('study')">📚 ${lang==='ar'?'دراسة':'Study'} <span style="opacity:.6;font-weight:600">${cnt('study')}</span></button>
     </div>
     <div class="watch-list">${items.map(w => {
       const up = w.dayChangePct != null && w.dayChangePct >= 0;
       let tgtPill = '';
       if (w.target && w.price && w.price >= w.target) tgtPill = `<span class="tgt-pill hit">🎯 ${lang==='ar'?'وصل الهدف':'TARGET HIT'}</span>`;
       else if (w.stop && w.price && w.price <= w.stop) tgtPill = `<span class="tgt-pill stop">⚠️ ${lang==='ar'?'كسر الوقف':'STOP HIT'}</span>`;
+      // Perf since added
+      let sincePill = '';
+      if (w.addedPrice && w.price){
+        const pct = ((w.price - w.addedPrice) / w.addedPrice) * 100;
+        const sUp = pct >= 0;
+        sincePill = `<span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:${sUp?'var(--accent-bg)':'var(--loss-bg)'};color:${sUp?'var(--accent)':'var(--loss)'};border:1px solid ${sUp?'var(--accent-d)':'var(--loss-d)'};margin-inline-start:5px;font-variant-numeric:tabular-nums" title="${lang==='ar'?'منذ الإضافة':'Since added'} $${fmt(w.addedPrice,2)}">${sUp?'+':''}${fmt(pct,1)}%</span>`;
+      }
+      // Earnings warning
+      const earnSoon = (w.earningsDate && (new Date(w.earningsDate) - new Date()) / 86400000 <= 3 && (new Date(w.earningsDate) - new Date()) / 86400000 >= 0);
+      const earnPill = earnSoon ? `<span class="earn-warn">📅 ${lang==='ar'?'أرباح قريباً':'EARNINGS SOON'}</span>` : '';
+      const groupCls = w.wgroup || 'watch';
+      const groupLabel = groupCls === 'buy' ? (lang==='ar'?'للشراء':'BUY') : groupCls === 'study' ? (lang==='ar'?'دراسة':'STUDY') : (lang==='ar'?'مراقبة':'WATCH');
       const cachedLogo = _logoCache[w.ticker];
       const logoHTML = cachedLogo
         ? `<img src="${cachedLogo}" alt="${esc(w.ticker)}" class="co-logo">`
@@ -3107,8 +3489,8 @@ function renderWatchlist(){
       return `<div class="watch-row" onclick="openWatchDetail('${w.id}')">
         ${logoHTML}
         <div class="info">
-          <div class="t">${esc(w.ticker)}${tgtPill}</div>
-          <div class="s">${esc(w.name || '')}${w.target?` · 🎯 $${fmt(w.target)}`:''}${w.stop?` · ⚠️ $${fmt(w.stop)}`:''}</div>
+          <div class="t">${esc(w.ticker)}${sincePill}<span class="wg-pill ${groupCls}" style="margin-inline-start:5px">${groupLabel}</span>${tgtPill}${earnPill}</div>
+          <div class="s">${esc(w.name || '')}${w.target?` · 🎯 $${fmt(w.target)}`:''}${w.stop?` · ⚠️ $${fmt(w.stop)}`:''}${w.addedPrice?` · ${lang==='ar'?'من':'from'} $${fmt(w.addedPrice,2)}`:''}</div>
         </div>
         <div class="rt">
           <div class="pr">${w.price!=null?'$'+fmt(w.price):'—'}</div>
@@ -3118,6 +3500,24 @@ function renderWatchlist(){
     }).join("")}</div>
   `;
   lazyLoadLogos(items.map(w => w.ticker));
+  // Load earnings dates in background for the first time
+  setTimeout(()=>loadWatchEarningsDates(items), 200);
+}
+
+function setWlFilter(g){ settings.wlFilter = g; save(); renderWatchlist(); }
+
+async function loadWatchEarningsDates(items){
+  for (const w of items){
+    if (w.earningsDate != null) continue; // cached
+    try {
+      const r = await fetch(`${FINNHUB}/calendar/earnings?from=${new Date().toISOString().slice(0,10)}&to=${new Date(Date.now()+60*86400000).toISOString().slice(0,10)}&symbol=${w.ticker}&token=${FINNHUB_KEY}`);
+      if (!r.ok) { w.earningsDate = ''; continue; }
+      const data = await r.json();
+      const next = data?.earningsCalendar?.[0];
+      w.earningsDate = next ? next.date : '';
+    } catch(e){ w.earningsDate = ''; }
+  }
+  renderWatchlist();
 }
 async function openWatchDetail(id){
   const w = watchlist.find(x => x.id === id);
@@ -4700,14 +5100,6 @@ function renderMore(){
         </div>
         <div class="ar">›</div>
       </div>
-      <div class="more-row" onclick="openPerfSummary()">
-        <div class="ic bl">📊</div>
-        <div class="body">
-          <div class="nm">${ar?'ملخّص الأداء':'Performance Summary'}</div>
-          <div class="sub">${ar?'تحليل أداءك على فترة معيّنة':'Analyze your performance over a period'}</div>
-        </div>
-        <div class="ar">›</div>
-      </div>
       <div class="more-row" onclick="openChecklistTool()">
         <div class="ic gr">📋</div>
         <div class="body">
@@ -5020,15 +5412,17 @@ async function doCreatePaperPortfolio(){
   const cap = parseFloat($("#pp_cap").value);
   if (!cap || cap < 100){ $("#pp_err").textContent = ar?'رأس المال 100 على الأقل':'Min capital is 100'; return; }
   const id = uid();
-  const pf = { id, name, color: '#5BA5FF', passHash: null, createdAt: Date.now(), isPaper: true, paperStartingCapital: cap };
+  const pf = { 
+    id, name, color: '#5BA5FF', passHash: null, createdAt: Date.now(),
+    isPaper: true, paperStartingCapital: cap, cash: cap, startingCash: cap,
+  };
   portfolios.push(pf);
-  settings.cash = cap;
-  // Insert to cloud with is_paper
   if (currentUser){
     try {
       await sb.from('portfolios').insert({
         id: pf.id, user_id: currentUser.id, name: pf.name, color: pf.color,
         is_paper: true, paper_starting_capital: cap,
+        cash: cap, starting_cash: cap,
       });
     } catch(e){ console.error('paper pf insert', e); }
   }
@@ -5038,7 +5432,7 @@ async function doCreatePaperPortfolio(){
   cloudSaveSettings();
   closeModal();
   render();
-  toast(ar?`✓ محفظة تدريب جاهزة بـ$${fmt0(cap)}`:`✓ Paper portfolio ready with $${fmt0(cap)}`);
+  toast(ar?`✓ محفظة تدريب جاهزة بـ${fmtMoney(cap)}`:`✓ Paper portfolio ready with ${fmtMoney(cap)}`);
 }
 
 /* ── Community ── */
@@ -5793,6 +6187,469 @@ async function exportAssessmentPNG(){
   node.remove();
 }
 
+async function adminOpenCommunity(){
+  modal(`<h2>💬 ${lang==='ar'?'إدارة المجتمع':'Community Moderation'}</h2><p class="sub">${lang==='ar'?'جاري...':'Loading...'}</p>`);
+  try {
+    const { data: posts } = await sb.from('community_posts').select('*').order('created_at',{ascending:false}).limit(50);
+    const userIds = [...new Set((posts||[]).map(p => p.user_id))];
+    let userMap = {};
+    if (userIds.length){
+      const { data: profs } = await sb.from('profiles').select('id,email,pseudonym').in('id', userIds);
+      userMap = Object.fromEntries((profs||[]).map(p => [p.id, p]));
+    }
+    modal(`
+      <h2>💬 ${lang==='ar'?'إدارة المجتمع':'Community Moderation'}</h2>
+      <p class="sub">${lang==='ar'?'كل منشورات المستخدمين. اضغط ✕ لحذف فوري.':'All user posts. Click ✕ to delete.'}</p>
+      <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:480px;overflow-y:auto">
+        ${(posts||[]).map(p => {
+          const u = userMap[p.user_id] || {};
+          const date = new Date(p.created_at).toISOString().slice(0,16).replace('T',' ');
+          return `<div style="padding:11px 13px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;font-size:11px">
+              <b style="color:#5BA5FF">${esc(u.pseudonym||'?')}</b>
+              <span style="color:var(--muted2)">${esc(u.email||'')}</span>
+              <span style="color:var(--muted2);margin-inline-start:auto;font-variant-numeric:tabular-nums">${date}</span>
+              <button class="acct-del" style="width:24px;height:24px;font-size:11px" onclick="adminDeletePost('${p.id}')">✕</button>
+            </div>
+            <div style="font-size:12.5px;color:var(--txt2);line-height:1.55;white-space:pre-wrap">${esc(p.content)}</div>
+            <div style="font-size:10px;color:var(--muted2);margin-top:4px;font-variant-numeric:tabular-nums">♥ ${p.likes_count||0} · 💬 ${p.comments_count||0}</div>
+          </div>`;
+        }).join('') || `<div style="padding:30px;text-align:center;color:var(--muted2);font-size:12px">${lang==='ar'?'لا توجد منشورات':'No posts'}</div>`}
+      </div>
+      <div class="m-actions">
+        <button class="btn" onclick="openAdminPanel()">${lang==='ar'?'رجوع':'Back'}</button>
+      </div>
+    `);
+  } catch(e){
+    modal(`<h2>${lang==='ar'?'خطأ':'Error'}</h2><p class="sub">${esc(e.message||'')}</p><div class="m-actions"><button class="btn primary" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button></div>`);
+  }
+}
+async function adminDeletePost(postId){
+  if (!confirm(lang==='ar'?'حذف هذا المنشور؟':'Delete this post?')) return;
+  await sb.from('community_posts').delete().eq('id', postId);
+  adminOpenCommunity();
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v14 BLOCK: Onboarding, Admin search/filter/broadcast, sub warnings
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── Onboarding Tour (new user) ── */
+function shouldShowOnboarding(){
+  if (!currentUser) return false;
+  const seen = localStorage.getItem('onboarded_' + currentUser.id);
+  if (seen) return false;
+  // Only show if user has no holdings and no portfolios (fresh)
+  return portfolios.length === 0 || (portfolios.length <= 1 && holdings.length === 0);
+}
+function markOnboarded(){
+  if (!currentUser) return;
+  localStorage.setItem('onboarded_' + currentUser.id, '1');
+  closeModal();
+}
+function showOnboarding(){
+  if (!shouldShowOnboarding()) return;
+  showOnboardStep(1);
+}
+function showOnboardStep(step){
+  const ar = lang === 'ar';
+  const steps = [
+    { 
+      emoji: '👋', 
+      title: ar?'أهلاً في سيركل!':'Welcome to Circle!',
+      body: ar?'منصتك الشاملة لتتبّع استثماراتك. خل أعرّفك عليها في ٤ خطوات بسيطة.':'Your complete investment tracking platform. Let me show you around in 4 simple steps.',
+    },
+    { 
+      emoji: '📊', 
+      title: ar?'الواجهة الرئيسية':'Main Dashboard',
+      body: ar?'هنا تشوف محفظتك بثلاثة أوضاع: فقاعات للمنظور البصري، أعمدة للترتيب، أو كروت للنظرة السريعة.':'See your portfolio in 3 views: Bubbles for visual context, Bars for ranking, or Cards for quick scan.',
+    },
+    { 
+      emoji: '🎮', 
+      title: ar?'ابدأ بمحفظة تدريب':'Start with Paper Portfolio',
+      body: ar?'جديد على الاستثمار؟ ابدأ بمحفظة تدريب وهمية بمال افتراضي. تتعلم بدون مخاطرة. تقدر تنشئها من شاشة المحافظ.':'New to investing? Start with a Paper Portfolio using virtual money. Learn without risk. Create one from the portfolios screen.',
+    },
+    { 
+      emoji: '✨', 
+      title: ar?'المميزات الأساسية':'Key Features',
+      body: ar?'٣ أيام تجربة مجانية. التحدّيات لتحفيز التداول، المحللون لتوصيات وول ستريت، فحص الأسهم لتقييم موضوعي، والمجتمع للنقاش.':'3-day free trial. Challenges to motivate trading, Analysts for Wall Street recommendations, Stock Assessment for objective rating, and Community for discussion.',
+    },
+  ];
+  const cur = steps[step - 1];
+  const isLast = step === steps.length;
+  modal(`
+    <div style="text-align:center;padding:14px 0">
+      <div style="font-size:42px;margin-bottom:10px;line-height:1">${cur.emoji}</div>
+      <h2 style="margin:0 0 8px;font-size:22px;font-weight:900;letter-spacing:-.5px">${cur.title}</h2>
+      <p style="margin:0 16px 18px;color:var(--muted);font-size:13.5px;line-height:1.65">${cur.body}</p>
+      <div style="display:flex;gap:6px;justify-content:center;margin-bottom:18px">
+        ${steps.map((_, i) => `<div style="width:${i+1===step?20:7}px;height:7px;border-radius:99px;background:${i+1===step?'var(--accent)':'var(--line2)'};transition:.3s"></div>`).join('')}
+      </div>
+    </div>
+    <div class="m-actions">
+      ${step > 1 ? `<button class="btn" onclick="showOnboardStep(${step-1})">${ar?'← السابق':'← Back'}</button>` : `<button class="btn" onclick="markOnboarded()">${ar?'تخطّي':'Skip'}</button>`}
+      ${isLast 
+        ? `<button class="btn primary" onclick="markOnboarded()">${ar?'لنبدأ! 🚀':'Let us go! 🚀'}</button>`
+        : `<button class="btn primary" onclick="showOnboardStep(${step+1})">${ar?'التالي →':'Next →'}</button>`}
+    </div>
+  `);
+}
+
+/* ── Subscription expiry warning (user side) ── */
+function checkSubscriptionWarning(){
+  if (!userProfile || userProfile.is_admin) return;
+  if (!userProfile.subscription_paid_until) return;
+  const exp = new Date(userProfile.subscription_paid_until);
+  const today = new Date();
+  const daysLeft = Math.ceil((exp - today) / 86400000);
+  if (daysLeft < 0 || daysLeft > 7) return; // only warn if <= 7 days
+  const seen = sessionStorage.getItem('subWarn_' + userProfile.subscription_paid_until);
+  if (seen) return;
+  sessionStorage.setItem('subWarn_' + userProfile.subscription_paid_until, '1');
+  const ar = lang === 'ar';
+  const isTrial = userProfile.subscription_status === 'trial';
+  const subject = encodeURIComponent(ar?'تجديد اشتراك سيركل':'Renew Circle subscription');
+  setTimeout(()=>{
+    modal(`
+      <div style="text-align:center;padding:8px 0">
+        <div style="font-size:38px;margin-bottom:6px">⏰</div>
+        <h2 style="margin:0 0 8px;font-size:19px;font-weight:800;color:var(--gold)">${isTrial 
+          ? (ar?'تجربتك تنتهي قريباً':'Your trial ends soon') 
+          : (ar?'اشتراكك يقارب الانتهاء':'Subscription expiring soon')}</h2>
+        <p style="margin:0 16px 14px;color:var(--muted);font-size:13px;line-height:1.6">${ar
+          ? `يتبقى لك <b style="color:var(--gold)">${daysLeft}</b> ${daysLeft===1?'يوم':'أيام'} فقط. جدّد الآن لتستمر بكل الميزات.`
+          : `Only <b style="color:var(--gold)">${daysLeft}</b> day${daysLeft===1?'':'s'} left. Renew now to keep all features.`}</p>
+      </div>
+      <a href="mailto:osamah.j09@gmail.com?subject=${subject}" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:#000;padding:12px;border-radius:11px;font-size:14px;font-weight:800;text-decoration:none;margin-bottom:8px">
+        ✉ ${ar?'تجديد الاشتراك':'Renew Subscription'}
+      </a>
+      <div class="m-actions">
+        <button class="btn" style="width:100%" onclick="closeModal()">${ar?'لاحقاً':'Later'}</button>
+      </div>
+    `);
+  }, 1800);
+}
+
+/* ── Admin: enhanced search/filter/broadcast ── */
+let adminFilterState = { search: '', status: 'all' };
+
+async function openAdminPanel(){
+  modal(`<h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
+    <p class="sub">${lang==='ar'?'جاري التحميل...':'Loading...'}</p>`);
+  try {
+    const { data: users, error: ue } = await sb.from('profiles').select('*').order('created_at',{ascending:false});
+    if (ue) throw ue;
+    const { data: allPfs } = await sb.from('portfolios').select('id,user_id');
+    const { data: allHs } = await sb.from('holdings').select('id,user_id');
+    const pfCount = {}, hCount = {};
+    (allPfs||[]).forEach(p => { pfCount[p.user_id] = (pfCount[p.user_id]||0) + 1; });
+    (allHs||[]).forEach(h => { hCount[h.user_id] = (hCount[h.user_id]||0) + 1; });
+
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    
+    // Filter users by current state
+    const filteredUsers = users.filter(u => {
+      // Status filter
+      if (adminFilterState.status !== 'all'){
+        const expDate = u.subscription_paid_until ? new Date(u.subscription_paid_until) : null;
+        const isExpired = !expDate || expDate < today;
+        const isActive = !u.suspended && !isExpired;
+        const matches = {
+          'active': isActive,
+          'trial': u.subscription_status === 'trial' && !isExpired && !u.suspended,
+          'expired': !u.suspended && isExpired,
+          'suspended': u.suspended,
+        };
+        if (!matches[adminFilterState.status]) return false;
+      }
+      // Search filter
+      if (adminFilterState.search){
+        const q = adminFilterState.search.toLowerCase();
+        const matchesEmail = (u.email||'').toLowerCase().includes(q);
+        const matchesName = (u.name||'').toLowerCase().includes(q);
+        const matchesPseudo = (u.pseudonym||'').toLowerCase().includes(q);
+        if (!matchesEmail && !matchesName && !matchesPseudo) return false;
+      }
+      return true;
+    });
+
+    const activeUsers = users.filter(u => !u.suspended && u.subscription_paid_until && new Date(u.subscription_paid_until) >= today).length;
+    const expiredUsers = users.filter(u => !u.suspended && (!u.subscription_paid_until || new Date(u.subscription_paid_until) < today)).length;
+    const suspendedUsers = users.filter(u => u.suspended).length;
+
+    modal(`
+      <h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
+      <p class="sub">${lang==='ar'?'تحكّم كامل بكل المستخدمين والاشتراكات':'Full control over all users and subscriptions'}</p>
+
+      <div style="background:linear-gradient(135deg,#1F1A0E,#0F0A05);border:1px solid #5A4818;border-radius:11px;padding:11px 13px;margin-bottom:12px;font-size:11.5px;color:var(--gold);line-height:1.55">
+        🔐 ${lang==='ar'?'محفظتك الشخصية مفصولة تماماً. هذي اللوحة تعرض بيانات المستخدمين الآخرين فقط.':'Your own portfolio is fully separated. This panel only shows other users data.'}
+      </div>
+
+      <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="btn" style="flex:1;min-width:90px;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="adminOpenStats()">📊 ${lang==='ar'?'إحصائيات':'Stats'}</button>
+        <button class="btn" style="flex:1;min-width:90px" onclick="adminOpenCoupons()">🎟️ ${lang==='ar'?'كوبونات':'Coupons'}</button>
+        <button class="btn" style="flex:1;min-width:90px" onclick="adminOpenCommunity()">💬 ${lang==='ar'?'مجتمع':'Community'}</button>
+        <button class="btn" style="flex:1;min-width:90px;background:#1F1A0E;border-color:#5A4818;color:var(--gold);font-weight:700" onclick="adminBroadcast()">📢 ${lang==='ar'?'رسالة جماعية':'Broadcast'}</button>
+        <button class="btn" style="flex:1;min-width:90px" onclick="adminOpenActivity()">📋 ${lang==='ar'?'سجل النشاط':'Activity'}</button>
+        <button class="btn" style="flex:1;min-width:90px" onclick="exportFullCSV()">💾 ${lang==='ar'?'نسخة CSV':'Backup CSV'}</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${users.length}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'إجمالي':'Total'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${activeUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'نشط':'Active'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums">${expiredUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'منتهي':'Expired'}</div>
+        </div>
+        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--loss);font-variant-numeric:tabular-nums">${suspendedUsers}</div>
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'موقوف':'Suspended'}</div>
+        </div>
+      </div>
+
+      <input id="adm_search" placeholder="🔍 ${lang==='ar'?'ابحث بالإيميل أو الاسم...':'Search by email or name...'}" value="${esc(adminFilterState.search)}" style="width:100%;background:#000;border:1px solid var(--line);color:var(--txt);padding:9px 12px;border-radius:10px;font-size:13px;font-family:inherit;margin-bottom:8px" oninput="adminFilterSearch(this.value)">
+
+      <div style="display:flex;gap:4px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none">
+        ${['all','active','trial','expired','suspended'].map(s => `
+          <button onclick="adminFilterStatus('${s}')" style="flex-shrink:0;background:${adminFilterState.status===s?'var(--accent-bg)':'transparent'};border:1px solid ${adminFilterState.status===s?'var(--accent-d)':'var(--line)'};color:${adminFilterState.status===s?'var(--accent)':'var(--muted)'};padding:5px 11px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.03em">
+            ${({all:lang==='ar'?'الكل':'All',active:lang==='ar'?'نشط':'Active',trial:lang==='ar'?'تجربة':'Trial',expired:lang==='ar'?'منتهي':'Expired',suspended:lang==='ar'?'موقوف':'Suspended'})[s]}
+          </button>
+        `).join('')}
+      </div>
+
+      <h4 style="margin:0 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?`المستخدمون (${filteredUsers.length})`:`Users (${filteredUsers.length})`}</h4>
+      <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:340px;overflow-y:auto">
+        ${filteredUsers.map(u => {
+          const paidUntil = u.subscription_paid_until ? new Date(u.subscription_paid_until) : null;
+          const expired = !paidUntil || paidUntil < today;
+          const daysLeft = paidUntil ? Math.ceil((paidUntil - today) / 86400000) : null;
+          const statusColor = u.suspended ? 'var(--loss)' : (expired ? 'var(--gold)' : 'var(--accent)');
+          const statusBg = u.suspended ? 'var(--loss-bg)' : (expired ? '#1F1A0E' : 'var(--accent-bg)');
+          const statusBd = u.suspended ? '#5C1F22' : (expired ? '#5A4818' : 'var(--accent-d)');
+          const statusLabel = u.suspended ? (lang==='ar'?'موقوف':'SUSPENDED')
+                            : (u.subscription_status === 'trial' && !expired) ? (lang==='ar'?'تجربة':'TRIAL')
+                            : expired ? (lang==='ar'?'منتهي':'EXPIRED')
+                            : (lang==='ar'?'نشط':'ACTIVE');
+          const expiringSoon = !u.suspended && !u.is_admin && daysLeft !== null && daysLeft >= 0 && daysLeft <= 3;
+          return `<div style="padding:11px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px${expiringSoon?';background:linear-gradient(90deg,rgba(232,185,106,.08),transparent)':''}">
+            <div style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#1A1F2E,#0E1828);color:#5BA5FF;display:grid;place-items:center;font-weight:800;font-size:14px;border:1px solid #1F3A6E33;flex-shrink:0">${esc((u.name||u.email||'?')[0].toUpperCase())}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                ${esc(u.name||u.email.split('@')[0])}
+                ${u.is_admin?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1F1A0E;color:#E8B96A;border:1px solid #5A4818;letter-spacing:.05em">ADMIN</span>':''}
+                <span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:${statusBg};color:${statusColor};border:1px solid ${statusBd};letter-spacing:.05em">${statusLabel}</span>
+                ${expiringSoon?`<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1F1A0E;color:var(--gold);border:1px solid #5A4818;letter-spacing:.05em">⏰ ${daysLeft}D</span>`:''}
+              </div>
+              <div style="font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(u.email)}</div>
+              <div style="font-size:10px;color:var(--muted2);margin-top:2px;font-variant-numeric:tabular-nums">
+                ${pfCount[u.id]||0} ${lang==='ar'?'محفظة':'pf'} · ${hCount[u.id]||0} ${lang==='ar'?'سهم':'hold'}
+                ${paidUntil ? ` · ${lang==='ar'?'حتى':'until'} ${paidUntil.toISOString().slice(0,10)}` : ''}
+                ${daysLeft!=null && !u.suspended ? ` · <b style="color:${expired?'var(--loss)':'var(--accent)'}">${daysLeft>=0?daysLeft:0}${lang==='ar'?' يوم':'d'}</b>` : ''}
+              </div>
+            </div>
+            ${!u.is_admin ? `<button style="background:transparent;border:1px solid var(--line2);color:var(--muted);padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0" onclick="adminUserActions('${u.id}','${esc((u.name||u.email).replace(/'/g,'').slice(0,30))}','${esc(u.email)}')">${lang==='ar'?'تحكّم':'Manage'}</button>` : ''}
+          </div>`;
+        }).join("") || `<div style="padding:30px;text-align:center;color:var(--muted2);font-size:12px">${lang==='ar'?'لا توجد نتائج':'No matches'}</div>`}
+      </div>
+      <div class="m-actions">
+        <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
+      </div>
+    `);
+    setTimeout(()=>{ const i = $("#adm_search"); if (i){ i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }, 80);
+  } catch(e){
+    modal(`<h2>${lang==='ar'?'خطأ':'Error'}</h2>
+      <p class="sub">${esc(e.message||'')}</p>
+      <div class="m-actions"><button class="btn primary" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button></div>`);
+  }
+}
+
+let _adminSearchTimer = null;
+function adminFilterSearch(val){
+  clearTimeout(_adminSearchTimer);
+  _adminSearchTimer = setTimeout(()=>{
+    adminFilterState.search = val;
+    openAdminPanel();
+  }, 250);
+}
+function adminFilterStatus(s){
+  adminFilterState.status = s;
+  openAdminPanel();
+}
+
+/* Broadcast notification to all (or filtered) users */
+function adminBroadcast(){
+  const ar = lang === 'ar';
+  modal(`
+    <h2>📢 ${ar?'رسالة جماعية':'Broadcast Message'}</h2>
+    <p class="sub">${ar?'أرسل إشعاراً لكل المستخدمين دفعة وحدة. يظهر لهم عند فتح التطبيق.':'Send a notification to all users at once. Shown when they open the app.'}</p>
+    <div class="field">
+      <label>${ar?'الفئة المستهدفة':'Target'}</label>
+      <select class="inp" id="brd_target">
+        <option value="all">${ar?'كل المستخدمين':'All users'}</option>
+        <option value="active">${ar?'النشطين فقط':'Active only'}</option>
+        <option value="trial">${ar?'في التجربة فقط':'Trial only'}</option>
+        <option value="expired">${ar?'المنتهي اشتراكهم':'Expired only'}</option>
+      </select>
+    </div>
+    <textarea class="notes-textarea" id="brd_msg" placeholder="${ar?'اكتب الرسالة هنا...':'Write your message here...'}" style="min-height:100px"></textarea>
+    <div class="err" id="brd_err"></div>
+    <div class="m-actions">
+      <button class="btn" onclick="openAdminPanel()">${t().cancel}</button>
+      <button class="btn primary" onclick="adminDoBroadcast()">${ar?'إرسال للكل':'Send to all'}</button>
+    </div>
+  `);
+}
+async function adminDoBroadcast(){
+  const ar = lang === 'ar';
+  const msg = $("#brd_msg").value.trim();
+  const target = $("#brd_target").value;
+  if (msg.length < 3){ $("#brd_err").textContent = ar?'الرسالة قصيرة':'Message too short'; return; }
+  if (!confirm(ar?'إرسال الرسالة لجميع المستخدمين المحددين؟':'Send to all selected users?')) return;
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    let q = sb.from('profiles').update({ notification: msg, notification_seen: false });
+    if (target === 'active'){
+      q = q.eq('suspended', false).gte('subscription_paid_until', today);
+    } else if (target === 'trial'){
+      q = q.eq('suspended', false).eq('subscription_status', 'trial').gte('subscription_paid_until', today);
+    } else if (target === 'expired'){
+      q = q.eq('suspended', false).lt('subscription_paid_until', today);
+    } else {
+      q = q.neq('id', '00000000-0000-0000-0000-000000000000'); // dummy to apply to all
+    }
+    const { error } = await q;
+    if (error) throw error;
+    toast(ar?'✓ تم الإرسال للجميع':'✓ Broadcast sent');
+    logActivity('broadcast', { target, msg: msg.slice(0,100) });
+    openAdminPanel();
+  } catch(e){
+    $("#brd_err").textContent = (ar?'خطأ: ':'Error: ') + (e.message||'');
+  }
+}
+
+/* ════ CSV Backup + Activity Log (v15) ════ */
+function exportFullCSV(){
+  const ar = lang === 'ar';
+  if (!currentUser){ toast(ar?'يلزم تسجيل الدخول':'Login required'); return; }
+  const lines = [];
+  // Portfolios
+  lines.push('=== PORTFOLIOS ===');
+  lines.push('id,name,is_paper,cash,starting_cash,created_at');
+  portfolios.forEach(p => {
+    lines.push([p.id, `"${(p.name||'').replace(/"/g,'""')}"`, p.isPaper?'yes':'no', p.cash||0, p.startingCash||0, new Date(p.createdAt).toISOString()].join(','));
+  });
+  // Holdings
+  lines.push('');
+  lines.push('=== HOLDINGS ===');
+  lines.push('portfolio,ticker,name,type,shares,avg,price,target,stop,horizon,purchase_date,notes');
+  holdings.forEach(h => {
+    const s = statsFor(h);
+    const pf = portfolios.find(p => p.id === h.pfId);
+    lines.push([
+      `"${(pf?.name||'').replace(/"/g,'""')}"`,
+      h.ticker,
+      `"${(h.name||'').replace(/"/g,'""')}"`,
+      h.type || 'stock',
+      s.shares,
+      s.avg,
+      h.price || '',
+      h.target || '',
+      h.stopLoss || '',
+      h.horizon || '',
+      h.purchaseDate || '',
+      `"${(h.notes||'').replace(/"/g,'""').replace(/\n/g,' ')}"`,
+    ].join(','));
+  });
+  // Transactions
+  lines.push('');
+  lines.push('=== TRANSACTIONS ===');
+  lines.push('ticker,type,qty,price,date,total');
+  holdings.forEach(h => {
+    const mult = (h.type && h.type !== 'stock') ? 100 : 1;
+    (h.transactions || []).forEach(tx => {
+      lines.push([h.ticker, tx.type, tx.qty, tx.price, tx.date || '', tx.qty * tx.price * mult].join(','));
+    });
+  });
+  // Watchlist
+  lines.push('');
+  lines.push('=== WATCHLIST ===');
+  lines.push('ticker,name,group,target,stop,added_price,current_price,note');
+  watchlist.forEach(w => {
+    lines.push([w.ticker, `"${(w.name||'').replace(/"/g,'""')}"`, w.wgroup||'watch', w.target||'', w.stop||'', w.addedPrice||'', w.price||'', `"${(w.note||'').replace(/"/g,'""')}"`].join(','));
+  });
+  const csv = '\ufeff' + lines.join('\n'); // BOM for Excel
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `circle-backup-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast(ar?'✓ تم تنزيل النسخة الاحتياطية':'✓ Backup downloaded');
+  logActivity('backup_csv', { items: holdings.length + watchlist.length });
+}
+
+async function logActivity(action, details){
+  if (!currentUser) return;
+  try {
+    await sb.from('activity_log').insert({
+      user_id: currentUser.id,
+      email: currentUser.email,
+      action,
+      details: details || {},
+    });
+  } catch(e){}
+}
+
+async function adminOpenActivity(){
+  const ar = lang === 'ar';
+  modal(`<h2>📋 ${ar?'سجل النشاط':'Activity Log'}</h2><p class="sub">${ar?'جاري...':'Loading...'}</p>`);
+  try {
+    const { data: logs } = await sb.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100);
+    const fmt = (a) => {
+      const map = { 
+        signup:'🆕 '+(ar?'تسجيل جديد':'Signup'),
+        login:'🔓 '+(ar?'دخول':'Login'),
+        buy:'🟢 '+(ar?'شراء':'Buy'),
+        sell:'🔴 '+(ar?'بيع':'Sell'),
+        add_watch:'⭐ '+(ar?'إضافة متابعة':'Add watch'),
+        backup_csv:'💾 '+(ar?'نسخة احتياطية':'Backup'),
+        post:'💬 '+(ar?'منشور':'Post'),
+        comment:'✏️ '+(ar?'تعليق':'Comment'),
+        broadcast:'📢 '+(ar?'إرسال جماعي':'Broadcast'),
+      };
+      return map[a] || a;
+    };
+    modal(`
+      <h2>📋 ${ar?'سجل النشاط':'Activity Log'}</h2>
+      <p class="sub">${ar?`آخر ${logs?.length||0} نشاط`:`Last ${logs?.length||0} activities`}</p>
+      <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:500px;overflow-y:auto">
+        ${(logs||[]).map(l => {
+          const d = new Date(l.created_at);
+          const time = d.toISOString().slice(0,16).replace('T',' ');
+          return `<div style="padding:9px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;font-size:11.5px">
+            <span style="font-weight:700;min-width:140px">${fmt(l.action)}</span>
+            <span style="color:var(--muted);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l.email||'')}</span>
+            <span style="color:var(--muted2);font-variant-numeric:tabular-nums;font-size:10.5px">${time}</span>
+          </div>`;
+        }).join('') || `<div style="padding:30px;text-align:center;color:var(--muted2);font-size:12px">${ar?'لا يوجد نشاط مسجل بعد':'No activity logged yet'}</div>`}
+      </div>
+      <div class="m-actions">
+        <button class="btn" onclick="openAdminPanel()">${ar?'رجوع':'Back'}</button>
+      </div>
+    `);
+  } catch(e){
+    toast(ar?'تعذّر التحميل':'Failed to load');
+  }
+}
+
 async function runDiagnostic(){
   modal(`
     <h2>${lang==='ar'?'تشخيص الاتصال':'Connection Diagnostic'}</h2>
@@ -5973,7 +6830,8 @@ function toggleLang(){
 }
 
 function openSettings(){
-  const cashTx = (settings.cashHistory||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,6);
+  const cashTx = getPfCashHistory().slice().sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,6);
+  const isPaper = activeIsPaper();
   modal(`
     <h2>${t().settings}</h2>
 
@@ -5992,18 +6850,20 @@ function openSettings(){
     </div>
 
     <div class="set-section">
-      <h4>💵 ${lang==='ar'?'الكاش':'Cash'} · ${fmtMoney(settings.cash||0)}</h4>
-      <div style="display:flex;gap:7px;margin-bottom:8px">
-        <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="addCashTx('deposit')">+ ${lang==='ar'?'إيداع':'Deposit'}</button>
-        <button class="btn" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700" onclick="addCashTx('withdraw')">− ${lang==='ar'?'سحب':'Withdraw'}</button>
-      </div>
+      <h4>💵 ${lang==='ar'?'الكاش':'Cash'} · ${fmtMoney(getPfCash())}${isPaper?` <span class="paper-badge">🎮 ${lang==='ar'?'تدريب':'PAPER'}</span>`:''}</h4>
+      ${isPaper ? `<div class="info" style="color:var(--muted);background:#0E1828;border:1px solid #1F3A6E;padding:9px 12px;border-radius:9px;font-size:11.5px">${lang==='ar'?'محفظة تدريب · لا يمكن إضافة كاش. رأس المال الابتدائي ثابت.':'Practice portfolio · Cash cannot be added. Starting capital is fixed.'}</div>` : `
+        <div style="display:flex;gap:7px;margin-bottom:8px">
+          <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="addCashTx('deposit')">+ ${lang==='ar'?'إيداع':'Deposit'}</button>
+          <button class="btn" style="flex:1;background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss);font-weight:700" onclick="addCashTx('withdraw')">− ${lang==='ar'?'سحب':'Withdraw'}</button>
+        </div>
+      `}
       ${cashTx.length ? `<div style="background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:11.5px">
         ${cashTx.map(tx => `<div style="display:flex;align-items:center;gap:8px;padding:7px 11px;border-bottom:1px solid var(--line)">
           <span style="font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:3px;background:${tx.type==='deposit'?'var(--accent-bg)':'var(--loss-bg)'};color:${tx.type==='deposit'?'var(--accent)':'var(--loss)'}">${tx.type==='deposit'?(lang==='ar'?'إيداع':'IN'):(lang==='ar'?'سحب':'OUT')}</span>
           <span style="color:var(--muted)">${esc(tx.date)}</span>
           <span style="flex:1;color:var(--muted2);font-size:11px">${esc(tx.note||'')}</span>
-          <span style="font-weight:700;font-variant-numeric:tabular-nums">$${fmt(tx.amount)}</span>
-          <button class="del" onclick="delCashTx('${tx.id}')" style="color:var(--muted2);width:22px;height:22px;border-radius:5px;font-size:11px">✕</button>
+          <span style="font-weight:700;font-variant-numeric:tabular-nums">${fmtMoney(tx.amount)}</span>
+          ${!isPaper?`<button class="del" onclick="delCashTx('${tx.id}')" style="color:var(--muted2);width:22px;height:22px;border-radius:5px;font-size:11px">✕</button>`:''}
         </div>`).join('')}
       </div>` : ''}
     </div>
@@ -6011,6 +6871,12 @@ function openSettings(){
     <div class="set-section">
       <h4>🏅 ${lang==='ar'?'الإنجازات':'Achievements'} · ${(settings.achievements||[]).length}/${ACHIEVEMENTS.length}</h4>
       <button class="btn" style="width:100%" onclick="openAchievements()">${lang==='ar'?'عرض الكل':'View all'} →</button>
+    </div>
+
+    <div class="set-section">
+      <h4>💾 ${lang==='ar'?'النسخ الاحتياطي':'Backup'}</h4>
+      <button class="btn" style="width:100%" onclick="exportFullCSV()">📥 ${lang==='ar'?'تنزيل نسخة CSV كاملة':'Download Full CSV Backup'}</button>
+      <div class="info">${lang==='ar'?'يحفظ كل محافظك وأسهمك وصفقاتك ومتابعتك في ملف Excel.':'Saves all portfolios, holdings, transactions, and watchlist as Excel CSV.'}</div>
     </div>
 
     <div class="set-section">
@@ -6324,26 +7190,42 @@ function renderLanding(){
 function openCreatePortfolio(){
   modal(`
     <h2>${lang==='ar'?'محفظة جديدة':'New portfolio'}</h2>
-    <p class="sub">${lang==='ar'?'سمّ محفظتك. تنحفظ بحسابك على السحابة.':'Name your portfolio. Saves to your cloud account.'}</p>
-    <div class="field"><label>${lang==='ar'?'اسم المحفظة':'Portfolio name'}</label>
-      <input class="inp ar" id="pf_n" placeholder="${lang==='ar'?'مثلاً: محفظتي':'e.g. My Portfolio'}"></div>
-    <div class="err" id="pf_err"></div>
+    <p class="sub">${lang==='ar'?'سمّ محفظتك وحدّد رأس المال الابتدائي.':'Name your portfolio and set starting capital.'}</p>
+    <div class="field">
+      <label>${lang==='ar'?'الاسم':'Name'}</label>
+      <input class="inp" id="np_name" placeholder="${lang==='ar'?'محفظتي':'My Portfolio'}" autofocus>
+    </div>
+    <div class="field">
+      <label>${lang==='ar'?'رأس المال الابتدائي':'Starting capital'} <small style="color:var(--muted2)">(USD)</small></label>
+      <input class="inp" id="np_cash" type="number" inputmode="decimal" value="10000" min="0" step="100">
+    </div>
+    <div class="err" id="np_err"></div>
     <div class="m-actions">
       <button class="btn" onclick="closeModal()">${t().cancel}</button>
       <button class="btn primary" onclick="doCreatePortfolio()">${lang==='ar'?'إنشاء':'Create'}</button>
     </div>
   `);
-  setTimeout(()=>$("#pf_n")?.focus(),60);
+  setTimeout(()=>$("#np_name")?.focus(),80);
 }
 
 async function doCreatePortfolio(){
-  const name = $("#pf_n").value.trim();
-  if (!name){ $("#pf_err").textContent = lang==='ar'?'اكتب اسم':'Enter a name'; return; }
-  const p = { id: uid(), name, color: PF_COLORS[portfolios.length % PF_COLORS.length], passHash: null, createdAt: Date.now() };
+  const name = $("#np_name").value.trim() || $("#pf_n")?.value.trim();
+  if (!name){ const e = $("#np_err") || $("#pf_err"); if (e) e.textContent = lang==='ar'?'اكتب اسم':'Enter a name'; return; }
+  const startCash = parseFloat($("#np_cash")?.value || '0') || 0;
+  const p = { 
+    id: uid(), name, color: PF_COLORS[portfolios.length % PF_COLORS.length], 
+    passHash: null, createdAt: Date.now(),
+    cash: startCash, startingCash: startCash, isPaper: false,
+  };
   try {
-    await cloudInsertPortfolio(p);
+    if (currentUser){
+      await sb.from('portfolios').insert({
+        id: p.id, user_id: currentUser.id, name: p.name, color: p.color,
+        cash: startCash, starting_cash: startCash, is_paper: false,
+      });
+    }
   } catch(e){
-    $("#pf_err").textContent = lang==='ar'?'خطأ في الحفظ':'Save error'; return;
+    const eEl = $("#np_err") || $("#pf_err"); if (eEl) eEl.textContent = (lang==='ar'?'خطأ: ':'Error: ') + (e.message||''); return;
   }
   portfolios.push(p);
   settings.activePf = p.id;
@@ -6382,7 +7264,7 @@ function saveName(){ /* legacy compat */ }
 function modal(html){
   closeModal();
   const s = document.createElement("div"); s.className="scrim"; s.id="scrim";
-  s.innerHTML = `<div class="modal">${html}</div>`;
+  s.innerHTML = `<div class="modal"><button class="modal-close-x" onclick="closeModal()" aria-label="Close">✕</button>${html}</div>`;
   s.addEventListener("click", e => { if (e.target === s) closeModal(); });
   document.body.appendChild(s);
 }
@@ -6493,13 +7375,17 @@ function renderBlocked(reason){
 
 async function cloudLoadAll(){
   if (!currentUser) return;
-  const { data: pfs } = await sb.from('portfolios').select('*').order('created_at');
+  const uid = currentUser.id;
+  const { data: pfs } = await sb.from('portfolios').select('*').eq('user_id', uid).order('created_at');
   portfolios = (pfs || []).map(p => ({
     id: p.id, name: p.name, color: p.color || '#5FE9B0',
     passHash: null, createdAt: new Date(p.created_at).getTime(),
-    isPaper: !!p.is_paper, paperStartingCapital: p.paper_starting_capital ? parseFloat(p.paper_starting_capital) : null,
+    isPaper: !!p.is_paper,
+    paperStartingCapital: p.paper_starting_capital ? parseFloat(p.paper_starting_capital) : null,
+    cash: p.cash != null ? parseFloat(p.cash) : 0,
+    startingCash: p.starting_cash != null ? parseFloat(p.starting_cash) : null,
   }));
-  const { data: hs } = await sb.from('holdings').select('*');
+  const { data: hs } = await sb.from('holdings').select('*').eq('user_id', uid);
   holdings = (hs || []).map(h => ({
     id: h.id, pfId: h.portfolio_id,
     ticker: h.ticker, name: h.name || h.ticker,
@@ -6516,17 +7402,18 @@ async function cloudLoadAll(){
     purchaseDate: h.purchase_date || null,
     price: null, prev: null, dayChangePct: null,
   }));
-  const { data: ws } = await sb.from('watchlist').select('*');
+  const { data: ws } = await sb.from('watchlist').select('*').eq('user_id', uid);
   watchlist = (ws || []).map(w => ({
     id: w.id, pfId: w.portfolio_id,
     ticker: w.ticker, name: w.name || w.ticker,
     target: w.target ? parseFloat(w.target) : null,
     stop: w.stop ? parseFloat(w.stop) : null,
     note: w.note || '',
+    wgroup: w.wgroup || 'watch',
     addedAt: new Date(w.created_at).getTime(),
     price: null, dayChangePct: null,
   }));
-  const { data: chs } = await sb.from('challenges').select('*');
+  const { data: chs } = await sb.from('challenges').select('*').eq('user_id', uid);
   challenges = (chs || []).map(c => ({
     id: c.id, pfId: c.portfolio_id, name: c.name,
     startCapital: parseFloat(c.start_capital),
@@ -6579,6 +7466,7 @@ async function cloudUpsertWatch(w){
   await sb.from('watchlist').upsert({
     id: w.id, user_id: currentUser.id, portfolio_id: w.pfId,
     ticker: w.ticker, name: w.name, target: w.target||null, stop: w.stop||null, note: w.note||null,
+    wgroup: w.wgroup || 'watch',
   });
 }
 async function cloudDeleteWatch(id){
@@ -6669,96 +7557,6 @@ async function doLogin(){
 }
 async function cloudLogout(){
   await sb.auth.signOut();
-}
-
-/* ════ Admin Panel ════ */
-async function openAdminPanel(){
-  modal(`<h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
-    <p class="sub">${lang==='ar'?'جاري التحميل...':'Loading...'}</p>`);
-  try {
-    const { data: users, error: ue } = await sb.from('profiles').select('*').order('created_at',{ascending:false});
-    if (ue) throw ue;
-    const { data: allPfs } = await sb.from('portfolios').select('id,user_id');
-    const { data: allHs } = await sb.from('holdings').select('id,user_id');
-    const pfCount = {}, hCount = {};
-    (allPfs||[]).forEach(p => { pfCount[p.user_id] = (pfCount[p.user_id]||0) + 1; });
-    (allHs||[]).forEach(h => { hCount[h.user_id] = (hCount[h.user_id]||0) + 1; });
-
-    const today = new Date();
-    today.setHours(0,0,0,0);
-    const activeUsers = users.filter(u => !u.suspended && u.subscription_paid_until && new Date(u.subscription_paid_until) >= today).length;
-    const expiredUsers = users.filter(u => !u.suspended && (!u.subscription_paid_until || new Date(u.subscription_paid_until) < today)).length;
-    const suspendedUsers = users.filter(u => u.suspended).length;
-
-    modal(`
-      <h2 style="color:#E8B96A">🔓 ${lang==='ar'?'لوحة المدير':'Admin Panel'}</h2>
-      <p class="sub">${lang==='ar'?'تحكّم كامل بكل المستخدمين والاشتراكات':'Full control over all users and subscriptions'}</p>
-
-      <div style="display:flex;gap:6px;margin-bottom:14px">
-        <button class="btn" style="flex:1;background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent);font-weight:700" onclick="adminOpenStats()">📊 ${lang==='ar'?'إحصائيات':'Stats'}</button>
-        <button class="btn" style="flex:1" onclick="adminOpenCoupons()">🎟️ ${lang==='ar'?'كوبونات':'Coupons'}</button>
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px">
-        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
-          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${users.length}</div>
-          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'إجمالي':'Total'}</div>
-        </div>
-        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
-          <div style="font-size:18px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums">${activeUsers}</div>
-          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'نشط':'Active'}</div>
-        </div>
-        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
-          <div style="font-size:18px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums">${expiredUsers}</div>
-          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'منتهي':'Expired'}</div>
-        </div>
-        <div style="background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 6px;text-align:center">
-          <div style="font-size:18px;font-weight:800;color:var(--loss);font-variant-numeric:tabular-nums">${suspendedUsers}</div>
-          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px">${lang==='ar'?'موقوف':'Suspended'}</div>
-        </div>
-      </div>
-
-      <h4 style="margin:12px 0 8px;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em">${lang==='ar'?'المستخدمون':'Users'}</h4>
-      <div style="background:#000;border:1px solid var(--line);border-radius:11px;overflow:hidden;max-height:380px;overflow-y:auto">
-        ${users.map(u => {
-          const paidUntil = u.subscription_paid_until ? new Date(u.subscription_paid_until) : null;
-          const expired = !paidUntil || paidUntil < today;
-          const daysLeft = paidUntil ? Math.ceil((paidUntil - today) / 86400000) : null;
-          const statusColor = u.suspended ? 'var(--loss)' : (expired ? 'var(--gold)' : 'var(--accent)');
-          const statusBg = u.suspended ? 'var(--loss-bg)' : (expired ? '#1F1A0E' : 'var(--accent-bg)');
-          const statusBd = u.suspended ? '#5C1F22' : (expired ? '#5A4818' : 'var(--accent-d)');
-          const statusLabel = u.suspended ? (lang==='ar'?'موقوف':'SUSPENDED')
-                            : (u.subscription_status === 'trial' && !expired) ? (lang==='ar'?'تجربة':'TRIAL')
-                            : expired ? (lang==='ar'?'منتهي':'EXPIRED')
-                            : (lang==='ar'?'نشط':'ACTIVE');
-          return `<div style="padding:11px 13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px">
-            <div style="width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#1A1F2E,#0E1828);color:#5BA5FF;display:grid;place-items:center;font-weight:800;font-size:14px;border:1px solid #1F3A6E33;flex-shrink:0">${esc((u.name||u.email||'?')[0].toUpperCase())}</div>
-            <div style="flex:1;min-width:0">
-              <div style="font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-                ${esc(u.name||u.email.split('@')[0])}
-                ${u.is_admin?'<span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:#1F1A0E;color:#E8B96A;border:1px solid #5A4818;letter-spacing:.05em">ADMIN</span>':''}
-                <span style="font-size:8.5px;font-weight:800;padding:1px 5px;border-radius:3px;background:${statusBg};color:${statusColor};border:1px solid ${statusBd};letter-spacing:.05em">${statusLabel}</span>
-              </div>
-              <div style="font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(u.email)}</div>
-              <div style="font-size:10px;color:var(--muted2);margin-top:2px;font-variant-numeric:tabular-nums">
-                ${pfCount[u.id]||0} ${lang==='ar'?'محفظة':'pf'} · ${hCount[u.id]||0} ${lang==='ar'?'سهم':'hold'}
-                ${paidUntil ? ` · ${lang==='ar'?'حتى':'until'} ${paidUntil.toISOString().slice(0,10)}` : ''}
-                ${daysLeft!=null && !u.suspended ? ` · <b style="color:${expired?'var(--loss)':'var(--accent)'}">${daysLeft>=0?daysLeft:0}${lang==='ar'?' يوم':'d'}</b>` : ''}
-              </div>
-            </div>
-            ${!u.is_admin ? `<button style="background:transparent;border:1px solid var(--line2);color:var(--muted);padding:5px 9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0" onclick="adminUserActions('${u.id}','${esc((u.name||u.email).replace(/'/g,'').slice(0,30))}','${esc(u.email)}')">${lang==='ar'?'تحكّم':'Manage'}</button>` : ''}
-          </div>`;
-        }).join("") || `<div style="padding:30px;text-align:center;color:var(--muted2);font-size:12px">${lang==='ar'?'لا يوجد مستخدمون':'No users'}</div>`}
-      </div>
-      <div class="m-actions">
-        <button class="btn" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button>
-      </div>
-    `);
-  } catch(e){
-    modal(`<h2>${lang==='ar'?'خطأ':'Error'}</h2>
-      <p class="sub">${esc(e.message||'')}</p>
-      <div class="m-actions"><button class="btn primary" onclick="closeModal()">${lang==='ar'?'إغلاق':'Close'}</button></div>`);
-  }
 }
 
 async function adminUserActions(userId, userName, userEmail){
@@ -6933,6 +7731,8 @@ async function adminDeletePf(pfId, pfName, userId, userName){
   setTimeout(()=>{ try { maybeShowNotification(); } catch(e){} }, 1400);
   setTimeout(()=>{ try { maybeRunDailyBackup(); } catch(e){} }, 3000);
   setTimeout(()=>{ try { showDailyBrief(); } catch(e){} }, 2200);
+  setTimeout(()=>{ try { showOnboarding(); } catch(e){} }, 1200);
+  setTimeout(()=>{ try { checkSubscriptionWarning(); } catch(e){} }, 2600);
   try { installPullToRefresh(); } catch(e){}
 
   sb.auth.onAuthStateChange(async (event, session) => {
