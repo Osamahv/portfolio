@@ -289,7 +289,27 @@ body[dir="rtl"] .row .rt{text-align:left}
 .onboard-card .inp{text-align:center;font-size:15px}
 
 /* modal */
+/* Stock Detail Full Page */
+.sd-page{min-height:100vh;background:var(--bg);padding-bottom:100px}
+.sd-topbar{position:sticky;top:0;z-index:5;background:rgba(10,10,10,.94);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)}
+.sd-topbar-r{display:flex;align-items:center;gap:8px}
+.sd-back,.sd-act{background:var(--surf);border:1px solid var(--line);color:var(--txt2);width:36px;height:36px;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-family:inherit;transition:.15s;padding:0}
+.sd-back:hover,.sd-act:hover{background:var(--surf2);border-color:var(--line2)}
+.sd-back svg,.sd-act svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sd-act svg[fill="currentColor"]{stroke:none;fill:currentColor;color:var(--accent)}
+.sd-content{padding:22px 22px 28px;max-width:680px;margin:0 auto}
+.sd-content h2{margin:24px 0 8px;font-size:22px;font-weight:800;letter-spacing:-.015em}
+.sd-content h2:first-child{margin-top:8px}
+body[dir="rtl"] .sd-content h2{font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.sd-content .d-head{margin-bottom:10px}
+
+/* Scrim fullpage */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:grid;place-items:flex-end;padding:0;z-index:60;animation:fade .18s}
+.scrim.fullpage{background:var(--bg);backdrop-filter:none;place-items:stretch;overflow:auto}
+.modal.fullpage{max-width:680px;margin:0 auto;border:none;border-radius:0;padding:0;max-height:none;background:var(--bg);min-height:100vh;animation:slidePage .26s}
+@keyframes slidePage{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+body[dir="rtl"] .modal.fullpage{animation:slidePageRtl .26s}
+@keyframes slidePageRtl{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
 @media(min-width:520px){.scrim{place-items:center;padding:20px}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .modal{width:100%;max-width:440px;background:#0A0A0A;border:1px solid var(--line);border-radius:20px 20px 0 0;padding:24px 22px 28px;max-height:92vh;overflow:auto;animation:slide .22s;position:relative}
@@ -878,9 +898,9 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .cash-bar .cash-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cash-bar-lbl{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:5px}
 .cash-bar-val{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);margin-top:1px}
-.cash-add-btn{display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:9px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.02em;transition:.15s}
-.cash-add-btn:hover{background:#7AFAC2;transform:translateY(-1px)}
-.cash-add-btn svg{width:13px;height:13px;stroke:#000;fill:none;stroke-width:2.5;stroke-linecap:round}
+.cash-add-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#000;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}
+.cash-add-btn:hover{background:#7AFAC2;transform:scale(1.06)}
+.cash-add-btn svg{width:15px;height:15px;stroke:#000;fill:none;stroke-width:2.6;stroke-linecap:round}
 
 /* Today summary strip atop Hero */
 .today-strip{display:flex;align-items:center;gap:10px;padding:9px 14px;margin:0 0 12px;background:rgba(20,20,20,.6);border:1px solid var(--line);border-radius:12px;font-size:11.5px;font-variant-numeric:tabular-nums}
@@ -1874,6 +1894,7 @@ function render(){
       </div>
     </div>
 
+    ${activeTab === 'portfolio' ? `
     ${(() => {
       const hs = activeHoldings();
       if (!hs.length) return '';
@@ -1905,41 +1926,42 @@ function render(){
 
     <div class="hero-grid">
       <div class="hero-cell">
-        <div class="lbl">${t().marketValue} <button class="mv-chart-btn ${pfChartOpen?'on':''}" onclick="togglePfChart()" title="${lang==='ar'?'شارت أداء المحفظة':'Portfolio chart'}">📈</button></div>
-        <div class="val">${maskMoney(fmtMoney(tt.mv))}</div>
+        <div class="lbl">${t().marketValue} <button class="mv-chart-btn ${pfChartOpen?'on':''}" onclick="togglePfChart()" title="${lang==='ar'?'شارت أداء المحفظة':'Portfolio chart'}">${icn('chart')}</button></div>
+        <div class="val">${maskMoney(fmtUSD(tt.mv))}</div>
       </div>
       <div class="hero-cell">
         <div class="lbl">${t().totalPL}</div>
-        <div class="val ${sgn(tt.pl)}">${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmtMoney(Math.abs(tt.pl)))}</div>
+        <div class="val ${sgn(tt.pl)}">${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmtUSD(Math.abs(tt.pl)))}</div>
       </div>
     </div>
     <div class="hero-sub ${sgn(tt.pl)}">
       ${settings.privacy?'••••':((tt.pl>=0?'+':'')+fmt(tt.plPct,2)+'%')}
-      ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+fmtMoney0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
+      ${tt.today!=null?`<span class="sep">·</span>${settings.privacy?'••••':((tt.today>=0?'+':'')+fmtUSD0(Math.abs(tt.today)))}<span class="sep">·</span>${settings.privacy?'••••':((tt.todayPct>=0?'+':'')+fmt(tt.todayPct,2)+'% '+t().today)}`:''}
     </div>
-    <div class="hero-sar">${maskMoney(fmt0(tt.mv*3.75)+' SAR')}</div>
+    ${fmtLocalCurrency(tt.mv) ? `<div class="hero-sar">${maskMoney(fmtLocalCurrency(tt.mv))}</div>` : ''}
     ${tt.deposited > 0 ? `<div class="deposited-line">
       <span class="lbl">${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span>
-      <span class="v">${maskMoney('$'+fmt0(tt.deposited))}</span>
+      <span class="v">${maskMoney(fmtUSD0(tt.deposited))}</span>
       <span class="sep">·</span>
       <span class="lbl">${lang==='ar'?'العائد الكلي':'Total return'}</span>
-      <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+'$'+fmt0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
+      <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+fmtUSD0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
     </div>` : ''}
     <div class="cash-bar" onclick="${activeIsPaper()?'event.stopPropagation()':'openCashQuickAdd()'}">
       <div class="cash-bar-l">
         <span class="cash-ic">${icn('cash')}</span>
         <div>
           <div class="cash-bar-lbl">${lang==='ar'?'الكاش المتاح':'Available Cash'}${activeIsPaper()?` · <span class="paper-badge" style="font-size:8px">${lang==='ar'?'تدريب':'PAPER'}</span>`:''}</div>
-          <div class="cash-bar-val">${maskMoney(fmtMoney(getPfCash()))}</div>
+          <div class="cash-bar-val">${maskMoney(fmtUSD(getPfCash()))}</div>
         </div>
       </div>
-      ${activeIsPaper() ? '' : `<button class="cash-add-btn" onclick="event.stopPropagation();openCashQuickAdd()">${icn('plus')} ${lang==='ar'?'إضافة':'Add'}</button>`}
+      ${activeIsPaper() ? '' : `<button class="cash-add-btn" onclick="event.stopPropagation();openCashQuickAdd()" title="${lang==='ar'?'إضافة كاش':'Add cash'}">${icn('plus')}</button>`}
     </div>
 
     <div class="hero-live">
       <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
       <button class="refresh-btn" id="refresh-btn" onclick="refreshPrices()">↻ ${t().refresh}</button>
     </div>
+    ` : ''}
 
     <div class="tabs">
       <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>${lang==='ar'?'الرئيسية':'Home'}</span></button>
@@ -2050,9 +2072,7 @@ function renderTab(){
       ${chBar}
       ${wsBanner}
       ${miniChart}
-      <div style="display:flex;justify-content:center;gap:8px;margin:6px 0 12px;flex-wrap:wrap">
-        <button class="png-btn" onclick="openPerfSummary()" style="background:var(--surf);color:var(--txt2);border:1px solid var(--line);padding:8px 16px;font-size:12px;font-weight:700">📊 ${lang==='ar'?'ملخّص الأداء':'Performance Summary'}</button>
-      </div>
+      ${hs.length ? horizonStrip : ''}
       ${hs.length ? `
         <div class="chart-type-switch">
           <button class="${settings.chartType==='bubble'?'on':''}" onclick="setChartType('bubble')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor"><circle cx="12" cy="12" r="6"/></svg> ${lang==='ar'?'فقاعات':'Bubbles'}</button>
@@ -2237,38 +2257,16 @@ function renderCards(){
   const data = hs.map(h => { const s = statsFor(h); return { h, s }; }).filter(d => d.s.mv > 0);
   if (!data.length) { wrap.innerHTML = ''; return; }
   data.sort((a,b) => b.s.mv - a.s.mv);
-  const ar = lang === 'ar';
-  wrap.innerHTML = `<div class="cards-list-v3">${data.map(({h,s}) => {
-    const up = s.pl >= 0;
+  wrap.innerHTML = `<div class="cards-grid-v2">${data.map(({h,s}) => {
+    const up = s.plPct >= 0;
     const cachedLogo = _logoCache[h.ticker];
     const logoHTML = cachedLogo
-      ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="cv3-logo" onerror="this.style.display='none'">`
-      : `<div class="cv3-logo cv3-fallback" data-logo-tic="${esc(h.ticker)}">${esc(h.ticker.slice(0,3))}</div>`;
-    const plStr = settings.privacy ? '••••' : `${up?'+':'−'}${fmt(Math.abs(s.pl),2)}`;
-    const plPctStr = settings.privacy ? '' : ` <span style="opacity:.85">(${up?'+':''}${fmt(s.plPct,2)}%)</span>`;
-    return `<div class="cv3-card ${up?'up':'down'}" onclick="openDetail('${h.id}')">
-      <div class="cv3-head">
-        ${logoHTML}
-        <div class="cv3-titles">
-          <div class="cv3-tic">${esc(h.ticker)}${earnBadge(h.ticker)}</div>
-          <div class="cv3-name">${esc(h.name || h.ticker)}</div>
-        </div>
-      </div>
-      <div class="cv3-divider"></div>
-      <div class="cv3-stats">
-        <div class="cv3-stat">
-          <div class="cv3-stat-lbl">${ar?'إجمالي ربح/خسارة':'Total P&L'}</div>
-          <div class="cv3-stat-val ${up?'up':'down'}">${plStr}${plPctStr}</div>
-        </div>
-        <div class="cv3-stat">
-          <div class="cv3-stat-lbl">${ar?'القيمة السوقية':'Market Value'}</div>
-          <div class="cv3-stat-val">${maskMoney(fmtMoney(s.mv))}</div>
-        </div>
-        <div class="cv3-stat">
-          <div class="cv3-stat-lbl">${ar?'الكمية':'Quantity'}</div>
-          <div class="cv3-stat-val">${fmt(s.shares, s.shares%1?2:0)}</div>
-        </div>
-      </div>
+      ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="logo-img" onerror="this.style.display='none'">`
+      : `<div class="logo-fallback" data-logo-tic="${esc(h.ticker)}" style="background:${up?'var(--accent-bg)':'var(--loss-bg)'};color:${up?'var(--accent)':'var(--loss)'};border-color:${up?'var(--accent-d)':'var(--loss-d)'}">${esc(h.ticker.slice(0,3))}</div>`;
+    return `<div class="card-v2 ${up?'up':'down'}" onclick="openDetail('${h.id}')">
+      ${logoHTML}
+      <div class="tic">${esc(h.ticker)}</div>
+      <div class="pct">${settings.privacy?'••':(up?'+':'−')+fmt(Math.abs(s.plPct),0)+'%'}</div>
     </div>`;
   }).join('')}</div>`;
   lazyLoadLogos(data.map(d => d.h.ticker));
@@ -2411,13 +2409,6 @@ function renderEditModal(h){
   return `
     <h2>${h ? t().editStock : t().addStock}</h2>
 
-    <h4>${lang==='ar'?'النوع':'Type'}</h4>
-    <div class="opt-type-seg" id="seg-type">
-      <button class="${editType==='stock'?'on':''}" onclick="setEditType('stock')">${lang==='ar'?'سهم':'Stock'}</button>
-      <button class="${editType==='call'?'on call':''}" onclick="setEditType('call')">${lang==='ar'?'Call (شراء)':'Call'}</button>
-      <button class="${editType==='put'?'on put':''}" onclick="setEditType('put')">${lang==='ar'?'Put (بيع)':'Put'}</button>
-    </div>
-
     <div class="field"><label>${t().ticker}</label>
       <div class="search-wrap">
         <input class="inp" id="f_tic" placeholder="AAPL / Apple" value="${h?esc(h.ticker):''}" oninput="liveSearch();schedulePricePreview()" onblur="loadPricePreview()" autocomplete="off">
@@ -2438,9 +2429,6 @@ function renderEditModal(h){
     <div style="background:#000;border:1px solid var(--line);border-radius:11px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--muted)">
       ${lang==='ar'?'استخدم زر <b style="color:var(--accent)">+ شراء</b> أو <b style="color:var(--loss)">− بيع</b> في تفاصيل السهم لتعديل المراكز':'Use <b style="color:var(--accent)">+ Buy</b> / <b style="color:var(--loss)">− Sell</b> buttons in stock detail to manage positions'}
     </div>`}
-
-    <div class="field"><label>${t().currentPrice} <small style="color:#444">$ · ${t().optional}</small></label>
-      <input class="inp" id="f_pr" type="number" step="any" inputmode="decimal" placeholder="—" value="${h&&h.price!=null?h.price:''}"></div>
 
     ${isOpt ? `
       <h4>${lang==='ar'?'تفاصيل العقد':'Contract Details'}</h4>
@@ -2671,12 +2659,30 @@ function openDetail(id){
     : `<div class="tic-bx" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>`;
 
   modal(`
+    <div class="sd-page">
+    <div class="sd-topbar">
+      <button class="sd-back" onclick="closeModal()" aria-label="Back">
+        <svg viewBox="0 0 24 24"><polyline points="${lang==='ar'?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg>
+      </button>
+      <div class="sd-topbar-r">
+        <button class="sd-act" onclick="closeModal()" aria-label="Done" title="${lang==='ar'?'تم':'Done'}">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 9" stroke="#000" stroke-width="2.5" fill="none"/></svg>
+        </button>
+        <button class="sd-act" aria-label="Notifications">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+        <button class="sd-act" aria-label="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sd-content">
     <div class="d-head">
       ${logoHTML}
       <div>
         <div class="nm">${esc(h.ticker)}${optBadge}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
         <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}${isOpt && h.strike?` · Strike $${fmt(h.strike,0)}`:''}${isOpt && h.expiry?` · ${esc(h.expiry)}`:''}</div>
-        ${h.price != null ? `<div style="margin-top:4px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:12px;font-weight:700;margin-inline-start:8px">${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>` : ''}
+        ${h.price != null ? `<div style="margin-top:6px;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:13px;font-weight:700;margin-inline-start:10px;display:inline-flex;align-items:center;gap:3px">${s.today>=0?'▲':'▼'} ${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>` : ''}
       </div>
     </div>
 
@@ -2816,7 +2822,9 @@ function openDetail(id){
       <button class="btn" onclick="closeDetail()">${t().cancel}</button>
       <button class="btn primary" onclick="openEdit('${h.id}')">${t().editStock}</button>
     </div>
-  `);
+    </div>
+    </div>
+  `, {fullpage:true});
   loadChart(h.ticker);
   loadEarningsTimeline(h.id, h.ticker);
   loadStockFinancials(h.id, h.ticker);
@@ -3338,6 +3346,20 @@ function fmtMoney(usdAmount, decimals){
   return formatted + ' ' + c.sym;
 }
 function fmtMoney0(usdAmount){ return fmtMoney(usdAmount, 0); }
+// Always-USD formatter (for base values that should never convert)
+function fmtUSD(usdAmount, decimals){
+  const dec = decimals != null ? decimals : (Math.abs(usdAmount) >= 100 ? 0 : 2);
+  const formatted = (usdAmount >= 0 ? '' : '−') + Math.abs(usdAmount).toLocaleString(undefined, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  return '$' + formatted;
+}
+function fmtUSD0(usdAmount){ return fmtUSD(usdAmount, 0); }
+// Localized currency under the hero (uses settings.currency)
+function fmtLocalCurrency(usdAmount){
+  const c = CURRENCIES[getCurrency()] || CURRENCIES.USD;
+  if (getCurrency() === 'USD') return null; // Don't show duplicate USD
+  const v = usdAmount * c.rate;
+  return Math.round(v).toLocaleString() + ' ' + c.sym;
+}
 
 const TD_KEY = "e5cdd6087f4b432abe74e66b0e55a215";
 const TD = "https://api.twelvedata.com";
@@ -7919,7 +7941,7 @@ function renderSplash(){
       <header class="mkt-hero"><div class="mkt-wrap">
         <div class="mkt-badge"><span class="dot"></span>${ar?'تجربة مجانية ٣ أيام · بدون بطاقة':'3-day free trial · No card needed'}</div>
         <h1>${ar?'محفظتك الذكية،':'Your smart portfolio,'}<br><span class="acc">${ar?'بأناقة سيركل':'powered by Circle'}</span></h1>
-        <p class="sub">${ar?'تتبّع كامل للأسهم الأمريكية والخيارات. أسعار مباشرة، إغريقيات حقيقية، تحدّيات، أهداف، وحاسبة زكاة. كل شي بمكانه.':'Pro-grade tracking for US stocks and options. Live prices, real Greeks, challenges, targets, Zakat — all in one place.'}</p>
+        <p class="sub">${ar?'تتبّع شامل للأسهم الأمريكية بأسعار مباشرة. تحدّيات، أهداف، حاسبة زكاة، وأكثر. كل شي بمكانه.':'Comprehensive US stock tracking with live prices. Challenges, targets, Zakat calculator and more. All in one place.'}</p>
         <div class="mkt-ctas">
           <button class="mkt-cta-1" onclick="openSignup()">${ar?'ابدأ مجاناً':'Start free trial'} <span class="arr">←</span></button>
           <button class="mkt-cta-2" onclick="document.querySelector('.mkt-section')?.scrollIntoView({behavior:'smooth'})">${ar?'شاهد المميزات':'See features'}</button>
@@ -7977,8 +7999,8 @@ function renderSplash(){
 
           <div class="mfg-card">
             <div class="mfg-ic">${icn('chart')}</div>
-            <h3>${ar?'إغريقيات الأوبشنز':'Options Greeks'}</h3>
-            <p>${ar?'Delta · Gamma · Theta · Vega بحسابات Black-Scholes دقيقة لكل عقد.':'Delta · Gamma · Theta · Vega computed via Black-Scholes for every contract.'}</p>
+            <h3>${ar?'أسعار مباشرة':'Live Prices'}</h3>
+            <p>${ar?'تحديث فوري من نيويورك وناسداك كل ٣٠ ثانية. زر تحديث واحد والكل يتزامن.':'Real-time from NYSE and NASDAQ every 30s. One tap and everything syncs.'}</p>
           </div>
 
           <div class="mfg-card">
@@ -8094,7 +8116,7 @@ function renderSplash(){
             <ul>
               <li>${ar?'محفظة واحدة':'1 portfolio'}</li>
               <li>${ar?'أسعار مباشرة':'Live prices'}</li>
-              <li>${ar?'إغريقيات الأوبشنز':'Options Greeks'}</li>
+              <li>${ar?'قائمة متابعة':'Watchlist'}</li>
               <li>${ar?'حاسبة زكاة':'Zakat calculator'}</li>
             </ul>
             <button class="pcta free" onclick="openSignup()">${ar?'ابدأ مجاناً':'Start free'}</button>
@@ -8326,11 +8348,12 @@ function renderOnboard(){ renderLanding(); }
 function saveName(){ /* legacy compat */ }
 
 /* modal / toast */
-function modal(html){
+function modal(html, opts){
   closeModal();
-  const s = document.createElement("div"); s.className="scrim"; s.id="scrim";
-  s.innerHTML = `<div class="modal"><button class="modal-close-x" onclick="closeModal()" aria-label="Close">✕</button>${html}</div>`;
-  s.addEventListener("click", e => { if (e.target === s) closeModal(); });
+  const fullpage = opts && opts.fullpage;
+  const s = document.createElement("div"); s.className=fullpage?"scrim fullpage":"scrim"; s.id="scrim";
+  s.innerHTML = `<div class="modal${fullpage?' fullpage':''}">${fullpage?'':'<button class="modal-close-x" onclick="closeModal()" aria-label="Close">✕</button>'}${html}</div>`;
+  if (!fullpage) s.addEventListener("click", e => { if (e.target === s) closeModal(); });
   document.body.appendChild(s);
 }
 function closeModal(){ const s=$("#scrim"); if(s) s.remove(); }
