@@ -890,17 +890,17 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .qf-chip.win.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 .qf-chip.loss.on{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
 
-/* Cash bar with quick add */
-.cash-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;margin:0 0 12px;background:linear-gradient(135deg,rgba(95,233,176,.07),rgba(95,233,176,.02));border:1px solid rgba(95,233,176,.18);border-radius:12px;cursor:pointer;transition:.18s}
-.cash-bar:hover{border-color:rgba(95,233,176,.32);background:linear-gradient(135deg,rgba(95,233,176,.1),rgba(95,233,176,.03))}
-.cash-bar-l{display:flex;align-items:center;gap:11px}
-.cash-bar .cash-ic{width:34px;height:34px;border-radius:9px;background:rgba(95,233,176,.1);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
-.cash-bar .cash-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.cash-bar-lbl{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:5px}
-.cash-bar-val{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);margin-top:1px}
-.cash-add-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#000;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}
-.cash-add-btn:hover{background:#7AFAC2;transform:scale(1.06)}
-.cash-add-btn svg{width:15px;height:15px;stroke:#000;fill:none;stroke-width:2.6;stroke-linecap:round}
+/* Cash bar with quick add - compact */
+.cash-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;margin:0 0 10px;background:linear-gradient(135deg,rgba(95,233,176,.06),rgba(95,233,176,.02));border:1px solid rgba(95,233,176,.15);border-radius:11px;cursor:pointer;transition:.18s}
+.cash-bar:hover{border-color:rgba(95,233,176,.28)}
+.cash-bar-l{display:flex;align-items:center;gap:9px}
+.cash-bar .cash-ic{width:26px;height:26px;border-radius:7px;background:rgba(95,233,176,.1);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
+.cash-bar .cash-ic svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cash-bar-lbl{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:5px}
+.cash-bar-val{font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);margin-top:1px}
+.cash-add-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#000;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}
+.cash-add-btn:hover{background:#7AFAC2;transform:scale(1.08)}
+.cash-add-btn svg{width:12px;height:12px;stroke:#000;fill:none;stroke-width:3;stroke-linecap:round}
 
 /* Today summary strip atop Hero */
 .today-strip{display:flex;align-items:center;gap:10px;padding:9px 14px;margin:0 0 12px;background:rgba(20,20,20,.6);border:1px solid var(--line);border-radius:12px;font-size:11.5px;font-variant-numeric:tabular-nums}
@@ -1049,6 +1049,40 @@ body[dir="rtl"] .watch-row .wr-change{justify-content:flex-end}
 .wl-manage-bar .wlm-title{font-size:13px;font-weight:700;color:var(--txt)}
 .wl-manage-bar .wlm-count{font-size:11px;color:var(--muted);margin-top:1px}
 .wl-manage-bar .wlm-arrow{color:var(--muted);font-size:18px}
+
+/* "My Stocks" cards — matching upload exactly */
+.ms-section-title{font-size:17px;font-weight:800;color:var(--txt);margin:18px 4px 12px;letter-spacing:-.01em;text-align:end;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.ms-card{background:#161618;border:1px solid #1F1F22;border-radius:18px;padding:0;margin-bottom:12px;cursor:pointer;transition:.15s;overflow:hidden}
+.ms-card:hover{border-color:#2A2A2D;transform:translateY(-1px)}
+.ms-top{background:#1C1C1F;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse}
+body[dir="ltr"] .ms-top{flex-direction:row}
+.ms-day{display:flex;align-items:center;gap:10px;min-width:0;flex-direction:row-reverse}
+body[dir="ltr"] .ms-day{flex-direction:row}
+.ms-price{font-size:18px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
+.ms-day-pct{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.ms-day-pct.up{color:var(--accent)}
+.ms-day-pct.down{color:#F08080}
+.ms-day .wr-spark{width:80px;height:30px;flex-shrink:0}
+.ms-tic-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-direction:row-reverse}
+body[dir="ltr"] .ms-tic-wrap{flex-direction:row}
+.ms-tic{font-size:16px;font-weight:700;color:#E8E8EA;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
+.ms-logo{width:36px;height:36px;border-radius:9px;background:#0E0E10;border:1px solid #1F1F22;object-fit:contain;padding:5px;flex-shrink:0}
+.ms-logo.ms-logo-fb{display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--accent);padding:0}
+.ms-bot{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse}
+body[dir="ltr"] .ms-bot{flex-direction:row}
+.ms-bot-l{display:flex;align-items:center;gap:12px;flex-direction:row-reverse}
+body[dir="ltr"] .ms-bot-l{flex-direction:row}
+.ms-pct-pill{display:inline-flex;align-items:center;padding:7px 14px;border-radius:11px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.ms-pct-pill.up{background:#1B3A2A;color:#7FE0AE}
+.ms-pct-pill.down{background:#3A1B1F;color:#F08080}
+.ms-qty{font-size:13.5px;color:#777;font-weight:500;font-variant-numeric:tabular-nums}
+.ms-bot-r{text-align:start;flex-shrink:0}
+body[dir="rtl"] .ms-bot-r{text-align:end}
+.ms-mv{font-size:18px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em;line-height:1.2}
+.ms-pl{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px;display:flex;align-items:center;gap:3px;justify-content:flex-start}
+body[dir="rtl"] .ms-pl{justify-content:flex-end}
+.ms-pl.up{color:var(--accent)}
+.ms-pl.down{color:#F08080}
 
 /* viz frame around portfolio holdings */
 .viz-frame{background:rgba(20,20,20,.35);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
@@ -2021,12 +2055,6 @@ function renderTab(){
         <button class="h-chip ${settings.horizonFilter==='mt'?'on':''}" onclick="setHorizonFilter('mt')">MT<span class="cnt">${horizonCount('mt')}</span></button>
         <button class="h-chip ${settings.horizonFilter==='lt'?'on':''}" onclick="setHorizonFilter('lt')">LT<span class="cnt">${horizonCount('lt')}</span></button>
       </div>
-      <div class="quick-filter-row">
-        <button class="qf-chip ${settings.quickFilter==='all'?'on':''}" onclick="setQuickFilter('all')">${lang==='ar'?'الكل':'All'}</button>
-        <button class="qf-chip win ${settings.quickFilter==='win'?'on':''}" onclick="setQuickFilter('win')">📈 ${lang==='ar'?'رابح':'Winning'}</button>
-        <button class="qf-chip loss ${settings.quickFilter==='loss'?'on':''}" onclick="setQuickFilter('loss')">📉 ${lang==='ar'?'خاسر':'Losing'}</button>
-        <button class="qf-chip ${settings.quickFilter==='opt'?'on':''}" onclick="setQuickFilter('opt')">🎯 ${lang==='ar'?'خيارات':'Options'}</button>
-      </div>
     `;
     const hs = activeHoldings();
     const hasHistory = history.filter(h => h.pfId === settings.activePf).length >= 2;
@@ -2083,6 +2111,7 @@ function renderTab(){
           <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
         </div>
         <div class="viz-frame"><div id="viz-wrap"></div></div>
+        ${hs.length ? `<div class="ms-section-title">${lang==='ar'?'أسهمك':'My Stocks'}</div>` : ''}
         <div class="list">${hs.map(rowHtml).join("")}</div>
         ${hasHistory ? `<div class="perf-card" id="perf-card"></div>` : ''}
       ` : `
@@ -2098,6 +2127,8 @@ function renderTab(){
       else renderBubbles();
       if (hasHistory) renderPerformance();
       lazyLoadLogos(hs.map(h => h.ticker));
+      // Sparklines for stock rows
+      setTimeout(() => loadWatchSparklines(hs.map(h => ({ ticker: h.ticker }))), 100);
     }
     if (pfChartOpen) setTimeout(drawPfMiniChart, 30);
   }
@@ -2107,27 +2138,35 @@ function renderTab(){
 
 function rowHtml(h){
   const s = statsFor(h);
-  const tt = totals();
-  const share = tt.mv > 0 ? s.mv/tt.mv*100 : 0;
-  const col = s.pl>=0 ? "var(--accent)" : "var(--loss)";
-  const bg = s.pl>=0 ? "var(--accent-bg)" : "var(--loss-bg)";
-  const hzTag = h.horizon ? `<span class="h-tag ${h.horizon}">${h.horizon.toUpperCase()}</span>` : '';
-  const optTag = (h.type === 'call') ? `<span class="h-tag" style="background:#1F2E25;color:#5FE9B0;border-color:#1E5C44">CALL</span>`
-               : (h.type === 'put')  ? `<span class="h-tag" style="background:#2A0E10;color:#F26B6E;border-color:#5C1F22">PUT</span>` : '';
-  const qtyLabel = h.type === 'stock' ? '' : ` ${lang==='ar'?'عقد':'×100'}`;
+  const dayUp = s.todayPct != null && s.todayPct >= 0;
+  const totalUp = s.pl >= 0;
   const cachedLogo = _logoCache[h.ticker];
   const logoHTML = cachedLogo
-    ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="co-logo">`
-    : `<div class="tic-bx" data-logo-tic="${esc(h.ticker)}" style="background:${bg};color:${col};border:1px solid ${col}33">${esc(h.ticker.slice(0,4))}</div>`;
-  return `<div class="row" onclick="openDetail('${h.id}')">
-    ${logoHTML}
-    <div class="info">
-      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${optTag}${hzTag}${earnBadge(h.ticker)}</div>
-      <div class="s mono">${fmt(s.shares,s.shares%1?4:0)}${qtyLabel} × $${fmt(s.avg)} · ${share.toFixed(1)}%</div>
+    ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="ms-logo">`
+    : `<div class="ms-logo ms-logo-fb" data-logo-tic="${esc(h.ticker)}">${esc(h.ticker.slice(0,3))}</div>`;
+  const spark = miniSparkline(h.ticker, dayUp);
+  const ar = lang === 'ar';
+  return `<div class="ms-card ${totalUp?'up':'down'}" onclick="openDetail('${h.id}')">
+    <div class="ms-top">
+      <div class="ms-day">
+        <span class="ms-price">$${fmt(h.price||s.avg,2)}</span>
+        ${s.todayPct!=null?`<span class="ms-day-pct ${dayUp?'up':'down'}">${dayUp?'':'-'}${fmt(Math.abs(s.todayPct),2)}%</span>`:''}
+        ${spark}
+      </div>
+      <div class="ms-tic-wrap">
+        <span class="ms-tic">${esc(h.ticker)}</span>
+        ${logoHTML}
+      </div>
     </div>
-    <div class="rt">
-      <div class="mv mono">${maskMoney('$'+fmt0(s.mv))}</div>
-      <div class="pl mono ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+'$'+fmt0(Math.abs(s.pl))+' · '+pct(s.plPct))}</div>
+    <div class="ms-bot">
+      <div class="ms-bot-l">
+        <span class="ms-pct-pill ${totalUp?'up':'down'}">${settings.privacy?'••':((totalUp?'+':'-')+fmt(Math.abs(s.plPct),2)+'%')}</span>
+        <span class="ms-qty">${fmt(s.shares,s.shares%1?4:0)} ${ar?'سهم':'sh'}</span>
+      </div>
+      <div class="ms-bot-r">
+        <div class="ms-mv">${maskMoney(fmtUSD(s.mv,2))}</div>
+        <div class="ms-pl ${totalUp?'up':'down'}">${settings.privacy?'••':((totalUp?'▲ ':'▼ ')+fmtUSD(Math.abs(s.pl),s.pl<10?4:2))}</div>
+      </div>
     </div>
   </div>`;
 }
@@ -3886,6 +3925,19 @@ async function loadWatchSparklines(items){
     }));
   }
   if (activeTab === 'watch') renderWatchlist();
+  else if (activeTab === 'portfolio') {
+    // Just update inline without full re-render
+    document.querySelectorAll('[data-spark-tic]').forEach(el => {
+      const tic = el.getAttribute('data-spark-tic');
+      const cached = window._sparkCache[tic];
+      if (cached){
+        const color = el.closest('.ms-card.up') ? '#5FE9B0' : '#F08080';
+        el.outerHTML = `<svg class="wr-spark" viewBox="0 0 84 36" preserveAspectRatio="none">
+          <path d="${cached.line}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+      }
+    });
+  }
 }
 
 function openWatchlistManage(){
