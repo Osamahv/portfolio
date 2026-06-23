@@ -1014,41 +1014,8 @@ body[dir="ltr"] .notif-row{flex-direction:row}
 .nf-amount.up{color:var(--accent)}
 .nf-amount.down{color:var(--loss)}
 
-/* Watchlist v2 — card design matching upload */
-.watch-list{display:flex;flex-direction:column;gap:10px;background:transparent;border:none;border-radius:0;overflow:visible;padding:0}
-.watch-row{background:linear-gradient(180deg,#0E0E0E,#0A0A0A);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;flex-direction:row-reverse}
-body[dir="ltr"] .watch-row{flex-direction:row}
-.watch-row:hover{border-color:var(--line2);transform:translateY(-1px)}
-.watch-row.up{background:linear-gradient(135deg,rgba(95,233,176,.04),#0A0A0A 70%)}
-.watch-row.down{background:linear-gradient(135deg,rgba(242,107,110,.04),#0A0A0A 70%)}
-.watch-row .wr-logo{width:48px;height:48px;border-radius:12px;flex-shrink:0;background:#000;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;padding:6px}
-.watch-row .wr-logo img{width:100%;height:100%;object-fit:contain}
-.watch-row .wr-logo.fallback{font-size:10.5px;font-weight:800;color:var(--accent);padding:0}
-.watch-row .wr-info{flex:1;min-width:0;text-align:start}
-.watch-row .wr-tic{font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-start}
-body[dir="rtl"] .watch-row .wr-tic{justify-content:flex-end;flex-direction:row-reverse}
-.watch-row .wr-name{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-body[dir="rtl"] .watch-row .wr-name{text-align:end}
-.watch-row .wr-spark{flex-shrink:0;width:84px;height:36px;display:block}
-.watch-row .wr-price-col{flex-shrink:0;text-align:start;min-width:78px}
-body[dir="rtl"] .watch-row .wr-price-col{text-align:start}
-.watch-row .wr-price{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;line-height:1.1}
-.watch-row .wr-change{font-size:12.5px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:4px;justify-content:flex-start;line-height:1.1}
-body[dir="rtl"] .watch-row .wr-change{justify-content:flex-end}
-.watch-row .wr-change.up{color:var(--accent)}
-.watch-row .wr-change.down{color:var(--loss)}
-.watch-row .wr-change-tri{font-size:10px;line-height:1}
-.adr-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:var(--surf);color:var(--muted);border:1px solid var(--line);letter-spacing:.05em}
-
 /* Manage watchlists button */
-.wl-manage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding:10px 14px;background:linear-gradient(135deg,rgba(91,165,255,.06),rgba(91,165,255,.02));border:1px solid rgba(91,165,255,.18);border-radius:12px;cursor:pointer;transition:.15s}
-.wl-manage-bar:hover{border-color:rgba(91,165,255,.32)}
-.wl-manage-bar .wlm-l{display:flex;align-items:center;gap:10px}
-.wl-manage-bar .wlm-ic{width:32px;height:32px;border-radius:9px;background:rgba(91,165,255,.1);color:#5BA5FF;display:grid;place-items:center}
-.wl-manage-bar .wlm-ic svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.wl-manage-bar .wlm-title{font-size:13px;font-weight:700;color:var(--txt)}
-.wl-manage-bar .wlm-count{font-size:11px;color:var(--muted);margin-top:1px}
-.wl-manage-bar .wlm-arrow{color:var(--muted);font-size:18px}
+.wl-manage-bar{display:none}
 
 /* "My Stocks" cards — matching upload exactly */
 .ms-section-title{font-size:17px;font-weight:800;color:var(--txt);margin:18px 4px 12px;letter-spacing:-.01em;text-align:end;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
@@ -1083,6 +1050,47 @@ body[dir="rtl"] .ms-bot-r{text-align:end}
 body[dir="rtl"] .ms-pl{justify-content:flex-end}
 .ms-pl.up{color:var(--accent)}
 .ms-pl.down{color:#F08080}
+
+/* Watchlist v3 — exact match to upload */
+.watchlist-header{padding:8px 4px 18px}
+.watchlist-title{font-size:30px;font-weight:800;color:var(--txt);margin:0 0 18px;letter-spacing:-.02em;text-align:end;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+body[dir="ltr"] .watchlist-title{text-align:start}
+.watchlist-tabs{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:0;flex-direction:row-reverse}
+body[dir="ltr"] .watchlist-tabs{flex-direction:row}
+.wl-tab{background:transparent;border:none;color:var(--txt);font-size:15px;font-weight:700;padding:6px 0 12px;position:relative;cursor:pointer;font-family:inherit}
+.wl-tab.on::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#9B9FFF;border-radius:2px 2px 0 0}
+.wl-edit{background:transparent;border:none;color:var(--muted);cursor:pointer;padding:6px;display:grid;place-items:center}
+.wl-edit svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.watch-list{display:flex;flex-direction:column;gap:12px;background:transparent;border:none;border-radius:0;overflow:visible;padding:0;margin-top:16px}
+.watch-row{background:#0E0E10;border:1px solid #1A1A1D;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;flex-direction:row-reverse;min-height:72px}
+body[dir="ltr"] .watch-row{flex-direction:row}
+.watch-row:hover{border-color:#27272B}
+.watch-row.up{background:linear-gradient(to var(--gradDir, left),#0E1F18 0%,#0E0E10 55%)}
+.watch-row.down{background:linear-gradient(to var(--gradDir, left),#1F0E11 0%,#0E0E10 55%)}
+body[dir="rtl"] .watch-row{--gradDir:right}
+body[dir="ltr"] .watch-row{--gradDir:left}
+.watch-row .wr-logo{width:52px;height:52px;border-radius:13px;flex-shrink:0;background:#FFFFFF;border:none;display:grid;place-items:center;overflow:hidden;padding:5px}
+.watch-row .wr-logo img{width:100%;height:100%;object-fit:contain}
+.watch-row .wr-logo.fallback{font-size:11px;font-weight:800;color:#000;background:#FFFFFF;padding:0}
+.watch-row .wr-info{flex:1;min-width:0;text-align:end}
+body[dir="ltr"] .watch-row .wr-info{text-align:start}
+.watch-row .wr-tic{font-size:19px;font-weight:700;letter-spacing:-.01em;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;line-height:1.15;display:flex;align-items:center;gap:7px;justify-content:flex-end}
+body[dir="ltr"] .watch-row .wr-tic{justify-content:flex-start}
+.watch-row .wr-name{font-size:13.5px;color:#7A7A82;font-weight:500;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.watch-row .wr-spark{flex-shrink:0;width:90px;height:38px;display:block}
+.watch-row .wr-price-col{flex-shrink:0;text-align:start;min-width:88px}
+.watch-row .wr-price{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;line-height:1.1;letter-spacing:-.01em}
+.watch-row .wr-change{font-size:13px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:5px;justify-content:flex-start;line-height:1.1}
+.watch-row .wr-change.up{color:var(--accent)}
+.watch-row .wr-change.down{color:#F08080}
+.watch-row .wr-change-tri{font-size:11px;line-height:1}
+.adr-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;background:#2A2A2D;color:#9A9AA0;border:none;letter-spacing:.05em}
+
+/* Add watchlist bottom button */
+.wl-add-bottom{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:transparent;border:none;color:#9B9FFF;padding:22px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:18px}
+.wl-add-bottom svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+.wl-add-bottom:hover{opacity:.85}
 
 /* viz frame around portfolio holdings */
 .viz-frame{background:rgba(20,20,20,.35);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
@@ -1720,7 +1728,11 @@ async function save(){
     await window.storage.set("v4:challenges", JSON.stringify(challenges));
   } catch(e){}
 }
-function applyLang(){ document.body.setAttribute("dir", t().dir); }
+function applyLang(){ 
+  document.body.setAttribute("dir", t().dir); 
+  document.documentElement.setAttribute("dir", t().dir);
+  document.documentElement.setAttribute("lang", lang);
+}
 
 /* SHA-256 hash for passwords (browser native crypto) */
 async function hashPin(pin){
@@ -2144,7 +2156,7 @@ function rowHtml(h){
   const logoHTML = cachedLogo
     ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="ms-logo">`
     : `<div class="ms-logo ms-logo-fb" data-logo-tic="${esc(h.ticker)}">${esc(h.ticker.slice(0,3))}</div>`;
-  const spark = miniSparkline(h.ticker, dayUp);
+  const spark = miniSparkline(h.ticker, dayUp, s.todayPct);
   const ar = lang === 'ar';
   return `<div class="ms-card ${totalUp?'up':'down'}" onclick="openDetail('${h.id}')">
     <div class="ms-top">
@@ -3107,23 +3119,28 @@ function renderChart(prices, ticker, dates){
   const meta = $("#chart-meta");
   if (!box || !prices || prices.length < 2) return;
   const min = Math.min(...prices), max = Math.max(...prices), range = max-min || 1;
-  const W = 600, H = 140, PAD = 8;
+  const W = 600, H = 200, PAD = 12;
   const xs = prices.map((_,i) => PAD + (i/(prices.length-1))*(W-2*PAD));
   const ys = prices.map(v => PAD + (1-(v-min)/range)*(H-2*PAD));
   const pts = prices.map((_,i) => `${xs[i]},${ys[i]}`).join(" ");
   const up = prices[prices.length-1] >= prices[0];
   const chg = prices[prices.length-1] - prices[0];
   const chgPct = prices[0] > 0 ? chg/prices[0]*100 : 0;
-  const col = up ? "#5FE9B0" : "#F26B6E";
-  box.innerHTML = `<svg id="stock-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="touch-action:none;cursor:crosshair">
+  // Navy/indigo theme for chart (like competitor)
+  const col = up ? "#5FE9B0" : "#F08080";
+  const lineCol = "#9B9FFF"; // soft indigo
+  const fillFrom = "#5B5FE9";
+  box.innerHTML = `<svg id="stock-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="touch-action:none;cursor:crosshair;width:100%;height:200px">
     <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="${col}" stop-opacity="0.25"/>
-      <stop offset="1" stop-color="${col}" stop-opacity="0"/>
+      <stop offset="0" stop-color="${fillFrom}" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="${fillFrom}" stop-opacity="0"/>
     </linearGradient></defs>
+    <text x="${PAD}" y="${ys[ys.indexOf(Math.min(...ys))]+18}" fill="#666" font-size="11" font-family="-apple-system,SF Pro Display,Inter,sans-serif" font-weight="500">$${fmt(min,2)}</text>
+    <text x="${PAD}" y="${Math.max(ys[ys.indexOf(Math.max(...ys))]-6,14)}" fill="#888" font-size="11" font-family="-apple-system,SF Pro Display,Inter,sans-serif" font-weight="500">$${fmt(max,2)}</text>
     <polygon points="${PAD},${H-PAD} ${pts} ${W-PAD},${H-PAD}" fill="url(#cg)"/>
-    <polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.8"/>
+    <polyline points="${pts}" fill="none" stroke="${lineCol}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
     <line id="ch-cross" x1="0" y1="0" x2="0" y2="${H}" stroke="rgba(255,255,255,.25)" stroke-width="0.6" style="display:none"/>
-    <circle id="ch-dot" cx="0" cy="0" r="3.5" fill="${col}" stroke="#000" stroke-width="1.4" style="display:none"/>
+    <circle id="ch-dot" cx="0" cy="0" r="4" fill="${lineCol}" stroke="#000" stroke-width="1.5" style="display:none"/>
   </svg>`;
   const metaDefault = `<b style="color:${col}">${chg>=0?'+':''}${pct(chgPct)}</b> · $${fmt(prices[0])} → <b>$${fmt(prices[prices.length-1])}</b>`;
   if (meta) meta.innerHTML = metaDefault;
@@ -3833,18 +3850,12 @@ function renderWatchlist(){
   if (!settings.wlFilter) settings.wlFilter = 'all';
   const items = settings.wlFilter === 'all' ? allItems : allItems.filter(w => (w.wgroup||'watch') === settings.wlFilter);
   c.innerHTML = `
-    <div class="add-stock-row">
-      <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
-    </div>
-    <div class="wl-manage-bar" onclick="openWatchlistManage()">
-      <div class="wlm-l">
-        <div class="wlm-ic">${icn('star')}</div>
-        <div>
-          <div class="wlm-title">${lang==='ar'?'إدارة قوائم المتابعة':'Manage Watchlists'}</div>
-          <div class="wlm-count">${allItems.length} ${lang==='ar'?'سهم':'stocks'}</div>
-        </div>
+    <div class="watchlist-header">
+      <h1 class="watchlist-title">${lang==='ar'?'قائمة المتابعة':'Watchlist'}</h1>
+      <div class="watchlist-tabs">
+        <button class="wl-tab on">${lang==='ar'?'أسهمي':'My Stocks'}</button>
+        <button class="wl-edit" onclick="openWatchlistManage()">${icn('settings')}</button>
       </div>
-      <span class="wlm-arrow">${lang==='ar'?'‹':'›'}</span>
     </div>
     <div class="watch-list">${items.map(w => {
       const up = w.dayChangePct != null && w.dayChangePct >= 0;
@@ -3853,7 +3864,7 @@ function renderWatchlist(){
         ? `<div class="wr-logo"><img src="${cachedLogo}" alt="${esc(w.ticker)}" onerror="this.parentElement.innerHTML='${esc(w.ticker.slice(0,4))}';this.parentElement.classList.add('fallback')"></div>`
         : `<div class="wr-logo fallback" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
       // Mini sparkline (use day change to color)
-      const spark = miniSparkline(w.ticker, up);
+      const spark = miniSparkline(w.ticker, up, w.dayChangePct);
       const earnPill = earnBadge(w.ticker);
       return `<div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')">
         ${logoHTML}
@@ -3868,6 +3879,9 @@ function renderWatchlist(){
         </div>
       </div>`;
     }).join("")}</div>
+    <button class="wl-add-bottom" onclick="addToWatchlist()">
+      ${icn('plus')} <span>${lang==='ar'?'أضف أسهم':'Add Stocks'}</span>
+    </button>
   `;
   lazyLoadLogos(items.map(w => w.ticker));
   // Load earnings dates using unified cache
@@ -3877,67 +3891,64 @@ function renderWatchlist(){
 }
 
 // Mini sparkline placeholder
-function miniSparkline(ticker, up){
-  const color = up ? '#5FE9B0' : '#F26B6E';
-  const cached = window._sparkCache?.[ticker];
-  if (cached){
-    return `<svg class="wr-spark" viewBox="0 0 84 36" preserveAspectRatio="none">
-      <defs><linearGradient id="sg_${ticker}" x1="0" x2="0" y1="0" y2="1">
-        <stop offset="0%" stop-color="${color}" stop-opacity=".25"/>
-        <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
-      </linearGradient></defs>
-      <path d="${cached.area}" fill="url(#sg_${ticker})"/>
-      <path d="${cached.line}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="${cached.lastX}" cy="${cached.lastY}" r="2" fill="${color}"/>
-    </svg>`;
+// Synthetic sparkline based on day change (no API needed)
+function genSparkData(ticker, changePct){
+  const change = (changePct || 0) / 100;
+  const n = 22;
+  let seed = 0;
+  for (let i = 0; i < ticker.length; i++) seed += ticker.charCodeAt(i);
+  const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  const data = [];
+  for (let i = 0; i < n; i++){
+    const t = i / (n - 1);
+    const trend = change * t;
+    const wave = Math.sin(i * 0.55 + (ticker.charCodeAt(0) || 0) * 0.1) * Math.abs(change) * 0.18;
+    const noise = (rand() - 0.5) * Math.max(Math.abs(change) * 0.15, 0.004);
+    data.push(trend + wave + noise);
   }
-  // empty placeholder
-  return `<svg class="wr-spark" data-spark-tic="${ticker}" viewBox="0 0 84 36"></svg>`;
+  data[0] = 0;
+  data[n-1] = change;
+  return data;
+}
+
+function miniSparkline(ticker, up, changePct){
+  if (changePct == null){
+    const h = holdings.find(x => x.ticker === ticker);
+    if (h && h.dayChangePct != null) changePct = h.dayChangePct;
+    else {
+      const w = watchlist.find(x => x.ticker === ticker);
+      if (w && w.dayChangePct != null) changePct = w.dayChangePct;
+    }
+  }
+  if (changePct == null) changePct = up ? 0.5 : -0.5;
+  const data = genSparkData(ticker, changePct);
+  const W = 84, H = 36, pad = 3;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 0.01;
+  const pts = data.map((c, i) => ({
+    x: (i / (data.length - 1)) * (W - 2*pad) + pad,
+    y: H - pad - ((c - min) / range) * (H - 2*pad),
+  }));
+  const line = 'M ' + pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L ');
+  const area = line + ` L ${(W-pad).toFixed(1)},${(H-pad).toFixed(1)} L ${pad},${(H-pad).toFixed(1)} Z`;
+  const last = pts[pts.length - 1];
+  const color = up ? '#5FE9B0' : '#F08080';
+  const gid = `sg_${ticker}_${Math.floor(Math.random()*9999)}`;
+  return `<svg class="wr-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+    </linearGradient></defs>
+    <path d="${area}" fill="url(#${gid})"/>
+    <path d="${line}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="2.2" fill="${color}"/>
+  </svg>`;
 }
 
 async function loadWatchSparklines(items){
-  if (!window._sparkCache) window._sparkCache = {};
-  const needs = items.filter(w => !window._sparkCache[w.ticker]);
-  if (!needs.length) return;
-  // Parallel batched (5 at a time)
-  for (let i = 0; i < needs.length; i += 5){
-    await Promise.all(needs.slice(i, i+5).map(async w => {
-      try {
-        // Use 1-day candles for 5 days
-        const to = Math.floor(Date.now()/1000);
-        const from = to - 5 * 86400;
-        const r = await fetch(`${FINNHUB}/stock/candle?symbol=${encodeURIComponent(w.ticker)}&resolution=60&from=${from}&to=${to}&token=${FINNHUB_KEY}`);
-        if (!r.ok){ window._sparkCache[w.ticker] = null; return; }
-        const d = await r.json();
-        if (d.s !== 'ok' || !d.c || d.c.length < 2){ window._sparkCache[w.ticker] = null; return; }
-        const closes = d.c;
-        const min = Math.min(...closes), max = Math.max(...closes);
-        const range = max - min || 1;
-        const w_ = 84, h_ = 36, pad = 2;
-        const pts = closes.map((c, i) => ({
-          x: (i / (closes.length-1)) * (w_ - 2*pad) + pad,
-          y: h_ - pad - ((c - min) / range) * (h_ - 2*pad)
-        }));
-        const line = 'M ' + pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L ');
-        const area = line + ` L ${(w_-pad).toFixed(1)},${(h_-pad).toFixed(1)} L ${pad},${(h_-pad).toFixed(1)} Z`;
-        window._sparkCache[w.ticker] = { line, area, lastX: pts[pts.length-1].x, lastY: pts[pts.length-1].y };
-      } catch(e){ window._sparkCache[w.ticker] = null; }
-    }));
-  }
-  if (activeTab === 'watch') renderWatchlist();
-  else if (activeTab === 'portfolio') {
-    // Just update inline without full re-render
-    document.querySelectorAll('[data-spark-tic]').forEach(el => {
-      const tic = el.getAttribute('data-spark-tic');
-      const cached = window._sparkCache[tic];
-      if (cached){
-        const color = el.closest('.ms-card.up') ? '#5FE9B0' : '#F08080';
-        el.outerHTML = `<svg class="wr-spark" viewBox="0 0 84 36" preserveAspectRatio="none">
-          <path d="${cached.line}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`;
-      }
-    });
-  }
+  // No-op now - sparklines are synthetic and rendered inline
+  return;
 }
 
 function openWatchlistManage(){
