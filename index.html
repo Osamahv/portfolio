@@ -28,9 +28,9 @@
   --r:16px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum","ss01"}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:"Inter",system-ui,sans-serif;line-height:1.55;-moz-osx-font-smoothing:grayscale;letter-spacing:-.005em}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;line-height:1.55;-moz-osx-font-smoothing:grayscale;letter-spacing:-.005em}
 body{min-height:100vh;padding-bottom:48px}
-body[dir="rtl"]{font-family:"Tajawal","Inter",system-ui,sans-serif;letter-spacing:0}
+body[dir="rtl"]{font-family:-apple-system,"SF Arabic","SF Pro Display","SF Arabic Text","Tajawal","Inter",system-ui,sans-serif;letter-spacing:0}
 .mono{font-variant-numeric:tabular-nums}
 .up{color:var(--accent)} .down{color:var(--loss)}
 button{font-family:inherit;cursor:pointer;border:none;color:inherit;background:none;font-size:inherit}
@@ -93,6 +93,53 @@ body.desktop-mode{font-size:15px}
 body{padding-bottom:80px !important}
 
 /* New cards view (simplified - just ticker + %) */
+/* Price preview in Add Stock */
+.pp-loading{display:flex;align-items:center;gap:8px;padding:10px;color:var(--muted);font-size:12px;margin-top:6px}
+.pp-error{padding:10px;color:var(--muted2);font-size:12px;margin-top:6px;text-align:center}
+.pp-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-top:8px;background:linear-gradient(180deg,#0F0F0F,#080808);border:1px solid var(--accent-d);border-radius:12px}
+.pp-l{display:flex;align-items:center;gap:10px;min-width:0;flex:1;flex-direction:row-reverse}
+body[dir="ltr"] .pp-l{flex-direction:row}
+.pp-logo{width:36px;height:36px;border-radius:50%;object-fit:cover;background:#000;border:1px solid var(--line);flex-shrink:0}
+.pp-logo.pp-fallback{display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--accent);background:rgba(95,233,176,.07);border-color:var(--accent-d)}
+.pp-name{font-size:11.5px;color:var(--muted);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
+.pp-tic{font-size:14px;font-weight:800;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;margin-top:1px}
+.pp-r{text-align:end;flex-shrink:0}
+.pp-price{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt)}
+.pp-ch{font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+.pp-ch.up{color:var(--accent)}
+.pp-ch.down{color:var(--loss)}
+.pp-range{display:flex;align-items:center;gap:9px;margin-top:8px;padding:9px 12px;background:#000;border:1px solid var(--line);border-radius:10px;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.pp-bar{flex:1;height:4px;background:var(--surf);border-radius:2px;position:relative}
+.pp-dot{position:absolute;top:-2px;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);transform:translateX(-50%)}
+body[dir="rtl"] .pp-dot{transform:translateX(50%)}
+
+/* Cards list v3 — luxury rows matching upload */
+.cards-list-v3{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.cv3-card{background:linear-gradient(180deg,#0F0F0F,#0A0A0A);border:1px solid var(--line);border-radius:16px;padding:16px 18px;cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+.cv3-card:hover{border-color:var(--line2);transform:translateY(-1px)}
+.cv3-card.up::before{content:'';position:absolute;inset-inline-start:0;top:14px;bottom:14px;width:3px;background:var(--accent);border-radius:0 2px 2px 0;opacity:.55}
+.cv3-card.down::before{content:'';position:absolute;inset-inline-start:0;top:14px;bottom:14px;width:3px;background:var(--loss);border-radius:0 2px 2px 0;opacity:.55}
+.cv3-head{display:flex;align-items:center;gap:13px;margin-bottom:13px;flex-direction:row-reverse}
+body[dir="ltr"] .cv3-head{flex-direction:row}
+.cv3-logo{width:44px;height:44px;border-radius:50%;flex-shrink:0;object-fit:cover;background:#000;border:1px solid var(--line)}
+.cv3-logo.cv3-fallback{display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--accent);background:rgba(95,233,176,.07);border-color:var(--accent-d);font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
+.cv3-titles{flex:1;min-width:0;text-align:start}
+.cv3-tic{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.cv3-name{font-size:12.5px;color:var(--muted);font-weight:500;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cv3-divider{height:1px;background:var(--line);margin:0 -4px 12px}
+.cv3-stats{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-direction:row-reverse}
+body[dir="ltr"] .cv3-stats{flex-direction:row}
+.cv3-stat{flex:1;text-align:start;min-width:0}
+.cv3-stat-lbl{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.cv3-stat-val{font-size:14.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv3-stat-val.up{color:var(--accent)}
+.cv3-stat-val.down{color:var(--loss)}
+@media (max-width:380px){
+  .cv3-stat-val{font-size:13px}
+  .cv3-stat-lbl{font-size:10px}
+  .cv3-card{padding:14px 14px}
+}
+
 .cards-grid-v2{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;padding:0 4px}
 @media (max-width:420px){.cards-grid-v2{grid-template-columns:repeat(2,1fr)}}
 .card-v2{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:18px 12px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:110px}
@@ -464,17 +511,6 @@ body[dir="rtl"] .week-banner .close{right:auto;left:10px}
 
 /* watchlist */
 .watch-empty{text-align:center;padding:50px 22px;color:var(--muted)}
-.watch-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-.watch-row{background:var(--bg);padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:.15s}
-.watch-row:hover{background:var(--surf)}
-.watch-row .tic-bx{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:11.5px;flex-shrink:0;background:#1A1F2E;color:#5BA5FF;border:1px solid #1F3A6E33}
-.watch-row .info{flex:1;min-width:0}
-.watch-row .info .t{font-weight:700;font-size:14.5px}
-.watch-row .info .s{color:var(--muted);font-size:11.5px;margin-top:2px}
-.watch-row .rt{text-align:right;flex-shrink:0}
-body[dir="rtl"] .watch-row .rt{text-align:left}
-.watch-row .rt .pr{font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums}
-.watch-row .rt .ch{font-size:11.5px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
 .tgt-pill{font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:4px;margin-inline-start:6px;letter-spacing:.04em}
 .tgt-pill.hit{background:var(--accent-bg);color:var(--accent)}
 .tgt-pill.stop{background:var(--loss-bg);color:var(--loss)}
@@ -834,6 +870,18 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .qf-chip.win.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 .qf-chip.loss.on{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
 
+/* Cash bar with quick add */
+.cash-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;margin:0 0 12px;background:linear-gradient(135deg,rgba(95,233,176,.07),rgba(95,233,176,.02));border:1px solid rgba(95,233,176,.18);border-radius:12px;cursor:pointer;transition:.18s}
+.cash-bar:hover{border-color:rgba(95,233,176,.32);background:linear-gradient(135deg,rgba(95,233,176,.1),rgba(95,233,176,.03))}
+.cash-bar-l{display:flex;align-items:center;gap:11px}
+.cash-bar .cash-ic{width:34px;height:34px;border-radius:9px;background:rgba(95,233,176,.1);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
+.cash-bar .cash-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cash-bar-lbl{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;gap:5px}
+.cash-bar-val{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);margin-top:1px}
+.cash-add-btn{display:inline-flex;align-items:center;gap:5px;background:var(--accent);color:#000;border:none;padding:8px 14px;border-radius:9px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.02em;transition:.15s}
+.cash-add-btn:hover{background:#7AFAC2;transform:translateY(-1px)}
+.cash-add-btn svg{width:13px;height:13px;stroke:#000;fill:none;stroke-width:2.5;stroke-linecap:round}
+
 /* Today summary strip atop Hero */
 .today-strip{display:flex;align-items:center;gap:10px;padding:9px 14px;margin:0 0 12px;background:rgba(20,20,20,.6);border:1px solid var(--line);border-radius:12px;font-size:11.5px;font-variant-numeric:tabular-nums}
 .today-strip .lbl{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:800}
@@ -917,6 +965,70 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 /* Compact icon style for badges/inline */
 .icn{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;vertical-align:-.15em}
 .icn svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Notifications screen */
+.notif-empty{text-align:center;padding:50px 20px}
+.notif-section{margin-bottom:18px}
+.notif-section-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px 10px;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+body[dir="rtl"] .notif-section-head{flex-direction:row-reverse}
+.notif-section-head .ttl{font-size:18px;font-weight:800;color:var(--txt);letter-spacing:-.01em}
+.notif-section-head .arr{font-size:20px;color:var(--muted);font-weight:300}
+.notif-list{display:flex;flex-direction:column;gap:1px;background:var(--line);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.notif-row{background:#0A0A0A;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-direction:row-reverse}
+body[dir="ltr"] .notif-row{flex-direction:row}
+.nf-ic{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:var(--surf);border:1px solid var(--line);color:var(--muted)}
+.nf-ic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nf-ic.alert-ic{background:rgba(95,233,176,.08);border-color:var(--accent-d);color:var(--accent)}
+.nf-ic.loss-ic{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
+.nf-ic.gold-ic{background:rgba(232,185,106,.1);border-color:#5A4818;color:#E8B96A}
+.nf-ic.buy-ic{background:rgba(95,233,176,.08);border-color:var(--accent-d);color:var(--accent)}
+.nf-ic.sell-ic{background:rgba(91,165,255,.1);border-color:#1F3A6E;color:#5BA5FF}
+.nf-ic.cash-ic{background:var(--surf);border-color:var(--line);color:var(--muted)}
+.nf-body{flex:1;min-width:0;text-align:start}
+.nf-title{font-size:14px;font-weight:700;color:var(--txt);letter-spacing:-.005em}
+.nf-sub{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.nf-status{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px}
+.nf-status.nf-done{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.nf-time{font-size:10.5px;color:var(--muted2);font-weight:600;flex-shrink:0;font-variant-numeric:tabular-nums;white-space:nowrap}
+.nf-amount{flex-shrink:0;font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums}
+.nf-amount.up{color:var(--accent)}
+.nf-amount.down{color:var(--loss)}
+
+/* Watchlist v2 — card design matching upload */
+.watch-list{display:flex;flex-direction:column;gap:10px;background:transparent;border:none;border-radius:0;overflow:visible;padding:0}
+.watch-row{background:linear-gradient(180deg,#0E0E0E,#0A0A0A);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;flex-direction:row-reverse}
+body[dir="ltr"] .watch-row{flex-direction:row}
+.watch-row:hover{border-color:var(--line2);transform:translateY(-1px)}
+.watch-row.up{background:linear-gradient(135deg,rgba(95,233,176,.04),#0A0A0A 70%)}
+.watch-row.down{background:linear-gradient(135deg,rgba(242,107,110,.04),#0A0A0A 70%)}
+.watch-row .wr-logo{width:48px;height:48px;border-radius:12px;flex-shrink:0;background:#000;border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;padding:6px}
+.watch-row .wr-logo img{width:100%;height:100%;object-fit:contain}
+.watch-row .wr-logo.fallback{font-size:10.5px;font-weight:800;color:var(--accent);padding:0}
+.watch-row .wr-info{flex:1;min-width:0;text-align:start}
+.watch-row .wr-tic{font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-start}
+body[dir="rtl"] .watch-row .wr-tic{justify-content:flex-end;flex-direction:row-reverse}
+.watch-row .wr-name{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body[dir="rtl"] .watch-row .wr-name{text-align:end}
+.watch-row .wr-spark{flex-shrink:0;width:84px;height:36px;display:block}
+.watch-row .wr-price-col{flex-shrink:0;text-align:start;min-width:78px}
+body[dir="rtl"] .watch-row .wr-price-col{text-align:start}
+.watch-row .wr-price{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);font-family:-apple-system,"SF Pro Display","Inter",sans-serif;line-height:1.1}
+.watch-row .wr-change{font-size:12.5px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:4px;justify-content:flex-start;line-height:1.1}
+body[dir="rtl"] .watch-row .wr-change{justify-content:flex-end}
+.watch-row .wr-change.up{color:var(--accent)}
+.watch-row .wr-change.down{color:var(--loss)}
+.watch-row .wr-change-tri{font-size:10px;line-height:1}
+.adr-tag{display:inline-flex;align-items:center;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:var(--surf);color:var(--muted);border:1px solid var(--line);letter-spacing:.05em}
+
+/* Manage watchlists button */
+.wl-manage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding:10px 14px;background:linear-gradient(135deg,rgba(91,165,255,.06),rgba(91,165,255,.02));border:1px solid rgba(91,165,255,.18);border-radius:12px;cursor:pointer;transition:.15s}
+.wl-manage-bar:hover{border-color:rgba(91,165,255,.32)}
+.wl-manage-bar .wlm-l{display:flex;align-items:center;gap:10px}
+.wl-manage-bar .wlm-ic{width:32px;height:32px;border-radius:9px;background:rgba(91,165,255,.1);color:#5BA5FF;display:grid;place-items:center}
+.wl-manage-bar .wlm-ic svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wl-manage-bar .wlm-title{font-size:13px;font-weight:700;color:var(--txt)}
+.wl-manage-bar .wlm-count{font-size:11px;color:var(--muted);margin-top:1px}
+.wl-manage-bar .wlm-arrow{color:var(--muted);font-size:18px}
 
 /* viz frame around portfolio holdings */
 .viz-frame{background:rgba(20,20,20,.35);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
@@ -1614,6 +1726,14 @@ function activeIsPaper(){
   return !!(pf && pf.isPaper);
 }
 
+function openCashQuickAdd(){
+  if (activeIsPaper()){
+    toast(lang==='ar'?'محفظة التدريب لا تقبل إيداع':'Paper portfolio is locked');
+    return;
+  }
+  addCashTx('deposit');
+}
+
 function activeHoldings(){
   let hs = holdings.filter(h => h.pfId === settings.activePf);
   if (settings.horizonFilter !== "all"){
@@ -1805,7 +1925,16 @@ function render(){
       <span class="lbl">${lang==='ar'?'العائد الكلي':'Total return'}</span>
       <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+'$'+fmt0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
     </div>` : ''}
-    ${getPfCash() > 0 ? `<div class="cash-line"><span class="ic">💵</span><span class="lbl">${lang==='ar'?'كاش':'Cash'}</span> <span class="v">${maskMoney(fmtMoney(getPfCash()))}</span></div>` : ''}
+    <div class="cash-bar" onclick="${activeIsPaper()?'event.stopPropagation()':'openCashQuickAdd()'}">
+      <div class="cash-bar-l">
+        <span class="cash-ic">${icn('cash')}</span>
+        <div>
+          <div class="cash-bar-lbl">${lang==='ar'?'الكاش المتاح':'Available Cash'}${activeIsPaper()?` · <span class="paper-badge" style="font-size:8px">${lang==='ar'?'تدريب':'PAPER'}</span>`:''}</div>
+          <div class="cash-bar-val">${maskMoney(fmtMoney(getPfCash()))}</div>
+        </div>
+      </div>
+      ${activeIsPaper() ? '' : `<button class="cash-add-btn" onclick="event.stopPropagation();openCashQuickAdd()">${icn('plus')} ${lang==='ar'?'إضافة':'Add'}</button>`}
+    </div>
 
     <div class="hero-live">
       <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
@@ -1815,7 +1944,7 @@ function render(){
     <div class="tabs">
       <button class="tab ${activeTab==='portfolio'?'on':''}" onclick="setTab('portfolio')"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg><span>${lang==='ar'?'الرئيسية':'Home'}</span></button>
       <button class="tab ${activeTab==='watch'?'on':''}" onclick="setTab('watch')"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 21.5 12 18 5.5 21.5 7 14.5 2 9.5 9 9 12 2"/></svg><span>${lang==='ar'?'متابعة':'Watch'}</span></button>
-      <button class="tab ${activeTab==='analysts'?'on':''}" onclick="setTab('analysts')"><svg viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg><span>${lang==='ar'?'المحللون':'Analysts'}</span></button>
+      <button class="tab ${activeTab==='notifications'?'on':''}" onclick="setTab('notifications')"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span>${lang==='ar'?'الإشعارات':'Notifications'}</span></button>
       <button class="tab ${activeTab==='news'?'on':''}" onclick="setTab('news')"><svg viewBox="0 0 24 24"><path d="M4 5h13a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z"/><path d="M19 8h2v9a2 2 0 0 1-2 2"/><line x1="8" y1="9" x2="15" y2="9"/><line x1="8" y1="13" x2="15" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg><span>${lang==='ar'?'الأخبار':'News'}</span></button>
       <button class="tab ${activeTab==='more'?'on':''}" onclick="setTab('more')"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span>${lang==='ar'?'المزيد':'More'}</span></button>
     </div>
@@ -1844,7 +1973,7 @@ function applyViewMode(){
 function renderTab(){
   const c = $("#tab-content"); if (!c) return;
   if (activeTab === "watch") { renderWatchlist(); refreshWatchlistPrices(); return; }
-  if (activeTab === "analysts") { renderAnalysts(); return; }
+  if (activeTab === "notifications") { renderNotifications(); return; }
   if (activeTab === "more") { renderMore(); return; }
   if (activeTab === "community") { renderCommunity(); return; }
   if (activeTab === "portfolio") {
@@ -1926,9 +2055,9 @@ function renderTab(){
       </div>
       ${hs.length ? `
         <div class="chart-type-switch">
-          <button class="${settings.chartType==='bubble'?'on':''}" onclick="setChartType('bubble')"><span class="ic">◉</span> ${lang==='ar'?'فقاعات':'Bubbles'}</button>
-          <button class="${settings.chartType==='bar'?'on':''}" onclick="setChartType('bar')"><span class="ic">▤</span> ${lang==='ar'?'أعمدة':'Bars'}</button>
-          <button class="${settings.chartType==='cards'?'on':''}" onclick="setChartType('cards')"><span class="ic">▦</span> ${lang==='ar'?'كروت':'Cards'}</button>
+          <button class="${settings.chartType==='bubble'?'on':''}" onclick="setChartType('bubble')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor"><circle cx="12" cy="12" r="6"/></svg> ${lang==='ar'?'فقاعات':'Bubbles'}</button>
+          <button class="${settings.chartType==='bar'?'on':''}" onclick="setChartType('bar')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg> ${lang==='ar'?'أعمدة':'Bars'}</button>
+          <button class="${settings.chartType==='cards'?'on':''}" onclick="setChartType('cards')"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><rect x="13" y="13" width="8" height="7" rx="1.5"/></svg> ${lang==='ar'?'كروت':'Cards'}</button>
         </div>
         <div class="add-stock-row">
           <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
@@ -2108,16 +2237,38 @@ function renderCards(){
   const data = hs.map(h => { const s = statsFor(h); return { h, s }; }).filter(d => d.s.mv > 0);
   if (!data.length) { wrap.innerHTML = ''; return; }
   data.sort((a,b) => b.s.mv - a.s.mv);
-  wrap.innerHTML = `<div class="cards-grid-v2">${data.map(({h,s}) => {
-    const up = s.plPct >= 0;
+  const ar = lang === 'ar';
+  wrap.innerHTML = `<div class="cards-list-v3">${data.map(({h,s}) => {
+    const up = s.pl >= 0;
     const cachedLogo = _logoCache[h.ticker];
     const logoHTML = cachedLogo
-      ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="logo-img" onerror="this.style.display='none'">`
-      : `<div class="logo-fallback" data-logo-tic="${esc(h.ticker)}" style="background:${up?'var(--accent-bg)':'var(--loss-bg)'};color:${up?'var(--accent)':'var(--loss)'};border-color:${up?'var(--accent-d)':'var(--loss-d)'}">${esc(h.ticker.slice(0,3))}</div>`;
-    return `<div class="card-v2 ${up?'up':'down'}" onclick="openDetail('${h.id}')">
-      ${logoHTML}
-      <div class="tic">${esc(h.ticker)}</div>
-      <div class="pct">${settings.privacy?'••':(up?'+':'−')+fmt(Math.abs(s.plPct),0)+'%'}</div>
+      ? `<img src="${cachedLogo}" alt="${esc(h.ticker)}" class="cv3-logo" onerror="this.style.display='none'">`
+      : `<div class="cv3-logo cv3-fallback" data-logo-tic="${esc(h.ticker)}">${esc(h.ticker.slice(0,3))}</div>`;
+    const plStr = settings.privacy ? '••••' : `${up?'+':'−'}${fmt(Math.abs(s.pl),2)}`;
+    const plPctStr = settings.privacy ? '' : ` <span style="opacity:.85">(${up?'+':''}${fmt(s.plPct,2)}%)</span>`;
+    return `<div class="cv3-card ${up?'up':'down'}" onclick="openDetail('${h.id}')">
+      <div class="cv3-head">
+        ${logoHTML}
+        <div class="cv3-titles">
+          <div class="cv3-tic">${esc(h.ticker)}${earnBadge(h.ticker)}</div>
+          <div class="cv3-name">${esc(h.name || h.ticker)}</div>
+        </div>
+      </div>
+      <div class="cv3-divider"></div>
+      <div class="cv3-stats">
+        <div class="cv3-stat">
+          <div class="cv3-stat-lbl">${ar?'إجمالي ربح/خسارة':'Total P&L'}</div>
+          <div class="cv3-stat-val ${up?'up':'down'}">${plStr}${plPctStr}</div>
+        </div>
+        <div class="cv3-stat">
+          <div class="cv3-stat-lbl">${ar?'القيمة السوقية':'Market Value'}</div>
+          <div class="cv3-stat-val">${maskMoney(fmtMoney(s.mv))}</div>
+        </div>
+        <div class="cv3-stat">
+          <div class="cv3-stat-lbl">${ar?'الكمية':'Quantity'}</div>
+          <div class="cv3-stat-val">${fmt(s.shares, s.shares%1?2:0)}</div>
+        </div>
+      </div>
     </div>`;
   }).join('')}</div>`;
   lazyLoadLogos(data.map(d => d.h.ticker));
@@ -2269,10 +2420,11 @@ function renderEditModal(h){
 
     <div class="field"><label>${t().ticker}</label>
       <div class="search-wrap">
-        <input class="inp" id="f_tic" placeholder="AAPL / Apple" value="${h?esc(h.ticker):''}" oninput="liveSearch()" autocomplete="off">
-        <button class="search-btn" onclick="searchTicker()" title="Search">🔍</button>
+        <input class="inp" id="f_tic" placeholder="AAPL / Apple" value="${h?esc(h.ticker):''}" oninput="liveSearch();schedulePricePreview()" onblur="loadPricePreview()" autocomplete="off">
+        <button class="search-btn" onclick="searchTicker()" title="Search">${icn('search')}</button>
       </div>
       <div id="sg-box"></div>
+      <div id="price-preview"></div>
     </div>
 
     ${!h ? `<div class="grid2">
@@ -2430,8 +2582,21 @@ function saveHold(id){
       horizon: editHorizon, tags: editTags,
       strike, expiry, iv,
     };
+    // Deduct cash for initial purchase
+    const mult = (editType && editType !== 'stock') ? 100 : 1;
+    const cost = sh * avg * mult;
+    const curCash = getPfCash();
+    if (curCash > 0 && curCash < cost){
+      if (!confirm(lang==='ar'
+        ? `الكاش المتاح ${fmtMoney(curCash)} أقل من تكلفة الصفقة ${fmtMoney(cost)}. متابعة؟`
+        : `Available cash ${fmtMoney(curCash)} is less than trade cost ${fmtMoney(cost)}. Continue?`)){
+        return;
+      }
+    }
+    setPfCash(Math.max(0, curCash - cost));
     holdings.push(newH);
     cloudUpsertHolding(newH);
+    logActivity('buy', { ticker: tic, qty: sh, price: avg });
   }
   save(); closeModal(); render();
 }
@@ -3606,46 +3771,39 @@ function renderWatchlist(){
   }
   if (!settings.wlFilter) settings.wlFilter = 'all';
   const items = settings.wlFilter === 'all' ? allItems : allItems.filter(w => (w.wgroup||'watch') === settings.wlFilter);
-  const cnt = (g) => allItems.filter(w => (w.wgroup||'watch') === g).length;
   c.innerHTML = `
     <div class="add-stock-row">
       <button class="add-stock-btn" onclick="addToWatchlist()"><span class="plus">+</span> ${lang==='ar'?'إضافة للمتابعة':'Add to Watchlist'}</button>
     </div>
-    <div class="wl-filter-row">
-      <button class="qf-chip ${settings.wlFilter==='all'?'on':''}" onclick="setWlFilter('all')">${lang==='ar'?'الكل':'All'} <span style="opacity:.6;font-weight:600">${allItems.length}</span></button>
-      <button class="qf-chip ${settings.wlFilter==='buy'?'on':''}" onclick="setWlFilter('buy')">🛒 ${lang==='ar'?'للشراء':'To Buy'} <span style="opacity:.6;font-weight:600">${cnt('buy')}</span></button>
-      <button class="qf-chip ${settings.wlFilter==='watch'?'on':''}" onclick="setWlFilter('watch')">👁 ${lang==='ar'?'مراقبة':'Watch'} <span style="opacity:.6;font-weight:600">${cnt('watch')}</span></button>
-      <button class="qf-chip ${settings.wlFilter==='study'?'on':''}" onclick="setWlFilter('study')">📚 ${lang==='ar'?'دراسة':'Study'} <span style="opacity:.6;font-weight:600">${cnt('study')}</span></button>
+    <div class="wl-manage-bar" onclick="openWatchlistManage()">
+      <div class="wlm-l">
+        <div class="wlm-ic">${icn('star')}</div>
+        <div>
+          <div class="wlm-title">${lang==='ar'?'إدارة قوائم المتابعة':'Manage Watchlists'}</div>
+          <div class="wlm-count">${allItems.length} ${lang==='ar'?'سهم':'stocks'}</div>
+        </div>
+      </div>
+      <span class="wlm-arrow">${lang==='ar'?'‹':'›'}</span>
     </div>
     <div class="watch-list">${items.map(w => {
       const up = w.dayChangePct != null && w.dayChangePct >= 0;
-      let tgtPill = '';
-      if (w.target && w.price && w.price >= w.target) tgtPill = `<span class="tgt-pill hit">🎯 ${lang==='ar'?'وصل الهدف':'TARGET HIT'}</span>`;
-      else if (w.stop && w.price && w.price <= w.stop) tgtPill = `<span class="tgt-pill stop">⚠️ ${lang==='ar'?'كسر الوقف':'STOP HIT'}</span>`;
-      // Perf since added
-      let sincePill = '';
-      if (w.addedPrice && w.price){
-        const pct = ((w.price - w.addedPrice) / w.addedPrice) * 100;
-        const sUp = pct >= 0;
-        sincePill = `<span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:${sUp?'var(--accent-bg)':'var(--loss-bg)'};color:${sUp?'var(--accent)':'var(--loss)'};border:1px solid ${sUp?'var(--accent-d)':'var(--loss-d)'};margin-inline-start:5px;font-variant-numeric:tabular-nums" title="${lang==='ar'?'منذ الإضافة':'Since added'} $${fmt(w.addedPrice,2)}">${sUp?'+':''}${fmt(pct,1)}%</span>`;
-      }
-      // Earnings badge (uses unified cache)
-      const earnPill = earnBadge(w.ticker);
-      const groupCls = w.wgroup || 'watch';
-      const groupLabel = groupCls === 'buy' ? (lang==='ar'?'للشراء':'BUY') : groupCls === 'study' ? (lang==='ar'?'دراسة':'STUDY') : (lang==='ar'?'مراقبة':'WATCH');
       const cachedLogo = _logoCache[w.ticker];
       const logoHTML = cachedLogo
-        ? `<img src="${cachedLogo}" alt="${esc(w.ticker)}" class="co-logo">`
-        : `<div class="tic-bx" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
-      return `<div class="watch-row" onclick="openWatchDetail('${w.id}')">
+        ? `<div class="wr-logo"><img src="${cachedLogo}" alt="${esc(w.ticker)}" onerror="this.parentElement.innerHTML='${esc(w.ticker.slice(0,4))}';this.parentElement.classList.add('fallback')"></div>`
+        : `<div class="wr-logo fallback" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
+      // Mini sparkline (use day change to color)
+      const spark = miniSparkline(w.ticker, up);
+      const earnPill = earnBadge(w.ticker);
+      return `<div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')">
         ${logoHTML}
-        <div class="info">
-          <div class="t">${esc(w.ticker)}${sincePill}<span class="wg-pill ${groupCls}" style="margin-inline-start:5px">${groupLabel}</span>${tgtPill}${earnPill}</div>
-          <div class="s">${esc(w.name || '')}${w.target?` · 🎯 $${fmt(w.target)}`:''}${w.stop?` · ⚠️ $${fmt(w.stop)}`:''}${w.addedPrice?` · ${lang==='ar'?'من':'from'} $${fmt(w.addedPrice,2)}`:''}</div>
+        <div class="wr-info">
+          <div class="wr-tic">${esc(w.ticker)}${earnPill}</div>
+          <div class="wr-name">${esc(w.name || '')}</div>
         </div>
-        <div class="rt">
-          <div class="pr">${w.price!=null?'$'+fmt(w.price):'—'}</div>
-          ${w.dayChangePct!=null?`<div class="ch ${up?'up':'down'}">${up?'+':''}${fmt(w.dayChangePct,2)}%</div>`:''}
+        ${spark}
+        <div class="wr-price-col">
+          <div class="wr-price">${w.price!=null?'$'+fmt(w.price,2):'—'}</div>
+          ${w.dayChangePct!=null?`<div class="wr-change ${up?'up':'down'}"><span class="wr-change-tri">${up?'▲':'▼'}</span>${up?'+':''}${fmt(w.dayChangePct,2)}% ${w.price&&w.dayChangePct!=null?`$${fmt(Math.abs(w.price*w.dayChangePct/100),3)}`:''}</div>`:''}
         </div>
       </div>`;
     }).join("")}</div>
@@ -3653,6 +3811,89 @@ function renderWatchlist(){
   lazyLoadLogos(items.map(w => w.ticker));
   // Load earnings dates using unified cache
   setTimeout(()=>preloadAllEarnings(), 200);
+  // Load sparklines lazily
+  setTimeout(()=>loadWatchSparklines(items), 200);
+}
+
+// Mini sparkline placeholder
+function miniSparkline(ticker, up){
+  const color = up ? '#5FE9B0' : '#F26B6E';
+  const cached = window._sparkCache?.[ticker];
+  if (cached){
+    return `<svg class="wr-spark" viewBox="0 0 84 36" preserveAspectRatio="none">
+      <defs><linearGradient id="sg_${ticker}" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="${color}" stop-opacity=".25"/>
+        <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+      </linearGradient></defs>
+      <path d="${cached.area}" fill="url(#sg_${ticker})"/>
+      <path d="${cached.line}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${cached.lastX}" cy="${cached.lastY}" r="2" fill="${color}"/>
+    </svg>`;
+  }
+  // empty placeholder
+  return `<svg class="wr-spark" data-spark-tic="${ticker}" viewBox="0 0 84 36"></svg>`;
+}
+
+async function loadWatchSparklines(items){
+  if (!window._sparkCache) window._sparkCache = {};
+  const needs = items.filter(w => !window._sparkCache[w.ticker]);
+  if (!needs.length) return;
+  // Parallel batched (5 at a time)
+  for (let i = 0; i < needs.length; i += 5){
+    await Promise.all(needs.slice(i, i+5).map(async w => {
+      try {
+        // Use 1-day candles for 5 days
+        const to = Math.floor(Date.now()/1000);
+        const from = to - 5 * 86400;
+        const r = await fetch(`${FINNHUB}/stock/candle?symbol=${encodeURIComponent(w.ticker)}&resolution=60&from=${from}&to=${to}&token=${FINNHUB_KEY}`);
+        if (!r.ok){ window._sparkCache[w.ticker] = null; return; }
+        const d = await r.json();
+        if (d.s !== 'ok' || !d.c || d.c.length < 2){ window._sparkCache[w.ticker] = null; return; }
+        const closes = d.c;
+        const min = Math.min(...closes), max = Math.max(...closes);
+        const range = max - min || 1;
+        const w_ = 84, h_ = 36, pad = 2;
+        const pts = closes.map((c, i) => ({
+          x: (i / (closes.length-1)) * (w_ - 2*pad) + pad,
+          y: h_ - pad - ((c - min) / range) * (h_ - 2*pad)
+        }));
+        const line = 'M ' + pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' L ');
+        const area = line + ` L ${(w_-pad).toFixed(1)},${(h_-pad).toFixed(1)} L ${pad},${(h_-pad).toFixed(1)} Z`;
+        window._sparkCache[w.ticker] = { line, area, lastX: pts[pts.length-1].x, lastY: pts[pts.length-1].y };
+      } catch(e){ window._sparkCache[w.ticker] = null; }
+    }));
+  }
+  if (activeTab === 'watch') renderWatchlist();
+}
+
+function openWatchlistManage(){
+  const ar = lang === 'ar';
+  const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+  modal(`
+    <h2>${ar?'إدارة قوائم المتابعة':'Manage Watchlists'}</h2>
+    <p class="sub">${ar?'فلتر وعرض حسب المجموعة':'Filter and view by group'}</p>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+      ${[
+        {k:'all', ar:'الكل', en:'All', icon:'star'},
+        {k:'buy', ar:'للشراء', en:'To Buy', icon:'plus'},
+        {k:'watch', ar:'مراقبة', en:'Watching', icon:'star'},
+        {k:'study', ar:'للدراسة', en:'Studying', icon:'checklist'},
+      ].map(g => {
+        const cnt = g.k === 'all' ? allItems.length : allItems.filter(w => (w.wgroup||'watch') === g.k).length;
+        const active = (settings.wlFilter || 'all') === g.k;
+        return `<button class="btn" style="display:flex;justify-content:space-between;align-items:center;padding:13px 14px;background:${active?'var(--accent-bg)':'var(--surf)'};border-color:${active?'var(--accent-d)':'var(--line)'};color:${active?'var(--accent)':'var(--txt)'};font-weight:700" onclick="setWlFilter('${g.k}');closeModal()">
+          <span style="display:flex;align-items:center;gap:9px">
+            <span style="display:inline-flex;width:18px;height:18px">${icn(g.icon)}</span>
+            ${ar?g.ar:g.en}
+          </span>
+          <span style="font-size:12px;opacity:.7;font-weight:600">${cnt}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <div class="m-actions" style="margin-top:14px">
+      <button class="btn primary" style="width:100%" onclick="closeModal()">${ar?'تم':'Done'}</button>
+    </div>
+  `);
 }
 
 function setWlFilter(g){ settings.wlFilter = g; save(); renderWatchlist(); }
@@ -3923,6 +4164,64 @@ const ICONS = {
 function icn(name){ return ICONS[name] || ''; }
 
 /* ════ Long-Press Menu (v16) ════ */
+
+/* Live price preview in Add Stock form */
+let _priceTimer = null;
+function schedulePricePreview(){
+  clearTimeout(_priceTimer);
+  _priceTimer = setTimeout(loadPricePreview, 600);
+}
+async function loadPricePreview(){
+  const ticInput = document.getElementById('f_tic');
+  const box = document.getElementById('price-preview');
+  if (!ticInput || !box) return;
+  const tic = ticInput.value.trim().toUpperCase();
+  if (!tic || tic.length < 1){ box.innerHTML = ''; return; }
+  if (box.dataset.lastTic === tic) return;
+  box.dataset.lastTic = tic;
+  box.innerHTML = `<div class="pp-loading"><span class="spin"></span> ${lang==='ar'?'جلب السعر...':'Fetching...'}</div>`;
+  try {
+    const [quoteRes, profileRes] = await Promise.all([
+      fetch(`${FINNHUB}/quote?symbol=${encodeURIComponent(tic)}&token=${FINNHUB_KEY}`).then(r => r.ok ? r.json() : null).catch(()=>null),
+      fetch(`${FINNHUB}/stock/profile2?symbol=${encodeURIComponent(tic)}&token=${FINNHUB_KEY}`).then(r => r.ok ? r.json() : null).catch(()=>null),
+    ]);
+    if (!quoteRes || quoteRes.c == null || quoteRes.c === 0){
+      box.innerHTML = `<div class="pp-error">${lang==='ar'?'لا توجد بيانات لهذا الرمز':'No data for this ticker'}</div>`;
+      return;
+    }
+    const price = quoteRes.c;
+    const change = quoteRes.d;
+    const changePct = quoteRes.dp;
+    const high = quoteRes.h;
+    const low = quoteRes.l;
+    const up = (changePct||0) >= 0;
+    const name = profileRes?.name || '';
+    const logo = profileRes?.logo;
+    // Auto-fill avg price if empty
+    const avgInput = document.getElementById('f_avg');
+    if (avgInput && !avgInput.value) avgInput.placeholder = String(price);
+    // Cache name
+    if (name) ticInput.dataset.name = name;
+    box.innerHTML = `
+      <div class="pp-card">
+        <div class="pp-l">
+          ${logo ? `<img src="${logo}" class="pp-logo" onerror="this.style.display='none'">` : `<div class="pp-logo pp-fallback">${esc(tic.slice(0,3))}</div>`}
+          <div>
+            ${name ? `<div class="pp-name">${esc(name)}</div>` : ''}
+            <div class="pp-tic">${esc(tic)}</div>
+          </div>
+        </div>
+        <div class="pp-r">
+          <div class="pp-price">$${fmt(price,2)}</div>
+          ${changePct!=null ? `<div class="pp-ch ${up?'up':'down'}">${up?'▲':'▼'} ${up?'+':''}${fmt(change,2)} (${up?'+':''}${fmt(changePct,2)}%)</div>` : ''}
+        </div>
+      </div>
+      ${high&&low ? `<div class="pp-range"><span>${lang==='ar'?'منخفض':'Low'} $${fmt(low,2)}</span><span class="pp-bar"><span class="pp-dot" style="${(lang==='ar')?'right':'left'}:${((price-low)/(high-low)*100).toFixed(1)}%"></span></span><span>${lang==='ar'?'مرتفع':'High'} $${fmt(high,2)}</span></div>` : ''}
+    `;
+  } catch(e){ box.innerHTML = ''; }
+}
+
+/* ════ Long-Press Menu (v16) ════ */
 let _lpTimer = null;
 let _lpStartXY = null;
 
@@ -3990,6 +4289,194 @@ function openLongPressMenu(holdId){
       <button class="btn" style="width:100%" onclick="closeModal()">${ar?'إلغاء':'Cancel'}</button>
     </div>
   `);
+}
+
+/* ════ Notifications Tab (v17) — replaces Analysts ════ */
+function renderNotifications(){
+  const c = $("#tab-content"); if (!c) return;
+  const ar = lang === 'ar';
+  // Build notification feed from: transactions, cash history, targets hit, earnings approaching, subscription warning
+  const notifs = [];
+  
+  // 1. Transactions (recent buys/sells)
+  holdings.filter(h => h.pfId === settings.activePf).forEach(h => {
+    (h.transactions || []).forEach(tx => {
+      notifs.push({
+        type: tx.type, // 'buy' or 'sell'
+        ts: tx.ts || new Date(tx.date).getTime(),
+        ticker: h.ticker,
+        name: h.name,
+        qty: tx.qty,
+        price: tx.price,
+        total: tx.qty * tx.price * ((h.type && h.type !== 'stock') ? 100 : 1),
+        category: 'trade',
+      });
+    });
+  });
+  
+  // 2. Cash operations
+  const cashHist = getPfCashHistory();
+  cashHist.forEach(c => {
+    notifs.push({
+      type: c.type, // 'deposit' or 'withdraw'
+      ts: c.ts || new Date(c.date || Date.now()).getTime(),
+      amount: c.amount,
+      note: c.note,
+      category: 'cash',
+    });
+  });
+  
+  // 3. Target / Stop hits (from current state)
+  watchlist.filter(w => w.pfId === settings.activePf).forEach(w => {
+    if (w.target && w.price && w.price >= w.target){
+      notifs.push({
+        type: 'target_hit', ts: Date.now() - 3600000,
+        ticker: w.ticker, name: w.name, target: w.target, price: w.price,
+        category: 'alert',
+      });
+    }
+    if (w.stop && w.price && w.price <= w.stop){
+      notifs.push({
+        type: 'stop_hit', ts: Date.now() - 3600000,
+        ticker: w.ticker, name: w.name, stop: w.stop, price: w.price,
+        category: 'alert',
+      });
+    }
+  });
+  
+  // 4. Upcoming earnings (≤14 days)
+  const allTickers = new Set([
+    ...holdings.filter(h => h.pfId === settings.activePf).map(h => h.ticker),
+    ...watchlist.filter(w => w.pfId === settings.activePf).map(w => w.ticker),
+  ]);
+  allTickers.forEach(tic => {
+    const cached = window._earnCache?.[tic];
+    if (cached && cached.d){
+      const days = Math.ceil((new Date(cached.d) - new Date()) / 86400000);
+      if (days >= 0 && days <= 14){
+        notifs.push({
+          type: 'earnings_soon', ts: Date.now() - days*1000,
+          ticker: tic, date: cached.d, days,
+          category: 'alert',
+        });
+      }
+    }
+  });
+  
+  // Sort by ts desc
+  notifs.sort((a,b) => (b.ts||0) - (a.ts||0));
+  
+  // Group by category
+  const alerts = notifs.filter(n => n.category === 'alert').slice(0, 8);
+  const orders = notifs.filter(n => n.category === 'trade').slice(0, 10);
+  const cashOps = notifs.filter(n => n.category === 'cash').slice(0, 8);
+  
+  if (!notifs.length){
+    c.innerHTML = `<div class="notif-empty">
+      <div style="display:inline-flex;width:48px;height:48px;color:var(--muted2);margin-bottom:10px">${icn('bell')}</div>
+      <h3 style="margin:0 0 6px;font-size:17px;font-weight:700;color:var(--txt)">${ar?'لا توجد إشعارات':'No notifications yet'}</h3>
+      <p style="margin:0 auto;font-size:13px;line-height:1.6;max-width:280px;color:var(--muted)">${ar?'الإشعارات والتنبيهات وعمليات حسابك ستظهر هنا':'Notifications, alerts, and account activity will appear here'}</p>
+    </div>`;
+    return;
+  }
+  
+  const fmtRelTime = (ts) => {
+    const diff = Date.now() - ts;
+    const mins = Math.floor(diff/60000);
+    const hrs = Math.floor(diff/3600000);
+    const days = Math.floor(diff/86400000);
+    if (mins < 1) return ar?'الآن':'now';
+    if (mins < 60) return ar?`قبل ${mins} د`:`${mins}m ago`;
+    if (hrs < 24) return ar?`قبل ${hrs} س`:`${hrs}h ago`;
+    if (days < 7) return ar?`قبل ${days} ي`:`${days}d ago`;
+    const d = new Date(ts);
+    return d.toLocaleDateString(ar?'ar':'en', { day:'numeric', month:'short' });
+  };
+  
+  c.innerHTML = `
+    ${alerts.length ? `
+      <div class="notif-section">
+        <div class="notif-section-head">
+          <span class="ttl">${ar?'الإشعارات':'Alerts'}</span>
+          <span class="arr">${ar?'‹':'›'}</span>
+        </div>
+        <div class="notif-list">
+          ${alerts.map(n => {
+            if (n.type === 'target_hit') return `<div class="notif-row alert">
+              <div class="nf-ic alert-ic">${icn('bell')}</div>
+              <div class="nf-body">
+                <div class="nf-title">${ar?'وصل سهم لهدفه':'Target reached'}</div>
+                <div class="nf-sub">${esc(n.ticker)} ${ar?'وصل الهدف عند':'hit target at'} $${fmt(n.target,2)} · ${ar?'الآن':'now'} $${fmt(n.price,2)}</div>
+              </div>
+              <div class="nf-time">${fmtRelTime(n.ts)}</div>
+            </div>`;
+            if (n.type === 'stop_hit') return `<div class="notif-row alert loss">
+              <div class="nf-ic loss-ic">${icn('bell')}</div>
+              <div class="nf-body">
+                <div class="nf-title">${ar?'كسر وقف الخسارة':'Stop loss triggered'}</div>
+                <div class="nf-sub">${esc(n.ticker)} ${ar?'كسر الوقف عند':'broke stop at'} $${fmt(n.stop,2)} · ${ar?'الآن':'now'} $${fmt(n.price,2)}</div>
+              </div>
+              <div class="nf-time">${fmtRelTime(n.ts)}</div>
+            </div>`;
+            if (n.type === 'earnings_soon') return `<div class="notif-row alert gold">
+              <div class="nf-ic gold-ic">${icn('calendar')}</div>
+              <div class="nf-body">
+                <div class="nf-title">${ar?'إعلان أرباح قريب':'Earnings approaching'}</div>
+                <div class="nf-sub">${esc(n.ticker)} · ${ar?'بعد':'in'} ${n.days} ${ar?'يوم':n.days===1?'day':'days'} (${esc(n.date)})</div>
+              </div>
+              <div class="nf-time">${fmtRelTime(n.ts)}</div>
+            </div>`;
+            return '';
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+    
+    ${orders.length ? `
+      <div class="notif-section">
+        <div class="notif-section-head">
+          <span class="ttl">${ar?'الأوامر':'Orders'}</span>
+          <span class="arr">${ar?'‹':'›'}</span>
+        </div>
+        <div class="notif-list">
+          ${orders.map(n => {
+            const isBuy = n.type === 'buy';
+            return `<div class="notif-row trade">
+              <div class="nf-ic ${isBuy?'buy-ic':'sell-ic'}">${icn(isBuy?'plus':'chart')}</div>
+              <div class="nf-body">
+                <div class="nf-title">${isBuy?(ar?'شراء':'Buy'):(ar?'بيع':'Sell')} $${fmt(n.total,2)}</div>
+                <div class="nf-sub">${esc(n.ticker)} · ${fmt(n.qty)} × $${fmt(n.price,2)}</div>
+              </div>
+              <div class="nf-status nf-done">${ar?'✓ منفذ':'✓ Done'}</div>
+              <div class="nf-time">${fmtRelTime(n.ts)}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+    
+    ${cashOps.length ? `
+      <div class="notif-section">
+        <div class="notif-section-head">
+          <span class="ttl">${ar?'عمليات المحفظة':'Account Activity'}</span>
+          <span class="arr">${ar?'‹':'›'}</span>
+        </div>
+        <div class="notif-list">
+          ${cashOps.map(n => {
+            const isDep = n.type === 'deposit';
+            return `<div class="notif-row cash">
+              <div class="nf-ic cash-ic">${icn(isDep?'plus':'logout')}</div>
+              <div class="nf-body">
+                <div class="nf-title">${isDep?(ar?'عملية إيداع':'Deposit'):(ar?'عملية سحب':'Withdrawal')}</div>
+                <div class="nf-sub">${fmtRelTime(n.ts)} · ${esc(n.note||'')}</div>
+              </div>
+              <div class="nf-amount ${isDep?'up':'down'}">${isDep?'+':'−'}${fmtMoney(Math.abs(n.amount))}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+  `;
 }
 
 /* ════ Earnings Timeline + Financials Summary + Per-Stock Earnings Badges (v15) ════ */
@@ -5796,8 +6283,8 @@ async function triggerRefresh(){
   } else if (activeTab === 'watch'){
     if (typeof refreshWatchlistPrices === 'function') await refreshWatchlistPrices();
     renderWatchlist();
-  } else if (activeTab === 'analysts'){
-    renderAnalysts();
+  } else if (activeTab === 'notifications'){
+    renderNotifications();
   } else if (activeTab === 'news'){
     if (typeof renderNews === 'function') renderNews();
   } else if (activeTab === 'more'){
@@ -5805,7 +6292,6 @@ async function triggerRefresh(){
   } else if (activeTab === 'community'){
     renderCommunity();
   }
-  toast(lang==='ar' ? '✓ تم التحديث' : '✓ Refreshed');
 }
 
 /* ── Daily Brief ── */
@@ -7316,13 +7802,12 @@ async function refreshPrices(){
     });
   }
   if (n === 0) {
-    toast((lang==='ar'?"خطأ: ":"Error: ") + (lastErr?.message || t().refresh_failed));
     if (btn) { btn.disabled = false; btn.innerHTML = `↻ ${t().refresh}`; }
     return;
   }
   settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
   save();
-  toast(t().refresh_ok(n));
+  // Re-render but preserve current chart type
   render();
 }
 
@@ -7486,7 +7971,7 @@ function renderSplash(){
         <div class="mkt-feat-grid">
           <div class="mfg-card big">
             <div class="mfg-ic">${icn('bolt')}</div>
-            <h3>${ar?'مساعد ذكي ':'AI Coach by '} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
+            <h3>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
             <p>${ar?'تحليل فني لأي سهم بنقرة، توصيات بناءً على بياناتك، وإجابات على أسئلتك الاستثمارية لحظياً.':'Technical analysis on tap, data-driven recommendations, and instant answers to your investing questions.'}</p>
           </div>
 
@@ -7638,7 +8123,7 @@ function renderSplash(){
             <div class="ds">${ar?'كل ما في الأساسي + قوة الذكاء الاصطناعي.':'Everything in Basic, supercharged with AI.'}</div>
             <ul>
               <li><span class="check-pr"></span>${ar?'كل مميزات الأساسي':'All Basic features'}</li>
-              <li><span class="check-pr"></span>${ar?'مساعد ذكي ':'AI Coach by '}</li>
+              <li><span class="check-pr"></span>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'}</li>
               <li><span class="check-pr"></span>${ar?'تحليل فني AI لأي سهم':'AI technical analysis'}</li>
               <li><span class="check-pr"></span>${ar?'ملخّص أرباح ذكي':'Smart earnings summaries'}</li>
               <li><span class="check-pr"></span>${ar?'تنبيهات أسعار فورية':'Real-time price alerts'}</li>
