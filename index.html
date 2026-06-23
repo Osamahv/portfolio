@@ -803,6 +803,49 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 /* Earnings approaching badge */
 .earn-warn{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:800;padding:2px 6px;border-radius:4px;background:#2A1A0E;color:#E89B6B;border:1px solid #5C3B22;letter-spacing:.05em;text-transform:uppercase;margin-inline-start:4px}
 
+/* ── Earnings timeline + financials summary (v15) ── */
+.earn-tl{background:#000;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+.earn-tl-head{display:flex;align-items:center;gap:7px;font-size:10.5px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.earn-tl-row{display:flex;align-items:stretch;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.earn-tl-row::-webkit-scrollbar{display:none}
+.earn-tl-cell{flex:1;min-width:90px;background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:9px 10px;text-align:center;position:relative}
+.earn-tl-cell.next{background:linear-gradient(135deg,#1F1A0E,#0F0A05);border-color:#5A4818}
+.earn-tl-cell.beat{background:linear-gradient(135deg,#0E2517,#06160d);border-color:var(--accent-d)}
+.earn-tl-cell.miss{background:linear-gradient(135deg,#2A0E10,#1a0608);border-color:var(--loss-d)}
+.earn-tl-cell .dt{font-size:9.5px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.earn-tl-cell .pq{font-size:9px;color:var(--muted2);font-weight:700;margin-bottom:5px}
+.earn-tl-cell .vals{display:flex;flex-direction:column;gap:2px;font-variant-numeric:tabular-nums}
+.earn-tl-cell .vr{display:flex;justify-content:space-between;align-items:baseline;font-size:10.5px}
+.earn-tl-cell .vr .l{color:var(--muted2);font-size:9px;font-weight:700}
+.earn-tl-cell .vr .v{font-weight:800;color:var(--txt2)}
+.earn-tl-cell .verdict{font-size:9.5px;font-weight:800;margin-top:5px;padding:1px 5px;border-radius:4px;display:inline-block;letter-spacing:.05em}
+.earn-tl-cell.beat .verdict{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.earn-tl-cell.miss .verdict{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+.earn-tl-cell.next .verdict{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+.earn-tl-cell .countdown{font-size:11px;font-weight:800;color:var(--gold);margin-top:3px;font-variant-numeric:tabular-nums}
+
+/* Financials summary card */
+.fin-card{background:#000;border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:10px}
+.fin-card-head{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:10px}
+.fin-card-head .ttl{font-size:10.5px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.fin-verdict{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;letter-spacing:.04em}
+.fin-verdict.strong{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-d)}
+.fin-verdict.fair{background:#1F1A0E;color:var(--gold);border:1px solid #5A4818}
+.fin-verdict.weak{background:var(--loss-bg);color:var(--loss);border:1px solid var(--loss-d)}
+.fin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.fin-cell{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.fin-cell .lbl{font-size:9.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;display:flex;align-items:center;gap:4px}
+.fin-cell .lbl .dot{width:5px;height:5px;border-radius:50%}
+.fin-cell .lbl .dot.good{background:var(--accent)}
+.fin-cell .lbl .dot.ok{background:var(--gold)}
+.fin-cell .lbl .dot.bad{background:var(--loss)}
+.fin-cell .v{font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt)}
+.fin-cell .note{font-size:9.5px;color:var(--muted2);margin-top:1px}
+
+/* Earnings badge pill on portfolio/watchlist rows */
+.earn-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:#1F1A0E;color:var(--gold);border:1px solid #5A4818;letter-spacing:.03em;font-variant-numeric:tabular-nums;margin-inline-start:5px;white-space:nowrap}
+.earn-badge.soon{background:#2A1A0E;color:#E89B6B;border-color:#5C3B22}
+
 /* viz frame around portfolio holdings */
 .viz-frame{background:rgba(20,20,20,.35);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:14px}
 .viz-frame > #viz-wrap{margin-bottom:0}
@@ -1858,7 +1901,7 @@ function rowHtml(h){
   return `<div class="row" onclick="openDetail('${h.id}')">
     ${logoHTML}
     <div class="info">
-      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${optTag}${hzTag}</div>
+      <div class="t-line"><span class="t">${esc(h.ticker)}</span>${optTag}${hzTag}${earnBadge(h.ticker)}</div>
       <div class="s mono">${fmt(s.shares,s.shares%1?4:0)}${qtyLabel} × $${fmt(s.avg)} · ${share.toFixed(1)}%</div>
     </div>
     <div class="rt">
@@ -2539,7 +2582,7 @@ function openDetail(id){
   `);
   loadChart(h.ticker);
   loadEarningsTimeline(h.id, h.ticker);
-  loadStockEarnings(h.id, h.ticker);
+  loadStockFinancials(h.id, h.ticker);
   loadStockNews(h.id, h.ticker);
   loadStockAnalystInline(h.id, h.ticker);
   startStockLiveRefresh(h.id);
@@ -3514,9 +3557,8 @@ function renderWatchlist(){
         const sUp = pct >= 0;
         sincePill = `<span style="font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;background:${sUp?'var(--accent-bg)':'var(--loss-bg)'};color:${sUp?'var(--accent)':'var(--loss)'};border:1px solid ${sUp?'var(--accent-d)':'var(--loss-d)'};margin-inline-start:5px;font-variant-numeric:tabular-nums" title="${lang==='ar'?'منذ الإضافة':'Since added'} $${fmt(w.addedPrice,2)}">${sUp?'+':''}${fmt(pct,1)}%</span>`;
       }
-      // Earnings warning
-      const earnSoon = (w.earningsDate && (new Date(w.earningsDate) - new Date()) / 86400000 <= 3 && (new Date(w.earningsDate) - new Date()) / 86400000 >= 0);
-      const earnPill = earnSoon ? `<span class="earn-warn">📅 ${lang==='ar'?'أرباح قريباً':'EARNINGS SOON'}</span>` : '';
+      // Earnings badge (uses unified cache)
+      const earnPill = earnBadge(w.ticker);
       const groupCls = w.wgroup || 'watch';
       const groupLabel = groupCls === 'buy' ? (lang==='ar'?'للشراء':'BUY') : groupCls === 'study' ? (lang==='ar'?'دراسة':'STUDY') : (lang==='ar'?'مراقبة':'WATCH');
       const cachedLogo = _logoCache[w.ticker];
@@ -3537,51 +3579,12 @@ function renderWatchlist(){
     }).join("")}</div>
   `;
   lazyLoadLogos(items.map(w => w.ticker));
-  // Load earnings dates in background for the first time
-  setTimeout(()=>loadWatchEarningsDates(items), 200);
+  // Load earnings dates using unified cache
+  setTimeout(()=>preloadAllEarnings(), 200);
 }
 
 function setWlFilter(g){ settings.wlFilter = g; save(); renderWatchlist(); }
 
-async function loadWatchEarningsDates(items){
-  // Skip if already loaded in this session (24hr cache)
-  const cacheKey = '_earnDates';
-  if (!window[cacheKey]) window[cacheKey] = {};
-  const cache = window[cacheKey];
-  const now = Date.now();
-  const needs = items.filter(w => {
-    const c = cache[w.ticker];
-    return !c || (now - c.t > 86400000); // 24hr cache
-  });
-  if (!needs.length) {
-    // Use cached values
-    items.forEach(w => {
-      if (cache[w.ticker]) w.earningsDate = cache[w.ticker].d;
-    });
-    return;
-  }
-  // Parallel fetch (limit 5 at a time to avoid rate limits)
-  const chunks = [];
-  for (let i = 0; i < needs.length; i += 5) chunks.push(needs.slice(i, i + 5));
-  let changed = false;
-  for (const chunk of chunks) {
-    await Promise.all(chunk.map(async w => {
-      try {
-        const r = await fetch(`${FINNHUB}/calendar/earnings?from=${new Date().toISOString().slice(0,10)}&to=${new Date(Date.now()+60*86400000).toISOString().slice(0,10)}&symbol=${w.ticker}&token=${FINNHUB_KEY}`);
-        if (!r.ok) { w.earningsDate = ''; cache[w.ticker] = { d: '', t: now }; return; }
-        const data = await r.json();
-        const next = data?.earningsCalendar?.[0];
-        w.earningsDate = next ? next.date : '';
-        cache[w.ticker] = { d: w.earningsDate, t: now };
-        changed = true;
-      } catch(e){ w.earningsDate = ''; cache[w.ticker] = { d: '', t: now }; }
-    }));
-  }
-  // Only re-render if we got new data AND watchlist tab still active
-  if (changed && activeTab === 'watch'){
-    renderWatchlist();
-  }
-}
 async function openWatchDetail(id){
   const w = watchlist.find(x => x.id === id);
   if (!w) return;
@@ -3804,25 +3807,226 @@ async function loadInsiderTrades(holdId, ticker){
 }
 
 /* ── Earnings calendar via Finnhub ── */
-async function loadStockEarnings(holdId, ticker){
-  const box = $("#earn-box-"+holdId);
-  if (!box) return;
+/* ════ Earnings Timeline + Financials Summary + Per-Stock Earnings Badges (v15) ════ */
+
+// Unified earnings dates cache (24hr) used by portfolio + watchlist
+window._earnCache = window._earnCache || {};
+
+async function fetchNextEarning(ticker){
+  const c = window._earnCache[ticker];
+  if (c && Date.now() - c.t < 86400000) return c.d;
   try {
-    const to = new Date(Date.now() + 90*86400000).toISOString().slice(0,10);
     const from = new Date().toISOString().slice(0,10);
+    const to = new Date(Date.now() + 90*86400000).toISOString().slice(0,10);
     const r = await fetch(`${FINNHUB}/calendar/earnings?from=${from}&to=${to}&symbol=${encodeURIComponent(ticker)}&token=${FINNHUB_KEY}`);
-    if (!r.ok) throw new Error("HTTP "+r.status);
+    if (!r.ok){ window._earnCache[ticker] = { d:'', t:Date.now() }; return ''; }
     const data = await r.json();
-    const items = (data?.earningsCalendar || []);
-    if (!items.length){ box.style.display = 'none'; return; }
-    const next = items[0];
-    const days = Math.ceil((new Date(next.date) - new Date()) / 86400000);
-    box.innerHTML = `<div class="head">${lang==='ar'?'الأرباح القادمة':'Upcoming Earnings'}</div>
-      <div class="when">${esc(next.date)} ${days>0?`<span style="color:var(--muted);font-size:11px;font-weight:500">· ${lang==='ar'?'بعد':'in'} ${days} ${lang==='ar'?'يوم':'days'}</span>`:''}</div>
-      ${next.epsEstimate!=null?`<div class="est">${lang==='ar'?'EPS متوقع':'EPS estimate'}: $${fmt(next.epsEstimate,2)}</div>`:''}`;
-  } catch(e){
-    box.style.display = 'none';
+    const next = data?.earningsCalendar?.[0];
+    const d = next ? next.date : '';
+    window._earnCache[ticker] = { d, t: Date.now() };
+    return d;
+  } catch(e){ window._earnCache[ticker] = { d:'', t:Date.now() }; return ''; }
+}
+
+// Loads earnings for ALL portfolio + watchlist tickers in parallel (cached)
+async function preloadAllEarnings(){
+  const tickers = new Set();
+  holdings.forEach(h => tickers.add(h.ticker));
+  watchlist.forEach(w => tickers.add(w.ticker));
+  const arr = [...tickers];
+  // Only fetch ones not cached
+  const needs = arr.filter(t => {
+    const c = window._earnCache[t];
+    return !c || Date.now() - c.t > 86400000;
+  });
+  if (!needs.length) return;
+  // Batch parallel (5 at a time)
+  for (let i = 0; i < needs.length; i += 5) {
+    await Promise.all(needs.slice(i, i + 5).map(fetchNextEarning));
   }
+  // Re-render current tab if relevant
+  if (activeTab === 'portfolio') renderTab();
+  else if (activeTab === 'watch') renderWatchlist();
+}
+
+// Returns badge HTML if earnings within 60 days, else empty
+function earnBadge(ticker){
+  const c = window._earnCache[ticker];
+  if (!c || !c.d) return '';
+  const days = Math.ceil((new Date(c.d) - new Date()) / 86400000);
+  if (days < 0 || days > 60) return '';
+  const ar = lang === 'ar';
+  const dateObj = new Date(c.d);
+  const monthAr = ['ينا','فبر','مار','أبر','ماي','يون','يول','أغس','سبت','أكت','نوف','ديس'];
+  const monthEn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const day = dateObj.getDate();
+  const mon = (ar ? monthAr : monthEn)[dateObj.getMonth()];
+  const dateStr = `${day} ${mon}`;
+  const soon = days <= 7;
+  return `<span class="earn-badge ${soon?'soon':''}" title="${ar?'إعلان أرباح':'Earnings announcement'} ${c.d}">📅 ${ar?'إعلان:':'Earnings:'} ${dateStr}${days<=14?` (${days}${ar?'ي':'d'})`:''}</span>`;
+}
+
+// Loads + renders earnings timeline (last 2 + next) in stock detail
+async function loadEarningsTimeline(holdId, ticker){
+  const wrap = document.getElementById(`earn-timeline-${holdId}`);
+  if (!wrap) return;
+  const ar = lang === 'ar';
+  wrap.innerHTML = `<div class="earn-tl"><div class="earn-tl-head">📅 ${ar?'الأرباح':'Earnings'}</div><div style="text-align:center;color:var(--muted2);font-size:11px;padding:6px"><span class="spin"></span></div></div>`;
+  try {
+    // Historical earnings (actual vs estimate)
+    const [pastRes, nextDate] = await Promise.all([
+      fetch(`${FINNHUB}/stock/earnings?symbol=${encodeURIComponent(ticker)}&limit=4&token=${FINNHUB_KEY}`).then(r => r.ok ? r.json() : []).catch(() => []),
+      fetchNextEarning(ticker),
+    ]);
+    const past = Array.isArray(pastRes) ? pastRes.slice(0, 2) : [];
+    if (!past.length && !nextDate){
+      wrap.innerHTML = '';
+      return;
+    }
+    const cells = [];
+    // Past 2 (in chronological order, oldest first)
+    past.slice().reverse().forEach(p => {
+      const actual = p.actual;
+      const est = p.estimate;
+      const beat = actual != null && est != null && actual > est;
+      const miss = actual != null && est != null && actual < est;
+      const verdict = beat ? (ar?'تفوّق ✓':'BEAT') : miss ? (ar?'تراجع':'MISS') : (ar?'مطابق':'INLINE');
+      const qDate = new Date(p.period || p.date);
+      const q = `Q${p.quarter || Math.floor((qDate.getMonth())/3)+1} ${qDate.getFullYear()}`;
+      cells.push(`<div class="earn-tl-cell ${beat?'beat':miss?'miss':''}">
+        <div class="dt">${esc(p.period || p.date || '')}</div>
+        <div class="pq">${q}</div>
+        <div class="vals">
+          <div class="vr"><span class="l">${ar?'فعلي':'Actual'}</span><span class="v">$${actual!=null?fmt(actual,2):'—'}</span></div>
+          <div class="vr"><span class="l">${ar?'متوقع':'Est'}</span><span class="v" style="color:var(--muted)">$${est!=null?fmt(est,2):'—'}</span></div>
+        </div>
+        <div class="verdict">${verdict}</div>
+      </div>`);
+    });
+    // Next upcoming
+    if (nextDate){
+      const days = Math.ceil((new Date(nextDate) - new Date()) / 86400000);
+      cells.push(`<div class="earn-tl-cell next">
+        <div class="dt">${esc(nextDate)}</div>
+        <div class="pq">${ar?'القادم':'NEXT'}</div>
+        <div class="countdown">${days>0?`${ar?'بعد ':''}${days} ${ar?'يوم':days===1?'day':'days'}`:(ar?'اليوم':'TODAY')}</div>
+        <div class="verdict">${ar?'مرتقب':'UPCOMING'}</div>
+      </div>`);
+    }
+    if (!cells.length){ wrap.innerHTML = ''; return; }
+    wrap.innerHTML = `
+      <div class="earn-tl">
+        <div class="earn-tl-head">📅 ${ar?'سجل الأرباح':'Earnings Track Record'}</div>
+        <div class="earn-tl-row">${cells.join('')}</div>
+      </div>
+    `;
+  } catch(e){ wrap.innerHTML = ''; }
+}
+
+// Loads + renders professional financials summary with verdict
+async function loadStockFinancials(holdId, ticker){
+  // Insert financials card after earnings timeline
+  const tlWrap = document.getElementById(`earn-timeline-${holdId}`);
+  if (!tlWrap) return;
+  let finWrap = document.getElementById(`fin-card-${holdId}`);
+  if (!finWrap){
+    finWrap = document.createElement('div');
+    finWrap.id = `fin-card-${holdId}`;
+    tlWrap.insertAdjacentElement('afterend', finWrap);
+  }
+  const ar = lang === 'ar';
+  finWrap.innerHTML = `<div class="fin-card"><div style="text-align:center;color:var(--muted2);font-size:11px;padding:6px"><span class="spin"></span> ${ar?'يجلب الأرقام...':'Loading metrics...'}</div></div>`;
+  try {
+    const r = await fetch(`${FINNHUB}/stock/metric?symbol=${encodeURIComponent(ticker)}&metric=all&token=${FINNHUB_KEY}`);
+    if (!r.ok){ finWrap.innerHTML = ''; return; }
+    const data = await r.json();
+    const m = data?.metric || {};
+    
+    // Extract key metrics
+    const pe = m['peNormalizedAnnual'] || m['peBasicExclExtraTTM'] || m['peTTM'] || null;
+    const pegAnnual = m['pegRatioTTM'] || m['pegRatioAnnual'] || null;
+    const revGrowth = m['revenueGrowthTTMYoy'] || m['revenueGrowth5Y'] || null;
+    const epsGrowth = m['epsGrowthTTMYoy'] || m['epsGrowth5Y'] || null;
+    const grossMargin = m['grossMarginTTM'] || m['grossMarginAnnual'] || null;
+    const netMargin = m['netProfitMarginTTM'] || m['netProfitMarginAnnual'] || null;
+    const roe = m['roeTTM'] || m['roeRfy'] || null;
+    const debtEquity = m['totalDebt/totalEquityAnnual'] || m['totalDebt/totalEquityQuarterly'] || null;
+    const dividendYield = m['dividendYieldIndicatedAnnual'] || m['currentDividendYieldTTM'] || null;
+    const beta = m['beta'] || null;
+    const wkHigh = m['52WeekHigh'] || null;
+    const wkLow = m['52WeekLow'] || null;
+    
+    // Score (0-100) based on weighted metrics
+    let score = 50, total = 0;
+    const judge = (val, good, bad, inverse) => {
+      if (val == null) return null;
+      const isGood = inverse ? val <= good : val >= good;
+      const isBad = inverse ? val >= bad : val <= bad;
+      total += 10;
+      if (isGood) { score += 10; return 'good'; }
+      if (isBad) { score -= 10; return 'bad'; }
+      return 'ok';
+    };
+    const peJudge = pe!=null ? (pe<25 ? 'good' : pe>40 ? 'bad' : 'ok') : null;
+    if (peJudge){ total+=10; if (peJudge==='good') score+=10; if (peJudge==='bad') score-=10; }
+    const revJudge = judge(revGrowth, 15, 0);
+    const epsJudge = judge(epsGrowth, 15, 0);
+    const grossJudge = judge(grossMargin, 40, 20);
+    const netJudge = judge(netMargin, 15, 0);
+    const roeJudge = judge(roe, 15, 0);
+    const debtJudge = debtEquity!=null ? (debtEquity<1 ? 'good' : debtEquity>2 ? 'bad' : 'ok') : null;
+    if (debtJudge){ total+=10; if (debtJudge==='good') score+=10; if (debtJudge==='bad') score-=10; }
+    
+    const norm = total > 0 ? Math.max(0, Math.min(100, ((score - 50) / total * 100) + 50)) : 50;
+    const verdict = norm >= 65 ? { cls:'strong', ar:'مالية قوية ✓', en:'STRONG' }
+                  : norm >= 45 ? { cls:'fair', ar:'مالية متوسطة', en:'FAIR' }
+                  : { cls:'weak', ar:'تحتاج حذر ⚠', en:'WEAK' };
+    
+    // Build cells (only show ones with data)
+    const cells = [];
+    if (pe != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${peJudge}"></span>P/E</div><div class="v">${fmt(pe,1)}</div><div class="note">${pe<20?(ar?'منخفض':'Low'):pe<30?(ar?'معقول':'Normal'):pe<50?(ar?'مرتفع':'High'):(ar?'مبالغ':'Very high')}</div></div>`);
+    if (revGrowth != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${revJudge}"></span>${ar?'نمو الإيرادات':'Revenue Growth'}</div><div class="v">${revGrowth>0?'+':''}${fmt(revGrowth,1)}%</div><div class="note">${ar?'سنوياً':'YoY'}</div></div>`);
+    if (epsGrowth != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${epsJudge}"></span>${ar?'نمو EPS':'EPS Growth'}</div><div class="v">${epsGrowth>0?'+':''}${fmt(epsGrowth,1)}%</div><div class="note">${ar?'سنوياً':'YoY'}</div></div>`);
+    if (grossMargin != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${grossJudge}"></span>${ar?'هامش إجمالي':'Gross Margin'}</div><div class="v">${fmt(grossMargin,1)}%</div></div>`);
+    if (netMargin != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${netJudge}"></span>${ar?'هامش صافي':'Net Margin'}</div><div class="v">${fmt(netMargin,1)}%</div></div>`);
+    if (roe != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${roeJudge}"></span>ROE</div><div class="v">${fmt(roe,1)}%</div><div class="note">${ar?'العائد على حقوق المساهمين':'Return on equity'}</div></div>`);
+    if (debtEquity != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${debtJudge}"></span>${ar?'الدين/الملكية':'Debt/Equity'}</div><div class="v">${fmt(debtEquity,2)}</div><div class="note">${debtEquity<0.5?(ar?'منخفض جداً':'Very low'):debtEquity<1?(ar?'صحي':'Healthy'):debtEquity<2?(ar?'متوسط':'Moderate'):(ar?'مرتفع':'High')}</div></div>`);
+    if (beta != null) cells.push(`<div class="fin-cell"><div class="lbl"><span class="dot ${beta<1?'good':beta<1.5?'ok':'bad'}"></span>Beta</div><div class="v">${fmt(beta,2)}</div><div class="note">${beta<1?(ar?'أقل تقلباً من السوق':'Less volatile'):beta<1.5?(ar?'تقلب معتدل':'Moderate'):(ar?'تقلب عالي':'Volatile')}</div></div>`);
+    if (dividendYield != null && dividendYield > 0) cells.push(`<div class="fin-cell"><div class="lbl">💰 ${ar?'العائد':'Div Yield'}</div><div class="v">${fmt(dividendYield,2)}%</div></div>`);
+    
+    if (wkHigh && wkLow){
+      const h = holdings.find(x => x.id === holdId);
+      const price = h?.price;
+      if (price){
+        const wkPos = ((price - wkLow) / (wkHigh - wkLow)) * 100;
+        cells.push(`<div class="fin-cell" style="grid-column:span 2"><div class="lbl">📊 ${ar?'نطاق ٥٢ أسبوع':'52-Week Range'}</div>
+          <div style="margin-top:5px;height:6px;background:var(--surf);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(90deg,var(--loss),var(--gold),var(--accent))"></div>
+            <div style="position:absolute;left:${Math.max(0,Math.min(100,wkPos))}%;top:-3px;width:3px;height:12px;background:#fff;border-radius:1px;box-shadow:0 0 4px rgba(255,255,255,.6)"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted2);margin-top:4px;font-variant-numeric:tabular-nums">
+            <span>$${fmt(wkLow,0)}</span><span style="color:var(--txt2);font-weight:700">$${fmt(price,2)}</span><span>$${fmt(wkHigh,0)}</span>
+          </div>
+        </div>`);
+      }
+    }
+    
+    if (!cells.length){ finWrap.innerHTML = ''; return; }
+    finWrap.innerHTML = `
+      <div class="fin-card">
+        <div class="fin-card-head">
+          <span class="ttl">📊 ${ar?'الملخص المالي':'Financial Summary'}</span>
+          <span class="fin-verdict ${verdict.cls}">${verdict[lang]}</span>
+        </div>
+        <div class="fin-grid">${cells.join('')}</div>
+      </div>
+    `;
+  } catch(e){ finWrap.innerHTML = ''; }
+}
+
+async function loadStockEarnings(holdId, ticker){
+  // Legacy - replaced by loadEarningsTimeline + loadStockFinancials
+  // Keep for backward compat but no-op
 }
 
 /* ── Challenge mode ── */
@@ -7812,6 +8016,7 @@ async function adminDeletePf(pfId, pfName, userId, userName){
   setTimeout(()=>{ try { showDailyBrief(); } catch(e){} }, 2200);
   setTimeout(()=>{ try { showOnboarding(); } catch(e){} }, 1200);
   setTimeout(()=>{ try { checkSubscriptionWarning(); } catch(e){} }, 2600);
+  setTimeout(()=>{ try { preloadAllEarnings(); } catch(e){} }, 3500);
   try { installPullToRefresh(); } catch(e){}
 
   sb.auth.onAuthStateChange(async (event, session) => {
