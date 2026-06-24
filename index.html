@@ -29,6 +29,8 @@
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum","ss01"}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;line-height:1.55;-moz-osx-font-smoothing:grayscale;letter-spacing:-.005em}
+html[dir="rtl"]{direction:rtl}
+html[dir="ltr"]{direction:ltr}
 body{min-height:100vh;padding-bottom:48px}
 body[dir="rtl"]{font-family:-apple-system,"SF Arabic","SF Pro Display","SF Arabic Text","Tajawal","Inter",system-ui,sans-serif;letter-spacing:0}
 .mono{font-variant-numeric:tabular-nums}
@@ -890,14 +892,84 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .qf-chip.win.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 .qf-chip.loss.on{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
 
-/* Cash bar with quick add - compact */
-.cash-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;margin:0 0 10px;background:linear-gradient(135deg,rgba(95,233,176,.06),rgba(95,233,176,.02));border:1px solid rgba(95,233,176,.15);border-radius:11px;cursor:pointer;transition:.18s}
-.cash-bar:hover{border-color:rgba(95,233,176,.28)}
-.cash-bar-l{display:flex;align-items:center;gap:9px}
-.cash-bar .cash-ic{width:26px;height:26px;border-radius:7px;background:rgba(95,233,176,.1);color:var(--accent);display:grid;place-items:center;flex-shrink:0}
-.cash-bar .cash-ic svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.cash-bar-lbl{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:5px}
-.cash-bar-val{font-size:13.5px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--txt);margin-top:1px}
+/* Sticky Trade Bar at bottom of stock detail */
+.sd-trade-bar{position:sticky;bottom:0;left:0;right:0;background:linear-gradient(to top,#0A0A0A 75%,rgba(10,10,10,0));padding:14px 22px 22px;z-index:5;margin-top:auto}
+.sd-trade-btn{width:100%;background:#B6B5F5;color:#15151A;border:none;padding:16px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-.005em;transition:.15s}
+.sd-trade-btn:hover{background:#C9C8F8;transform:translateY(-1px)}
+.sd-trade-btn:active{transform:scale(.98)}
+
+/* Trade chooser modal */
+.tc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.tc-btn{padding:18px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:.15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.tc-btn.buy{background:rgba(95,233,176,.12);color:var(--accent);border:1px solid var(--accent-d)}
+.tc-btn.sell{background:rgba(242,107,110,.12);color:#F08080;border:1px solid #5C2222}
+.tc-btn:hover{transform:translateY(-1px)}
+
+/* Your Position card matching screenshot */
+.ys-stats{background:#15151A;border-radius:14px;padding:20px;margin-bottom:18px}
+.ys-row{display:flex;justify-content:space-between;gap:16px;flex-direction:row-reverse}
+body[dir="ltr"] .ys-row{flex-direction:row}
+.ys-cell{flex:1;min-width:0;text-align:end}
+body[dir="ltr"] .ys-cell{text-align:start}
+.ys-lbl{font-size:13px;color:#9090A0;font-weight:500;margin-bottom:6px}
+.ys-val{font-size:20px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em;display:flex;align-items:center;gap:6px;justify-content:flex-end}
+body[dir="ltr"] .ys-val{justify-content:flex-start}
+.ys-val.up{color:var(--accent)}
+.ys-val.down{color:#F08080}
+.ys-tri{font-size:14px}
+.ys-divider{height:0.5px;background:#25252A;margin:18px 0}
+
+/* Buying Power card (compact) */
+.bp-card{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;margin:0 0 14px;background:#1A1A1D;border:none;border-radius:14px;cursor:pointer;transition:.18s;direction:inherit}
+.bp-card:hover{background:#1F1F22}
+.bp-card .bp-lbl{font-size:14px;color:#A8A8B0;font-weight:500;flex:1;text-align:end}
+body[dir="ltr"] .bp-card .bp-lbl{text-align:start;order:3}
+.bp-card .bp-val{font-size:15px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
+.bp-card .bp-arrow{color:#6B6B72;font-size:18px;font-weight:300;line-height:1}
+body[dir="ltr"] .bp-card{flex-direction:row}
+body[dir="ltr"] .bp-card .bp-arrow{order:3}
+
+/* Buying Power full page */
+.bp-page-header{text-align:center;font-size:17px;font-weight:600;color:var(--txt);padding:12px 0 18px}
+.bp-hero{background:#15151A;border-radius:18px;padding:24px 20px 18px;margin-bottom:18px}
+.bp-hero-lbl{font-size:14px;color:#A8A8B0;text-align:center;margin-bottom:6px;font-weight:500}
+.bp-hero-val{font-size:34px;font-weight:700;color:#fff;text-align:center;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em;margin-bottom:18px}
+.bp-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bp-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px;border-radius:11px;font-size:14.5px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.15s}
+.bp-btn.dep{background:#B6B5F5;color:#15151A}
+.bp-btn.dep:hover{background:#C9C8F8}
+.bp-btn.wd{background:#3D3BC4;color:#fff}
+.bp-btn.wd:hover{background:#4D4BD4}
+.bp-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* Total Assets card */
+.bp-assets{background:#15151A;border-radius:14px;padding:18px 20px;margin-bottom:22px}
+.bp-assets-lbl{font-size:13.5px;color:#A8A8B0;margin-bottom:6px;text-align:end}
+body[dir="ltr"] .bp-assets-lbl{text-align:start}
+.bp-assets-val{font-size:24px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;text-align:end}
+body[dir="ltr"] .bp-assets-val{text-align:start}
+
+/* Transactions list */
+.bp-txs-month{font-size:13px;color:#A8A8B0;margin:14px 4px 8px;text-align:end;font-weight:500}
+body[dir="ltr"] .bp-txs-month{text-align:start}
+.bp-txs{background:#15151A;border-radius:14px;overflow:hidden}
+.bp-tx{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:0.5px solid #25252A;flex-direction:row-reverse}
+body[dir="ltr"] .bp-tx{flex-direction:row}
+.bp-tx:last-child{border-bottom:none}
+.bp-tx-ic{width:36px;height:36px;border-radius:50%;background:#25252A;display:grid;place-items:center;flex-shrink:0;color:#A8A8B0}
+.bp-tx-ic svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bp-tx-info{flex:1;min-width:0;text-align:end}
+body[dir="ltr"] .bp-tx-info{text-align:start}
+.bp-tx-title{font-size:14.5px;font-weight:600;color:#fff;line-height:1.2}
+.bp-tx-time{font-size:12px;color:#7A7A82;margin-top:3px}
+.bp-tx-r{text-align:start;flex-shrink:0}
+body[dir="rtl"] .bp-tx-r{text-align:start}
+.bp-tx-amt{font-size:14.5px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;line-height:1.2}
+.bp-tx-status{font-size:11.5px;color:var(--accent);margin-top:3px;display:flex;align-items:center;gap:4px;justify-content:flex-start}
+.bp-tx-status::before{content:'✓';display:inline-grid;place-items:center;width:13px;height:13px;background:var(--accent);color:#000;border-radius:50%;font-size:9px;font-weight:800}
+
+/* Cash bar with quick add - compact (legacy hide) */
+.cash-bar{display:none}
 .cash-add-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#000;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}
 .cash-add-btn:hover{background:#7AFAC2;transform:scale(1.08)}
 .cash-add-btn svg{width:12px;height:12px;stroke:#000;fill:none;stroke-width:3;stroke-linecap:round}
@@ -971,8 +1043,8 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .fin-cell .note{font-size:9.5px;color:var(--muted2);margin-top:1px}
 
 /* Earnings badge pill on portfolio/watchlist rows */
-.earn-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:#1F1A0E;color:var(--gold);border:1px solid #5A4818;letter-spacing:.03em;font-variant-numeric:tabular-nums;margin-inline-start:5px;white-space:nowrap}
-.earn-badge.soon{background:#2A1A0E;color:#E89B6B;border-color:#5C3B22}
+.earn-badge{display:inline-flex;align-items:center;gap:3px;font-size:8.5px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(232,185,106,.1);color:#E8B96A;border:none;letter-spacing:.02em;font-variant-numeric:tabular-nums;margin-inline-start:5px;white-space:nowrap;vertical-align:1px}
+.earn-badge.soon{background:rgba(232,155,107,.13);color:#E89B6B}
 
 /* Luxury SVG icon container in More menu */
 .more-row .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,rgba(95,233,176,.08),rgba(95,233,176,.03));border:1px solid rgba(95,233,176,.15);color:var(--accent)}
@@ -1021,32 +1093,32 @@ body[dir="ltr"] .notif-row{flex-direction:row}
 .ms-section-title{font-size:17px;font-weight:800;color:var(--txt);margin:18px 4px 12px;letter-spacing:-.01em;text-align:end;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
 .ms-card{background:#161618;border:1px solid #1F1F22;border-radius:18px;padding:0;margin-bottom:12px;cursor:pointer;transition:.15s;overflow:hidden}
 .ms-card:hover{border-color:#2A2A2D;transform:translateY(-1px)}
-.ms-top{background:#1C1C1F;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse}
+.ms-top{background:#1C1C1F;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-direction:row-reverse}
 body[dir="ltr"] .ms-top{flex-direction:row}
-.ms-day{display:flex;align-items:center;gap:10px;min-width:0;flex-direction:row-reverse}
+.ms-day{display:flex;align-items:center;gap:9px;min-width:0;flex-direction:row-reverse}
 body[dir="ltr"] .ms-day{flex-direction:row}
-.ms-price{font-size:18px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
-.ms-day-pct{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.ms-price{font-size:16px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
+.ms-day-pct{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
 .ms-day-pct.up{color:var(--accent)}
 .ms-day-pct.down{color:#F08080}
-.ms-day .wr-spark{width:80px;height:30px;flex-shrink:0}
-.ms-tic-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0;flex-direction:row-reverse}
+.ms-day .wr-spark{width:70px;height:26px;flex-shrink:0}
+.ms-tic-wrap{display:flex;align-items:center;gap:9px;flex-shrink:0;flex-direction:row-reverse}
 body[dir="ltr"] .ms-tic-wrap{flex-direction:row}
-.ms-tic{font-size:16px;font-weight:700;color:#E8E8EA;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
-.ms-logo{width:36px;height:36px;border-radius:9px;background:#0E0E10;border:1px solid #1F1F22;object-fit:contain;padding:5px;flex-shrink:0}
-.ms-logo.ms-logo-fb{display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--accent);padding:0}
-.ms-bot{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse}
+.ms-tic{font-size:14.5px;font-weight:700;color:#E8E8EA;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em}
+.ms-logo{width:32px;height:32px;border-radius:8px;background:#0E0E10;border:1px solid #1F1F22;object-fit:contain;padding:4px;flex-shrink:0}
+.ms-logo.ms-logo-fb{display:grid;place-items:center;font-size:9px;font-weight:800;color:var(--accent);padding:0}
+.ms-bot{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-direction:row-reverse}
 body[dir="ltr"] .ms-bot{flex-direction:row}
-.ms-bot-l{display:flex;align-items:center;gap:12px;flex-direction:row-reverse}
+.ms-bot-l{display:flex;align-items:center;gap:10px;flex-direction:row-reverse}
 body[dir="ltr"] .ms-bot-l{flex-direction:row}
-.ms-pct-pill{display:inline-flex;align-items:center;padding:7px 14px;border-radius:11px;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.ms-pct-pill{display:inline-flex;align-items:center;padding:5px 11px;border-radius:9px;font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em}
 .ms-pct-pill.up{background:#1B3A2A;color:#7FE0AE}
 .ms-pct-pill.down{background:#3A1B1F;color:#F08080}
-.ms-qty{font-size:13.5px;color:#777;font-weight:500;font-variant-numeric:tabular-nums}
+.ms-qty{font-size:12px;color:#777;font-weight:500;font-variant-numeric:tabular-nums}
 .ms-bot-r{text-align:start;flex-shrink:0}
 body[dir="rtl"] .ms-bot-r{text-align:end}
-.ms-mv{font-size:18px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em;line-height:1.2}
-.ms-pl{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px;display:flex;align-items:center;gap:3px;justify-content:flex-start}
+.ms-mv{font-size:16px;font-weight:700;color:#E8E8EA;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;letter-spacing:-.01em;line-height:1.2}
+.ms-pl{font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px;display:flex;align-items:center;gap:3px;justify-content:flex-start}
 body[dir="rtl"] .ms-pl{justify-content:flex-end}
 .ms-pl.up{color:var(--accent)}
 .ms-pl.down{color:#F08080}
@@ -1800,6 +1872,102 @@ function openCashQuickAdd(){
   addCashTx('deposit');
 }
 
+function openTradeChooser(holdId){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
+  const ar = lang === 'ar';
+  modal(`
+    <h2>${esc(h.ticker)}</h2>
+    <p class="sub">${esc(h.name || h.ticker)} · $${fmt(h.price||0,2)}</p>
+    <div class="tc-actions">
+      <button class="tc-btn buy" onclick="closeModal();setTimeout(()=>openTrade('${holdId}','buy'),100)">
+        <svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        ${ar?'شراء':'Buy'}
+      </button>
+      <button class="tc-btn sell" onclick="closeModal();setTimeout(()=>openTrade('${holdId}','sell'),100)">
+        <svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        ${ar?'بيع':'Sell'}
+      </button>
+    </div>
+  `);
+}
+
+function openBuyingPower(){
+  if (activeIsPaper()){
+    toast(lang==='ar'?'محفظة التدريب لا تقبل عمليات':'Paper portfolio is locked');
+    return;
+  }
+  const ar = lang === 'ar';
+  const cash = getPfCash();
+  const tt = totals();
+  const totalAssets = cash + tt.mv;
+  const hist = getPfCashHistory();
+  // Group by month
+  const byMonth = {};
+  hist.slice().sort((a,b) => (b.ts||0) - (a.ts||0)).forEach(c => {
+    const d = new Date(c.ts || c.date || Date.now());
+    const key = d.toLocaleDateString(ar?'ar-SA-u-ca-gregory':'en-US', { month: 'long', year: 'numeric' });
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push({ ...c, _d: d });
+  });
+  const monthsHtml = Object.entries(byMonth).map(([month, items]) => `
+    <div class="bp-txs-month">${month}</div>
+    <div class="bp-txs">
+      ${items.map(c => {
+        const isDep = c.type === 'deposit';
+        const timeStr = c._d.toLocaleString(ar?'ar-SA-u-ca-gregory':'en-US', { hour:'2-digit', minute:'2-digit', day:'numeric', month:'short' });
+        return `<div class="bp-tx">
+          <div class="bp-tx-ic">
+            <svg viewBox="0 0 24 24"><path d="${isDep?'M19 14l-7 7-7-7 M12 21V3':'M5 10l7-7 7 7 M12 3v18'}"/></svg>
+          </div>
+          <div class="bp-tx-info">
+            <div class="bp-tx-title">${isDep?(ar?'عملية إيداع':'Deposit'):(ar?'عملية سحب':'Withdrawal')}</div>
+            <div class="bp-tx-time">${timeStr}</div>
+          </div>
+          <div class="bp-tx-r">
+            <div class="bp-tx-amt">${isDep?'+':'−'}${fmtUSD(Math.abs(c.amount),2)}</div>
+            <div class="bp-tx-status">${ar?'عملية نفذت':'Completed'}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+  modal(`
+    <div class="sd-page">
+      <div class="sd-topbar">
+        <button class="sd-back" onclick="closeModal()" aria-label="Back">
+          <svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg>
+        </button>
+        <div style="font-size:17px;font-weight:600">${ar?'المحفظة':'Wallet'}</div>
+        <button class="sd-act" aria-label="Notifications">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+      </div>
+      <div class="sd-content">
+        <div class="bp-hero">
+          <div class="bp-hero-lbl">${ar?'القوة الشرائية':'Buying Power'}</div>
+          <div class="bp-hero-val">${fmtUSD(cash)}</div>
+          <div class="bp-actions">
+            <button class="bp-btn dep" onclick="closeModal();setTimeout(()=>addCashTx('deposit'),100)">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              ${ar?'إيداع':'Deposit'}
+            </button>
+            <button class="bp-btn wd" onclick="closeModal();setTimeout(()=>addCashTx('withdraw'),100)">
+              <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+              ${ar?'سحب':'Withdraw'}
+            </button>
+          </div>
+        </div>
+        <div class="bp-assets">
+          <div class="bp-assets-lbl">${ar?'إجمالي الأصول':'Total Assets'}</div>
+          <div class="bp-assets-val">${fmtUSD(totalAssets)}</div>
+        </div>
+        ${monthsHtml || `<div style="text-align:center;color:var(--muted);padding:30px 20px;font-size:13px">${ar?'لا توجد عمليات سابقة':'No transactions yet'}</div>`}
+      </div>
+    </div>
+  `, {fullpage:true});
+}
+
 function activeHoldings(){
   let hs = holdings.filter(h => h.pfId === settings.activePf);
   if (settings.horizonFilter !== "all"){
@@ -1992,15 +2160,10 @@ function render(){
       <span class="lbl">${lang==='ar'?'العائد الكلي':'Total return'}</span>
       <span class="v ${sgn(tt.totalReturn)}">${settings.privacy?'••••':((tt.totalReturn>=0?'+':'')+fmtUSD0(Math.abs(tt.totalReturn))+' · '+(tt.totalReturnPct>=0?'+':'')+fmt(tt.totalReturnPct,1)+'%')}</span>
     </div>` : ''}
-    <div class="cash-bar" onclick="${activeIsPaper()?'event.stopPropagation()':'openCashQuickAdd()'}">
-      <div class="cash-bar-l">
-        <span class="cash-ic">${icn('cash')}</span>
-        <div>
-          <div class="cash-bar-lbl">${lang==='ar'?'الكاش المتاح':'Available Cash'}${activeIsPaper()?` · <span class="paper-badge" style="font-size:8px">${lang==='ar'?'تدريب':'PAPER'}</span>`:''}</div>
-          <div class="cash-bar-val">${maskMoney(fmtUSD(getPfCash()))}</div>
-        </div>
-      </div>
-      ${activeIsPaper() ? '' : `<button class="cash-add-btn" onclick="event.stopPropagation();openCashQuickAdd()" title="${lang==='ar'?'إضافة كاش':'Add cash'}">${icn('plus')}</button>`}
+    <div class="bp-card" onclick="${activeIsPaper()?'event.stopPropagation()':'openBuyingPower()'}">
+      <span class="bp-arrow">${lang==='ar'?'‹':'›'}</span>
+      <span class="bp-val">${maskMoney(fmtUSD(getPfCash()))}</span>
+      <span class="bp-lbl">${lang==='ar'?'القوة الشرائية':'Buying Power'}</span>
     </div>
 
     <div class="hero-live">
@@ -2753,17 +2916,38 @@ function openDetail(id){
       <div id="chart-box"><div class="chart-empty"><span class="spin"></span> ${t().chartLoading}</div></div>
     </div>
 
-    <!-- 2. QUICK SUMMARY -->
-    <div class="d-rows">
-      <div class="d-row"><span>${t().detail_mv}</span><div class="v">${maskMoney(fmtMoney(s.mv))}</div></div>
-      <div class="d-row"><span>${t().detail_avg}</span><div class="v">${fmtMoney(s.avg, 2)}</div></div>
-      <div class="d-row"><span>${isOpt?(lang==='ar'?'عدد العقود':'Contracts'):t().detail_shares}</span><div class="v">${fmt(s.shares, s.shares%1?4:0)}${isOpt?` (×100=${fmt(s.shares*100,0)})`:''}</div></div>
-      <div class="d-row"><span>${lang==='ar'?'إجمالي المُودَع':'Total invested'}</span><div class="v">${maskMoney(fmtMoney(s.deposited))}</div></div>
-      ${divTotal>0?`<div class="d-row"><span>${lang==='ar'?'توزيعات':'Dividends'}</span><div class="v" style="color:var(--accent)">+${fmtMoney(divTotal, 2)}</div></div>`:''}
-      <div class="d-row"><span>${t().detail_pl}</span><div class="v ${sgn(s.pl)}">${settings.privacy?'••••':((s.pl>=0?'+':'')+fmtMoney(Math.abs(s.pl)))}<small>${settings.privacy?'':pct(s.plPct)}</small></div></div>
-      ${s.today!=null?`<div class="d-row"><span>${t().detail_today}</span><div class="v ${sgn(s.today)}">${settings.privacy?'••••':((s.today>=0?'+':'')+fmtMoney(Math.abs(s.today)))}<small>${settings.privacy?'':pct(s.todayPct)}</small></div></div>`:''}
-      <div class="d-row"><span>${t().detail_share}</span><div class="v">${tt.mv>0?(s.mv/tt.mv*100).toFixed(1)+'%':'—'}</div></div>
+    <!-- إحصائيات أسهمك -->
+    ${s.shares > 0 ? `
+    <h2 style="display:flex;align-items:center;gap:8px;justify-content:flex-end;margin:24px 0 12px;font-size:22px;font-weight:700;letter-spacing:-.015em">
+      ${h.price!=null?`<span style="font-size:12px;font-weight:600;color:#9B9FFF;background:#1E1D3E;padding:3px 9px;border-radius:6px;font-variant-numeric:tabular-nums">${fmtUSD(h.price * (s.todayPct||0)/100, 2)}</span>`:''}
+      <span>${lang==='ar'?'إحصائيات أسهمك':'Your Position'}</span>
+    </h2>
+    <div class="ys-stats">
+      <div class="ys-row">
+        <div class="ys-cell">
+          <div class="ys-lbl">${lang==='ar'?'ربح/خسارة غير محققة':'Unrealized P&L'}</div>
+          <div class="ys-val ${sgn(s.pl)}">
+            ${settings.privacy?'••••':`<span class="ys-tri">${s.pl>=0?'▲':'▼'}</span> (${pct(s.plPct)}) ${s.pl>=0?'+':'-'}${fmtUSD(Math.abs(s.pl),s.pl<10?4:2)}`}
+          </div>
+        </div>
+        <div class="ys-cell">
+          <div class="ys-lbl">${lang==='ar'?'متوسط التكلفة':'Avg Cost'}</div>
+          <div class="ys-val">${fmtUSD(s.avg, 2)}</div>
+        </div>
+      </div>
+      <div class="ys-divider"></div>
+      <div class="ys-row">
+        <div class="ys-cell">
+          <div class="ys-lbl">${lang==='ar'?'القيمة السوقية لأسهمك':'Market Value'}</div>
+          <div class="ys-val">${maskMoney(fmtUSD(s.mv,2))}</div>
+        </div>
+        <div class="ys-cell">
+          <div class="ys-lbl">${lang==='ar'?'سهم':'Shares'}</div>
+          <div class="ys-val" style="font-variant-numeric:tabular-nums">${fmt(s.shares, s.shares%1?6:0)}</div>
+        </div>
+      </div>
     </div>
+    ` : ''}
 
     ${s.realized ? `<div class="realized-box">
       <span class="lbl">${lang==='ar'?'الربح المحقّق':'Realized P&L'}</span>
@@ -2780,12 +2964,8 @@ function openDetail(id){
       </div>
     ` : ''}
 
-    <!-- 3. BUY/SELL + AI -->
-    <div class="trade-row" style="margin-top:14px">
-      <button class="tbtn buy" onclick="openTrade('${h.id}','buy')"><span class="sign">+</span> ${lang==='ar'?'شراء':'Buy'}</button>
-      <button class="tbtn sell" onclick="openTrade('${h.id}','sell')"><span class="sign">−</span> ${lang==='ar'?'بيع':'Sell'}</button>
-    </div>
-    <button class="btn" style="width:100%;background:linear-gradient(135deg,#0E1F17,#16140a);border-color:var(--accent-d);color:var(--accent);font-weight:700;margin-bottom:12px" onclick="openAIAnalysisComingSoon('${esc(h.ticker)}')">
+    <!-- Buy/Sell handled by sticky bottom bar -->
+    <button class="btn" style="width:100%;background:linear-gradient(135deg,#0E1F17,#16140a);border-color:var(--accent-d);color:var(--accent);font-weight:700;margin:14px 0 12px" onclick="openAIAnalysisComingSoon('${esc(h.ticker)}')">
       🤖 ${lang==='ar'?'تحليل بالذكاء الاصطناعي':'AI Technical Analysis'}
       <span style="font-size:9px;font-weight:800;padding:1px 6px;border-radius:4px;background:var(--gold);color:#000;margin-inline-start:6px;letter-spacing:.05em">${lang==='ar'?'قريباً':'SOON'}</span>
     </button>
@@ -2873,6 +3053,9 @@ function openDetail(id){
       <button class="btn" onclick="closeDetail()">${t().cancel}</button>
       <button class="btn primary" onclick="openEdit('${h.id}')">${t().editStock}</button>
     </div>
+    </div>
+    <div class="sd-trade-bar">
+      <button class="sd-trade-btn" onclick="openTradeChooser('${h.id}')">${lang==='ar'?'تداول':'Trade'}</button>
     </div>
     </div>
   `, {fullpage:true});
@@ -3733,13 +3916,6 @@ function addToWatchlist(){
       <div class="field"><label>${lang==='ar'?'وقف الخسارة':'Stop loss'} <small style="color:#444">$</small></label>
         <input class="inp" id="wl_s" type="number" step="any" inputmode="decimal" placeholder="—"></div>
     </div>
-    <div class="field"><label>${lang==='ar'?'المجموعة':'Group'}</label>
-      <div style="display:flex;gap:5px">
-        <button type="button" class="wg-btn on" data-g="watch" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">👁 ${lang==='ar'?'مراقبة':'Watch'}</button>
-        <button type="button" class="wg-btn" data-g="buy" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">🛒 ${lang==='ar'?'للشراء':'To Buy'}</button>
-        <button type="button" class="wg-btn" data-g="study" onclick="document.querySelectorAll('.wg-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">📚 ${lang==='ar'?'للدراسة':'Studying'}</button>
-      </div>
-    </div>
     <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
       <input class="inp" id="wl_n" placeholder="${lang==='ar'?'سبب الاهتمام':'why this stock'}"></div>
     <div class="err" id="wl_err"></div>
@@ -3848,7 +4024,7 @@ function renderWatchlist(){
     return;
   }
   if (!settings.wlFilter) settings.wlFilter = 'all';
-  const items = settings.wlFilter === 'all' ? allItems : allItems.filter(w => (w.wgroup||'watch') === settings.wlFilter);
+  const items = allItems; // Show all by default - user can use lists to organize
   c.innerHTML = `
     <div class="watchlist-header">
       <h1 class="watchlist-title">${lang==='ar'?'قائمة المتابعة':'Watchlist'}</h1>
@@ -6193,14 +6369,6 @@ function renderMore(){
         </div>
         <div class="ar">›</div>
       </div>
-      <div class="more-row" onclick="openCashFromMore()">
-        <div class="ic">${icn('cash')}</div>
-        <div class="body">
-          <div class="nm">${ar?'الكاش':'Cash'}</div>
-          <div class="sub">${fmtMoney(settings.cash||0)} · ${(settings.cashHistory||[]).length} ${ar?'عملية':'transactions'}</div>
-        </div>
-        <div class="ar">›</div>
-      </div>
       <div class="more-row" onclick="openAchievements()">
         <div class="ic gd">${icn('medal')}</div>
         <div class="body">
@@ -8056,7 +8224,7 @@ function renderSplash(){
         <div class="mkt-feat-grid">
           <div class="mfg-card big">
             <div class="mfg-ic">${icn('bolt')}</div>
-            <h3>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
+            <h3>${ar?'مساعد ذكي ':'AI Coach by '} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
             <p>${ar?'تحليل فني لأي سهم بنقرة، توصيات بناءً على بياناتك، وإجابات على أسئلتك الاستثمارية لحظياً.':'Technical analysis on tap, data-driven recommendations, and instant answers to your investing questions.'}</p>
           </div>
 
@@ -8208,7 +8376,7 @@ function renderSplash(){
             <div class="ds">${ar?'كل ما في الأساسي + قوة الذكاء الاصطناعي.':'Everything in Basic, supercharged with AI.'}</div>
             <ul>
               <li><span class="check-pr"></span>${ar?'كل مميزات الأساسي':'All Basic features'}</li>
-              <li><span class="check-pr"></span>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'}</li>
+              <li><span class="check-pr"></span>${ar?'مساعد ذكي ':'AI Coach by '}</li>
               <li><span class="check-pr"></span>${ar?'تحليل فني AI لأي سهم':'AI technical analysis'}</li>
               <li><span class="check-pr"></span>${ar?'ملخّص أرباح ذكي':'Smart earnings summaries'}</li>
               <li><span class="check-pr"></span>${ar?'تنبيهات أسعار فورية':'Real-time price alerts'}</li>
