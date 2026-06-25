@@ -952,6 +952,52 @@ body[dir="ltr"] .wm-text{text-align:left}
 .wm-time{margin-top:12px;font-size:12px;color:#7A7A82;text-align:end}
 body[dir="ltr"] .wm-time{text-align:start}
 
+/* Watchlist bottom-sheet & manage */
+.wl-sheet,.wl-add-sheet{padding:8px 0 0;direction:inherit}
+.wl-sheet-grip{width:36px;height:4px;border-radius:2px;background:#3A3A40;margin:0 auto 14px}
+.wl-sheet-header{display:flex;align-items:center;justify-content:space-between;padding:0 4px 18px;gap:10px;flex-direction:row-reverse}
+body[dir="ltr"] .wl-sheet-header{flex-direction:row}
+.wl-sheet-title{font-size:15px;font-weight:600;color:#fff;margin:0;flex:1;text-align:center}
+.wl-edit-link{background:none;border:none;color:#9B9FFF;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;padding:4px 0;width:40px;text-align:start}
+.wl-lists{display:flex;flex-direction:column;gap:1px;background:#222226;border-radius:12px;overflow:hidden;margin-bottom:12px}
+.wl-list-item{background:#15151A;padding:14px 18px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:space-between;flex-direction:row-reverse}
+body[dir="ltr"] .wl-list-item{flex-direction:row}
+.wl-list-item.on{background:#1A1D27}
+.wl-list-item:hover{background:#1A1A1F}
+.wl-list-info{text-align:end}
+body[dir="ltr"] .wl-list-info{text-align:start}
+.wl-list-name{font-size:15px;font-weight:700;color:#fff}
+.wl-list-count{font-size:11.5px;color:#7A7A82;margin-top:2px}
+.wl-create-btn{display:flex;align-items:center;justify-content:center;width:100%;padding:16px;background:#15151A;border:none;color:#fff;font-size:14.5px;font-weight:600;border-radius:12px;cursor:pointer;font-family:inherit;margin-bottom:14px;transition:.15s}
+.wl-create-btn:hover{background:#1F1F22}
+.wl-done-btn{width:100%;padding:16px;background:#B6B5F5;color:#15151A;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.wl-done-btn:hover{background:#C9C8F8}
+
+/* Watchlist add sheet (search) */
+.wl-add-title{font-size:15px;font-weight:600;color:#fff;text-align:center;margin:0 0 16px}
+.wl-search-wrap{position:relative;background:#1A1A1D;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-direction:row-reverse}
+body[dir="ltr"] .wl-search-wrap{flex-direction:row}
+.wl-search-ic{color:#7A7A82;display:grid;place-items:center;flex-shrink:0}
+.wl-search-ic svg{width:16px;height:16px}
+.wl-search-inp{flex:1;background:transparent;border:none;color:#fff;font-size:14px;font-family:inherit;outline:none;text-align:end}
+body[dir="ltr"] .wl-search-inp{text-align:start}
+.wl-search-inp::placeholder{color:#7A7A82}
+.wl-search-results{display:flex;flex-direction:column;gap:1px;background:#222226;border-radius:12px;overflow:hidden;max-height:60vh;overflow-y:auto;margin-bottom:14px}
+.wl-result-row{background:#15151A;padding:14px 16px;display:flex;align-items:center;gap:14px;flex-direction:row-reverse}
+body[dir="ltr"] .wl-result-row{flex-direction:row}
+.wl-result-add{background:none;border:none;color:#9B9FFF;padding:0;display:grid;place-items:center;cursor:pointer;width:28px;height:28px;flex-shrink:0}
+.wl-result-add svg{width:24px;height:24px}
+.wl-result-add.on{color:#9B9FFF}
+.wl-result-logo{width:42px;height:42px;border-radius:10px;background:#fff;color:#000;display:grid;place-items:center;font-size:10px;font-weight:800;flex-shrink:0;overflow:hidden}
+.wl-result-logo img{width:100%;height:100%;object-fit:contain;padding:5px;box-sizing:border-box}
+.wl-result-info{flex:1;min-width:0;text-align:end}
+body[dir="ltr"] .wl-result-info{text-align:start}
+.wl-result-name{font-size:13.5px;font-weight:600;color:#fff;line-height:1.4}
+.wl-result-tic{font-size:11.5px;color:#7A7A82;margin-top:3px;letter-spacing:.04em}
+
+/* Sector badge */
+.sector-badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:7px;letter-spacing:.01em;white-space:nowrap;vertical-align:middle}
+
 /* Market session pill */
 .mkt-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
 .mkt-dot{width:6px;height:6px;border-radius:50%;display:inline-block;animation:mktPulse 2s ease-in-out infinite}
@@ -1181,7 +1227,7 @@ body[dir="ltr"] .notif-row{flex-direction:row}
 .wl-manage-bar{display:none}
 
 /* "My Stocks" cards — matching upload exactly */
-.ms-section-title{font-size:17px;font-weight:800;color:var(--txt);margin:18px 4px 12px;letter-spacing:-.01em;text-align:end;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.ms-section-title{font-size:17px;font-weight:800;color:var(--txt);margin:18px 4px 12px;letter-spacing:-.01em;text-align:start;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
 .ms-card{background:#161618;border:1px solid #1F1F22;border-radius:18px;padding:0;margin-bottom:12px;cursor:pointer;transition:.15s;overflow:hidden}
 .ms-card:hover{border-color:#2A2A2D;transform:translateY(-1px)}
 .ms-top{background:#1C1C1F;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-direction:row-reverse}
@@ -1878,14 +1924,14 @@ async function load(){
   if (settings.curveRange == null) settings.curveRange = '30';
   if (settings.unlocked == null) settings.unlocked = false;
   applyLang();
-  // Auto-refresh prices every 30s when on portfolio/watch tabs
+  // Live price updates every 5s when active tab is visible
   if (!window._autoRefreshTimer){
     window._autoRefreshTimer = setInterval(() => {
       if (document.hidden) return;
       if (['portfolio','watch'].includes(activeTab)) {
         refreshPrices().catch(()=>{});
       }
-    }, 30000);
+    }, 5000);
   }
 }
 async function save(){
@@ -3002,7 +3048,7 @@ function openDetail(id){
         <div class="nm">${esc(h.ticker)}${optBadge}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
         <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}${isOpt && h.strike?` · Strike $${fmt(h.strike,0)}`:''}${isOpt && h.expiry?` · ${esc(h.expiry)}`:''}</div>
         ${h.price != null ? `<div style="margin-top:6px;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:13px;font-weight:700;margin-inline-start:10px;display:inline-flex;align-items:center;gap:3px">${s.today>=0?'▲':'▼'} ${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>
-        <div style="margin-top:8px">${getMarketSessionPill()}</div>` : ''}
+        <div style="margin-top:8px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">${getMarketSessionPill()}${sectorBadge(h.ticker)}</div>` : ''}
       </div>
     </div>
 
@@ -3733,28 +3779,56 @@ async function finnhubSearch(q){
   } catch(e) { throw e; }
 }
 
-function liveSearch(){
+function liveSearch(srcInputId, targetBoxId){
   clearTimeout(searchTimer);
+  const inpId = srcInputId || 'f_tic';
+  const boxId = targetBoxId || 'sg-box';
   searchTimer = setTimeout(async () => {
-    const q = $("#f_tic")?.value.trim();
-    const box = $("#sg-box");
+    const q = $("#"+inpId)?.value.trim();
+    const box = $("#"+boxId);
     if (!box) return;
-    if (!q) { box.innerHTML = ""; return; }
-    box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
+    const isWl = boxId === 'wl_sg';
+    if (!q) { 
+      if (isWl) {
+        box.innerHTML = getPopularStocks().map(s => buildWlStockRow(s, settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks'))).join('');
+        setTimeout(()=>lazyLoadLogos(getPopularStocks().map(s => s.ticker)), 50);
+      } else {
+        box.innerHTML = "";
+      }
+      return;
+    }
+    if (isWl){
+      box.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px"><span class="spin"></span> ${t().search_loading}</div>`;
+    } else {
+      box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
+    }
     try {
       const results = await finnhubSearch(q);
-      if ($("#f_tic")?.value.trim() !== q) return; // user typed more
-      if (!results.length) { box.innerHTML = `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`; return; }
-      box.innerHTML = `<div class="suggest">${results.map(r => {
-        const nm = (r.d || '').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
-        return `<div class="sg-item" onclick="pickTicker('${esc(r.s)}','${esc(nm)}')">
-          <span class="tic">${esc(r.s)}</span>
-          <span class="nm">${esc(r.d || '')}</span>
-        </div>`;
-      }).join("")}</div>`;
+      if ($("#"+inpId)?.value.trim() !== q) return;
+      if (!results.length){
+        box.innerHTML = isWl
+          ? `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${t().no_match}</div>`
+          : `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`;
+        return;
+      }
+      if (isWl){
+        const list = settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks');
+        box.innerHTML = results.map(r => buildWlStockRow({ticker:r.s, name:r.d||r.s}, list)).join('');
+        setTimeout(()=>lazyLoadLogos(results.map(r => r.s)), 50);
+      } else {
+        box.innerHTML = `<div class="suggest">${results.map(r => {
+          const nm = (r.d || '').replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+          return `<div class="sg-item" onclick="pickTicker('${esc(r.s)}','${esc(nm)}')">
+            <span class="tic">${esc(r.s)}</span>
+            <span class="nm">${esc(r.d || '')}</span>
+          </div>`;
+        }).join("")}</div>`;
+      }
     } catch(e) {
-      if ($("#f_tic")?.value.trim() === q) {
-        box.innerHTML = `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+      if ($("#"+inpId)?.value.trim() === q) {
+        box.innerHTML = isWl
+          ? `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${esc(e.message||t().no_match)}</div>`
+          : `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
       }
     }
   }, 380);
@@ -3940,11 +4014,16 @@ function saveTradeFromKeypad(){
   } else {
     setPfCash(getPfCash() + totalCost);
   }
+  // Auto-delete if fully sold
+  const remaining = statsFor(h).shares;
+  if (remaining <= 0.0001){
+    holdings = holdings.filter(x => x.id !== h.id);
+  }
   logActivity(T.type, { ticker: T.ticker, qty, price, total: totalCost });
   save();
   closeModal();
   setActiveTab('portfolio');
-  toast(lang==='ar'? (T.type==='buy'?'تم الشراء':'تم البيع') : (T.type==='buy'?'Bought':'Sold'));
+  toast(lang==='ar'? (T.type==='buy'?'تم الشراء':'تم البيع' + (remaining<=0.0001?' · تم حذف السهم':'')) : (T.type==='buy'?'Bought':'Sold' + (remaining<=0.0001?' · Holding removed':'')));
 }
 
 function openTradeOld(holdId, type){
@@ -4212,29 +4291,77 @@ function delCashTx(id){
 
 /* ── Watchlist ── */
 function addToWatchlist(){
+  const ar = lang === 'ar';
+  const currentList = settings.wlFilter || (ar?'أسهمي':'My Stocks');
   modal(`
-    <h2>${lang==='ar'?'إضافة لقائمة المتابعة':'Add to Watchlist'}</h2>
-    <div class="field"><label>${t().ticker}</label>
-      <div class="search-wrap">
-        <input class="inp" id="wl_tic" placeholder="AAPL / Apple" oninput="liveSearch('wl_tic','wl_sg')" autocomplete="off">
+    <div class="wl-add-sheet">
+      <div class="wl-sheet-grip"></div>
+      <h2 class="wl-add-title">${ar?'أضف أسهم، صناديق الى':'Add stocks to'} ${esc(currentList)}</h2>
+      <div class="wl-search-wrap">
+        <input class="wl-search-inp" id="wl_tic" placeholder="${ar?'بحث في الأسهم...':'Search stocks...'}" oninput="liveSearch('wl_tic','wl_sg')" autocomplete="off">
+        <span class="wl-search-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
       </div>
-      <div id="wl_sg"></div>
-    </div>
-    <div class="grid2">
-      <div class="field"><label>${lang==='ar'?'السعر المستهدف':'Target price'} <small style="color:#444">$</small></label>
-        <input class="inp" id="wl_t" type="number" step="any" inputmode="decimal" placeholder="—"></div>
-      <div class="field"><label>${lang==='ar'?'وقف الخسارة':'Stop loss'} <small style="color:#444">$</small></label>
-        <input class="inp" id="wl_s" type="number" step="any" inputmode="decimal" placeholder="—"></div>
-    </div>
-    <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
-      <input class="inp" id="wl_n" placeholder="${lang==='ar'?'سبب الاهتمام':'why this stock'}"></div>
-    <div class="err" id="wl_err"></div>
-    <div class="m-actions">
-      <button class="btn" onclick="closeModal()">${t().cancel}</button>
-      <button class="btn primary" onclick="saveWatch()">${t().save}</button>
+      <div class="wl-search-results" id="wl_sg">
+        ${getPopularStocks().map(s => buildWlStockRow(s, currentList)).join('')}
+      </div>
+      <button class="wl-done-btn" onclick="closeModal();renderWatchlist()">${ar?'تم':'Done'}</button>
     </div>
   `);
-  setTimeout(()=>$("#wl_tic")?.focus(),60);
+  setTimeout(()=>$("#wl_tic")?.focus(),100);
+}
+
+function getPopularStocks(){
+  return [
+    { ticker:'NVDA', name:'NVIDIA Corporation Common Stock' },
+    { ticker:'AAPL', name:'Apple Inc. Common Stock' },
+    { ticker:'GOOGL', name:'Alphabet Inc. Class A Common Stock' },
+    { ticker:'GOOG', name:'Alphabet Inc. Class C Capital Stock' },
+    { ticker:'MSFT', name:'Microsoft Corporation Common Stock' },
+    { ticker:'AMZN', name:'Amazon.com, Inc. Common Stock' },
+    { ticker:'META', name:'Meta Platforms, Inc. Class A Common Stock' },
+    { ticker:'TSLA', name:'Tesla, Inc. Common Stock' },
+    { ticker:'AMD', name:'Advanced Micro Devices, Inc. Common Stock' },
+  ];
+}
+
+function buildWlStockRow(s, listName){
+  const exists = watchlist.find(w => w.ticker === s.ticker && w.pfId === settings.activePf && (w.wgroup || (lang==='ar'?'أسهمي':'My Stocks')) === listName);
+  return `<div class="wl-result-row" id="wlres_${esc(s.ticker)}">
+    <button class="wl-result-add ${exists?'on':''}" onclick="toggleWatchAdd('${esc(s.ticker)}','${esc(s.name).replace(/'/g,"\\'")}','${esc(listName)}')">
+      ${exists ? `<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 9" stroke="#fff" stroke-width="2.5" fill="none"/></svg>` : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`}
+    </button>
+    <div class="wl-result-logo" data-logo-tic="${esc(s.ticker)}">${esc(s.ticker.slice(0,2))}</div>
+    <div class="wl-result-info">
+      <div class="wl-result-name">${esc(s.name)}</div>
+      <div class="wl-result-tic">${esc(s.ticker)}</div>
+    </div>
+  </div>`;
+}
+
+function toggleWatchAdd(ticker, name, listName){
+  const exists = watchlist.find(w => w.ticker === ticker && w.pfId === settings.activePf && (w.wgroup || (lang==='ar'?'أسهمي':'My Stocks')) === listName);
+  if (exists){
+    watchlist = watchlist.filter(w => w.id !== exists.id);
+  } else {
+    watchlist.push({
+      id: uid(), pfId: settings.activePf, ticker, name,
+      target: null, stop: null, note: '', price: null,
+      dayChangePct: null, addedAt: Date.now(), wgroup: listName, addedPrice: null
+    });
+  }
+  save();
+  // Refresh the row UI
+  const row = document.getElementById(`wlres_${ticker}`);
+  if (row){
+    const div = document.createElement('div');
+    div.innerHTML = buildWlStockRow({ticker, name}, listName);
+    row.replaceWith(div.firstElementChild);
+    setTimeout(()=>lazyLoadLogos([ticker]), 50);
+  }
 }
 function saveWatch(){
   const tic = $("#wl_tic").value.trim().toUpperCase();
@@ -4440,31 +4567,50 @@ async function loadWatchSparklines(items){
 function openWatchlistManage(){
   const ar = lang === 'ar';
   const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+  // Gather all unique list names
+  const lists = [...new Set(allItems.map(w => w.wgroup || (ar?'أسهمي':'My Stocks')))];
+  if (!lists.length) lists.push(ar?'أسهمي':'My Stocks');
   modal(`
-    <h2>${ar?'إدارة قوائم المتابعة':'Manage Watchlists'}</h2>
-    <p class="sub">${ar?'فلتر وعرض حسب المجموعة':'Filter and view by group'}</p>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
-      ${[
-        {k:'all', ar:'الكل', en:'All', icon:'star'},
-        {k:'buy', ar:'للشراء', en:'To Buy', icon:'plus'},
-        {k:'watch', ar:'مراقبة', en:'Watching', icon:'star'},
-        {k:'study', ar:'للدراسة', en:'Studying', icon:'checklist'},
-      ].map(g => {
-        const cnt = g.k === 'all' ? allItems.length : allItems.filter(w => (w.wgroup||'watch') === g.k).length;
-        const active = (settings.wlFilter || 'all') === g.k;
-        return `<button class="btn" style="display:flex;justify-content:space-between;align-items:center;padding:13px 14px;background:${active?'var(--accent-bg)':'var(--surf)'};border-color:${active?'var(--accent-d)':'var(--line)'};color:${active?'var(--accent)':'var(--txt)'};font-weight:700" onclick="setWlFilter('${g.k}');closeModal()">
-          <span style="display:flex;align-items:center;gap:9px">
-            <span style="display:inline-flex;width:18px;height:18px">${icn(g.icon)}</span>
-            ${ar?g.ar:g.en}
-          </span>
-          <span style="font-size:12px;opacity:.7;font-weight:600">${cnt}</span>
-        </button>`;
-      }).join('')}
-    </div>
-    <div class="m-actions" style="margin-top:14px">
-      <button class="btn primary" style="width:100%" onclick="closeModal()">${ar?'تم':'Done'}</button>
+    <div class="wl-sheet">
+      <div class="wl-sheet-grip"></div>
+      <div class="wl-sheet-header">
+        <button class="wl-edit-link" onclick="alert('${ar?'قريباً':'Soon'}')">${ar?'تعديل':'Edit'}</button>
+        <h2 class="wl-sheet-title">${ar?'إدارة قوائم المتابعة':'Manage Watchlists'}</h2>
+        <span style="width:40px"></span>
+      </div>
+      <div class="wl-lists">
+        ${lists.map(name => {
+          const cnt = allItems.filter(w => (w.wgroup||(ar?'أسهمي':'My Stocks')) === name).length;
+          const active = (settings.wlFilter || name) === name;
+          return `<div class="wl-list-item ${active?'on':''}" onclick="setWlFilter('${esc(name)}');closeModal()">
+            <div class="wl-list-info">
+              <div class="wl-list-name">${esc(name)}</div>
+              <div class="wl-list-count">${cnt} ${ar?'أسهم':'stocks'}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <button class="wl-create-btn" onclick="createNewWatchlist()">
+        <span style="display:inline-flex;width:14px;height:14px;margin-inline-end:6px">${icn('plus')}</span>
+        ${ar?'إنشاء قائمة متابعة جديدة':'Create new watchlist'}
+      </button>
+      <button class="wl-done-btn" onclick="closeModal()">${ar?'تم':'Done'}</button>
     </div>
   `);
+}
+
+function createNewWatchlist(){
+  const ar = lang === 'ar';
+  const name = prompt(ar?'اسم القائمة الجديدة:':'New watchlist name:');
+  if (!name || !name.trim()) return;
+  // Save the empty list - will appear when stocks are added with this group name
+  if (!settings.watchlistNames) settings.watchlistNames = [];
+  if (!settings.watchlistNames.includes(name.trim())) settings.watchlistNames.push(name.trim());
+  settings.wlFilter = name.trim();
+  save();
+  closeModal();
+  renderWatchlist();
+  toast(ar?`تم إنشاء "${name.trim()}"`:`"${name.trim()}" created`);
 }
 
 function setWlFilter(g){ settings.wlFilter = g; save(); renderWatchlist(); }
@@ -8363,40 +8509,149 @@ function getMarketSessionPill(){
   return `<span class="mkt-pill" style="background:${c.bg};color:${c.txt}"><span class="mkt-dot" style="background:${c.dot}"></span>${s.label[ar?'ar':'en']}</span>`;
 }
 
+// Auto sector mapping for known tickers (no user input needed)
+const SECTOR_MAP = {
+  // Mega-cap Tech
+  AAPL:'tech', MSFT:'tech', GOOGL:'tech', GOOG:'tech', META:'tech', AMZN:'tech',
+  // Semiconductors
+  NVDA:'semi', AMD:'semi', INTC:'semi', MU:'semi', QCOM:'semi', AVGO:'semi',
+  TSM:'semi', ASML:'semi', MRVL:'semi', LRCX:'semi', KLAC:'semi', NXPI:'semi', ARM:'semi',
+  // Auto/EV
+  TSLA:'auto', F:'auto', GM:'auto', RIVN:'auto', LCID:'auto', NIO:'auto', XPEV:'auto', LI:'auto',
+  // Software
+  CRM:'software', ORCL:'software', ADBE:'software', NOW:'software', SAP:'software', SNOW:'software',
+  PLTR:'software', SHOP:'software', DDOG:'software', NET:'software', ZS:'software',
+  // Telecom & Space
+  ASTS:'space', T:'telecom', VZ:'telecom', TMUS:'telecom', RKLB:'space', LUNR:'space',
+  // Finance
+  JPM:'finance', BAC:'finance', WFC:'finance', GS:'finance', MS:'finance', V:'finance', MA:'finance',
+  SOFI:'finance', HOOD:'finance', COIN:'finance',
+  // Healthcare
+  JNJ:'health', PFE:'health', UNH:'health', LLY:'health', MRK:'health', ABBV:'health',
+  HIMS:'health', NVO:'health', AMGN:'health',
+  // Consumer
+  WMT:'consumer', COST:'consumer', HD:'consumer', NKE:'consumer', SBUX:'consumer', MCD:'consumer',
+  // Energy
+  XOM:'energy', CVX:'energy', COP:'energy', OXY:'energy', SLB:'energy',
+  // Materials/Mining
+  VALE:'materials', FCX:'materials', NEM:'materials',
+  // Streaming/Media
+  NFLX:'media', DIS:'media', SPOT:'media',
+  // AI-focused
+  AI:'ai', SMCI:'ai', NUAI:'ai', ENHA:'ai', ONDS:'ai',
+};
+
+const SECTOR_NAMES = {
+  tech: { ar:'تقنية', en:'Tech', color:'#5BA5FF' },
+  semi: { ar:'أشباه موصلات', en:'Semiconductors', color:'#A78BFA' },
+  auto: { ar:'سيارات', en:'Automotive', color:'#FB923C' },
+  software: { ar:'برمجيات', en:'Software', color:'#5FE9E9' },
+  telecom: { ar:'اتصالات', en:'Telecom', color:'#818CF8' },
+  space: { ar:'فضاء', en:'Space', color:'#D946EF' },
+  finance: { ar:'مالي', en:'Finance', color:'#34D399' },
+  health: { ar:'صحة', en:'Healthcare', color:'#FB7185' },
+  consumer: { ar:'استهلاكي', en:'Consumer', color:'#E8B96A' },
+  energy: { ar:'طاقة', en:'Energy', color:'#FACC15' },
+  materials: { ar:'مواد خام', en:'Materials', color:'#A3E635' },
+  media: { ar:'إعلام', en:'Media', color:'#EC4899' },
+  ai: { ar:'ذكاء اصطناعي', en:'AI', color:'#5FE9B0' },
+  industrial: { ar:'صناعي', en:'Industrial', color:'#22D3EE' },
+  other: { ar:'أخرى', en:'Other', color:'#9090A0' },
+};
+
+function getSectorForTicker(ticker){
+  return SECTOR_MAP[ticker?.toUpperCase()] || null;
+}
+
+function sectorBadge(ticker){
+  const s = getSectorForTicker(ticker);
+  if (!s) return '';
+  const info = SECTOR_NAMES[s] || SECTOR_NAMES.other;
+  const name = info[lang] || info.en;
+  return `<span class="sector-badge" style="color:${info.color};background:${info.color}1A;border:1px solid ${info.color}33">${name}</span>`;
+}
+
+// Auto sector mapping for known tickers (no user input needed)
 async function loadWhyMoved(holdId, ticker, todayPct){
   const el = document.getElementById(`why-moved-${holdId}`);
   if (!el) return;
-  if (todayPct == null || Math.abs(todayPct) < 0.5) return; // Only show if significant move
+  if (todayPct == null || Math.abs(todayPct) < 0.5) return;
   const up = todayPct >= 0;
   const ar = lang === 'ar';
+  const sector = getSectorForTicker(ticker);
+  const sectorName = sector ? (SECTOR_NAMES[sector]?.[ar?'ar':'en'] || '') : '';
+  // Build an explanation - try news, fall back to synthetic
+  let text = '';
+  let timeStr = new Date().toLocaleTimeString(ar?'ar-SA-u-ca-gregory':'en-US', { hour:'2-digit', minute:'2-digit' });
   try {
     const today = new Date();
     const fromD = new Date(today.getTime() - 2 * 86400000);
-    const fmt = (d) => d.toISOString().split('T')[0];
-    const r = await fetch(`${FINNHUB}/company-news?symbol=${encodeURIComponent(ticker)}&from=${fmt(fromD)}&to=${fmt(today)}&token=${FINNHUB_KEY}`);
-    if (!r.ok) return;
-    const news = await r.json();
-    if (!Array.isArray(news) || !news.length) return;
-    const top = news[0];
-    if (!top.headline) return;
-    const timeStr = new Date((top.datetime || Date.now()/1000) * 1000).toLocaleString(ar?'ar-SA-u-ca-gregory':'en-US', { hour:'2-digit', minute:'2-digit' });
-    const title = ar ? (up ? 'لماذا ارتفع السهم؟' : 'لماذا نزل السهم؟') : (up ? 'Why is the stock up?' : 'Why is the stock down?');
-    el.innerHTML = `
-      <h2 class="wm-title">
-        <span class="wm-icon ${up?'up':'down'}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="${up?'23 6 13.5 15.5 8.5 10.5 1 18':'23 18 13.5 8.5 8.5 13.5 1 6'}"/>
-            <polyline points="${up?'17 6 23 6 23 12':'17 18 23 18 23 12'}"/>
-          </svg>
-        </span>
-        ${title}
-      </h2>
-      <div class="wm-card ${up?'up':'down'}">
-        <p class="wm-text">${esc(top.summary || top.headline)}</p>
-        <div class="wm-time">${ar?'اليوم':'Today'}, ${timeStr}</div>
-      </div>
-    `;
+    const fmtD = (d) => d.toISOString().split('T')[0];
+    const r = await fetch(`${FINNHUB}/company-news?symbol=${encodeURIComponent(ticker)}&from=${fmtD(fromD)}&to=${fmtD(today)}&token=${FINNHUB_KEY}`);
+    if (r.ok){
+      const news = await r.json();
+      if (Array.isArray(news) && news.length){
+        const top = news[0];
+        if (top.headline){
+          if (ar){
+            // For Arabic mode, build a synthesized summary that doesn't depend on translating English news
+            text = synthesizeArabicReason(ticker, todayPct, sectorName, top);
+            timeStr = new Date((top.datetime || Date.now()/1000) * 1000).toLocaleTimeString('ar-SA-u-ca-gregory', { hour:'2-digit', minute:'2-digit' });
+          } else {
+            text = top.summary || top.headline;
+            timeStr = new Date((top.datetime || Date.now()/1000) * 1000).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+          }
+        }
+      }
+    }
   } catch(e){}
+  // Fallback synthetic if no news
+  if (!text){
+    if (ar) text = synthesizeArabicReason(ticker, todayPct, sectorName, null);
+    else text = synthesizeEnglishReason(ticker, todayPct, sectorName);
+  }
+  if (!text) return;
+  const title = ar ? (up ? 'لماذا ارتفع السهم؟' : 'لماذا نزل السهم؟') : (up ? 'Why is the stock up?' : 'Why is the stock down?');
+  el.innerHTML = `
+    <h2 class="wm-title">
+      <span class="wm-icon ${up?'up':'down'}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="${up?'23 6 13.5 15.5 8.5 10.5 1 18':'23 18 13.5 8.5 8.5 13.5 1 6'}"/>
+          <polyline points="${up?'17 6 23 6 23 12':'17 18 23 18 23 12'}"/>
+        </svg>
+      </span>
+      ${title}
+    </h2>
+    <div class="wm-card ${up?'up':'down'}">
+      <p class="wm-text">${esc(text)}</p>
+      <div class="wm-time">${ar?'اليوم':'Today'}, ${timeStr}</div>
+    </div>
+  `;
+}
+
+function synthesizeArabicReason(ticker, pct, sectorName, news){
+  const up = pct >= 0;
+  const absP = Math.abs(pct);
+  const magnitude = absP > 5 ? 'بقوة' : absP > 2 ? 'بشكل ملحوظ' : 'بشكل طفيف';
+  const sector = sectorName ? ` ضمن قطاع ${sectorName}` : '';
+  if (news && news.headline){
+    return up
+      ? `يرتفع سهم ${ticker} ${magnitude} اليوم بنسبة ${absP.toFixed(2)}%${sector}. وتشير الأخبار الأخيرة إلى تطوّرات إيجابية تتعلّق بالشركة. يعكس هذا الأداء ثقة المستثمرين في الاتجاه القصير للسهم.`
+      : `يتراجع سهم ${ticker} ${magnitude} اليوم بنسبة ${absP.toFixed(2)}%${sector}. هذا التراجع قد يكون مرتبطاً بأخبار حديثة عن الشركة أو ضغوط بيع عامة في السوق. يُنصح بمتابعة الأخبار قبل اتخاذ قرارات.`;
+  }
+  return up
+    ? `يرتفع سهم ${ticker} ${magnitude} اليوم بنسبة ${absP.toFixed(2)}%${sector}. لم نجد خبراً محدداً مرتبطاً بالحركة، وقد يعود السبب إلى زخم السوق العام أو نشاط على مستوى القطاع.`
+    : `يتراجع سهم ${ticker} ${magnitude} اليوم بنسبة ${absP.toFixed(2)}%${sector}. لم نجد خبراً محدداً مرتبطاً بالحركة، وقد يعود السبب إلى ضغط بيع عام أو حركة سوقية أوسع.`;
+}
+
+function synthesizeEnglishReason(ticker, pct, sectorName){
+  const up = pct >= 0;
+  const absP = Math.abs(pct);
+  const magnitude = absP > 5 ? 'sharply' : absP > 2 ? 'notably' : 'modestly';
+  const sector = sectorName ? ` in the ${sectorName} sector` : '';
+  return up
+    ? `${ticker} is up ${magnitude} today, gaining ${absP.toFixed(2)}%${sector}. No specific catalyst identified — the move may reflect broad market sentiment or sector-level momentum.`
+    : `${ticker} is down ${magnitude} today, falling ${absP.toFixed(2)}%${sector}. No specific catalyst identified — the drop may stem from market-wide selling pressure or sector rotation.`;
 }
 
 async function refreshPrices(){
@@ -8968,6 +9223,49 @@ function modal(html, opts){
   s.innerHTML = `<div class="modal${fullpage?' fullpage':''}">${fullpage?'':'<button class="modal-close-x" onclick="closeModal()" aria-label="Close">✕</button>'}${html}</div>`;
   if (!fullpage) s.addEventListener("click", e => { if (e.target === s) closeModal(); });
   document.body.appendChild(s);
+  // Enable swipe-down-to-dismiss for fullpage modals
+  if (fullpage){
+    const modalEl = s.querySelector('.modal.fullpage');
+    let startY = 0, currentY = 0, dragging = false;
+    const topbar = s.querySelector('.sd-topbar');
+    const swipeStart = (e) => {
+      // Only trigger from top of page or topbar
+      if (s.scrollTop > 5) return;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+      startY = y; currentY = y; dragging = true;
+    };
+    const swipeMove = (e) => {
+      if (!dragging) return;
+      currentY = e.touches ? e.touches[0].clientY : e.clientY;
+      const dy = currentY - startY;
+      if (dy > 0){
+        e.preventDefault?.();
+        modalEl.style.transform = `translateY(${Math.min(dy, 500)}px)`;
+        modalEl.style.opacity = Math.max(0.3, 1 - dy / 600);
+      }
+    };
+    const swipeEnd = () => {
+      if (!dragging) return;
+      dragging = false;
+      const dy = currentY - startY;
+      if (dy > 130){
+        // Close
+        modalEl.style.transition = 'transform .2s, opacity .2s';
+        modalEl.style.transform = 'translateY(100vh)';
+        modalEl.style.opacity = '0';
+        setTimeout(closeModal, 200);
+      } else {
+        // Snap back
+        modalEl.style.transition = 'transform .25s, opacity .25s';
+        modalEl.style.transform = 'translateY(0)';
+        modalEl.style.opacity = '1';
+        setTimeout(() => { modalEl.style.transition = ''; }, 250);
+      }
+    };
+    s.addEventListener('touchstart', swipeStart, { passive: true });
+    s.addEventListener('touchmove', swipeMove, { passive: false });
+    s.addEventListener('touchend', swipeEnd);
+  }
 }
 function closeModal(){ const s=$("#scrim"); if(s) s.remove(); }
 function toast(msg){
