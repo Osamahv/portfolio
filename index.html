@@ -19,7 +19,7 @@
 
 <style>
 :root{
-  --bg:#000; --surf:#0A0A0A; --surf2:#141414;
+  --bg:#101318; --surf:#161A21; --surf2:#1F242C;
   --line:#1F1F1F; --line2:#2A2A2A;
   --txt:#FFFFFF; --muted:#7A7A7A; --muted2:#525252;
   --accent:#5FE9B0; --accent-d:#1E5C44; --accent-bg:#0B2A20;
@@ -299,11 +299,14 @@ body[dir="rtl"] .row .rt{text-align:left}
 .sd-back:hover,.sd-act:hover{background:var(--surf2);border-color:var(--line2)}
 .sd-back svg,.sd-act svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .sd-act svg[fill="currentColor"]{stroke:none;fill:currentColor;color:var(--accent)}
-.sd-content{padding:22px 22px 28px;max-width:680px;margin:0 auto}
+.sd-content{padding:22px 22px 28px;max-width:680px;margin:0 auto;direction:inherit}
+body[dir="rtl"] .sd-content,body[dir="rtl"] .sd-content h2{text-align:right}
+body[dir="ltr"] .sd-content,body[dir="ltr"] .sd-content h2{text-align:left}
 .sd-content h2{margin:24px 0 8px;font-size:22px;font-weight:800;letter-spacing:-.015em}
 .sd-content h2:first-child{margin-top:8px}
 body[dir="rtl"] .sd-content h2{font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
-.sd-content .d-head{margin-bottom:10px}
+.sd-content .d-head{margin-bottom:10px;flex-direction:row-reverse}
+body[dir="ltr"] .sd-content .d-head{flex-direction:row}
 
 /* Scrim fullpage */
 .scrim{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:grid;place-items:flex-end;padding:0;z-index:60;animation:fade .18s}
@@ -892,6 +895,94 @@ body[dir="ltr"] .mkt-price.feat::before{content:"MOST POPULAR"}
 .qf-chip.win.on{background:var(--accent-bg);border-color:var(--accent-d);color:var(--accent)}
 .qf-chip.loss.on{background:var(--loss-bg);border-color:var(--loss-d);color:var(--loss)}
 
+/* Trade page (full screen with keypad) */
+.tr-page{display:flex;flex-direction:column;min-height:100vh;padding-bottom:0}
+.tr-topbar{padding:10px 14px;border-bottom:none}
+.tr-top-r{display:flex;align-items:center;gap:10px}
+.tr-verify{background:#fff !important;color:var(--accent) !important;width:32px;height:32px}
+.tr-verify svg{width:18px;height:18px}
+.tr-price-top{font-size:16px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.tr-content{padding:14px 22px 8px;flex:1}
+.tr-row-top{display:flex;justify-content:flex-start}
+body[dir="rtl"] .tr-row-top{justify-content:flex-start}
+.tr-type-pill{display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:16px;font-size:13px;font-weight:700;border:1px solid;font-family:inherit}
+.tr-type-pill.buy{border-color:var(--accent);color:var(--accent)}
+.tr-type-pill.sell{border-color:#F08080;color:#F08080}
+.tr-avail{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:14px;font-size:12.5px;color:#7A7A82;border:1px solid #25252A;margin:14px 0 18px;background:transparent;flex-direction:row-reverse}
+body[dir="ltr"] .tr-avail{flex-direction:row}
+.tr-avail-plus{color:var(--accent);font-weight:800}
+.tr-bid{font-size:13px;color:#7A7A82;text-align:center;margin-bottom:18px}
+.tr-bid b{color:#fff;font-variant-numeric:tabular-nums}
+.tr-field{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:0.5px solid #25252A;cursor:pointer;flex-direction:row-reverse;gap:14px}
+body[dir="ltr"] .tr-field{flex-direction:row}
+.tr-field-l{text-align:end;flex-shrink:0}
+body[dir="ltr"] .tr-field-l{text-align:start}
+.tr-field-lbl{font-size:15px;color:#fff;font-weight:600}
+.tr-field-sub{font-size:11.5px;color:#7A7A82;margin-top:3px;font-variant-numeric:tabular-nums}
+.tr-field-inp{flex:1;background:#25252A;border-radius:18px;padding:13px 20px;font-size:18px;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;font-weight:600;min-height:28px;display:flex;align-items:center;justify-content:flex-start;transition:.15s;border:2px solid transparent}
+.tr-field-inp.active{border-color:var(--accent)}
+.tr-cur{color:var(--accent);margin-inline-end:4px}
+.tr-total{display:flex;justify-content:space-between;align-items:center;padding:14px 0;flex-direction:row-reverse}
+body[dir="ltr"] .tr-total{flex-direction:row}
+.tr-total-lbl{font-size:15px;color:#fff;font-weight:600}
+.tr-total-val{font-size:16px;color:#fff;font-weight:700;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
+.tr-err{font-size:12.5px;color:#F08080;text-align:center;min-height:18px}
+.tr-submit{margin:6px 22px 12px;padding:16px;background:#1F4A2D;color:#5FE9B0;border:none;border-radius:18px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.tr-submit:not(:disabled){background:var(--accent);color:#000}
+.tr-submit:disabled{cursor:not-allowed}
+.tr-submit.sell:not(:disabled){background:#F08080;color:#000}
+.tr-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:8px 0 20px;background:transparent}
+.tr-key{background:transparent;border:none;color:#fff;font-size:24px;font-weight:500;padding:18px;cursor:pointer;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;font-variant-numeric:tabular-nums;transition:.1s}
+.tr-key:active{background:#1F1F22}
+.tr-key-del{font-size:18px}
+
+/* Why moved card */
+.why-moved-wrap{margin:18px 0}
+.wm-title{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;letter-spacing:-.015em;margin:0 0 12px;flex-direction:row-reverse;justify-content:flex-start}
+body[dir="ltr"] .wm-title{flex-direction:row}
+.wm-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex-shrink:0}
+.wm-icon.up{background:#0F2A1F;color:#5FE9B0}
+.wm-icon.down{background:#2A0F1F;color:#F08080}
+.wm-icon svg{width:20px;height:20px}
+.wm-card{background:#0E1A14;border:1px solid #1A3326;border-radius:14px;padding:18px 20px}
+.wm-card.down{background:#1A0E14;border-color:#33191F}
+.wm-text{margin:0;font-size:14.5px;line-height:1.7;color:#D8D8DC}
+body[dir="rtl"] .wm-text{text-align:right}
+body[dir="ltr"] .wm-text{text-align:left}
+.wm-time{margin-top:12px;font-size:12px;color:#7A7A82;text-align:end}
+body[dir="ltr"] .wm-time{text-align:start}
+
+/* Market session pill */
+.mkt-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:10px;font-size:11px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.mkt-dot{width:6px;height:6px;border-radius:50%;display:inline-block;animation:mktPulse 2s ease-in-out infinite}
+@keyframes mktPulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Cash deposit/withdraw page (clean) */
+.cash-topbar{justify-content:space-between}
+.cash-title{font-size:17px;font-weight:700;color:var(--txt);font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.cash-content{padding-top:24px;display:flex;flex-direction:column;gap:18px}
+.cash-bal-card{background:#1A1D24;border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse}
+body[dir="ltr"] .cash-bal-card{flex-direction:row}
+.cash-bal-r{text-align:end}
+body[dir="ltr"] .cash-bal-r{text-align:start}
+.cash-bal-lbl{font-size:14px;font-weight:600;color:#fff;margin-bottom:5px}
+.cash-bal-rate{font-size:11px;color:#7A7A82;font-variant-numeric:tabular-nums}
+.cash-bal-l{text-align:start}
+body[dir="ltr"] .cash-bal-l{text-align:end}
+.cash-bal-val{font-size:18px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
+.cash-bal-sar{font-size:11px;color:#7A7A82;font-variant-numeric:tabular-nums;margin-top:3px}
+.cash-input-card{border:1px solid #2A2D34;border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-direction:row-reverse;background:transparent;transition:.15s}
+body[dir="ltr"] .cash-input-card{flex-direction:row}
+.cash-input-card:focus-within{border-color:#B6B5F5}
+.cash-input-lbl{font-size:15px;color:#fff;font-weight:600;flex-shrink:0;cursor:text;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.cash-input{flex:1;background:transparent;border:none;color:#fff;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;outline:none;padding:0;width:100%;text-align:start}
+body[dir="rtl"] .cash-input{text-align:start}
+.cash-input::placeholder{color:#5BC98E;font-weight:700}
+.cash-err{font-size:12.5px;color:#F08080;text-align:center;min-height:18px}
+.cash-continue{width:100%;background:#2A2D34;color:#7A7A82;border:none;padding:16px;border-radius:14px;font-size:16px;font-weight:700;cursor:not-allowed;font-family:inherit;transition:.15s}
+.cash-continue:not(:disabled){background:#B6B5F5;color:#15151A;cursor:pointer}
+.cash-continue:not(:disabled):hover{background:#C9C8F8}
+
 /* Sticky Trade Bar at bottom of stock detail */
 .sd-trade-bar{position:sticky;bottom:0;left:0;right:0;background:linear-gradient(to top,#0A0A0A 75%,rgba(10,10,10,0));padding:14px 22px 22px;z-index:5;margin-top:auto}
 .sd-trade-btn{width:100%;background:#B6B5F5;color:#15151A;border:none;padding:16px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-.005em;transition:.15s}
@@ -920,14 +1011,14 @@ body[dir="ltr"] .ys-val{justify-content:flex-start}
 .ys-divider{height:0.5px;background:#25252A;margin:18px 0}
 
 /* Buying Power card (compact) */
-.bp-card{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;margin:0 0 14px;background:#1A1A1D;border:none;border-radius:14px;cursor:pointer;transition:.18s;direction:inherit}
+.bp-card{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;margin:0 0 14px;background:#1A1A1D;border:none;border-radius:14px;cursor:pointer;transition:.18s}
 .bp-card:hover{background:#1F1F22}
-.bp-card .bp-lbl{font-size:14px;color:#A8A8B0;font-weight:500;flex:1;text-align:end}
-body[dir="ltr"] .bp-card .bp-lbl{text-align:start;order:3}
-.bp-card .bp-val{font-size:15px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
-.bp-card .bp-arrow{color:#6B6B72;font-size:18px;font-weight:300;line-height:1}
-body[dir="ltr"] .bp-card{flex-direction:row}
-body[dir="ltr"] .bp-card .bp-arrow{order:3}
+body[dir="rtl"] .bp-card{flex-direction:row}
+body[dir="ltr"] .bp-card{flex-direction:row-reverse}
+/* In RTL: arrow far-left, value middle-left, label far-right */
+.bp-card .bp-arrow{color:#6B6B72;font-size:18px;font-weight:300;line-height:1;order:1}
+.bp-card .bp-val{font-size:15px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display","Inter",sans-serif;order:2}
+.bp-card .bp-lbl{font-size:14px;color:#A8A8B0;font-weight:500;flex:1;order:3;text-align:end}
 
 /* Buying Power full page */
 .bp-page-header{text-align:center;font-size:17px;font-weight:600;color:var(--txt);padding:12px 0 18px}
@@ -1787,6 +1878,15 @@ async function load(){
   if (settings.curveRange == null) settings.curveRange = '30';
   if (settings.unlocked == null) settings.unlocked = false;
   applyLang();
+  // Auto-refresh prices every 30s when on portfolio/watch tabs
+  if (!window._autoRefreshTimer){
+    window._autoRefreshTimer = setInterval(() => {
+      if (document.hidden) return;
+      if (['portfolio','watch'].includes(activeTab)) {
+        refreshPrices().catch(()=>{});
+      }
+    }, 30000);
+  }
 }
 async function save(){
   try {
@@ -2168,7 +2268,6 @@ function render(){
 
     <div class="hero-live">
       <span class="live-pill ${settings.lastRefresh?'on':''}">${settings.lastRefresh?t().live+' · '+settings.lastRefresh:t().offline}</span>
-      <button class="refresh-btn" id="refresh-btn" onclick="refreshPrices()">↻ ${t().refresh}</button>
     </div>
     ` : ''}
 
@@ -2378,12 +2477,23 @@ function renderBubbles(){
     { fill:"#1F2D4A", ring:"#818CF8" }, // indigo
     { fill:"#3A1F4A", ring:"#D946EF" }, // fuchsia
     { fill:"#1F4A2D", ring:"#34D399" }, // emerald
+    { fill:"#4A3A1F", ring:"#FACC15" }, // yellow
+    { fill:"#1F4A3D", ring:"#22D3EE" }, // cyan
+    { fill:"#4A2D2D", ring:"#EF4444" }, // rose
+    { fill:"#2D1F4A", ring:"#8B5CF6" }, // violet
+    { fill:"#1F4A1F", ring:"#10B981" }, // forest
+    { fill:"#4A1F2D", ring:"#EC4899" }, // hot-pink
+    { fill:"#2D4A1F", ring:"#65A30D" }, // moss
+    { fill:"#1F3A4A", ring:"#0EA5E9" }, // sky
   ];
   const pickPalette = (h) => {
-    // every ticker gets a stable distinct color from its name — no gray, no sentiment override
-    let sum = 0;
-    for (let i = 0; i < h.ticker.length; i++) sum += h.ticker.charCodeAt(i) * (i+1) * 31 + 17;
-    return palettes[Math.abs(sum) % palettes.length];
+    // FNV-like hash for better distribution
+    let hash = 2166136261;
+    for (let i = 0; i < h.ticker.length; i++){
+      hash ^= h.ticker.charCodeAt(i);
+      hash = (hash * 16777619) >>> 0;
+    }
+    return palettes[hash % palettes.length];
   };
 
   root.leaves().forEach(d => {
@@ -2665,11 +2775,6 @@ function renderEditModal(h){
       <button class="${editHorizon==='lt'?'on lt':''}" onclick="setEditHorizon('lt')">LT<span class="lbl">${t().horizon_lt}</span></button>
     </div>
 
-    <h4>${t().tagsLabel}</h4>
-    <div class="tags-grid" id="tg-grid">
-      ${TAGS_LIST.map(tg => `<button class="tag-chip ${editTags.includes(tg.id)?'on':''}" onclick="toggleEditTag('${tg.id}')">${esc(tg[lang])}</button>`).join("")}
-    </div>
-
     <div class="err" id="f_err"></div>
     <div class="m-actions">
       ${h?`<button class="btn danger" onclick="askDel('${h.id}')">${t().delete}</button>`:''}
@@ -2896,7 +3001,8 @@ function openDetail(id){
       <div>
         <div class="nm">${esc(h.ticker)}${optBadge}${h.horizon?`<span class="h-tag ${h.horizon}" style="margin-inline-start:8px;font-size:10px;padding:2px 7px">${h.horizon.toUpperCase()}</span>`:''}</div>
         <div class="sb">${h.name && h.name !== h.ticker ? esc(h.name) : ''}${isOpt && h.strike?` · Strike $${fmt(h.strike,0)}`:''}${isOpt && h.expiry?` · ${esc(h.expiry)}`:''}</div>
-        ${h.price != null ? `<div style="margin-top:6px;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:13px;font-weight:700;margin-inline-start:10px;display:inline-flex;align-items:center;gap:3px">${s.today>=0?'▲':'▼'} ${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>` : ''}
+        ${h.price != null ? `<div style="margin-top:6px;font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.01em">$${fmt(h.price,2)}${s.today != null ? `<span style="color:${s.today>=0?'var(--accent)':'var(--loss)'};font-size:13px;font-weight:700;margin-inline-start:10px;display:inline-flex;align-items:center;gap:3px">${s.today>=0?'▲':'▼'} ${s.today>=0?'+':''}${fmt(s.todayPct,2)}%</span>` : ''}</div>
+        <div style="margin-top:8px">${getMarketSessionPill()}</div>` : ''}
       </div>
     </div>
 
@@ -2947,6 +3053,10 @@ function openDetail(id){
         </div>
       </div>
     </div>
+
+    <!-- Why moved card (auto-rendered if reason available) -->
+    <div id="why-moved-${h.id}" class="why-moved-wrap"></div>
+
     ` : ''}
 
     ${s.realized ? `<div class="realized-box">
@@ -3061,6 +3171,7 @@ function openDetail(id){
   `, {fullpage:true});
   loadChart(h.ticker);
   loadEarningsTimeline(h.id, h.ticker);
+  loadWhyMoved(h.id, h.ticker, s.todayPct);
   loadStockFinancials(h.id, h.ticker);
   loadStockNews(h.id, h.ticker);
   loadStockAnalystInline(h.id, h.ticker);
@@ -3683,6 +3794,162 @@ function timeAgo(ms){
 function openTrade(holdId, type){
   const h = holdings.find(x => x.id === holdId);
   if (!h) return;
+  const ar = lang === 'ar';
+  const isBuy = type === 'buy';
+  const cash = getPfCash();
+  const curPrice = h.price || h.avg || 0;
+  const curShares = statsFor(h).shares;
+  const titleAr = isBuy ? 'شراء' : 'بيع';
+  const titleEn = isBuy ? 'Buy' : 'Sell';
+  // Initial state stored in window._trade
+  window._trade = {
+    holdId, type,
+    price: '',
+    qty: '',
+    activeField: 'price',
+    curPrice, cash, curShares,
+    ticker: h.ticker
+  };
+  modal(`
+    <div class="sd-page tr-page">
+      <div class="sd-topbar tr-topbar">
+        <button class="sd-back" onclick="closeModal()" aria-label="Back">
+          <svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg>
+        </button>
+        <div class="tr-top-r">
+          <button class="sd-act tr-verify"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 9" stroke="#000" stroke-width="2.5" fill="none"/></svg></button>
+          <div class="tr-price-top">$${fmt(curPrice,2)}</div>
+        </div>
+      </div>
+      <div class="tr-content">
+        <div class="tr-row-top">
+          <span class="tr-type-pill ${isBuy?'buy':'sell'}">${ar?titleAr:titleEn} ▾</span>
+        </div>
+        <div class="tr-avail">
+          <span class="tr-avail-plus">⊕</span>
+          ${isBuy ? `${ar?'متاح للتداول':'Available'} ${fmtUSD(cash,2)}` : `${ar?'أسهمك':'Your shares'} ${fmt(curShares, curShares%1?4:0)}`}
+        </div>
+        <div class="tr-bid">${ar?'سعر السوق':'Market price'} <b>$${fmt(curPrice,2)}</b></div>
+
+        <div class="tr-field" onclick="setTradeField('price')">
+          <div class="tr-field-l">
+            <div class="tr-field-lbl">${ar?'سعر محدد':'Limit price'}</div>
+            <div class="tr-field-sub">${ar?'الحد الأقصى للسعر':'Max'} $${fmt(curPrice*1.1,2)}</div>
+          </div>
+          <div class="tr-field-inp ${window._trade?.activeField==='price'?'active':''}" id="tr-price-disp">
+            <span class="tr-cur">$</span><span id="tr-price-val"></span>
+          </div>
+        </div>
+
+        <div class="tr-field" onclick="setTradeField('qty')">
+          <div class="tr-field-l">
+            <div class="tr-field-lbl">${ar?'الكمية':'Quantity'} <span style="opacity:.5">ⓘ</span></div>
+          </div>
+          <div class="tr-field-inp" id="tr-qty-disp">
+            <span id="tr-qty-val">0</span>
+          </div>
+        </div>
+
+        <div class="tr-total">
+          <span class="tr-total-lbl">${ar?'الإجمالي':'Total'}</span>
+          <span class="tr-total-val" id="tr-total">$0</span>
+        </div>
+
+        <div class="tr-err" id="tr_err"></div>
+      </div>
+
+      <button class="tr-submit ${isBuy?'buy':'sell'}" id="tr-submit" disabled onclick="saveTradeFromKeypad()">
+        ${ar?'متابعة':'Continue'}
+      </button>
+
+      <div class="tr-keypad">
+        ${[1,2,3,4,5,6,7,8,9,'.',0,'⌫'].map(k => `
+          <button class="tr-key${k==='⌫'?' tr-key-del':''}" onclick="tradeKey('${k}')">${k}</button>
+        `).join('')}
+      </div>
+    </div>
+  `, {fullpage:true});
+  updateTradeDisplay();
+}
+
+function setTradeField(field){
+  if (!window._trade) return;
+  window._trade.activeField = field;
+  document.querySelectorAll('.tr-field-inp').forEach(el => el.classList.remove('active'));
+  const id = field === 'price' ? 'tr-price-disp' : 'tr-qty-disp';
+  document.getElementById(id)?.classList.add('active');
+}
+
+function tradeKey(k){
+  if (!window._trade) return;
+  const T = window._trade;
+  const field = T.activeField;
+  let cur = T[field] || '';
+  if (k === '⌫'){
+    cur = cur.slice(0, -1);
+  } else if (k === '.'){
+    if (!cur.includes('.')) cur = (cur || '0') + '.';
+  } else {
+    if (cur === '0') cur = k;
+    else cur = cur + k;
+  }
+  T[field] = cur;
+  updateTradeDisplay();
+}
+
+function updateTradeDisplay(){
+  const T = window._trade; if (!T) return;
+  const priceVal = document.getElementById('tr-price-val');
+  const qtyVal = document.getElementById('tr-qty-val');
+  if (priceVal) priceVal.textContent = T.price || '';
+  if (qtyVal) qtyVal.textContent = T.qty || '0';
+  const price = parseFloat(T.price) || T.curPrice || 0;
+  const qty = parseFloat(T.qty) || 0;
+  const total = price * qty;
+  const totEl = document.getElementById('tr-total');
+  if (totEl) totEl.textContent = fmtUSD(total, 2);
+  const submit = document.getElementById('tr-submit');
+  const err = document.getElementById('tr_err');
+  if (!submit) return;
+  let canSubmit = qty > 0 && price > 0;
+  let errMsg = '';
+  if (T.type === 'buy' && total > T.cash){
+    canSubmit = false;
+    errMsg = lang==='ar'?`الرصيد ${fmtUSD(T.cash,2)} فقط`:`Balance only ${fmtUSD(T.cash,2)}`;
+  } else if (T.type === 'sell' && qty > T.curShares){
+    canSubmit = false;
+    errMsg = lang==='ar'?`عندك ${fmt(T.curShares,4)} فقط`:`You have ${fmt(T.curShares,4)} only`;
+  }
+  submit.disabled = !canSubmit;
+  if (err) err.textContent = errMsg;
+}
+
+function saveTradeFromKeypad(){
+  const T = window._trade; if (!T) return;
+  const price = parseFloat(T.price);
+  const qty = parseFloat(T.qty);
+  if (!isFinite(price) || price <= 0 || !isFinite(qty) || qty <= 0) return;
+  const h = holdings.find(x => x.id === T.holdId);
+  if (!h) return;
+  // Create transaction
+  if (!h.transactions) h.transactions = [];
+  h.transactions.push({ id: uid(), type: T.type, qty, price, date: today(), ts: Date.now() });
+  const totalCost = qty * price;
+  if (T.type === 'buy'){
+    setPfCash(getPfCash() - totalCost);
+  } else {
+    setPfCash(getPfCash() + totalCost);
+  }
+  logActivity(T.type, { ticker: T.ticker, qty, price, total: totalCost });
+  save();
+  closeModal();
+  setActiveTab('portfolio');
+  toast(lang==='ar'? (T.type==='buy'?'تم الشراء':'تم البيع') : (T.type==='buy'?'Bought':'Sold'));
+}
+
+function openTradeOld(holdId, type){
+  const h = holdings.find(x => x.id === holdId);
+  if (!h) return;
   const isBuy = type === 'buy';
   const title = isBuy ? (lang==='ar'?'شراء '+h.ticker:'Buy '+h.ticker)
                        : (lang==='ar'?'بيع '+h.ticker:'Sell '+h.ticker);
@@ -3857,39 +4124,82 @@ function addCashTx(type){
     toast(lang==='ar'?'محفظة التدريب لا تقبل إيداع/سحب':'Paper portfolio is locked');
     return;
   }
+  const ar = lang === 'ar';
+  const isDep = type === 'deposit';
+  const curCash = getPfCash();
+  const rate = 3.7350;
+  const titleAr = isDep ? 'إيداع' : 'سحب';
+  const titleEn = isDep ? 'Deposit' : 'Withdraw';
+  const balLbl = isDep ? (ar?'رصيدك الحالي':'Current balance') : (ar?'رصيد قابل للسحب':'Available to withdraw');
+  const amtLbl = isDep ? (ar?'قيمة الإيداع':'Deposit amount') : (ar?'قيمة السحب':'Withdraw amount');
   modal(`
-    <h2>${type==='deposit'?(lang==='ar'?'إيداع كاش':'Deposit cash'):(lang==='ar'?'سحب كاش':'Withdraw cash')}</h2>
-    <div class="grid2">
-      <div class="field"><label>${lang==='ar'?'المبلغ':'Amount'} <small style="color:#444">$</small></label>
-        <input class="inp" id="ch_a" type="number" step="any" inputmode="decimal" placeholder="1000"></div>
-      <div class="field"><label>${lang==='ar'?'التاريخ':'Date'}</label>
-        <input class="inp" id="ch_d" type="date" value="${today()}"></div>
+    <div class="sd-page">
+      <div class="sd-topbar cash-topbar">
+        <button class="sd-back" onclick="closeModal()" aria-label="Back">
+          <svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg>
+        </button>
+        <div class="cash-title">${ar?titleAr:titleEn}</div>
+        <div style="width:36px"></div>
+      </div>
+      <div class="sd-content cash-content">
+        <div class="cash-bal-card">
+          <div class="cash-bal-r">
+            <div class="cash-bal-lbl">${balLbl}</div>
+            <div class="cash-bal-rate">${ar?'سعر الصرف':'Exchange'} ${rate.toFixed(4)} ﷼ = $1</div>
+          </div>
+          <div class="cash-bal-l">
+            <div class="cash-bal-val">${fmtUSD(curCash)}</div>
+            <div class="cash-bal-sar">≈ ${(curCash * rate).toFixed(2)} ﷼</div>
+          </div>
+        </div>
+        <div class="cash-input-card">
+          <input class="cash-input" id="ch_a" type="number" step="any" inputmode="decimal" placeholder="$" oninput="updateCashContinueBtn('${type}',${curCash})">
+          <label class="cash-input-lbl" for="ch_a">${amtLbl}</label>
+        </div>
+        <div class="cash-err" id="ch_err"></div>
+      </div>
+      <div class="sd-trade-bar">
+        <button class="cash-continue" id="ch_continue" disabled onclick="doCashTx('${type}')">${ar?'استمرار':'Continue'}</button>
+      </div>
     </div>
-    <div class="field"><label>${lang==='ar'?'ملاحظة':'Note'} <small style="color:#444">${t().optional}</small></label>
-      <input class="inp" id="ch_n" placeholder="${lang==='ar'?'مصدر الإيداع/سبب السحب':'source / reason'}"></div>
-    <div class="err" id="ch_err"></div>
-    <div class="m-actions">
-      <button class="btn" onclick="openSettings()">${t().cancel}</button>
-      <button class="btn primary" onclick="doCashTx('${type}')">${t().save}</button>
-    </div>
-  `);
-  setTimeout(()=>$("#ch_a")?.focus(),60);
+  `, {fullpage:true});
+  setTimeout(()=>$("#ch_a")?.focus(),100);
 }
+
+function updateCashContinueBtn(type, curCash){
+  const amt = parseFloat($("#ch_a")?.value || '0');
+  const btn = $("#ch_continue");
+  const err = $("#ch_err");
+  if (!btn) return;
+  if (!isFinite(amt) || amt <= 0){
+    btn.disabled = true;
+    if (err) err.textContent = '';
+    return;
+  }
+  if (type === 'withdraw' && amt > curCash){
+    btn.disabled = true;
+    if (err) err.textContent = lang==='ar'?`الرصيد ${fmtUSD(curCash)} فقط`:`Balance is only ${fmtUSD(curCash)}`;
+    return;
+  }
+  btn.disabled = false;
+  if (err) err.textContent = '';
+}
+
 function doCashTx(type){
   if (activeIsPaper()) return;
   const amount = parseFloat($("#ch_a").value);
   if (!isFinite(amount) || amount <= 0){ $("#ch_err").textContent = lang==='ar'?'مبلغ غير صحيح':'invalid'; return; }
-  const date = $("#ch_d").value || today();
-  const note = $("#ch_n").value.trim();
   const curCash = getPfCash();
   if (type === 'withdraw' && amount > curCash){
-    $("#ch_err").textContent = lang==='ar'?`الرصيد ${fmtMoney(curCash)} فقط`:`Balance is only ${fmtMoney(curCash)}`;
+    $("#ch_err").textContent = lang==='ar'?`الرصيد ${fmtUSD(curCash)} فقط`:`Balance is only ${fmtUSD(curCash)}`;
     return;
   }
-  pushPfCashHistory({ id: uid(), type, amount, date, note, ts: Date.now() });
+  pushPfCashHistory({ id: uid(), type, amount, date: today(), note: '', ts: Date.now() });
   setPfCash(curCash + (type === 'deposit' ? amount : -amount));
+  logActivity(type, { amount, pfId: settings.activePf });
   closeModal();
-  openSettings();
+  setActiveTab('portfolio');
+  toast(lang==='ar'? (type==='deposit'?'تم الإيداع':'تم السحب') : (type==='deposit'?'Deposited':'Withdrew'));
 }
 function delCashTx(id){
   if (activeIsPaper()) return;
@@ -8017,6 +8327,78 @@ async function runDiagnostic(){
 }
 
 /* ════ refresh prices via Finnhub ════ */
+// Market session detection (US ET-based)
+function getMarketSession(){
+  const now = new Date();
+  // Get ET time (NY)
+  const etStr = now.toLocaleString('en-US', { timeZone: 'America/New_York', hour12: false });
+  // etStr format: "06/25/2026, 14:30:45"
+  const [datePart, timePart] = etStr.split(', ');
+  const [hh, mm] = timePart.split(':').map(Number);
+  const minutes = hh * 60 + mm;
+  // Check weekday (0=Sun, 6=Sat) - use ET-based date
+  const [m, d, y] = datePart.split('/').map(Number);
+  const etDate = new Date(y, m-1, d);
+  const dow = etDate.getDay();
+  if (dow === 0 || dow === 6) return { session: 'closed', label: { ar: 'مغلق', en: 'Closed' } };
+  // Regular: 9:30am - 4:00pm ET = 570 - 960
+  // Pre: 4:00am - 9:30am = 240 - 570
+  // After: 4:00pm - 8:00pm = 960 - 1200
+  if (minutes >= 570 && minutes < 960) return { session: 'live', label: { ar: 'السوق مفتوح', en: 'Live Market' } };
+  if (minutes >= 240 && minutes < 570) return { session: 'pre', label: { ar: 'قبل الافتتاح', en: 'Pre-Market' } };
+  if (minutes >= 960 && minutes < 1200) return { session: 'after', label: { ar: 'بعد الإغلاق', en: 'After Hours' } };
+  return { session: 'closed', label: { ar: 'مغلق', en: 'Closed' } };
+}
+
+function getMarketSessionPill(){
+  const s = getMarketSession();
+  const ar = lang === 'ar';
+  const colors = {
+    live:   { bg: '#0F2A1F', txt: '#5FE9B0', dot: '#5FE9B0' },
+    pre:    { bg: '#1A1F0F', txt: '#E8B96A', dot: '#E8B96A' },
+    after:  { bg: '#1F0F1F', txt: '#A78BFA', dot: '#A78BFA' },
+    closed: { bg: '#1F1F22', txt: '#7A7A82', dot: '#7A7A82' },
+  };
+  const c = colors[s.session];
+  return `<span class="mkt-pill" style="background:${c.bg};color:${c.txt}"><span class="mkt-dot" style="background:${c.dot}"></span>${s.label[ar?'ar':'en']}</span>`;
+}
+
+async function loadWhyMoved(holdId, ticker, todayPct){
+  const el = document.getElementById(`why-moved-${holdId}`);
+  if (!el) return;
+  if (todayPct == null || Math.abs(todayPct) < 0.5) return; // Only show if significant move
+  const up = todayPct >= 0;
+  const ar = lang === 'ar';
+  try {
+    const today = new Date();
+    const fromD = new Date(today.getTime() - 2 * 86400000);
+    const fmt = (d) => d.toISOString().split('T')[0];
+    const r = await fetch(`${FINNHUB}/company-news?symbol=${encodeURIComponent(ticker)}&from=${fmt(fromD)}&to=${fmt(today)}&token=${FINNHUB_KEY}`);
+    if (!r.ok) return;
+    const news = await r.json();
+    if (!Array.isArray(news) || !news.length) return;
+    const top = news[0];
+    if (!top.headline) return;
+    const timeStr = new Date((top.datetime || Date.now()/1000) * 1000).toLocaleString(ar?'ar-SA-u-ca-gregory':'en-US', { hour:'2-digit', minute:'2-digit' });
+    const title = ar ? (up ? 'لماذا ارتفع السهم؟' : 'لماذا نزل السهم؟') : (up ? 'Why is the stock up?' : 'Why is the stock down?');
+    el.innerHTML = `
+      <h2 class="wm-title">
+        <span class="wm-icon ${up?'up':'down'}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="${up?'23 6 13.5 15.5 8.5 10.5 1 18':'23 18 13.5 8.5 8.5 13.5 1 6'}"/>
+            <polyline points="${up?'17 6 23 6 23 12':'17 18 23 18 23 12'}"/>
+          </svg>
+        </span>
+        ${title}
+      </h2>
+      <div class="wm-card ${up?'up':'down'}">
+        <p class="wm-text">${esc(top.summary || top.headline)}</p>
+        <div class="wm-time">${ar?'اليوم':'Today'}, ${timeStr}</div>
+      </div>
+    `;
+  } catch(e){}
+}
+
 async function refreshPrices(){
   if (!allHoldingsInPf().length){ toast(t().add_first); return; }
   const btn = $("#refresh-btn");
@@ -8224,7 +8606,7 @@ function renderSplash(){
         <div class="mkt-feat-grid">
           <div class="mfg-card big">
             <div class="mfg-ic">${icn('bolt')}</div>
-            <h3>${ar?'مساعد ذكي ':'AI Coach by '} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
+            <h3>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'} <span class="prem-tag">${ar?'بريميوم':'PREMIUM'}</span></h3>
             <p>${ar?'تحليل فني لأي سهم بنقرة، توصيات بناءً على بياناتك، وإجابات على أسئلتك الاستثمارية لحظياً.':'Technical analysis on tap, data-driven recommendations, and instant answers to your investing questions.'}</p>
           </div>
 
@@ -8376,7 +8758,7 @@ function renderSplash(){
             <div class="ds">${ar?'كل ما في الأساسي + قوة الذكاء الاصطناعي.':'Everything in Basic, supercharged with AI.'}</div>
             <ul>
               <li><span class="check-pr"></span>${ar?'كل مميزات الأساسي':'All Basic features'}</li>
-              <li><span class="check-pr"></span>${ar?'مساعد ذكي ':'AI Coach by '}</li>
+              <li><span class="check-pr"></span>${ar?'مساعد ذكي بـClaude':'AI Coach by Claude'}</li>
               <li><span class="check-pr"></span>${ar?'تحليل فني AI لأي سهم':'AI technical analysis'}</li>
               <li><span class="check-pr"></span>${ar?'ملخّص أرباح ذكي':'Smart earnings summaries'}</li>
               <li><span class="check-pr"></span>${ar?'تنبيهات أسعار فورية':'Real-time price alerts'}</li>
