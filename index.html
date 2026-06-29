@@ -952,6 +952,120 @@ body[dir="ltr"] .wm-text{text-align:left}
 .wm-time{margin-top:12px;font-size:12px;color:#7A7A82;text-align:end}
 body[dir="ltr"] .wm-time{text-align:start}
 
+/* Watchlist top bar (v19) */
+.wl-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-direction:row-reverse;position:relative}
+body[dir="ltr"] .wl-top-bar{flex-direction:row}
+.wl-top-actions{display:flex;gap:8px;align-items:center;flex-direction:row-reverse}
+body[dir="ltr"] .wl-top-actions{flex-direction:row}
+.wl-icon-btn{width:36px;height:36px;border-radius:50%;background:transparent;border:1.5px solid #2A2D34;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;transition:.15s}
+.wl-icon-btn:hover{background:#1A1A1D;border-color:#3A3A40}
+.wl-icon-btn svg{width:16px;height:16px}
+.wl-icon-btn.wl-plus{border-color:var(--accent)}
+.wl-icon-btn.wl-plus svg{color:var(--accent)}
+.wl-icon-btn.wl-dots{border:none}
+.wl-icon-btn.wl-dots svg{width:18px;height:18px}
+.wl-menu-dropdown{position:absolute;top:48px;background:#1A1A1D;border-radius:14px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.6);z-index:50;min-width:180px;border:0.5px solid #2A2D34}
+body[dir="rtl"] .wl-menu-dropdown{left:auto;right:0}
+body[dir="ltr"] .wl-menu-dropdown{right:auto;left:0}
+.wl-menu-item{display:flex;align-items:center;gap:12px;width:100%;background:transparent;border:none;padding:11px 14px;color:#fff;font-size:14px;font-family:inherit;cursor:pointer;border-radius:9px;flex-direction:row-reverse;text-align:end}
+body[dir="ltr"] .wl-menu-item{flex-direction:row;text-align:start}
+.wl-menu-item:hover{background:#22222A}
+.wl-menu-item svg{width:18px;height:18px;color:#fff;flex-shrink:0}
+.wl-menu-item span{flex:1}
+
+/* Market session badge per row */
+.wr-session{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#A8A8B0;margin-top:6px;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.wr-session svg{width:13px;height:13px}
+.wr-session.live{color:var(--accent)}
+.wr-session.live .wr-session-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);display:inline-block}
+.wr-session.pre{color:#E8B96A}
+.wr-session.pre svg{color:#E8B96A}
+.wr-session.after{color:#A78BFA}
+.wr-session.after svg{color:#A78BFA;transform:rotate(-20deg)}
+
+/* Edit/Create list page fields */
+.el-current-card{background:#1A1A1D;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;flex-direction:row-reverse}
+body[dir="ltr"] .el-current-card{flex-direction:row}
+.el-current-icon{width:44px;height:44px;border-radius:12px;background:#0E0E10;display:grid;place-items:center;color:#E8B96A;flex-shrink:0;border:0.5px solid #2A2D34}
+.el-current-icon svg{width:22px;height:22px}
+.el-current-info{flex:1;text-align:end}
+body[dir="ltr"] .el-current-info{text-align:start}
+.el-current-name{font-size:16px;font-weight:700;color:#fff}
+.el-current-count{font-size:12px;color:#7A7A82;margin-top:3px}
+.el-lbl{display:block;font-size:13px;color:#A8A8B0;font-weight:500;text-align:end}
+body[dir="ltr"] .el-lbl{text-align:start}
+.el-icons,.el-colors{display:flex;gap:10px;flex-direction:row-reverse}
+body[dir="ltr"] .el-icons,body[dir="ltr"] .el-colors{flex-direction:row}
+.el-icon-btn{width:50px;height:50px;border-radius:12px;background:transparent;border:1.5px solid #2A2D34;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;transition:.15s}
+.el-icon-btn:hover{background:#1A1A1D}
+.el-icon-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(95,233,176,.08)}
+.el-icon-btn svg{width:20px;height:20px}
+.el-color-btn{width:42px;height:42px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;transition:.15s;padding:0}
+.el-color-btn.on{border-color:#fff;transform:scale(1.05)}
+.el-privacy{background:#1A1A1D;border-radius:14px;padding:14px 16px;display:flex;align-items:center;cursor:pointer;flex-direction:row-reverse}
+body[dir="ltr"] .el-privacy{flex-direction:row}
+
+/* Add Stock Page (v19) */
+.add-stock-topbar{justify-content:space-between}
+.add-stock-content{padding:18px 22px}
+.as-search{background:#1A1A1D;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;margin-bottom:22px;flex-direction:row-reverse}
+body[dir="ltr"] .as-search{flex-direction:row}
+.as-search-ic{color:#7A7A82;flex-shrink:0;display:grid;place-items:center}
+.as-search-ic svg{width:17px;height:17px}
+.as-search-inp{flex:1;background:transparent;border:none;color:#fff;font-size:15px;outline:none;font-family:inherit;text-align:end}
+body[dir="ltr"] .as-search-inp{text-align:start}
+.as-search-inp::placeholder{color:#5A5A62}
+.as-popular-head{font-size:13px;color:#A8A8B0;margin-bottom:12px;text-align:end;font-weight:600}
+body[dir="ltr"] .as-popular-head{text-align:start}
+.as-popular-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.as-pop-card{background:#161618;border:0.5px solid #1F1F22;border-radius:14px;padding:10px 8px 12px;position:relative;cursor:pointer;transition:.15s;text-align:center}
+.as-pop-card:hover{background:#1F1F22}
+.as-pop-star{position:absolute;top:6px;${'right'};background:none;border:none;color:#5A5A62;cursor:pointer;padding:4px;display:grid;place-items:center}
+body[dir="rtl"] .as-pop-star{left:6px;right:auto}
+body[dir="ltr"] .as-pop-star{right:6px;left:auto}
+.as-pop-star svg{width:14px;height:14px}
+.as-pop-star:hover{color:var(--accent)}
+.as-pop-logo{width:38px;height:38px;border-radius:10px;background:#fff;color:#000;font-size:10px;font-weight:800;display:grid;place-items:center;margin:6px auto 8px;overflow:hidden}
+.as-pop-logo img{width:100%;height:100%;object-fit:contain;padding:5px;box-sizing:border-box;background:#fff}
+.as-pop-tic{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;font-family:-apple-system,"SF Pro Display","Inter",sans-serif}
+.as-pop-name{font-size:10px;color:#7A7A82;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.as-pop-price{font-size:12.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif}
+.as-pop-chg{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
+.as-pop-chg .up{color:var(--accent)}
+.as-pop-chg .down{color:#F08080}
+.as-results-head{font-size:13px;color:#A8A8B0;margin-bottom:10px;text-align:end;font-weight:600}
+body[dir="ltr"] .as-results-head{text-align:start}
+
+/* Review Order */
+.asr-content{padding:16px 22px;display:flex;flex-direction:column;gap:14px}
+.asr-stock-card{background:#1A1A1D;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;flex-direction:row-reverse}
+body[dir="ltr"] .asr-stock-card{flex-direction:row}
+.asr-logo{width:54px;height:54px;border-radius:14px;background:#fff;color:#000;font-size:11px;font-weight:800;display:grid;place-items:center;overflow:hidden;flex-shrink:0}
+.asr-logo img{width:100%;height:100%;object-fit:contain;padding:6px;box-sizing:border-box}
+.asr-stock-info{flex:1;text-align:end}
+body[dir="ltr"] .asr-stock-info{text-align:start}
+.asr-stock-tic{font-size:18px;font-weight:700;color:#fff;font-family:-apple-system,"SF Pro Display",sans-serif}
+.asr-stock-name{font-size:12px;color:#7A7A82;margin-top:2px}
+.asr-stock-price{font-size:22px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif;margin-top:6px;letter-spacing:-.01em}
+.asr-stock-chg{font-size:13px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.asr-stock-chg.up{color:var(--accent)}
+.asr-stock-chg.down{color:#F08080}
+.asr-field{background:#161618;border:0.5px solid #25252A;border-radius:14px;padding:14px 18px;position:relative;transition:.15s}
+.asr-field:focus-within{border-color:var(--accent)}
+.asr-field label{display:block;font-size:11.5px;color:#7A7A82;margin-bottom:6px;text-align:end;font-weight:500}
+body[dir="ltr"] .asr-field label{text-align:start}
+.asr-input-wrap{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-direction:row-reverse}
+body[dir="ltr"] .asr-input-wrap{flex-direction:row}
+.asr-input-wrap input{background:transparent;border:none;color:#fff;font-size:16px;font-weight:600;font-family:-apple-system,"SF Pro Display",sans-serif;font-variant-numeric:tabular-nums;outline:none;flex:1;text-align:end;padding:0;-moz-appearance:textfield}
+body[dir="ltr"] .asr-input-wrap input{text-align:start}
+.asr-input-wrap input::-webkit-outer-spin-button,.asr-input-wrap input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.asr-unit{font-size:13.5px;color:#7A7A82;flex-shrink:0;font-weight:500}
+.asr-summary{background:#161618;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.asr-sum-row{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;flex-direction:row-reverse}
+body[dir="ltr"] .asr-sum-row{flex-direction:row}
+.asr-sum-l{color:#A8A8B0}
+.asr-sum-r{color:#fff;font-weight:700;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif}
+
 /* Stock Detail Sections v18 */
 .sd-section-h2{margin:24px 0 12px;font-size:20px;font-weight:700;letter-spacing:-.015em;color:#fff}
 body[dir="rtl"] .sd-section-h2{text-align:right;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
@@ -2879,7 +2993,231 @@ let editTags = []; // current edit's tags
 let editHorizon = null;
 let editType = 'stock'; // 'stock' | 'call' | 'put'
 
-function openAdd(){ editTags = []; editHorizon = null; editType = 'stock'; openEdit(); }
+function openAdd(){
+  editTags = []; editHorizon = null; editType = 'stock';
+  openAddStockSearch();
+}
+
+function openAddStockSearch(){
+  const ar = lang === 'ar';
+  modal(`
+    <div class="sd-page">
+      <div class="sd-topbar add-stock-topbar">
+        <button class="sd-back" onclick="closeModal()" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div class="cash-title">${ar?'إضافة سهم':'Add Stock'}</div>
+        <div style="width:36px"></div>
+      </div>
+      <div class="sd-content add-stock-content">
+        <div class="as-search">
+          <span class="as-search-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+          <input id="as_tic" class="as-search-inp" placeholder="${ar?'ابحث عن رمز أو اسم الشركة':'Search by symbol or company'}" oninput="liveSearch('as_tic','as_results')" autocomplete="off">
+        </div>
+        <div class="as-popular-head">
+          <span>${ar?'الأكثر تداولاً':'Most Traded'}</span>
+        </div>
+        <div class="as-popular-grid">
+          ${POPULAR_TICKERS.map(t => `
+            <div class="as-pop-card" onclick="openAddStockReview('${t.ticker}','${esc(t.name).replace(/'/g,"\\'")}')">
+              <button class="as-pop-star" onclick="event.stopPropagation();toggleWatchAdd('${t.ticker}','${esc(t.name).replace(/'/g,"\\'")}','${esc(settings.wlFilter||(ar?'أسهمي':'My Stocks'))}')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </button>
+              <div class="as-pop-logo" data-logo-tic="${esc(t.ticker)}">${esc(t.ticker.slice(0,2))}</div>
+              <div class="as-pop-tic">${esc(t.ticker)}</div>
+              <div class="as-pop-name">${esc(t.shortName||t.name)}</div>
+              <div class="as-pop-price" data-livep="${esc(t.ticker)}">—</div>
+              <div class="as-pop-chg" data-livec="${esc(t.ticker)}">—</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="as-results-head" id="as_results_head" style="display:none">${ar?'نتائج البحث':'Results'}</div>
+        <div id="as_results"></div>
+      </div>
+    </div>
+  `, {fullpage:true});
+  setTimeout(() => $("#as_tic")?.focus(), 100);
+  // Lazy load logos + prices for popular
+  setTimeout(() => {
+    lazyLoadLogos(POPULAR_TICKERS.map(t => t.ticker));
+    loadPopularPrices();
+  }, 50);
+}
+
+const POPULAR_TICKERS = [
+  { ticker:'AAPL', name:'Apple Inc.', shortName:'Apple Inc.' },
+  { ticker:'MSFT', name:'Microsoft Corp.', shortName:'Microsoft Corp.' },
+  { ticker:'NVDA', name:'NVIDIA Corp.', shortName:'NVIDIA Corp.' },
+  { ticker:'TSLA', name:'Tesla, Inc.', shortName:'Tesla, Inc.' },
+];
+
+async function loadPopularPrices(){
+  for (const t of POPULAR_TICKERS){
+    try {
+      const r = await fetch(`${FINNHUB}/quote?symbol=${t.ticker}&token=${FINNHUB_KEY}`);
+      if (!r.ok) continue;
+      const q = await r.json();
+      if (q.c == null) continue;
+      const pEl = document.querySelector(`[data-livep="${t.ticker}"]`);
+      const cEl = document.querySelector(`[data-livec="${t.ticker}"]`);
+      if (pEl) pEl.textContent = '$' + fmt(q.c, 2);
+      if (cEl && q.dp != null){
+        const up = q.dp >= 0;
+        cEl.innerHTML = `<span class="${up?'up':'down'}">${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.dp,2)}%</span>`;
+      }
+    } catch(e){}
+  }
+}
+
+function openAddStockReview(ticker, name, presetPrice){
+  const ar = lang === 'ar';
+  closeModal();
+  setTimeout(async () => {
+    // Try to fetch current price
+    let curPrice = presetPrice || 0;
+    let dayChange = null;
+    try {
+      const r = await fetch(`${FINNHUB}/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
+      if (r.ok){
+        const q = await r.json();
+        if (q.c) curPrice = q.c;
+        if (q.dp != null) dayChange = q.dp;
+      }
+    } catch(e){}
+    const todayStr = new Date().toISOString().slice(0,10);
+    modal(`
+      <div class="sd-page">
+        <div class="sd-topbar">
+          <button class="sd-back" onclick="closeModal();setTimeout(openAddStockSearch,150)"><svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg></button>
+          <div class="cash-title">${ar?'مراجعة الأمر':'Review Order'}</div>
+          <div style="width:36px"></div>
+        </div>
+        <div class="sd-content asr-content">
+          <div class="asr-stock-card">
+            <div class="asr-logo" data-logo-tic="${esc(ticker)}">${esc(ticker.slice(0,2))}</div>
+            <div class="asr-stock-info">
+              <div class="asr-stock-tic">${esc(ticker)}</div>
+              <div class="asr-stock-name">${esc(name)} · NASDAQ</div>
+              <div class="asr-stock-price">$${fmt(curPrice,2)}</div>
+              ${dayChange != null ? `<div class="asr-stock-chg ${dayChange>=0?'up':'down'}">${dayChange>=0?'▲':'▼'} ${(dayChange>=0?'+':'')}${fmt(dayChange,2)}%</div>` : ''}
+            </div>
+          </div>
+
+          <div class="asr-field">
+            <label>${ar?'عدد الأسهم':'Quantity'}</label>
+            <div class="asr-input-wrap">
+              <input type="number" inputmode="decimal" id="asr_qty" placeholder="10" oninput="updateAsrSummary(${curPrice})">
+              <span class="asr-unit">${ar?'سهم':'sh'}</span>
+            </div>
+          </div>
+
+          <div class="asr-field">
+            <label>${ar?'سعر الشراء (دولار)':'Buy Price (USD)'}</label>
+            <div class="asr-input-wrap">
+              <input type="number" inputmode="decimal" id="asr_price" value="${curPrice.toFixed(2)}" oninput="updateAsrSummary()">
+              <span class="asr-unit">USD</span>
+            </div>
+          </div>
+
+          <div class="asr-field">
+            <label>${ar?'تاريخ الشراء':'Buy Date'}</label>
+            <div class="asr-input-wrap">
+              <input type="date" id="asr_date" value="${todayStr}">
+            </div>
+          </div>
+
+          <div class="asr-field">
+            <label>${ar?'ملاحظات (اختياري)':'Notes (optional)'}</label>
+            <div class="asr-input-wrap">
+              <input type="text" id="asr_note" placeholder="${ar?'أضف ملاحظة...':'Add a note...'}">
+            </div>
+          </div>
+
+          <div class="asr-summary">
+            <div class="asr-sum-row">
+              <span class="asr-sum-l">${ar?'إجمالي التكلفة':'Total cost'}</span>
+              <span class="asr-sum-r" id="asr_total">$0.00</span>
+            </div>
+            <div class="asr-sum-row">
+              <span class="asr-sum-l">${ar?'القيمة الحالية':'Current value'}</span>
+              <span class="asr-sum-r" id="asr_cv">$0.00</span>
+            </div>
+            <div class="asr-sum-row">
+              <span class="asr-sum-l">${ar?'الأرباح/الخسارة غير المحققة':'Unrealized P&L'}</span>
+              <span class="asr-sum-r" id="asr_pl" style="color:#5FE9B0">+$0.00 (+0.00%)</span>
+            </div>
+          </div>
+
+          <input type="hidden" id="asr_tic" value="${esc(ticker)}">
+          <input type="hidden" id="asr_name" value="${esc(name)}">
+          <input type="hidden" id="asr_curp" value="${curPrice}">
+        </div>
+        <div style="padding:14px 22px 22px">
+          <button class="cash-continue" id="asr_save" onclick="saveAddStock()" style="margin-bottom:8px">${ar?'حفظ':'Save'}</button>
+          <button class="wl-cancel-btn" onclick="closeModal();setTimeout(openAddStockSearch,150)">${ar?'إلغاء':'Cancel'}</button>
+        </div>
+      </div>
+    `, {fullpage:true});
+    setTimeout(() => {
+      lazyLoadLogos([ticker]);
+      updateAsrSummary();
+    }, 50);
+  }, 150);
+}
+
+function updateAsrSummary(){
+  const qty = parseFloat($("#asr_qty")?.value || '0') || 0;
+  const buyPrice = parseFloat($("#asr_price")?.value || '0') || 0;
+  const curPrice = parseFloat($("#asr_curp")?.value || '0') || 0;
+  const total = qty * buyPrice;
+  const cv = qty * curPrice;
+  const pl = cv - total;
+  const plPct = total > 0 ? (pl / total * 100) : 0;
+  const up = pl >= 0;
+  const ar = lang === 'ar';
+  if ($("#asr_total")) $("#asr_total").textContent = '$' + fmt(total, 2);
+  if ($("#asr_cv")) $("#asr_cv").textContent = '$' + fmt(cv, 2);
+  if ($("#asr_pl")){
+    $("#asr_pl").innerHTML = `${up?'+':'-'}$${fmt(Math.abs(pl),2)} (${up?'+':''}${fmt(plPct,2)}%)`;
+    $("#asr_pl").style.color = up ? '#5FE9B0' : '#F08080';
+  }
+  const btn = $("#asr_save");
+  if (btn){
+    btn.disabled = !(qty > 0 && buyPrice > 0);
+  }
+}
+
+function saveAddStock(){
+  const qty = parseFloat($("#asr_qty")?.value || '0');
+  const price = parseFloat($("#asr_price")?.value || '0');
+  const date = $("#asr_date")?.value || today();
+  const note = $("#asr_note")?.value.trim() || '';
+  const ticker = $("#asr_tic")?.value || '';
+  const name = $("#asr_name")?.value || ticker;
+  const curPrice = parseFloat($("#asr_curp")?.value || '0');
+  if (!isFinite(qty) || qty <= 0 || !isFinite(price) || price <= 0) return;
+  // Check existing
+  const existing = holdings.find(h => h.pfId === settings.activePf && h.ticker === ticker && !h._isWatchOnly);
+  if (existing){
+    if (!existing.transactions) existing.transactions = [];
+    existing.transactions.push({ id: uid(), type:'buy', qty, price, date, ts: Date.now() });
+    if (note && !existing.notes) existing.notes = note;
+  } else {
+    const h = {
+      id: uid(), pfId: settings.activePf, ticker, name,
+      type: 'stock', price: curPrice, prev: null, dayChangePct: null,
+      target: null, stop: null, notes: note, horizon: null,
+      transactions: [{ id: uid(), type:'buy', qty, price, date, ts: Date.now() }],
+    };
+    holdings.push(h);
+  }
+  // Deduct cash if available
+  const total = qty * price;
+  setPfCash(getPfCash() - total);
+  logActivity('buy', { ticker, qty, price, total });
+  save();
+  closeModal();
+  setActiveTab('portfolio');
+  toast(lang==='ar'?`تم إضافة ${qty} ${ticker}`:`Added ${qty} ${ticker}`);
+}
 
 function openEdit(id){
   const h = id ? holdings.find(x => x.id === id) : null;
@@ -4592,10 +4930,37 @@ function renderWatchlist(){
   const items = allItems; // Show all by default - user can use lists to organize
   c.innerHTML = `
     <div class="watchlist-header">
-      <h1 class="watchlist-title">${lang==='ar'?'قائمة المتابعة':'Watchlist'}</h1>
+      <div class="wl-top-bar">
+        <div class="wl-top-actions">
+          <button class="wl-icon-btn wl-plus" onclick="openAddToWatchlist()" aria-label="Add">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <button class="wl-icon-btn" onclick="openEditList()" aria-label="Edit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+        </div>
+        <h1 class="watchlist-title">${lang==='ar'?'قائمة المتابعة':'Watchlist'}</h1>
+        <button class="wl-icon-btn wl-dots" onclick="event.stopPropagation();toggleWlMenu()" aria-label="More">
+          <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+      </div>
+      <div class="wl-menu-dropdown" id="wl_dropdown" style="display:none" onclick="event.stopPropagation()">
+        <button class="wl-menu-item" onclick="closeWlMenu();openCreateList()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1.5"/><circle cx="3" cy="12" r="1.5"/><circle cx="3" cy="18" r="1.5"/></svg>
+          <span>${lang==='ar'?'إنشاء قائمة جديدة':'Create new list'}</span>
+        </button>
+        <button class="wl-menu-item" onclick="closeWlMenu();openAddToWatchlist()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <span>${lang==='ar'?'إضافة سهم':'Add stock'}</span>
+        </button>
+        <button class="wl-menu-item" onclick="closeWlMenu();openWatchlistManage()">
+          ${icn('settings')}
+          <span>${lang==='ar'?'إدارة القوائم':'Manage lists'}</span>
+        </button>
+      </div>
       <div class="watchlist-tabs">
-        <button class="wl-tab on">${lang==='ar'?'أسهمي':'My Stocks'}</button>
-        <button class="wl-edit" onclick="openWatchlistManage()">${icn('settings')}</button>
+        <button class="wl-tab on">${esc(settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks'))}</button>
+        <div style="width:18px"></div>
       </div>
     </div>
     <div class="watch-list">${items.map(w => {
@@ -4604,19 +4969,19 @@ function renderWatchlist(){
       const logoHTML = cachedLogo
         ? `<div class="wr-logo"><img src="${cachedLogo}" alt="${esc(w.ticker)}" onerror="this.parentElement.innerHTML='${esc(w.ticker.slice(0,4))}';this.parentElement.classList.add('fallback')"></div>`
         : `<div class="wr-logo fallback" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
-      // Mini sparkline (use day change to color)
       const spark = miniSparkline(w.ticker, up, w.dayChangePct);
-      const earnPill = earnBadge(w.ticker);
+      const sessionBadge = getRowSessionBadge();
       return `<div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')">
         ${logoHTML}
         <div class="wr-info">
-          <div class="wr-tic">${esc(w.ticker)}${earnPill}</div>
+          <div class="wr-tic">${esc(w.ticker)}</div>
           <div class="wr-name">${esc(w.name || '')}</div>
         </div>
         ${spark}
         <div class="wr-price-col">
           <div class="wr-price" data-price-tic="${esc(w.ticker)}">${w.price!=null?'$'+fmt(w.price,2):'—'}</div>
           ${w.dayChangePct!=null?`<div class="wr-change ${up?'up':'down'}"><span class="wr-change-tri">${up?'▲':'▼'}</span>${up?'+':''}${fmt(w.dayChangePct,2)}% ${w.price&&w.dayChangePct!=null?`$${fmt(Math.abs(w.price*w.dayChangePct/100),3)}`:''}</div>`:''}
+          ${sessionBadge}
         </div>
       </div>`;
     }).join("")}</div>
@@ -8623,6 +8988,210 @@ async function runDiagnostic(){
 
 /* ════ refresh prices via Finnhub ════ */
 // Market session detection (US ET-based)
+function getRowSessionBadge(){
+  const s = getMarketSession();
+  const ar = lang === 'ar';
+  if (s.session === 'live'){
+    return `<div class="wr-session live"><span class="wr-session-dot"></span>${ar?'السوق مفتوح':'Market Open'}</div>`;
+  }
+  if (s.session === 'pre'){
+    return `<div class="wr-session pre">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2 M12 20v2 M4.93 4.93l1.41 1.41 M17.66 17.66l1.41 1.41 M2 12h2 M20 12h2 M4.93 19.07l1.41-1.41 M17.66 6.34l1.41-1.41"/></svg>
+      ${ar?'قبل الافتتاح':'Pre-Market'}
+    </div>`;
+  }
+  if (s.session === 'after'){
+    return `<div class="wr-session after">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      ${ar?'بعد الإغلاق':'After Hours'}
+    </div>`;
+  }
+  return '';
+}
+
+function toggleWlMenu(){
+  const el = document.getElementById('wl_dropdown');
+  if (!el) return;
+  const open = el.style.display !== 'none';
+  if (open){
+    el.style.display = 'none';
+    document.removeEventListener('click', closeWlMenu);
+  } else {
+    el.style.display = 'block';
+    setTimeout(() => document.addEventListener('click', closeWlMenu), 10);
+  }
+}
+function closeWlMenu(){
+  const el = document.getElementById('wl_dropdown');
+  if (el) el.style.display = 'none';
+  document.removeEventListener('click', closeWlMenu);
+}
+
+function openAddToWatchlist(){
+  // Wrap existing addToWatchlist
+  addToWatchlist();
+}
+
+function openEditList(){
+  const ar = lang === 'ar';
+  const name = settings.wlFilter || (ar?'أسهمي':'My Stocks');
+  const meta = (settings.watchlistMeta && settings.watchlistMeta[name]) || { icon:'star', color:'blue', privacy:'private' };
+  modal(`
+    <div class="sd-page">
+      <div class="sd-topbar">
+        <button class="sd-back" onclick="closeModal()"><svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg></button>
+        <div class="cash-title">${ar?'تعديل القائمة':'Edit List'}</div>
+        <button class="sd-back" style="color:#F08080" onclick="deleteList('${esc(name)}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6 M14 11v6"/></svg>
+        </button>
+      </div>
+      <div class="sd-content" style="padding:18px 22px;display:flex;flex-direction:column;gap:18px">
+        <div class="el-current-card">
+          <div class="el-current-icon"><svg viewBox="0 0 24 24" fill="${meta.color==='gold'?'#E8B96A':'currentColor'}" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="el-current-info">
+            <div class="el-current-name">${esc(name)} <svg style="width:14px;height:14px;color:#7A7A82;display:inline-block;vertical-align:middle;margin-inline-start:4px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <div class="el-current-count">${watchlist.filter(w => w.pfId === settings.activePf && (w.wgroup||name)===name).length} ${ar?'أسهم':'stocks'}</div>
+          </div>
+          <span style="color:#7A7A82;font-size:18px">${ar?'‹':'›'}</span>
+        </div>
+        ${renderListEditFields(name, meta)}
+        <button class="cash-continue" id="el_save" onclick="saveEditList('${esc(name)}')" style="background:var(--accent);color:#000;cursor:pointer">${ar?'حفظ التغييرات':'Save changes'}</button>
+      </div>
+    </div>
+  `, {fullpage:true});
+}
+
+function renderListEditFields(name, meta){
+  const ar = lang === 'ar';
+  const icons = ['star','briefcase','chart','target','diamond'];
+  const colors = [
+    {k:'blue',v:'#5B6BE9'},
+    {k:'green',v:'#5FE9B0'},
+    {k:'gold',v:'#E8B96A'},
+    {k:'red',v:'#F08080'},
+    {k:'purple',v:'#C084FC'},
+  ];
+  return `
+    <div>
+      <label class="el-lbl">${ar?'تغيير الاسم':'Change name'}</label>
+      <input id="el_name" class="wl-create-input" value="${esc(name)}" style="margin-top:8px">
+    </div>
+    <div>
+      <label class="el-lbl">${ar?'تغيير الأيقونة':'Change icon'}</label>
+      <div class="el-icons" style="margin-top:8px">
+        ${icons.map(i => `<button class="el-icon-btn ${meta.icon===i?'on':''}" data-icon="${i}" onclick="document.querySelectorAll('.el-icon-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')">${getListIconSvg(i)}</button>`).join('')}
+      </div>
+    </div>
+    <div>
+      <label class="el-lbl">${ar?'تغيير اللون':'Change color'}</label>
+      <div class="el-colors" style="margin-top:8px">
+        ${colors.map(c => `<button class="el-color-btn ${meta.color===c.k?'on':''}" style="background:${c.v}" data-color="${c.k}" onclick="document.querySelectorAll('.el-color-btn').forEach(b=>b.classList.remove('on'));this.classList.add('on')"></button>`).join('')}
+      </div>
+    </div>
+    <div>
+      <label class="el-lbl">${ar?'خصوصية القائمة':'List privacy'}</label>
+      <div class="el-privacy" style="margin-top:8px">
+        <span style="display:inline-flex;width:16px;height:16px;color:#7A7A82;margin-inline-end:8px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <div style="flex:1">
+          <div style="font-size:14px;color:#fff;font-weight:600">${ar?'خاصة':'Private'}</div>
+          <div style="font-size:11.5px;color:#7A7A82;margin-top:2px">${ar?'لن يتم مشاركة هذه القائمة مع أي شخص':'This list will not be shared with anyone'}</div>
+        </div>
+        <span style="color:#7A7A82">${ar?'‹':'›'}</span>
+      </div>
+    </div>
+  `;
+}
+
+function getListIconSvg(name){
+  const icons = {
+    star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    briefcase: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>',
+    target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    diamond: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 12L2 9l4-6z"/><path d="M11 3 8 9l4 12 4-12-3-6"/><path d="M2 9h20"/></svg>',
+  };
+  return icons[name] || icons.star;
+}
+
+function openCreateList(){
+  const ar = lang === 'ar';
+  modal(`
+    <div class="sd-page">
+      <div class="sd-topbar">
+        <button class="sd-back" onclick="closeModal()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div class="cash-title">${ar?'إنشاء قائمة جديدة':'Create new list'}</div>
+        <div style="width:36px"></div>
+      </div>
+      <div class="sd-content" style="padding:18px 22px;display:flex;flex-direction:column;gap:18px">
+        <div>
+          <label class="el-lbl">${ar?'اسم القائمة':'List name'}</label>
+          <input id="cl_name" class="wl-create-input" placeholder="${ar?'مثال: استثمار طويل الأجل':'e.g. Long-term holdings'}" style="margin-top:8px" oninput="document.getElementById('cl_save').disabled = !this.value.trim()">
+        </div>
+        ${renderListEditFields('_new', { icon:'star', color:'blue', privacy:'private' })}
+        <button id="cl_save" class="cash-continue" disabled onclick="saveCreateList()" style="margin-top:6px">${ar?'إنشاء القائمة':'Create list'}</button>
+      </div>
+    </div>
+  `, {fullpage:true});
+  setTimeout(() => $("#cl_name")?.focus(), 100);
+}
+
+function saveCreateList(){
+  const ar = lang === 'ar';
+  const name = $("#cl_name")?.value.trim();
+  if (!name) return;
+  const icon = document.querySelector('.el-icon-btn.on')?.getAttribute('data-icon') || 'star';
+  const color = document.querySelector('.el-color-btn.on')?.getAttribute('data-color') || 'blue';
+  if (!settings.watchlistMeta) settings.watchlistMeta = {};
+  settings.watchlistMeta[name] = { icon, color, privacy:'private' };
+  if (!settings.watchlistNames) settings.watchlistNames = [];
+  if (!settings.watchlistNames.includes(name)) settings.watchlistNames.push(name);
+  settings.wlFilter = name;
+  save();
+  closeModal();
+  renderWatchlist();
+  toast(ar?`تم إنشاء "${name}"`:`"${name}" created`);
+}
+
+function saveEditList(oldName){
+  const ar = lang === 'ar';
+  const newName = $("#el_name")?.value.trim();
+  if (!newName) return;
+  const icon = document.querySelector('.el-icon-btn.on')?.getAttribute('data-icon') || 'star';
+  const color = document.querySelector('.el-color-btn.on')?.getAttribute('data-color') || 'blue';
+  if (!settings.watchlistMeta) settings.watchlistMeta = {};
+  settings.watchlistMeta[newName] = { icon, color, privacy:'private' };
+  // If renamed: update items
+  if (newName !== oldName){
+    watchlist.forEach(w => {
+      if (w.pfId === settings.activePf && (w.wgroup||oldName) === oldName){
+        w.wgroup = newName;
+      }
+    });
+    if (settings.watchlistMeta[oldName]) delete settings.watchlistMeta[oldName];
+    if (settings.watchlistNames){
+      settings.watchlistNames = settings.watchlistNames.map(n => n===oldName?newName:n);
+    }
+    settings.wlFilter = newName;
+  }
+  save();
+  closeModal();
+  renderWatchlist();
+  toast(ar?'تم حفظ التغييرات':'Changes saved');
+}
+
+function deleteList(name){
+  const ar = lang === 'ar';
+  if (!confirm(ar?`حذف القائمة "${name}"؟ سيتم حذف جميع الأسهم بداخلها.`:`Delete "${name}"? All stocks inside will be removed.`)) return;
+  watchlist = watchlist.filter(w => !(w.pfId === settings.activePf && (w.wgroup||name) === name));
+  if (settings.watchlistMeta && settings.watchlistMeta[name]) delete settings.watchlistMeta[name];
+  if (settings.watchlistNames) settings.watchlistNames = settings.watchlistNames.filter(n => n !== name);
+  settings.wlFilter = settings.watchlistNames?.[0] || (ar?'أسهمي':'My Stocks');
+  save();
+  closeModal();
+  renderWatchlist();
+  toast(ar?`تم حذف "${name}"`:`"${name}" deleted`);
+}
+
 function getMarketSession(){
   const now = new Date();
   // Get ET time (NY)
