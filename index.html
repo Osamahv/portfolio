@@ -1532,7 +1532,10 @@ body[dir="ltr"] .watchlist-tabs{flex-direction:row}
 .wl-edit svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 .watch-list{display:flex;flex-direction:column;gap:12px;background:transparent;border:none;border-radius:0;overflow:visible;padding:0;margin-top:16px}
-.watch-row{background:#0E0E10;border:1px solid #1A1A1D;border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;flex-direction:row-reverse;min-height:72px}
+.watch-row{background:#0E0E10;border:1px solid #1A1A1D;border-radius:18px;padding:14px 16px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px}
+.watch-row-main{display:flex;align-items:center;gap:12px;flex-direction:row-reverse;min-height:48px}
+body[dir="ltr"] .watch-row-main{flex-direction:row}
+.watch-row-session{padding-top:9px;border-top:0.5px solid #1A1A1D;width:100%}
 body[dir="ltr"] .watch-row{flex-direction:row}
 .watch-row:hover{border-color:#27272B}
 .watch-row.up{background:linear-gradient(to var(--gradDir, left),#0E1F18 0%,#0E0E10 55%)}
@@ -5002,17 +5005,19 @@ function renderWatchlist(){
       const spark = miniSparkline(w.ticker, up, w.dayChangePct);
       const sessionBadge = getRowSessionBadge(w);
       return `<div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')">
-        ${logoHTML}
-        <div class="wr-info">
-          <div class="wr-tic">${esc(w.ticker)}${earnsSoonBadge(w.ticker)}</div>
-          <div class="wr-name">${esc(w.name || '')}</div>
+        <div class="watch-row-main">
+          ${logoHTML}
+          <div class="wr-info">
+            <div class="wr-tic">${esc(w.ticker)}${earnsSoonBadge(w.ticker)}</div>
+            <div class="wr-name">${esc(w.name || '')}</div>
+          </div>
+          ${spark}
+          <div class="wr-price-col">
+            <div class="wr-price" data-price-tic="${esc(w.ticker)}">${w.price!=null?'$'+fmt(w.price,2):'—'}</div>
+            ${w.dayChangePct!=null?`<div class="wr-change ${up?'up':'down'}"><span class="wr-change-tri">${up?'▲':'▼'}</span>${up?'+':''}${fmt(w.dayChangePct,2)}% ${w.price&&w.dayChangePct!=null?`$${fmt(Math.abs(w.price*w.dayChangePct/100),3)}`:''}</div>`:''}
+          </div>
         </div>
-        ${spark}
-        <div class="wr-price-col">
-          <div class="wr-price" data-price-tic="${esc(w.ticker)}">${w.price!=null?'$'+fmt(w.price,2):'—'}</div>
-          ${w.dayChangePct!=null?`<div class="wr-change ${up?'up':'down'}"><span class="wr-change-tri">${up?'▲':'▼'}</span>${up?'+':''}${fmt(w.dayChangePct,2)}% ${w.price&&w.dayChangePct!=null?`$${fmt(Math.abs(w.price*w.dayChangePct/100),3)}`:''}</div>`:''}
-          ${sessionBadge}
-        </div>
+        ${sessionBadge ? `<div class="watch-row-session">${sessionBadge}</div>` : ''}
       </div>`;
     }).join("")}</div>
     <button class="wl-add-bottom" onclick="addToWatchlist()">
