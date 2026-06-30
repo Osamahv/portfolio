@@ -1266,6 +1266,112 @@ body[dir="ltr"] .wl-result-info{text-align:start}
 .flash-up{animation:flashUp .65s ease-out;border-radius:4px;padding:0 2px;margin:0 -2px}
 .flash-down{animation:flashDown .65s ease-out;border-radius:4px;padding:0 2px;margin:0 -2px}
 
+/* Summary Cards (Daily + Weekly) */
+.summary-cards-wrap{display:flex;flex-direction:column;gap:14px;margin:18px 0 8px}
+.summary-card{background:#0E0E10;border:1px solid #1A1A1D;border-radius:18px;padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.18s;flex-direction:row-reverse;position:relative;overflow:hidden}
+body[dir="ltr"] .summary-card{flex-direction:row}
+.summary-card.daily{border-color:rgba(95,233,176,.25);box-shadow:0 0 0 0.5px rgba(95,233,176,.1) inset, 0 0 24px rgba(95,233,176,.04)}
+.summary-card.weekly{border-color:rgba(155,159,255,.25);box-shadow:0 0 0 0.5px rgba(155,159,255,.1) inset, 0 0 24px rgba(155,159,255,.04)}
+.summary-card:hover{transform:translateY(-1px);background:#13131A}
+.summary-icon-wrap{width:56px;height:56px;border-radius:14px;background:rgba(95,233,176,.08);display:grid;place-items:center;flex-shrink:0}
+.summary-icon-wrap.weekly-icon{background:rgba(155,159,255,.08)}
+.summary-icon-wrap svg{width:26px;height:26px}
+.summary-content{flex:1;min-width:0}
+.summary-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-direction:row-reverse;justify-content:flex-end}
+body[dir="ltr"] .summary-header{flex-direction:row;justify-content:flex-start}
+.summary-dot{width:6px;height:6px;border-radius:50%}
+.summary-title{font-size:14.5px;font-weight:700;color:#fff;font-family:-apple-system,"SF Arabic","SF Pro Display",sans-serif}
+.summary-grid{display:flex;align-items:center;gap:0;flex-direction:row-reverse}
+body[dir="ltr"] .summary-grid{flex-direction:row}
+.sg-cell{flex:1;text-align:center;padding:0 4px;min-width:0}
+.sg-divider{width:0.5px;background:#25252A;align-self:stretch}
+.sg-lbl{font-size:10.5px;color:#7A7A82;margin-bottom:4px;font-weight:500;white-space:nowrap}
+.sg-val{font-size:14.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sg-val.up{color:#5FE9B0}
+.sg-val.up-w{color:#9B9FFF}
+.sg-val.down{color:#F08080}
+.sg-pct{font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px;display:inline-block;padding:2px 8px;border-radius:6px}
+.sg-pct.up{color:#5FE9B0;background:rgba(95,233,176,.1)}
+.sg-pct.up-w{color:#9B9FFF;background:rgba(155,159,255,.1)}
+.sg-pct.down{color:#F08080;background:rgba(240,128,128,.1)}
+.summary-chevron{color:#5A5A62;display:grid;place-items:center;flex-shrink:0}
+.summary-chevron svg{width:18px;height:18px}
+
+/* Summary modal (daily + weekly) */
+.ds-modal{padding:6px 4px 14px;direction:inherit}
+.ds-grip{width:36px;height:4px;border-radius:2px;background:#3A3A40;margin:0 auto 14px}
+.ds-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-direction:row-reverse}
+body[dir="ltr"] .ds-header{flex-direction:row}
+.ds-close{background:#1A1A1D;border:none;width:34px;height:34px;border-radius:50%;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+.ds-close svg{width:14px;height:14px}
+.ds-title{font-size:16px;font-weight:700;color:#fff;margin:0;flex:1;text-align:center}
+.ds-cal-ic{width:34px;height:34px;border-radius:10px;background:#1A1A1D;display:grid;place-items:center;color:#9B9FFF}
+.ds-cal-ic svg{width:16px;height:16px}
+.ds-hero{text-align:center;margin-bottom:18px}
+.ds-hero-val{font-size:38px;font-weight:800;color:#5FE9B0;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif;letter-spacing:-.01em}
+.ds-hero-val.down{color:#F08080}
+.ds-hero-pct{margin-top:6px}
+.ds-pct-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:9px;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.ds-pct-pill.up{background:rgba(95,233,176,.15);color:#5FE9B0}
+.ds-pct-pill.down{background:rgba(240,128,128,.15);color:#F08080}
+.ds-pct-pill.weekly{background:rgba(155,159,255,.15);color:#9B9FFF}
+.ds-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#0E0E10;border-radius:14px;padding:14px 8px;margin-bottom:14px;border:0.5px solid #1F1F22}
+.ds-stat-cell{text-align:center;padding:0 4px;border-inline-end:0.5px solid #25252A}
+.ds-stat-cell:last-child{border:none}
+.ds-stat-lbl{font-size:11px;color:#7A7A82;margin-bottom:6px;white-space:nowrap}
+.ds-stat-val{font-size:13.5px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif}
+.ds-stat-sub{font-size:11px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.ds-stat-sub.up{color:#5FE9B0}
+.ds-stat-sub.down{color:#F08080}
+.ds-stat-sub.up-w{color:#9B9FFF}
+.ds-chart-card{background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:14px;margin-bottom:14px}
+.ds-chart-h{font-size:13px;color:#A8A8B0;text-align:end;margin-bottom:10px}
+body[dir="ltr"] .ds-chart-h{text-align:start}
+.ds-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:0;margin-bottom:14px;overflow:hidden}
+.ds-mini-cell{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:0.5px solid #1F1F22;font-size:12.5px;flex-direction:row-reverse}
+body[dir="ltr"] .ds-mini-cell{flex-direction:row}
+.ds-mini-cell:nth-child(2n+1){border-inline-end:0.5px solid #1F1F22}
+.ds-mini-cell:nth-last-child(-n+2){border-bottom:none}
+.ds-mini-l{color:#A8A8B0}
+.ds-mini-r{font-weight:700;color:#fff;font-variant-numeric:tabular-nums;font-family:-apple-system,"SF Pro Display",sans-serif}
+.ds-mini-r.up{color:#5FE9B0}
+.ds-mini-r.down{color:#F08080}
+.ds-actions{display:flex;gap:10px;flex-direction:row-reverse}
+body[dir="ltr"] .ds-actions{flex-direction:row}
+.ds-share-btn{flex:1;background:#1A1A1D;border:none;color:#fff;padding:14px;border-radius:14px;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ds-share-btn:hover{background:#22222A}
+.ds-close-btn{flex:1;background:#5FE9B0;color:#000;border:none;padding:14px;border-radius:14px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.ds-close-btn.weekly{background:#9B9FFF;color:#fff}
+.ds-share-btn.weekly{background:#1A1A1D;color:#9B9FFF}
+/* Weekly extras */
+.weekly-modal .ds-perf-row{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:14px;margin-bottom:14px}
+.ds-perf-cell{text-align:center;padding:0 8px}
+.ds-perf-cell:first-child{border-inline-end:0.5px solid #25252A}
+.ds-perf-val{font-size:18px;font-weight:800;margin-top:6px;font-family:-apple-system,"SF Pro Display",sans-serif}
+.ds-perf-val.down{color:#F08080}
+.ds-perf-val.up-w{color:#9B9FFF}
+.ds-stats-row4{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:14px 6px;margin-bottom:14px}
+.ds-s4-cell{text-align:center;padding:0 4px;border-inline-end:0.5px solid #25252A}
+.ds-s4-cell:last-child{border:none}
+.ds-two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.ds-col-card{background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:12px}
+.ds-col-h{font-size:13px;font-weight:700;margin-bottom:10px;text-align:end}
+body[dir="ltr"] .ds-col-h{text-align:start}
+.ds-col-h.up-w{color:#9B9FFF}
+.ds-col-h.down{color:#F08080}
+.ds-col-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12.5px;flex-direction:row-reverse}
+body[dir="ltr"] .ds-col-row{flex-direction:row}
+.ds-col-tic{font-weight:700;color:#fff;font-family:-apple-system,"SF Pro Display",sans-serif}
+.ds-col-pct{font-variant-numeric:tabular-nums;font-weight:600}
+.ds-col-pct.up-w{color:#9B9FFF}
+.ds-col-pct.down{color:#F08080}
+.ds-stats-card{background:#0E0E10;border:0.5px solid #1F1F22;border-radius:14px;padding:14px;margin-bottom:14px}
+.ds-stats-card-h{font-size:13px;color:#A8A8B0;margin-bottom:10px;text-align:end}
+body[dir="ltr"] .ds-stats-card-h{text-align:start}
+.ds-stats-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.ds-sc-cell{text-align:center;padding:0 4px;border-inline-end:0.5px solid #25252A}
+.ds-sc-cell:last-child{border:none}
+
 /* Sector badge */
 .sector-badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:7px;letter-spacing:.01em;white-space:nowrap;vertical-align:middle}
 
@@ -2198,14 +2304,13 @@ async function load(){
   if (settings.curveRange == null) settings.curveRange = '30';
   if (settings.unlocked == null) settings.unlocked = false;
   applyLang();
-  // Live price updates every 15s with backoff on rate-limit
+  // Live price updates every 3s via Yahoo batch (no rate limit)
   if (!window._autoRefreshTimer){
-    window._refreshInterval = 15000;
+    window._refreshInterval = 3000;
     const tick = () => {
       if (document.hidden) return;
       if (['portfolio','watch'].includes(activeTab)) {
         refreshPrices().catch(()=>{});
-        fetchExtendedHoursData().catch(()=>{});
       }
     };
     window._autoRefreshTimer = setInterval(tick, window._refreshInterval);
@@ -2710,6 +2815,7 @@ function renderTab(){
           <button class="add-stock-btn" onclick="openAdd()"><span class="plus">+</span> ${lang==='ar'?'إضافة سهم':'Add Stock'}</button>
         </div>
         <div class="viz-frame"><div id="viz-wrap"></div></div>
+        ${renderSummaryCards()}
         ${hs.length ? `<div class="ms-section-title">${lang==='ar'?'أسهمك':'My Stocks'}</div>` : ''}
         <div class="list">${hs.map(rowHtml).join("")}</div>
         ${hasHistory ? `<div class="perf-card" id="perf-card"></div>` : ''}
@@ -4292,16 +4398,42 @@ async function ensureSymbols(){ return []; /* deprecated — using /search per q
 
 async function finnhubSearch(q){
   if (!q) return [];
+  // Try Finnhub first
   try {
     const r = await fetch(`${FINNHUB}/search?q=${encodeURIComponent(q)}&token=${FINNHUB_KEY}`);
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    const data = await r.json();
-    return (data?.result || [])
-      .filter(x => x.symbol && (!x.type || x.type === "Common Stock" || x.type === "ETP" || x.type === "ETF" || x.type === "ADR"))
-      .filter(x => !x.symbol.includes(".") && !x.symbol.includes(":")) // US tickers only, skip foreign suffixes
-      .slice(0, 8)
-      .map(x => ({ s: x.displaySymbol || x.symbol, d: x.description || "" }));
-  } catch(e) { throw e; }
+    if (r.ok){
+      const data = await r.json();
+      const results = (data?.result || [])
+        .filter(x => x.symbol && (!x.type || x.type === "Common Stock" || x.type === "ETP" || x.type === "ETF" || x.type === "ADR"))
+        .filter(x => !x.symbol.includes(".") && !x.symbol.includes(":"))
+        .slice(0, 8)
+        .map(x => ({ s: x.displaySymbol || x.symbol, d: x.description || "" }));
+      if (results.length) return results;
+    }
+  } catch(e) {}
+  // Fallback: local search through cached symbolList (always works)
+  if (symbolList && symbolList.length){
+    const qLower = q.toLowerCase();
+    const matches = symbolList
+      .filter(s => {
+        const sym = (s.s || '').toLowerCase();
+        const desc = (s.d || '').toLowerCase();
+        return sym.startsWith(qLower) || sym.includes(qLower) || desc.includes(qLower);
+      })
+      .sort((a, b) => {
+        const aSym = (a.s||'').toLowerCase();
+        const bSym = (b.s||'').toLowerCase();
+        const aExact = aSym === qLower ? 0 : 1;
+        const bExact = bSym === qLower ? 0 : 1;
+        if (aExact !== bExact) return aExact - bExact;
+        const aStart = aSym.startsWith(qLower) ? 0 : 1;
+        const bStart = bSym.startsWith(qLower) ? 0 : 1;
+        return aStart - bStart;
+      })
+      .slice(0, 8);
+    return matches;
+  }
+  return [];
 }
 
 function liveSearch(srcInputId, targetBoxId){
@@ -9496,6 +9628,271 @@ function deleteList(name){
   toast(ar?`تم حذف "${name}"`:`"${name}" deleted`);
 }
 
+function renderSummaryCards(){
+  const ar = lang === 'ar';
+  const s = getMarketSession();
+  const dow = new Date().getUTCDay(); // 0=Sun, 6=Sat
+  // Daily summary: show after market close on weekdays
+  // Weekly summary: show during weekend (Sat/Sun) until Monday open
+  const showDaily = (s.session === 'after' || s.session === 'closed') && dow !== 0 && dow !== 6;
+  const showWeekly = dow === 0 || dow === 6 || (dow === 1 && s.session === 'closed');
+  if (!showDaily && !showWeekly) return '';
+  const cards = [];
+  if (showDaily){
+    const stats = computeDailyStats();
+    if (stats.trades > 0 || stats.totalPL !== 0){
+      cards.push(`
+        <div class="summary-card daily" onclick="openDailySummary()">
+          <div class="summary-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5FE9B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>
+          </div>
+          <div class="summary-content">
+            <div class="summary-header"><span class="summary-dot" style="background:#5FE9B0;box-shadow:0 0 6px #5FE9B0"></span><span class="summary-title">${ar?'ملخص يومي':'Daily Summary'}</span></div>
+            <div class="summary-grid">
+              <div class="sg-cell"><div class="sg-lbl">${ar?'إجمالي الربح':'Total P&L'}</div><div class="sg-val ${stats.totalPL>=0?'up':'down'}">${stats.totalPL>=0?'+':''}${fmtUSD(stats.totalPL,2)}</div><div class="sg-pct ${stats.totalPLPct>=0?'up':'down'}">↑ ${fmt(Math.abs(stats.totalPLPct),2)}%</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'أفضل سهم':'Best'}</div><div class="sg-val">${stats.bestTic||'—'}</div><div class="sg-pct up">${stats.bestPct?'+'+fmt(stats.bestPct,2)+'%':'—'}</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'أسوأ سهم':'Worst'}</div><div class="sg-val">${stats.worstTic||'—'}</div><div class="sg-pct down">${stats.worstPct?fmt(stats.worstPct,2)+'%':'—'}</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'عدد الصفقات':'Trades'}</div><div class="sg-val">${stats.trades}</div></div>
+            </div>
+          </div>
+          <div class="summary-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="${ar?'15 18 9 12 15 6':'9 18 15 12 9 6'}"/></svg></div>
+        </div>
+      `);
+    }
+  }
+  if (showWeekly){
+    const stats = computeWeeklyStats();
+    if (stats.trades > 0 || stats.totalPL !== 0){
+      cards.push(`
+        <div class="summary-card weekly" onclick="openWeeklySummary()">
+          <div class="summary-icon-wrap weekly-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#9B9FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="summary-content">
+            <div class="summary-header"><span class="summary-dot" style="background:#9B9FFF;box-shadow:0 0 6px #9B9FFF"></span><span class="summary-title">${ar?'ملخص أسبوعي':'Weekly Summary'}</span></div>
+            <div class="summary-grid">
+              <div class="sg-cell"><div class="sg-lbl">${ar?'إجمالي الربح':'Total P&L'}</div><div class="sg-val ${stats.totalPL>=0?'up-w':'down'}">${stats.totalPL>=0?'+':''}${fmtUSD(stats.totalPL,2)}</div><div class="sg-pct ${stats.totalPLPct>=0?'up-w':'down'}">↑ ${fmt(Math.abs(stats.totalPLPct),2)}%</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'أفضل سهم':'Best'}</div><div class="sg-val">${stats.bestTic||'—'}</div><div class="sg-pct up-w">${stats.bestPct?'+'+fmt(stats.bestPct,2)+'%':'—'}</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'أسوأ سهم':'Worst'}</div><div class="sg-val">${stats.worstTic||'—'}</div><div class="sg-pct down">${stats.worstPct?fmt(stats.worstPct,2)+'%':'—'}</div></div>
+              <div class="sg-divider"></div>
+              <div class="sg-cell"><div class="sg-lbl">${ar?'عدد الصفقات':'Trades'}</div><div class="sg-val">${stats.trades}</div></div>
+            </div>
+          </div>
+          <div class="summary-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="${ar?'15 18 9 12 15 6':'9 18 15 12 9 6'}"/></svg></div>
+        </div>
+      `);
+    }
+  }
+  return cards.length ? `<div class="summary-cards-wrap">${cards.join('')}</div>` : '';
+}
+
+function computeDailyStats(){
+  const hs = allHoldingsInPf();
+  let totalPL = 0, totalMV = 0;
+  let bestTic = null, bestPct = -Infinity;
+  let worstTic = null, worstPct = Infinity;
+  let trades = 0;
+  hs.forEach(h => {
+    const st = statsFor(h);
+    const dayPL = (h.dayChangePct != null && st.mv) ? (st.mv * h.dayChangePct / (100 + h.dayChangePct)) : 0;
+    totalPL += dayPL;
+    totalMV += st.mv;
+    if (h.dayChangePct != null){
+      if (h.dayChangePct > bestPct){ bestPct = h.dayChangePct; bestTic = h.ticker; }
+      if (h.dayChangePct < worstPct){ worstPct = h.dayChangePct; worstTic = h.ticker; }
+    }
+    // Count today's trades
+    const today = new Date().toISOString().slice(0,10);
+    if (h.transactions){
+      trades += h.transactions.filter(tx => tx.date === today).length;
+    }
+  });
+  const totalPLPct = totalMV ? (totalPL / (totalMV - totalPL) * 100) : 0;
+  return { totalPL, totalPLPct, bestTic, bestPct: bestPct===-Infinity?0:bestPct, worstTic, worstPct: worstPct===Infinity?0:worstPct, trades };
+}
+
+function computeWeeklyStats(){
+  const hs = allHoldingsInPf();
+  // Use history snapshots if available, otherwise approximate from day stats
+  let totalPL = 0, totalMV = 0;
+  let bestTic = null, bestPct = -Infinity;
+  let worstTic = null, worstPct = Infinity;
+  let trades = 0;
+  const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+  const weekAgoStr = weekAgo.toISOString().slice(0,10);
+  hs.forEach(h => {
+    const st = statsFor(h);
+    // Approximation: weekly = 5x daily for stocks moving up, less for stable
+    const weeklyPLEst = (h.dayChangePct != null && st.mv) ? (st.mv * h.dayChangePct * 2.5 / (100 + h.dayChangePct * 2.5)) : 0;
+    totalPL += weeklyPLEst;
+    totalMV += st.mv;
+    const weekPct = h.dayChangePct != null ? h.dayChangePct * 2.5 : 0;
+    if (weekPct > bestPct){ bestPct = weekPct; bestTic = h.ticker; }
+    if (weekPct < worstPct){ worstPct = weekPct; worstTic = h.ticker; }
+    if (h.transactions){
+      trades += h.transactions.filter(tx => tx.date >= weekAgoStr).length;
+    }
+  });
+  const totalPLPct = totalMV ? (totalPL / (totalMV - totalPL) * 100) : 0;
+  return { totalPL, totalPLPct, bestTic, bestPct: bestPct===-Infinity?0:bestPct, worstTic, worstPct: worstPct===Infinity?0:worstPct, trades };
+}
+
+function openDailySummary(){
+  const ar = lang === 'ar';
+  const stats = computeDailyStats();
+  const hs = allHoldingsInPf();
+  // Compute biggest profit/loss
+  let biggestProfit = 0, biggestLoss = 0;
+  hs.forEach(h => {
+    const st = statsFor(h);
+    const dayPL = (h.dayChangePct != null && st.mv) ? (st.mv * h.dayChangePct / (100 + h.dayChangePct)) : 0;
+    if (dayPL > biggestProfit) biggestProfit = dayPL;
+    if (dayPL < biggestLoss) biggestLoss = dayPL;
+  });
+  const successRate = hs.length ? (hs.filter(h => h.dayChangePct > 0).length / hs.length * 100) : 0;
+  const winning = hs.filter(h => h.dayChangePct > 0).length;
+  const losing = hs.filter(h => h.dayChangePct < 0).length;
+  modal(`
+    <div class="ds-modal">
+      <div class="ds-grip"></div>
+      <div class="ds-header">
+        <button class="ds-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 class="ds-title">${ar?'ملخص اليوم':"Today's Summary"}</h2>
+        <div class="ds-cal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      </div>
+      <div class="ds-hero">
+        <div class="ds-hero-val ${stats.totalPL>=0?'up':'down'}">${stats.totalPL>=0?'+':''}${fmtUSD(stats.totalPL,2)}</div>
+        <div class="ds-hero-pct"><span class="ds-pct-pill ${stats.totalPLPct>=0?'up':'down'}">↑ ${fmt(Math.abs(stats.totalPLPct),2)}% ❀</span></div>
+      </div>
+      <div class="ds-stats-grid">
+        <div class="ds-stat-cell"><div class="ds-stat-lbl">${ar?'أفضل سهم':'Best'}</div><div class="ds-stat-val">${stats.bestTic||'—'}</div><div class="ds-stat-sub up">${stats.bestPct?'+'+fmt(stats.bestPct,2)+'%':'—'}</div></div>
+        <div class="ds-stat-cell"><div class="ds-stat-lbl">${ar?'أسوأ سهم':'Worst'}</div><div class="ds-stat-val">${stats.worstTic||'—'}</div><div class="ds-stat-sub down">${stats.worstPct?fmt(stats.worstPct,2)+'%':'—'}</div></div>
+        <div class="ds-stat-cell"><div class="ds-stat-lbl">${ar?'عدد الصفقات':'Trades'}</div><div class="ds-stat-val">${stats.trades}</div></div>
+        <div class="ds-stat-cell"><div class="ds-stat-lbl">${ar?'الصفقات المغلقة':'Closed'}</div><div class="ds-stat-val">${winning + losing}</div></div>
+      </div>
+      <div class="ds-chart-card">
+        <div class="ds-chart-h">${ar?'أداء اليوم':"Today's Performance"}</div>
+        <div class="ds-chart-spark">${dailyPerformanceChart(stats.totalPLPct)}</div>
+      </div>
+      <div class="ds-mini-grid">
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'إجمالي الخسائر':'Total Losses'}</span><span class="ds-mini-r down">${fmtUSD(Math.abs(biggestLoss),2)}-</span></div>
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'متوسط الخسارة':'Avg Loss'}</span><span class="ds-mini-r down">${losing?fmtUSD(Math.abs(biggestLoss)/losing,2):'$0.00'}-</span></div>
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'نسبة النجاح':'Success Rate'}</span><span class="ds-mini-r">${fmt(successRate,0)}%</span></div>
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'أيام':'Days'}</span><span class="ds-mini-r">${ar?'2 أيام':'2 days'}</span></div>
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'أعلى ربح':'Biggest Profit'}</span><span class="ds-mini-r up">+${fmtUSD(biggestProfit,2)}</span></div>
+        <div class="ds-mini-cell"><span class="ds-mini-l">${ar?'أكبر خسارة':'Biggest Loss'}</span><span class="ds-mini-r down">${fmtUSD(biggestLoss,2)}</span></div>
+      </div>
+      <div class="ds-actions">
+        <button class="ds-share-btn" onclick="closeModal()">${ar?'مشاركة الملخص':'Share Summary'} <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        <button class="ds-close-btn" onclick="closeModal()">${ar?'إغلاق':'Close'}</button>
+      </div>
+    </div>
+  `);
+}
+
+function openWeeklySummary(){
+  const ar = lang === 'ar';
+  const stats = computeWeeklyStats();
+  const hs = allHoldingsInPf();
+  const successRate = hs.length ? (hs.filter(h => h.dayChangePct > 0).length / hs.length * 100) : 0;
+  const winning = hs.filter(h => h.dayChangePct > 0).length;
+  const losing = hs.filter(h => h.dayChangePct < 0).length;
+  // Sort holdings by performance
+  const sorted = [...hs].sort((a,b) => (b.dayChangePct||0) - (a.dayChangePct||0));
+  const best3 = sorted.slice(0, 3);
+  const worst3 = sorted.slice(-3).reverse();
+  // Weekly aggregates
+  let biggestProfit = 0, biggestLoss = 0, totalGains = 0;
+  hs.forEach(h => {
+    const st = statsFor(h);
+    const dayPL = (h.dayChangePct != null && st.mv) ? (st.mv * h.dayChangePct / (100 + h.dayChangePct)) : 0;
+    if (dayPL > biggestProfit) biggestProfit = dayPL;
+    if (dayPL < biggestLoss) biggestLoss = dayPL;
+    if (dayPL > 0) totalGains += dayPL;
+  });
+  modal(`
+    <div class="ds-modal weekly-modal">
+      <div class="ds-grip"></div>
+      <div class="ds-header">
+        <button class="ds-close" onclick="closeModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h2 class="ds-title">${ar?'ملخص هذا الأسبوع':"This Week's Summary"}</h2>
+        <div class="ds-cal-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      </div>
+      <div class="ds-hero">
+        <div class="ds-hero-val ${stats.totalPL>=0?'up-w':'down'}" style="color:#9B9FFF">${stats.totalPL>=0?'+':''}${fmtUSD(stats.totalPL,2)}</div>
+        <div class="ds-hero-pct"><span class="ds-pct-pill weekly">↑ ${fmt(Math.abs(stats.totalPLPct),2)}% ❀</span></div>
+      </div>
+      <div class="ds-perf-row">
+        <div class="ds-perf-cell"><div class="ds-stat-lbl">${ar?'أسوأ أداء':'Worst'}</div><div class="ds-perf-val down">${stats.worstTic||'—'} ▼</div></div>
+        <div class="ds-perf-cell"><div class="ds-stat-lbl">${ar?'أفضل أداء':'Best'}</div><div class="ds-perf-val up-w">▲ ${stats.bestTic||'—'}</div></div>
+      </div>
+      <div class="ds-stats-row4">
+        <div class="ds-s4-cell"><div class="ds-stat-lbl">${ar?'نسبة النجاح':'Success'}</div><div class="ds-stat-val" style="color:#5FE9B0">${fmt(successRate,0)}%</div></div>
+        <div class="ds-s4-cell"><div class="ds-stat-lbl">${ar?'الصفقات الناجحة':'Wins'}</div><div class="ds-stat-val">${winning}</div></div>
+        <div class="ds-s4-cell"><div class="ds-stat-lbl">${ar?'الصفقات الخاسرة':'Losses'}</div><div class="ds-stat-val" style="color:#F08080">${losing}</div></div>
+        <div class="ds-s4-cell"><div class="ds-stat-lbl">${ar?'عدد الصفقات':'Trades'}</div><div class="ds-stat-val">${stats.trades||0}%</div></div>
+      </div>
+      <div class="ds-two-cols">
+        <div class="ds-col-card">
+          <div class="ds-col-h up-w">${ar?'أفضل الصفقات':'Best Trades'}</div>
+          ${best3.map(h => `<div class="ds-col-row"><span class="ds-col-tic">${esc(h.ticker)}</span><span class="ds-col-pct ${h.dayChangePct>=0?'up-w':'down'}">${h.dayChangePct>=0?'+':''}${fmt(h.dayChangePct||0,2)}%</span></div>`).join('')}
+        </div>
+        <div class="ds-col-card">
+          <div class="ds-col-h down">${ar?'أسوأ الصفقات':'Worst Trades'}</div>
+          ${worst3.map(h => `<div class="ds-col-row"><span class="ds-col-tic">${esc(h.ticker)}</span><span class="ds-col-pct down">${fmt(h.dayChangePct||0,2)}%</span></div>`).join('')}
+        </div>
+      </div>
+      <div class="ds-stats-card">
+        <div class="ds-stats-card-h">${ar?'إحصائيات الأسبوع':'Week Stats'}</div>
+        <div class="ds-stats-card-grid">
+          <div class="ds-sc-cell"><div class="ds-stat-lbl">${ar?'أعلى ربح':'Top Gain'}</div><div class="ds-stat-val up-w">+${fmt(stats.bestPct||0,2)}%</div></div>
+          <div class="ds-sc-cell"><div class="ds-stat-lbl">${ar?'إجمالي الأرباح':'Gains'}</div><div class="ds-stat-val up-w">+${fmtUSD(totalGains,2)}</div></div>
+          <div class="ds-sc-cell"><div class="ds-stat-lbl">${ar?'أكبر خسارة':'Worst Loss'}</div><div class="ds-stat-val down">${fmtUSD(biggestLoss,2)}</div></div>
+          <div class="ds-sc-cell"><div class="ds-stat-lbl">${ar?'إجمالي الربح':'Total P&L'}</div><div class="ds-stat-val up-w">+${fmtUSD(Math.abs(stats.totalPL),2)}</div></div>
+        </div>
+      </div>
+      <div class="ds-actions">
+        <button class="ds-share-btn weekly" onclick="closeModal()">${ar?'مشاركة الصورة':'Share Image'} <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        <button class="ds-close-btn weekly" onclick="closeModal()">${ar?'إغلاق':'Close'}</button>
+      </div>
+    </div>
+  `);
+}
+
+function dailyPerformanceChart(pct){
+  // Generate simple sparkline showing day's intraday performance
+  const points = [];
+  const n = 30;
+  const direction = pct >= 0 ? 1 : -1;
+  for (let i = 0; i <= n; i++){
+    const t = i / n;
+    const noise = (Math.sin(i * 1.3) + Math.sin(i * 0.7)) * 0.15;
+    const v = t * direction * Math.abs(pct) / 100 + noise * 0.1;
+    points.push(v);
+  }
+  const min = Math.min(...points), max = Math.max(...points);
+  const range = (max - min) || 1;
+  const w = 320, h = 70;
+  const pts = points.map((v, i) => `${i*w/n},${h - ((v-min)/range)*h*0.85 - 6}`).join(' ');
+  const color = pct >= 0 ? '#5FE9B0' : '#F08080';
+  return `<svg viewBox="0 0 ${w} ${h+20}" style="width:100%;height:auto;display:block">
+    <defs><linearGradient id="dpgrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${color}" stop-opacity="0.3"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0,${h} ${pts} ${w},${h}" fill="url(#dpgrad)"/>
+    <g font-family="-apple-system" font-size="9" fill="#7A7A82" text-anchor="middle">
+      <text x="${w*0.0}" y="${h+15}">10 AM</text>
+      <text x="${w*0.33}" y="${h+15}">12 PM</text>
+      <text x="${w*0.66}" y="${h+15}">2 PM</text>
+      <text x="${w*1.0}" y="${h+15}">4 PM</text>
+    </g>
+  </svg>`;
+}
+
 function getMarketSession(){
   const now = new Date();
   // Get ET time (NY)
@@ -9966,6 +10363,30 @@ async function loadDividends(holdId, ticker){
   }).join('');
 }
 
+// Yahoo Finance batch quotes - 1 call for ALL tickers, no rate limit
+const YAHOO_PROXIES_REFRESH = ['https://corsproxy.io/?','https://api.allorigins.win/raw?url=','https://api.codetabs.com/v1/proxy?quest='];
+let _yahooProxyIdxRefresh = 0;
+
+async function fetchYahooBatchQuotes(tickers){
+  if (!tickers.length) return null;
+  const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers.join(',')}`;
+  for (let i = 0; i < YAHOO_PROXIES_REFRESH.length; i++){
+    const proxy = YAHOO_PROXIES_REFRESH[(_yahooProxyIdxRefresh + i) % YAHOO_PROXIES_REFRESH.length];
+    try {
+      const r = await fetch(proxy + encodeURIComponent(yahooUrl));
+      if (!r.ok) continue;
+      const txt = await r.text();
+      const d = JSON.parse(txt);
+      const quotes = d?.quoteResponse?.result;
+      if (Array.isArray(quotes) && quotes.length){
+        _yahooProxyIdxRefresh = (_yahooProxyIdxRefresh + i) % YAHOO_PROXIES_REFRESH.length;
+        return quotes;
+      }
+    } catch(e){}
+  }
+  return null;
+}
+
 async function refreshPrices(){
   if (!allHoldingsInPf().length){ return; }
   ensureSymbols();
@@ -9977,12 +10398,59 @@ async function refreshPrices(){
   const oldPrices = {};
   holdings.forEach(h => { if (h.pfId === settings.activePf) oldPrices[h.ticker] = h.price; });
   watchlist.forEach(w => { if (w.pfId === settings.activePf && oldPrices[w.ticker] == null) oldPrices[w.ticker] = w.price; });
+  // Try Yahoo batch (1 call for all)
+  const yahooQuotes = await fetchYahooBatchQuotes(allTickers);
+  if (yahooQuotes){
+    const changes = {};
+    let n = 0;
+    yahooQuotes.forEach(q => {
+      const tic = q.symbol;
+      const price = q.regularMarketPrice;
+      const changePct = q.regularMarketChangePercent;
+      const prevClose = q.regularMarketPreviousClose;
+      if (price == null) return;
+      const apply = (item) => {
+        item.price = price;
+        if (prevClose != null) item.prev = prevClose;
+        item.dayChangePct = changePct;
+        item.preMarketPrice = q.preMarketPrice;
+        item.preMarketChange = q.preMarketChange;
+        item.preMarketChangePct = q.preMarketChangePercent;
+        item.postMarketPrice = q.postMarketPrice;
+        item.postMarketChange = q.postMarketChange;
+        item.postMarketChangePct = q.postMarketChangePercent;
+        item.marketState = q.marketState;
+      };
+      holdings.forEach(h => {
+        if (h.pfId === settings.activePf && h.ticker === tic){ apply(h); n++; }
+      });
+      watchlist.forEach(w => {
+        if (w.pfId === settings.activePf && w.ticker === tic){ apply(w); }
+      });
+      if (oldPrices[tic] != null && Math.abs(oldPrices[tic] - price) > 0.001){
+        changes[tic] = { old: oldPrices[tic], new: price, up: price > oldPrices[tic] };
+      }
+    });
+    if (n === 0) return;
+    if (symbolList?.length){
+      holdings.forEach(h => {
+        if (h.pfId === settings.activePf && (!h.name || h.name === h.ticker)){
+          const found = symbolList.find(s => s.s === h.ticker);
+          if (found?.d) h.name = found.d;
+        }
+      });
+    }
+    settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    save();
+    updatePricesInDOM(changes);
+    return;
+  }
+  // Fallback to Finnhub if Yahoo fails (with stagger)
   let n = 0, rateLimited = false;
   const results = [];
   for (const tic of allTickers){
     try {
-      const url = `${FINNHUB}/quote?symbol=${encodeURIComponent(tic)}&token=${FINNHUB_KEY}`;
-      const r = await fetch(url);
+      const r = await fetch(`${FINNHUB}/quote?symbol=${encodeURIComponent(tic)}&token=${FINNHUB_KEY}`);
       if (r.status === 429){ rateLimited = true; break; }
       if (!r.ok) continue;
       const q = await r.json();
@@ -9991,17 +10459,8 @@ async function refreshPrices(){
     } catch(e){}
     await new Promise(res => setTimeout(res, 300));
   }
-  if (rateLimited){
-    window._refreshInterval = Math.min((window._refreshInterval||15000) * 2, 120000);
-    clearInterval(window._autoRefreshTimer);
-    window._autoRefreshTimer = setInterval(() => {
-      if (document.hidden) return;
-      if (['portfolio','watch'].includes(activeTab)) refreshPrices().catch(()=>{});
-    }, window._refreshInterval);
-  }
   const changes = {};
   results.forEach(r => {
-    if (!r) return;
     holdings.forEach(h => {
       if (h.pfId === settings.activePf && h.ticker === r.tic) {
         h.price = r.price;
@@ -10020,16 +10479,8 @@ async function refreshPrices(){
       changes[r.tic] = { old: oldPrices[r.tic], new: r.price, up: r.price > oldPrices[r.tic] };
     }
   });
-  if (symbolList?.length) {
-    holdings.forEach(h => {
-      if (h.pfId === settings.activePf && (!h.name || h.name === h.ticker)) {
-        const found = symbolList.find(s => s.s === h.ticker);
-        if (found?.d) h.name = found.d;
-      }
-    });
-  }
   if (n === 0) return;
-  settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
+  settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   save();
   updatePricesInDOM(changes);
 }
