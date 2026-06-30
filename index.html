@@ -1266,6 +1266,33 @@ body[dir="ltr"] .wl-result-info{text-align:start}
 .flash-up{animation:flashUp .65s ease-out;border-radius:4px;padding:0 2px;margin:0 -2px}
 .flash-down{animation:flashDown .65s ease-out;border-radius:4px;padding:0 2px;margin:0 -2px}
 
+/* Watchlist swipe-to-delete */
+.watch-row-container{position:relative;overflow:hidden;border-radius:18px;margin-bottom:10px}
+.watch-row-delete{position:absolute;top:0;bottom:0;width:90px;background:#F08080;display:grid;place-items:center;color:#fff;z-index:1}
+body[dir="rtl"] .watch-row-delete{left:0}
+body[dir="ltr"] .watch-row-delete{right:0}
+.watch-row-delete svg{width:22px;height:22px}
+.watch-row-container .watch-row{position:relative;z-index:2;margin-bottom:0;will-change:transform}
+
+/* Watchlist tabs scroll */
+.watchlist-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.watchlist-tabs::-webkit-scrollbar{display:none}
+.wl-tab{flex-shrink:0}
+
+/* List picker modal */
+.list-picker-modal{padding:6px 4px 14px;direction:inherit}
+.lp-title{font-size:17px;font-weight:700;color:#fff;text-align:center;margin:8px 0 4px}
+.lp-sub{font-size:13px;color:#7A7A82;text-align:center;margin:0 0 18px}
+.lp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.lp-item{background:#1A1A1D;border:none;border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:inherit;color:#fff;text-align:end;flex-direction:row-reverse}
+body[dir="ltr"] .lp-item{flex-direction:row;text-align:start}
+.lp-item:hover{background:#22222A}
+.lp-item-info{flex:1}
+.lp-item-name{font-size:15px;font-weight:700;color:#fff}
+.lp-item-count{font-size:11.5px;color:#7A7A82;margin-top:3px}
+.lp-arrow{color:#5A5A62;font-size:20px}
+.lp-cancel{width:100%;background:transparent;border:1px solid #2A2D34;color:#fff;padding:14px;border-radius:14px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}
+
 /* Summary Cards (Daily + Weekly) */
 .summary-cards-wrap{display:flex;flex-direction:column;gap:14px;margin:18px 0 8px}
 .summary-card{background:#0E0E10;border:1px solid #1A1A1D;border-radius:18px;padding:14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.18s;flex-direction:row-reverse;position:relative;overflow:hidden}
@@ -3203,6 +3230,32 @@ const POPULAR_TICKERS = [
 ];
 
 async function loadPopularPrices(){
+  const tickers = POPULAR_TICKERS.map(t => t.ticker);
+  // Try Yahoo batch first
+  try {
+    const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers.join(',')}`;
+    for (const proxy of YAHOO_PROXIES_REFRESH){
+      try {
+        const r = await fetch(proxy + encodeURIComponent(yahooUrl));
+        if (!r.ok) continue;
+        const d = JSON.parse(await r.text());
+        const quotes = d?.quoteResponse?.result;
+        if (Array.isArray(quotes) && quotes.length){
+          quotes.forEach(q => {
+            const pEl = document.querySelector(`[data-livep="${q.symbol}"]`);
+            const cEl = document.querySelector(`[data-livec="${q.symbol}"]`);
+            if (pEl && q.regularMarketPrice) pEl.textContent = '$' + fmt(q.regularMarketPrice, 2);
+            if (cEl && q.regularMarketChangePercent != null){
+              const up = q.regularMarketChangePercent >= 0;
+              cEl.innerHTML = `<span class="${up?'up':'down'}">${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.regularMarketChangePercent,2)}%</span>`;
+            }
+          });
+          return;
+        }
+      } catch(e){}
+    }
+  } catch(e){}
+  // Fallback Finnhub (slower)
   for (const t of POPULAR_TICKERS){
     try {
       const r = await fetch(`${FINNHUB}/quote?symbol=${t.ticker}&token=${FINNHUB_KEY}`);
@@ -3217,20 +3270,19 @@ async function loadPopularPrices(){
         cEl.innerHTML = `<span class="${up?'up':'down'}">${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.dp,2)}%</span>`;
       }
     } catch(e){}
+    await new Promise(res => setTimeout(res, 300));
   }
 }
 
 function openAddStockReview(ticker, name, presetPrice){
   const ar = lang === 'ar';
-  closeModal();
-  // Open modal IMMEDIATELY with placeholder price, then update after fetch
   const initialPrice = presetPrice || 0;
   const todayStr = new Date().toISOString().slice(0,10);
-  setTimeout(() => {
-    modal(`
+  // Open modal directly - no delays, no race conditions
+  modal(`
       <div class="sd-page">
         <div class="sd-topbar">
-          <button class="sd-back" onclick="closeModal();setTimeout(openAddStockSearch,150)"><svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg></button>
+          <button class="sd-back" onclick="openAddStockSearch()"><svg viewBox="0 0 24 24"><polyline points="${ar?'9 6 15 12 9 18':'15 6 9 12 15 18'}"/></svg></button>
           <div class="cash-title">${ar?'مراجعة الأمر':'Review Order'}</div>
           <div style="width:36px"></div>
         </div>
@@ -3244,7 +3296,6 @@ function openAddStockReview(ticker, name, presetPrice){
               <div class="asr-stock-chg" id="asr_display_chg"></div>
             </div>
           </div>
-
           <div class="asr-field">
             <label>${ar?'عدد الأسهم':'Quantity'}</label>
             <div class="asr-input-wrap">
@@ -3252,7 +3303,6 @@ function openAddStockReview(ticker, name, presetPrice){
               <span class="asr-unit">${ar?'سهم':'sh'}</span>
             </div>
           </div>
-
           <div class="asr-field">
             <label>${ar?'سعر الشراء (دولار)':'Buy Price (USD)'}</label>
             <div class="asr-input-wrap">
@@ -3260,72 +3310,72 @@ function openAddStockReview(ticker, name, presetPrice){
               <span class="asr-unit">USD</span>
             </div>
           </div>
-
           <div class="asr-field">
             <label>${ar?'تاريخ الشراء':'Buy Date'}</label>
             <div class="asr-input-wrap">
               <input type="date" id="asr_date" value="${todayStr}">
             </div>
           </div>
-
           <div class="asr-field">
             <label>${ar?'ملاحظات (اختياري)':'Notes (optional)'}</label>
             <div class="asr-input-wrap">
               <input type="text" id="asr_note" placeholder="${ar?'أضف ملاحظة...':'Add a note...'}">
             </div>
           </div>
-
           <div class="asr-summary">
-            <div class="asr-sum-row">
-              <span class="asr-sum-l">${ar?'إجمالي التكلفة':'Total cost'}</span>
-              <span class="asr-sum-r" id="asr_total">$0.00</span>
-            </div>
-            <div class="asr-sum-row">
-              <span class="asr-sum-l">${ar?'القيمة الحالية':'Current value'}</span>
-              <span class="asr-sum-r" id="asr_cv">$0.00</span>
-            </div>
-            <div class="asr-sum-row">
-              <span class="asr-sum-l">${ar?'الأرباح/الخسارة غير المحققة':'Unrealized P&L'}</span>
-              <span class="asr-sum-r" id="asr_pl" style="color:#5FE9B0">+$0.00 (+0.00%)</span>
-            </div>
+            <div class="asr-sum-row"><span class="asr-sum-l">${ar?'إجمالي التكلفة':'Total cost'}</span><span class="asr-sum-r" id="asr_total">$0.00</span></div>
+            <div class="asr-sum-row"><span class="asr-sum-l">${ar?'القيمة الحالية':'Current value'}</span><span class="asr-sum-r" id="asr_cv">$0.00</span></div>
+            <div class="asr-sum-row"><span class="asr-sum-l">${ar?'الأرباح/الخسارة غير المحققة':'Unrealized P&L'}</span><span class="asr-sum-r" id="asr_pl" style="color:#5FE9B0">+$0.00 (+0.00%)</span></div>
           </div>
-
           <input type="hidden" id="asr_tic" value="${esc(ticker)}">
           <input type="hidden" id="asr_name" value="${esc(name)}">
           <input type="hidden" id="asr_curp" value="${initialPrice}">
         </div>
         <div style="padding:14px 22px 22px">
           <button class="cash-continue" id="asr_save" onclick="saveAddStock()" style="margin-bottom:8px">${ar?'حفظ':'Save'}</button>
-          <button class="wl-cancel-btn" onclick="closeModal();setTimeout(openAddStockSearch,150)">${ar?'إلغاء':'Cancel'}</button>
+          <button class="wl-cancel-btn" onclick="openAddStockSearch()">${ar?'إلغاء':'Cancel'}</button>
         </div>
       </div>
     `, {fullpage:true});
-    lazyLoadLogos([ticker]);
-    updateAsrSummary();
-    // Fetch live price in background and update the UI
-    (async () => {
-      try {
+  lazyLoadLogos([ticker]);
+  updateAsrSummary();
+  // Fetch live price in background
+  (async () => {
+    try {
+      // Try Yahoo first
+      const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${ticker}`;
+      let q = null;
+      for (const proxy of YAHOO_PROXIES_REFRESH){
+        try {
+          const r = await fetch(proxy + encodeURIComponent(yahooUrl));
+          if (!r.ok) continue;
+          const d = JSON.parse(await r.text());
+          const item = d?.quoteResponse?.result?.[0];
+          if (item){ q = { c: item.regularMarketPrice, dp: item.regularMarketChangePercent }; break; }
+        } catch(e){}
+      }
+      if (!q){
+        // Fallback Finnhub
         const r = await fetch(`${FINNHUB}/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
-        if (!r.ok) return;
-        const q = await r.json();
-        if (q.c && q.c > 0){
-          const dispEl = document.getElementById('asr_display_price');
-          const chgEl = document.getElementById('asr_display_chg');
-          const priceInput = document.getElementById('asr_price');
-          const curpInput = document.getElementById('asr_curp');
-          if (dispEl) dispEl.textContent = '$' + fmt(q.c, 2);
-          if (chgEl && q.dp != null){
-            const up = q.dp >= 0;
-            chgEl.className = 'asr-stock-chg ' + (up?'up':'down');
-            chgEl.textContent = `${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.dp,2)}%`;
-          }
-          if (priceInput && !priceInput.value) priceInput.value = q.c.toFixed(2);
-          if (curpInput) curpInput.value = q.c;
-          updateAsrSummary();
+        if (r.ok) q = await r.json();
+      }
+      if (q?.c && q.c > 0){
+        const dispEl = document.getElementById('asr_display_price');
+        const chgEl = document.getElementById('asr_display_chg');
+        const priceInput = document.getElementById('asr_price');
+        const curpInput = document.getElementById('asr_curp');
+        if (dispEl) dispEl.textContent = '$' + fmt(q.c, 2);
+        if (chgEl && q.dp != null){
+          const up = q.dp >= 0;
+          chgEl.className = 'asr-stock-chg ' + (up?'up':'down');
+          chgEl.textContent = `${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.dp,2)}%`;
         }
-      } catch(e){}
-    })();
-  }, 150);
+        if (priceInput && !priceInput.value) priceInput.value = q.c.toFixed(2);
+        if (curpInput) curpInput.value = q.c;
+        updateAsrSummary();
+      }
+    } catch(e){}
+  })();
 }
 
 function updateAsrSummary(){
@@ -5029,18 +5079,73 @@ function buildWlStockRow(s, listName){
 }
 
 function toggleWatchAdd(ticker, name, listName){
-  const exists = watchlist.find(w => w.ticker === ticker && w.pfId === settings.activePf && (w.wgroup || (lang==='ar'?'أسهمي':'My Stocks')) === listName);
+  const ar = lang === 'ar';
+  // Get all available lists
+  const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+  const allNames = [...new Set(allItems.map(w => w.wgroup || (ar?'أسهمي':'My Stocks')))];
+  if (!allNames.length) allNames.push(ar?'أسهمي':'My Stocks');
+  if (settings.watchlistNames){
+    settings.watchlistNames.forEach(n => { if (!allNames.includes(n)) allNames.push(n); });
+  }
+  // If user is removing (exists), just remove
+  const exists = watchlist.find(w => w.ticker === ticker && w.pfId === settings.activePf && (w.wgroup || (ar?'أسهمي':'My Stocks')) === listName);
   if (exists){
     watchlist = watchlist.filter(w => w.id !== exists.id);
-  } else {
-    watchlist.push({
-      id: uid(), pfId: settings.activePf, ticker, name,
-      target: null, stop: null, note: '', price: null,
-      dayChangePct: null, addedAt: Date.now(), wgroup: listName, addedPrice: null
-    });
+    save();
+    refreshWlRow(ticker, name, listName);
+    return;
   }
+  // Adding: if multiple lists exist, ask which one
+  if (allNames.length > 1){
+    showListPickerForAdd(ticker, name);
+    return;
+  }
+  // Only one list: add directly
+  addToWatchlistList(ticker, name, allNames[0]);
+  refreshWlRow(ticker, name, allNames[0]);
+}
+
+function showListPickerForAdd(ticker, name){
+  const ar = lang === 'ar';
+  const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+  const allNames = [...new Set(allItems.map(w => w.wgroup || (ar?'أسهمي':'My Stocks')))];
+  if (!allNames.length) allNames.push(ar?'أسهمي':'My Stocks');
+  if (settings.watchlistNames){
+    settings.watchlistNames.forEach(n => { if (!allNames.includes(n)) allNames.push(n); });
+  }
+  modal(`
+    <div class="list-picker-modal">
+      <div class="wl-sheet-grip"></div>
+      <h3 class="lp-title">${ar?'اختر القائمة':'Choose list'}</h3>
+      <p class="lp-sub">${ar?`أضف ${ticker} إلى:`:`Add ${ticker} to:`}</p>
+      <div class="lp-list">
+        ${allNames.map(n => {
+          const cnt = allItems.filter(w => (w.wgroup||(ar?'أسهمي':'My Stocks')) === n).length;
+          return `<button class="lp-item" onclick="addToWatchlistList('${esc(ticker)}','${esc(name).replace(/'/g,"\\'")}','${esc(n).replace(/'/g,"\\'")}');closeModal()">
+            <div class="lp-item-info">
+              <div class="lp-item-name">${esc(n)}</div>
+              <div class="lp-item-count">${cnt} ${ar?'أسهم':'stocks'}</div>
+            </div>
+            <span class="lp-arrow">${ar?'‹':'›'}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <button class="lp-cancel" onclick="closeModal()">${ar?'إلغاء':'Cancel'}</button>
+    </div>
+  `);
+}
+
+function addToWatchlistList(ticker, name, listName){
+  watchlist.push({
+    id: uid(), pfId: settings.activePf, ticker, name,
+    target: null, stop: null, note: '', price: null,
+    dayChangePct: null, addedAt: Date.now(), wgroup: listName, addedPrice: null
+  });
   save();
-  // Refresh the row UI
+  toast(lang==='ar'?`تم إضافة ${ticker} إلى "${listName}"`:`Added ${ticker} to "${listName}"`);
+}
+
+function refreshWlRow(ticker, name, listName){
   const row = document.getElementById(`wlres_${ticker}`);
   if (row){
     const div = document.createElement('div');
@@ -5179,7 +5284,17 @@ function renderWatchlist(){
         </button>
       </div>
       <div class="watchlist-tabs">
-        <button class="wl-tab on">${esc(settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks'))}</button>
+        ${(() => {
+          const allItems = watchlist.filter(w => w.pfId === settings.activePf);
+          const allNames = [...new Set(allItems.map(w => w.wgroup || (lang==='ar'?'أسهمي':'My Stocks')))];
+          if (!allNames.length) allNames.push(lang==='ar'?'أسهمي':'My Stocks');
+          // Also include custom-named empty lists
+          if (settings.watchlistNames){
+            settings.watchlistNames.forEach(n => { if (!allNames.includes(n)) allNames.push(n); });
+          }
+          const active = settings.wlFilter || allNames[0];
+          return allNames.map(n => `<button class="wl-tab ${n===active?'on':''}" onclick="setWlFilter('${esc(n).replace(/'/g,"\\'")}')">${esc(n)}</button>`).join('');
+        })()}
         <div style="width:18px"></div>
       </div>
     </div>
@@ -5191,7 +5306,9 @@ function renderWatchlist(){
         : `<div class="wr-logo fallback" data-logo-tic="${esc(w.ticker)}">${esc(w.ticker.slice(0,4))}</div>`;
       const spark = miniSparkline(w.ticker, up, w.dayChangePct);
       const sessionBadge = getRowSessionBadge(w);
-      return `<div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')">
+      return `<div class="watch-row-container">
+        <div class="watch-row-delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14H7L5 6"/><path d="M10 11v6 M14 11v6"/></svg></div>
+        <div class="watch-row ${up?'up':'down'}" onclick="openWatchDetail('${w.id}')" data-w-id="${w.id}">
         <div class="watch-row-main">
           ${logoHTML}
           <div class="wr-info">
@@ -5205,6 +5322,7 @@ function renderWatchlist(){
           </div>
         </div>
         ${sessionBadge ? `<div class="watch-row-session">${sessionBadge}</div>` : ''}
+        </div>
       </div>`;
     }).join("")}</div>
     <button class="wl-add-bottom" onclick="addToWatchlist()">
@@ -5216,9 +5334,10 @@ function renderWatchlist(){
   setTimeout(() => {
     items.slice(0, 5).forEach((w, i) => setTimeout(() => fetchEarningsDate(w.ticker), i * 500));
   }, 300);
-  // Load sparklines lazily
   setTimeout(()=>loadWatchSparklines(items), 200);
-  // Enable long-press to reorder
+  // Enable swipe-to-delete
+  setupSwipeToDelete();
+  // Long-press to reorder
   setupLongPressReorder('.watch-list', '.watch-row', (oldIdx, newIdx) => {
     const pfItems = watchlist.filter(w => w.pfId === settings.activePf);
     const currentList = settings.wlFilter;
@@ -5233,6 +5352,60 @@ function renderWatchlist(){
     watchlist.splice(newGlobal, 0, moved);
     save();
     renderWatchlist();
+  });
+}
+
+function setupSwipeToDelete(){
+  document.querySelectorAll('.watch-row-container').forEach(container => {
+    const row = container.querySelector('.watch-row');
+    if (!row || row._swipeBound) return;
+    row._swipeBound = true;
+    let startX = 0, currentX = 0, dragging = false;
+    let moved = false;
+    row.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      dragging = true;
+      moved = false;
+      row.style.transition = '';
+    }, { passive: true });
+    row.addEventListener('touchmove', (e) => {
+      if (!dragging) return;
+      currentX = e.touches[0].clientX;
+      const dx = currentX - startX;
+      // RTL = swipe right reveals delete (left side); LTR = swipe left reveals delete (right side)
+      const rtl = document.body.dir === 'rtl';
+      if ((rtl && dx > 10) || (!rtl && dx < -10)){
+        moved = true;
+        const limit = rtl ? Math.min(dx, 90) : Math.max(dx, -90);
+        row.style.transform = `translateX(${limit}px)`;
+      }
+    }, { passive: true });
+    row.addEventListener('touchend', () => {
+      if (!dragging) return;
+      dragging = false;
+      const dx = currentX - startX;
+      const rtl = document.body.dir === 'rtl';
+      row.style.transition = 'transform .25s';
+      if ((rtl && dx > 60) || (!rtl && dx < -60)){
+        // Confirm delete
+        const id = row.getAttribute('data-w-id');
+        if (id && confirm(lang==='ar'?'حذف هذا السهم من القائمة؟':'Remove this stock from the list?')){
+          watchlist = watchlist.filter(w => w.id !== id);
+          save();
+          renderWatchlist();
+        } else {
+          row.style.transform = '';
+        }
+      } else {
+        row.style.transform = '';
+      }
+      // Prevent click if moved
+      if (moved){
+        const stopClick = (e) => { e.stopPropagation(); e.preventDefault(); row.removeEventListener('click', stopClick, true); };
+        row.addEventListener('click', stopClick, true);
+      }
+    });
   });
 }
 
@@ -9635,7 +9808,7 @@ function renderSummaryCards(){
   // Daily summary: show after market close on weekdays
   // Weekly summary: show during weekend (Sat/Sun) until Monday open
   const showDaily = (s.session === 'after' || s.session === 'closed') && dow !== 0 && dow !== 6;
-  const showWeekly = dow === 0 || dow === 6 || (dow === 1 && s.session === 'closed');
+  const showWeekly = false; // Removed per user request
   if (!showDaily && !showWeekly) return '';
   const cards = [];
   if (showDaily){
