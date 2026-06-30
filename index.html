@@ -2205,6 +2205,7 @@ async function load(){
       if (document.hidden) return;
       if (['portfolio','watch'].includes(activeTab)) {
         refreshPrices().catch(()=>{});
+        fetchExtendedHoursData().catch(()=>{});
       }
     };
     window._autoRefreshTimer = setInterval(tick, window._refreshInterval);
@@ -2510,6 +2511,8 @@ function render(){
   }
   applyLang();
   snapshotHistory();
+  // Fetch pre/after market data if we're in extended hours
+  if (typeof fetchExtendedHoursData === 'function') fetchExtendedHoursData().catch(()=>{});
   const pf = portfolios.find(p => p.id === settings.activePf);
   if (!pf) { settings.activePf = null; settings.unlocked = false; renderLanding(); return; }
   const tt = totals();
@@ -3114,19 +3117,10 @@ async function loadPopularPrices(){
 function openAddStockReview(ticker, name, presetPrice){
   const ar = lang === 'ar';
   closeModal();
-  setTimeout(async () => {
-    // Try to fetch current price
-    let curPrice = presetPrice || 0;
-    let dayChange = null;
-    try {
-      const r = await fetch(`${FINNHUB}/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
-      if (r.ok){
-        const q = await r.json();
-        if (q.c) curPrice = q.c;
-        if (q.dp != null) dayChange = q.dp;
-      }
-    } catch(e){}
-    const todayStr = new Date().toISOString().slice(0,10);
+  // Open modal IMMEDIATELY with placeholder price, then update after fetch
+  const initialPrice = presetPrice || 0;
+  const todayStr = new Date().toISOString().slice(0,10);
+  setTimeout(() => {
     modal(`
       <div class="sd-page">
         <div class="sd-topbar">
@@ -3140,15 +3134,15 @@ function openAddStockReview(ticker, name, presetPrice){
             <div class="asr-stock-info">
               <div class="asr-stock-tic">${esc(ticker)}</div>
               <div class="asr-stock-name">${esc(name)} · NASDAQ</div>
-              <div class="asr-stock-price">$${fmt(curPrice,2)}</div>
-              ${dayChange != null ? `<div class="asr-stock-chg ${dayChange>=0?'up':'down'}">${dayChange>=0?'▲':'▼'} ${(dayChange>=0?'+':'')}${fmt(dayChange,2)}%</div>` : ''}
+              <div class="asr-stock-price" id="asr_display_price">${initialPrice?'$'+fmt(initialPrice,2):(ar?'جارٍ التحميل...':'Loading...')}</div>
+              <div class="asr-stock-chg" id="asr_display_chg"></div>
             </div>
           </div>
 
           <div class="asr-field">
             <label>${ar?'عدد الأسهم':'Quantity'}</label>
             <div class="asr-input-wrap">
-              <input type="number" inputmode="decimal" id="asr_qty" placeholder="10" oninput="updateAsrSummary(${curPrice})">
+              <input type="number" inputmode="decimal" id="asr_qty" placeholder="10" oninput="updateAsrSummary()">
               <span class="asr-unit">${ar?'سهم':'sh'}</span>
             </div>
           </div>
@@ -3156,7 +3150,7 @@ function openAddStockReview(ticker, name, presetPrice){
           <div class="asr-field">
             <label>${ar?'سعر الشراء (دولار)':'Buy Price (USD)'}</label>
             <div class="asr-input-wrap">
-              <input type="number" inputmode="decimal" id="asr_price" value="${curPrice.toFixed(2)}" oninput="updateAsrSummary()">
+              <input type="number" inputmode="decimal" id="asr_price" value="${initialPrice?initialPrice.toFixed(2):''}" placeholder="0.00" oninput="updateAsrSummary()">
               <span class="asr-unit">USD</span>
             </div>
           </div>
@@ -3192,7 +3186,7 @@ function openAddStockReview(ticker, name, presetPrice){
 
           <input type="hidden" id="asr_tic" value="${esc(ticker)}">
           <input type="hidden" id="asr_name" value="${esc(name)}">
-          <input type="hidden" id="asr_curp" value="${curPrice}">
+          <input type="hidden" id="asr_curp" value="${initialPrice}">
         </div>
         <div style="padding:14px 22px 22px">
           <button class="cash-continue" id="asr_save" onclick="saveAddStock()" style="margin-bottom:8px">${ar?'حفظ':'Save'}</button>
@@ -3200,10 +3194,31 @@ function openAddStockReview(ticker, name, presetPrice){
         </div>
       </div>
     `, {fullpage:true});
-    setTimeout(() => {
-      lazyLoadLogos([ticker]);
-      updateAsrSummary();
-    }, 50);
+    lazyLoadLogos([ticker]);
+    updateAsrSummary();
+    // Fetch live price in background and update the UI
+    (async () => {
+      try {
+        const r = await fetch(`${FINNHUB}/quote?symbol=${ticker}&token=${FINNHUB_KEY}`);
+        if (!r.ok) return;
+        const q = await r.json();
+        if (q.c && q.c > 0){
+          const dispEl = document.getElementById('asr_display_price');
+          const chgEl = document.getElementById('asr_display_chg');
+          const priceInput = document.getElementById('asr_price');
+          const curpInput = document.getElementById('asr_curp');
+          if (dispEl) dispEl.textContent = '$' + fmt(q.c, 2);
+          if (chgEl && q.dp != null){
+            const up = q.dp >= 0;
+            chgEl.className = 'asr-stock-chg ' + (up?'up':'down');
+            chgEl.textContent = `${up?'▲':'▼'} ${(up?'+':'')}${fmt(q.dp,2)}%`;
+          }
+          if (priceInput && !priceInput.value) priceInput.value = q.c.toFixed(2);
+          if (curpInput) curpInput.value = q.c;
+          updateAsrSummary();
+        }
+      } catch(e){}
+    })();
   }, 150);
 }
 
@@ -9200,16 +9215,19 @@ function getRowSessionBadge(item){
   if (s.session === 'live'){
     return `<div class="wr-session live"><span class="wr-session-dot"></span>${ar?'السوق مفتوح':'Market Open'}</div>`;
   }
-  // Pre/After: show badge + price + change using current data
-  const price = item?.price;
-  const changePct = item?.dayChangePct;
-  const changeUSD = (price && changePct != null) ? (price * changePct / (100 + changePct)) : null;
-  const up = changePct != null && changePct >= 0;
-  const priceStr = price != null ? `$${fmt(price, 2)}` : '';
-  const changeStr = (changeUSD != null && changePct != null)
-    ? `${up?'+':'-'}${fmt(Math.abs(changeUSD), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
-    : '';
+  // Pre-market - use real data if available
   if (s.session === 'pre'){
+    const realPrice = item?.preMarketPrice;
+    const realChange = item?.preMarketChange;
+    const realChangePct = item?.preMarketChangePct;
+    const price = realPrice != null ? realPrice : item?.price;
+    const change = realChange;
+    const changePct = realChangePct;
+    const up = changePct != null ? changePct >= 0 : false;
+    const priceStr = price != null ? `$${fmt(price, 2)}` : '';
+    const changeStr = (change != null && changePct != null)
+      ? `${up?'+':'-'}${fmt(Math.abs(change), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
+      : '';
     return `<div class="wr-session pre">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
       <span class="wr-session-label">${ar?'قبل الافتتاح':'Pre-Market'}</span>
@@ -9217,7 +9235,19 @@ function getRowSessionBadge(item){
       ${changeStr?`<span class="wr-session-change ${up?'up':'down'}">${changeStr}</span>`:''}
     </div>`;
   }
+  // After-hours - use real data if available
   if (s.session === 'after'){
+    const realPrice = item?.postMarketPrice;
+    const realChange = item?.postMarketChange;
+    const realChangePct = item?.postMarketChangePct;
+    const price = realPrice != null ? realPrice : item?.price;
+    const change = realChange;
+    const changePct = realChangePct;
+    const up = changePct != null ? changePct >= 0 : false;
+    const priceStr = price != null ? `$${fmt(price, 2)}` : '';
+    const changeStr = (change != null && changePct != null)
+      ? `${up?'+':'-'}${fmt(Math.abs(change), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
+      : '';
     return `<div class="wr-session after">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <span class="wr-session-label">${ar?'بعد الإغلاق':'After Hours'}</span>
@@ -9226,6 +9256,61 @@ function getRowSessionBadge(item){
     </div>`;
   }
   return '';
+}
+
+// Fetch real pre/after-market data from Yahoo Finance (background only, when market is in pre/after)
+const YAHOO_CORS = ['https://corsproxy.io/?','https://api.allorigins.win/raw?url=','https://api.codetabs.com/v1/proxy?quest='];
+let _yahooLastFetch = 0;
+async function fetchExtendedHoursData(){
+  const session = getMarketSession().session;
+  if (session === 'live' || session === 'closed') return;
+  // Throttle: don't refetch more than once per 30s
+  if (Date.now() - _yahooLastFetch < 30000) return;
+  _yahooLastFetch = Date.now();
+  const tickers = [...new Set([
+    ...allHoldingsInPf().map(h => h.ticker),
+    ...watchlist.filter(w => w.pfId === settings.activePf).map(w => w.ticker),
+  ])];
+  if (!tickers.length) return;
+  const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers.join(',')}`;
+  for (const proxy of YAHOO_CORS){
+    try {
+      const r = await fetch(proxy + encodeURIComponent(yahooUrl));
+      if (!r.ok) continue;
+      const txt = await r.text();
+      const d = JSON.parse(txt);
+      const quotes = d?.quoteResponse?.result;
+      if (!Array.isArray(quotes) || !quotes.length) continue;
+      let updated = false;
+      quotes.forEach(q => {
+        const apply = (item) => {
+          item.preMarketPrice = q.preMarketPrice;
+          item.preMarketChange = q.preMarketChange;
+          item.preMarketChangePct = q.preMarketChangePercent;
+          item.postMarketPrice = q.postMarketPrice;
+          item.postMarketChange = q.postMarketChange;
+          item.postMarketChangePct = q.postMarketChangePercent;
+          item.marketState = q.marketState;
+        };
+        holdings.forEach(h => {
+          if (h.pfId === settings.activePf && h.ticker === q.symbol){
+            apply(h); updated = true;
+          }
+        });
+        watchlist.forEach(w => {
+          if (w.pfId === settings.activePf && w.ticker === q.symbol){
+            apply(w); updated = true;
+          }
+        });
+      });
+      if (updated){
+        // Re-render only the lists (not full page)
+        if (activeTab === 'portfolio') render();
+        else if (activeTab === 'watch') renderWatchlist();
+      }
+      return; // success
+    } catch(e){}
+  }
 }
 
 function toggleWlMenu(){
