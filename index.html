@@ -1056,6 +1056,17 @@ body[dir="ltr"] .as-pop-star{right:6px;left:auto}
 .as-pop-chg .down{color:#F08080}
 .as-results-head{font-size:13px;color:#A8A8B0;margin-bottom:10px;text-align:end;font-weight:600}
 body[dir="ltr"] .as-results-head{text-align:start}
+.as-result-row{background:#161618;border:0.5px solid #1F1F22;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:8px;transition:.15s;flex-direction:row-reverse}
+body[dir="ltr"] .as-result-row{flex-direction:row}
+.as-result-row:hover{background:#1F1F22;border-color:#2A2D34}
+.as-result-logo{width:38px;height:38px;border-radius:10px;background:#fff;color:#000;font-size:9px;font-weight:800;display:grid;place-items:center;flex-shrink:0;overflow:hidden}
+.as-result-logo img{width:100%;height:100%;object-fit:contain;padding:5px;box-sizing:border-box;background:#fff}
+.as-result-info{flex:1;min-width:0;text-align:end}
+body[dir="ltr"] .as-result-info{text-align:start}
+.as-result-tic{font-size:14px;font-weight:700;color:#fff;font-family:-apple-system,"SF Pro Display",sans-serif}
+.as-result-name{font-size:12px;color:#7A7A82;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.as-result-plus{background:none;border:none;color:var(--accent);padding:4px;cursor:pointer;display:grid;place-items:center;flex-shrink:0}
+.as-result-plus svg{width:24px;height:24px}
 
 /* Review Order */
 .asr-content{padding:16px 22px;display:flex;flex-direction:column;gap:14px}
@@ -4287,16 +4298,25 @@ function liveSearch(srcInputId, targetBoxId){
     const box = $("#"+boxId);
     if (!box) return;
     const isWl = boxId === 'wl_sg';
+    const isAs = boxId === 'as_results';
     if (!q) { 
       if (isWl) {
         box.innerHTML = getPopularStocks().map(s => buildWlStockRow(s, settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks'))).join('');
         setTimeout(()=>lazyLoadLogos(getPopularStocks().map(s => s.ticker)), 50);
+      } else if (isAs){
+        box.innerHTML = '';
+        const headEl = document.getElementById('as_results_head');
+        if (headEl) headEl.style.display = 'none';
       } else {
         box.innerHTML = "";
       }
       return;
     }
     if (isWl){
+      box.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px"><span class="spin"></span> ${t().search_loading}</div>`;
+    } else if (isAs){
+      const headEl = document.getElementById('as_results_head');
+      if (headEl) headEl.style.display = 'block';
       box.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px"><span class="spin"></span> ${t().search_loading}</div>`;
     } else {
       box.innerHTML = `<div class="suggest"><div class="sg-loading"><span class="spin"></span> ${t().search_loading}</div></div>`;
@@ -4305,14 +4325,32 @@ function liveSearch(srcInputId, targetBoxId){
       const results = await finnhubSearch(q);
       if ($("#"+inpId)?.value.trim() !== q) return;
       if (!results.length){
-        box.innerHTML = isWl
-          ? `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${t().no_match}</div>`
-          : `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`;
+        if (isWl || isAs){
+          box.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${t().no_match}</div>`;
+        } else {
+          box.innerHTML = `<div class="suggest"><div class="sg-loading">${t().no_match}</div></div>`;
+        }
         return;
       }
       if (isWl){
         const list = settings.wlFilter || (lang==='ar'?'أسهمي':'My Stocks');
         box.innerHTML = results.map(r => buildWlStockRow({ticker:r.s, name:r.d||r.s}, list)).join('');
+        setTimeout(()=>lazyLoadLogos(results.map(r => r.s)), 50);
+      } else if (isAs){
+        // Add Stock results - click takes user to Review Order page
+        box.innerHTML = results.map(r => {
+          const nm = (r.d || r.s).replace(/'/g,"&#39;");
+          return `<div class="as-result-row" onclick="openAddStockReview('${esc(r.s)}','${esc(nm).replace(/'/g,"\\'")}')">
+            <div class="as-result-logo" data-logo-tic="${esc(r.s)}">${esc(r.s.slice(0,2))}</div>
+            <div class="as-result-info">
+              <div class="as-result-tic">${esc(r.s)}</div>
+              <div class="as-result-name">${esc(r.d || '')}</div>
+            </div>
+            <button class="as-result-plus" onclick="event.stopPropagation();openAddStockReview('${esc(r.s)}','${esc(nm).replace(/'/g,"\\'")}')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            </button>
+          </div>`;
+        }).join('');
         setTimeout(()=>lazyLoadLogos(results.map(r => r.s)), 50);
       } else {
         box.innerHTML = `<div class="suggest">${results.map(r => {
@@ -4325,9 +4363,11 @@ function liveSearch(srcInputId, targetBoxId){
       }
     } catch(e) {
       if ($("#"+inpId)?.value.trim() === q) {
-        box.innerHTML = isWl
-          ? `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${esc(e.message||t().no_match)}</div>`
-          : `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+        if (isWl || isAs){
+          box.innerHTML = `<div style="padding:18px;text-align:center;color:var(--muted);font-size:12px">${esc(e.message||t().no_match)}</div>`;
+        } else {
+          box.innerHTML = `<div class="suggest"><div class="sg-loading">${esc(e.message||t().no_match)}</div></div>`;
+        }
       }
     }
   }, 380);
@@ -9160,16 +9200,16 @@ function getRowSessionBadge(item){
   if (s.session === 'live'){
     return `<div class="wr-session live"><span class="wr-session-dot"></span>${ar?'السوق مفتوح':'Market Open'}</div>`;
   }
-  // Pre-market: use actual Yahoo pre-market data
+  // Pre/After: show badge + price + change using current data
+  const price = item?.price;
+  const changePct = item?.dayChangePct;
+  const changeUSD = (price && changePct != null) ? (price * changePct / (100 + changePct)) : null;
+  const up = changePct != null && changePct >= 0;
+  const priceStr = price != null ? `$${fmt(price, 2)}` : '';
+  const changeStr = (changeUSD != null && changePct != null)
+    ? `${up?'+':'-'}${fmt(Math.abs(changeUSD), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
+    : '';
   if (s.session === 'pre'){
-    const price = item?.preMarketPrice;
-    const change = item?.preMarketChange;
-    const changePct = item?.preMarketChangePct;
-    const up = change != null ? change >= 0 : false;
-    const priceStr = price != null ? `$${fmt(price, 2)}` : '';
-    const changeStr = (change != null && changePct != null)
-      ? `${up?'+':'-'}${fmt(Math.abs(change), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
-      : '';
     return `<div class="wr-session pre">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/></svg>
       <span class="wr-session-label">${ar?'قبل الافتتاح':'Pre-Market'}</span>
@@ -9177,16 +9217,7 @@ function getRowSessionBadge(item){
       ${changeStr?`<span class="wr-session-change ${up?'up':'down'}">${changeStr}</span>`:''}
     </div>`;
   }
-  // After-hours: use actual Yahoo post-market data
   if (s.session === 'after'){
-    const price = item?.postMarketPrice;
-    const change = item?.postMarketChange;
-    const changePct = item?.postMarketChangePct;
-    const up = change != null ? change >= 0 : false;
-    const priceStr = price != null ? `$${fmt(price, 2)}` : '';
-    const changeStr = (change != null && changePct != null)
-      ? `${up?'+':'-'}${fmt(Math.abs(change), 2)} (${up?'+':''}${fmt(changePct, 2)}%)`
-      : '';
     return `<div class="wr-session after">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       <span class="wr-session-label">${ar?'بعد الإغلاق':'After Hours'}</span>
@@ -9850,36 +9881,6 @@ async function loadDividends(holdId, ticker){
   }).join('');
 }
 
-// Yahoo Finance for extended hours (pre/post market) - 1 batch call, no key needed
-const YAHOO_PROXIES = [
-  'https://corsproxy.io/?',
-  'https://api.allorigins.win/raw?url=',
-  'https://api.codetabs.com/v1/proxy?quest=',
-];
-let _yahooProxyIdx = 0;
-
-async function fetchYahooQuotes(tickers){
-  if (!tickers.length) return [];
-  const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${tickers.join(',')}`;
-  // Try each proxy with fallback
-  for (let i = 0; i < YAHOO_PROXIES.length; i++){
-    const proxy = YAHOO_PROXIES[(_yahooProxyIdx + i) % YAHOO_PROXIES.length];
-    try {
-      const url = proxy + encodeURIComponent(yahooUrl);
-      const r = await fetch(url);
-      if (!r.ok) continue;
-      const text = await r.text();
-      const d = JSON.parse(text);
-      const results = d?.quoteResponse?.result;
-      if (Array.isArray(results) && results.length){
-        _yahooProxyIdx = (_yahooProxyIdx + i) % YAHOO_PROXIES.length; // remember which works
-        return results;
-      }
-    } catch(e){}
-  }
-  return null;
-}
-
 async function refreshPrices(){
   if (!allHoldingsInPf().length){ return; }
   ensureSymbols();
@@ -9891,68 +9892,6 @@ async function refreshPrices(){
   const oldPrices = {};
   holdings.forEach(h => { if (h.pfId === settings.activePf) oldPrices[h.ticker] = h.price; });
   watchlist.forEach(w => { if (w.pfId === settings.activePf && oldPrices[w.ticker] == null) oldPrices[w.ticker] = w.price; });
-  // Try Yahoo first (batch + extended hours)
-  const yahooQuotes = await fetchYahooQuotes(allTickers);
-  if (yahooQuotes && yahooQuotes.length){
-    const changes = {};
-    let n = 0;
-    yahooQuotes.forEach(q => {
-      const tic = q.symbol;
-      const regularPrice = q.regularMarketPrice;
-      const regularChangePct = q.regularMarketChangePercent;
-      if (regularPrice == null) return;
-      const updateItem = (item) => {
-        item.price = regularPrice;
-        if (q.regularMarketPreviousClose != null) item.prev = q.regularMarketPreviousClose;
-        item.dayChangePct = regularChangePct;
-        item.regularPrice = regularPrice;
-        item.regularChange = q.regularMarketChange;
-        item.regularChangePct = regularChangePct;
-        item.preMarketPrice = q.preMarketPrice;
-        item.preMarketChange = q.preMarketChange;
-        item.preMarketChangePct = q.preMarketChangePercent;
-        item.postMarketPrice = q.postMarketPrice;
-        item.postMarketChange = q.postMarketChange;
-        item.postMarketChangePct = q.postMarketChangePercent;
-        item.marketState = q.marketState;
-      };
-      holdings.forEach(h => {
-        if (h.pfId === settings.activePf && h.ticker === tic){
-          updateItem(h); n++;
-        }
-      });
-      watchlist.forEach(w => {
-        if (w.pfId === settings.activePf && w.ticker === tic){
-          updateItem(w);
-        }
-      });
-      if (oldPrices[tic] != null && Math.abs(oldPrices[tic] - regularPrice) > 0.001){
-        changes[tic] = { old: oldPrices[tic], new: regularPrice, up: regularPrice > oldPrices[tic] };
-      }
-    });
-    if (symbolList?.length){
-      holdings.forEach(h => {
-        if (h.pfId === settings.activePf && (!h.name || h.name === h.ticker)){
-          const found = symbolList.find(s => s.s === h.ticker);
-          if (found?.d) h.name = found.d;
-        }
-      });
-    }
-    if (n === 0) return;
-    settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
-    save();
-    updatePricesInDOM(changes);
-    return;
-  }
-  // Fallback to Finnhub if Yahoo failed
-  await refreshPricesFinnhub(oldPrices);
-}
-
-async function refreshPricesFinnhub(oldPrices){
-  const allTickers = [...new Set([
-    ...allHoldingsInPf().map(h => h.ticker),
-    ...watchlist.filter(w => w.pfId === settings.activePf).map(w => w.ticker),
-  ])];
   let n = 0, rateLimited = false;
   const results = [];
   for (const tic of allTickers){
@@ -9965,7 +9904,7 @@ async function refreshPricesFinnhub(oldPrices){
       if (q.c == null || q.c === 0) continue;
       results.push({ tic, price: q.c, prev: q.pc, changePct: q.dp });
     } catch(e){}
-    await new Promise(res => setTimeout(res, 200));
+    await new Promise(res => setTimeout(res, 300));
   }
   if (rateLimited){
     window._refreshInterval = Math.min((window._refreshInterval||15000) * 2, 120000);
@@ -9992,10 +9931,18 @@ async function refreshPricesFinnhub(oldPrices){
         if (r.changePct != null) w.dayChangePct = r.changePct;
       }
     });
-    if (oldPrices && oldPrices[r.tic] != null && Math.abs(oldPrices[r.tic] - r.price) > 0.001){
+    if (oldPrices[r.tic] != null && Math.abs(oldPrices[r.tic] - r.price) > 0.001){
       changes[r.tic] = { old: oldPrices[r.tic], new: r.price, up: r.price > oldPrices[r.tic] };
     }
   });
+  if (symbolList?.length) {
+    holdings.forEach(h => {
+      if (h.pfId === settings.activePf && (!h.name || h.name === h.ticker)) {
+        const found = symbolList.find(s => s.s === h.ticker);
+        if (found?.d) h.name = found.d;
+      }
+    });
+  }
   if (n === 0) return;
   settings.lastRefresh = new Date().toLocaleTimeString(lang==='ar'?'ar-SA':'en-US',{hour:'2-digit',minute:'2-digit'});
   save();
